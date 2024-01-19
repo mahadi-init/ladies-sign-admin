@@ -1,0 +1,72 @@
+{
+  "Signin": {
+    "title": "Ladies Sign এ সাইন ইন করুন",
+    "email": "ইমেইল এড্রেস দিন",
+    "password": "পাসওয়ার্ড দিন",
+    "forget-password": "পাসওয়ার্ড ভুলে গেসেন",
+    "login": "লগইন করুন",
+    "slogan": "পণ্য কেনার সেরা জায়গা"
+  },
+  "Dashboard": {
+    "title": "ড্যাশবোর্ড",
+    "sub-title": "এক জায়গায় একাধিক ডেটা"
+  },
+  "Sidenav": {
+    "dashboard": "ড্যাশবোর্ড",
+    "products": "প্রোডাক্টস",
+    "category": "ক্যাটাগরি",
+    "orders": "অর্ডারস",
+    "brand": "ব্র্যান্ড",
+    "reviews": "রেভিউস",
+    "coupons": "কোপনস",
+    "stuffs": "কর্মচারী",
+    "users": "ব্যবহারকারী",
+    "notifications": "নোটিফিকেশন্স",
+    "change-language": "ভাষা পাল্টান",
+    "logout": "লগআউট"
+  },
+  "Dashboard": {
+    "title": "Dashboard",
+    "sub-title": "Multiple data in a single place"
+  },
+  "Products": {
+    "title": "Products",
+    "sub-title": "Add or edit products list"
+  },
+  "Category": {
+    "title": "Category",
+    "sub-title": "Edit or Add new category"
+  },
+  "Orders": {
+    "title": "Orders",
+    "sub-title": "Order list and details"
+  },
+  "Brand": {
+    "title": "Brand",
+    "sub-title": "Edit or Add new brand"
+  },
+  "Reviews": {
+    "title": "Reviews",
+    "sub-title": "View all product reviews"
+  },
+  "Coupons": {
+    "title": "Coupons",
+    "sub-title": "List of all available coupons"
+  },
+  "Stuffs": {
+    "title": "Stuffs",
+    "sub-title": "List of all stuffs"
+  },
+  "Users": {
+    "title": "Users",
+    "sub-title": "View all users list"
+  },
+  "Notifications": {
+    "title": "Notifications",
+    "sub-title": "List of all notifications"
+  },
+  "Profile": {
+    "title": "Profile",
+    "sub-title": "View and edit your personal info"
+  }
+}
