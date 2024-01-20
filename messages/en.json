@@ -4,8 +4,11 @@
     "email": "Email address",
     "password": "Password",
     "forget-password": "Forget password",
+    "password-recover": "Recover your Password",
     "login": "Log in",
-    "slogan": "Your best place for shopping"
+    "slogan": "Your best place for shopping",
+    "remember-me": "Remember Me",
+    "change-language": "Change Language"
   },
   "Sidenav": {
     "dashboard": "Dashboard",

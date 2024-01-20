@@ -1,4 +1,5 @@
 import createMiddleware from "next-intl/middleware";
+import { cookies } from "next/headers";
 
 export default createMiddleware({
   // A list of all locales that are supported
@@ -6,6 +7,8 @@ export default createMiddleware({
 
   // Used when no locale matches
   defaultLocale: "bn",
+  localeDetection: true,
+  localePrefix: "always",
 });
 
 export const config = {

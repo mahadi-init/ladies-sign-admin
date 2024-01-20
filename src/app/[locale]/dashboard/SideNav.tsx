@@ -7,7 +7,6 @@ import {
   ChevronDown,
   Component,
   Dice6,
-  Globe,
   LayoutDashboard,
   ListOrdered,
   LogOut,
@@ -20,22 +19,11 @@ import {
 import { useTranslations } from "next-intl";
 import { usePathname } from "next/navigation";
 import clsx from "clsx";
-import { useRouter } from "next/navigation";
 
 export default function Sidenav() {
   const t = useTranslations("Sidenav");
   const pathname = usePathname();
-  const router = useRouter();
   const [isSideNavOpen, setIsSideNavOpen] = useState(false);
-
-  function handleChangeLanguage() {
-    //TODO:add language to cookies
-    if (pathname.match("/bn/dashboard")) {
-      router.replace(`${pathname.replace("bn", "en")}`);
-    } else {
-      router.replace(`${pathname.replace("en", "bn")}`);
-    }
-  }
 
   return (
     <>
@@ -299,17 +287,6 @@ export default function Sidenav() {
           </div>
         </nav>
         <footer className="border-t border-slate-200 p-3">
-          <button
-            className="flex items-center gap-3 rounded p-3 text-slate-900 transition-colors hover:text-rose-500"
-            onClick={handleChangeLanguage}
-          >
-            <div className="flex items-center self-center ">
-              <Globe size={18} />
-            </div>
-            <div className="flex w-full flex-1 flex-col items-start justify-center gap-0 overflow-hidden truncate text-sm font-medium">
-              {t("change-language")}
-            </div>
-          </button>
           <button className="flex items-center gap-3 rounded p-3 text-slate-900 transition-colors hover:text-rose-500">
             <div className="flex items-center self-center ">
               <LogOut size={18} />

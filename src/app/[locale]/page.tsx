@@ -1,11 +1,13 @@
 "use client";
 import Image from "next/image";
-import { useMessages, useTranslations } from "next-intl";
+import { useTranslations } from "next-intl";
 import RememberLanguage from "./RememberLanguage";
+import { useState } from "react";
+import Modal from "@/components/Modal";
 
 export default function Home() {
   const t = useTranslations("Signin");
-  // const messages = useMessages();
+  const [isShowing, setIsShowing] = useState(false);
 
   return (
     <div className="w-screen h-screen flex items-center justify-evenly">
@@ -27,8 +29,8 @@ export default function Home() {
                 <div className="mt-2.5">
                   <input
                     type="email"
-                    name=""
-                    placeholder="Enter your email"
+                    name="email"
+                    placeholder="xyz@gmail.com"
                     className="block w-full p-4 text-black placeholder-gray-500 transition-all duration-200 border border-gray-200 rounded-md bg-gray-50 focus:outline-none focus:border-blue-600 focus:bg-white caret-blue-600"
                   />
                 </div>
@@ -43,19 +45,47 @@ export default function Home() {
                     {t("password")}
                   </label>
 
-                  <a
-                    href="#"
-                    title=""
+                  <button
+                    type="button"
                     className="text-sm font-medium text-blue-600 hover:underline hover:text-blue-700 focus:text-blue-700"
+                    onClick={() => setIsShowing(true)}
                   >
                     {t("forget-password")}?
-                  </a>
+                  </button>
+                  <Modal
+                    isShowing={isShowing}
+                    setIsShowing={setIsShowing}
+                    title={t("password-recover")}
+                    action={() => {
+                      //TODO:Add real action
+                      console.log("hello");
+                    }}
+                  >
+                    <div className="space-y-5">
+                      <div>
+                        <label
+                          htmlFor=""
+                          className="text-base font-medium text-gray-900"
+                        >
+                          {t("email")}
+                        </label>
+                        <div className="mt-2.5">
+                          <input
+                            type="email"
+                            name="recover-email"
+                            placeholder="xyz@gmail.com"
+                            className="block w-full p-4 text-black placeholder-gray-500 transition-all duration-200 border border-gray-200 rounded-md bg-gray-50 focus:outline-none focus:border-blue-600 focus:bg-white caret-blue-600"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </Modal>
                 </div>
                 <div className="mt-2.5">
                   <input
                     type="password"
-                    name=""
-                    placeholder="Enter your password"
+                    name="password"
+                    placeholder="123456"
                     className="block w-full p-4 text-black placeholder-gray-500 transition-all duration-200 border border-gray-200 rounded-md bg-gray-50 focus:outline-none focus:border-blue-600 focus:bg-white caret-blue-600"
                   />
                 </div>
@@ -70,12 +100,14 @@ export default function Home() {
                 </button>
               </div>
             </div>
-            <RememberLanguage />
+            <div className="mt-2">
+              <RememberLanguage />
+            </div>
           </form>
         </div>
       </div>
 
-      <div className="hidden lg:flex items-center justify-center px-4 py-10 sm:py-16 lg:py-24 bg-gray-50 sm:px-6 lg:px-8">
+      <div className="hidden lg:flex items-center justify-center px-4 py-10 sm:py-16 lg:py-24 sm:px-6 lg:px-8">
         <div>
           <Image
             className="w-96 h-96"
