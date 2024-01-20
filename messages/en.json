@@ -1,0 +1,71 @@
+{
+  "Signin": {
+    "title": "Continue Sign in to Ladies Sign",
+    "email": "Email address",
+    "password": "Password",
+    "forget-password": "Forget password",
+    "password-recover": "Recover your Password",
+    "login": "Log in",
+    "slogan": "Your best place for shopping",
+    "remember-me": "Remember Me",
+    "change-language": "Change Language"
+  },
+  "Sidenav": {
+    "dashboard": "Dashboard",
+    "products": "Products",
+    "category": "Category",
+    "orders": "Orders",
+    "brand": "Brand",
+    "reviews": "Reviews",
+    "coupons": "Coupons",
+    "stuffs": "Stuffs",
+    "users": "Users",
+    "notifications": "Notifications",
+    "change-language": "Change Language",
+    "logout": "Logout"
+  },
+  "Dashboard": {
+    "title": "Dashboard",
+    "sub-title": "Multiple data in a single place"
+  },
+  "Products": {
+    "title": "Products",
+    "sub-title": "Add or edit products list"
+  },
+  "Category": {
+    "title": "Category",
+    "sub-title": "Edit or Add new category"
+  },
+  "Orders": {
+    "title": "Orders",
+    "sub-title": "Order list and details"
+  },
+  "Brand": {
+    "title": "Brand",
+    "sub-title": "Edit or Add new brand"
+  },
+  "Reviews": {
+    "title": "Reviews",
+    "sub-title": "View all product reviews"
+  },
+  "Coupons": {
+    "title": "Coupons",
+    "sub-title": "List of all available coupons"
+  },
+  "Stuffs": {
+    "title": "Stuffs",
+    "sub-title": "List of all stuffs"
+  },
+  "Users": {
+    "title": "Users",
+    "sub-title": "View all users list"
+  },
+  "Notifications": {
+    "title": "Notifications",
+    "sub-title": "List of all notifications"
+  },
+  "Profile": {
+    "title": "Profile",
+    "sub-title": "View and edit your personal info"
+  }
+}
