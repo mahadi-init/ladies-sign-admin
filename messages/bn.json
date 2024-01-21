@@ -10,10 +10,6 @@
     "remember-me": "লগইন থাকুন",
     "change-language": "ভাষা পাল্টান"
   },
-  "Dashboard": {
-    "title": "ড্যাশবোর্ড",
-    "sub-title": "এক জায়গায় একাধিক ডেটা"
-  },
   "Sidenav": {
     "dashboard": "ড্যাশবোর্ড",
     "products": "প্রোডাক্টস",
@@ -27,6 +23,9 @@
     "notifications": "নোটিফিকেশন্স",
     "change-language": "ভাষা পাল্টান",
     "logout": "লগআউট"
+  },
+  "Search": {
+    "placeholder": "খুজুন"
   },
   "Dashboard": {
     "title": "ড্যাশবোর্ড",

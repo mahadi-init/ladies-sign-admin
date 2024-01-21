@@ -1,12 +1,12 @@
-import PageTitle from "@/components/PageTitle";
 import { useTranslations } from "next-intl";
+import PageTop from "../_components/PageTop";
 
 export default function Profile() {
   const t = useTranslations("Profile");
 
   return (
     <div>
-      <PageTitle title={t("title")} subTitle={t("sub-title")} />
+      <PageTop title={t("title")} subTitle={t("sub-title")} />
     </div>
   );
 }

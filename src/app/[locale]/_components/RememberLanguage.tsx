@@ -23,9 +23,9 @@ export default function RememberLanguage() {
 
   return (
     <div className="flex justify-between">
-      <div className="relative flex flex-wrap items-center">
+      <div className="flex relative flex-wrap items-center">
         <input
-          className="peer h-4 w-4 cursor-pointer appearance-none rounded border-2 border-slate-500 bg-white transition-colors checked:border-rose-500 checked:bg-rose-500 checked:hover:border-rose-600 checked:hover:bg-rose-600 focus:outline-none checked:focus:border-rose-700 checked:focus:bg-rose-700 focus-visible:outline-none disabled:cursor-not-allowed disabled:border-slate-100 disabled:bg-slate-50"
+          className="w-4 h-4 bg-white rounded border-2 transition-colors appearance-none cursor-pointer checked:bg-rose-500 checked:border-rose-500 focus:outline-none focus-visible:outline-none disabled:cursor-not-allowed peer border-slate-500 checked:hover:border-rose-600 checked:hover:bg-rose-600 checked:focus:border-rose-700 checked:focus:bg-rose-700 disabled:border-slate-100 disabled:bg-slate-50"
           type="checkbox"
           checked={checked}
           onChange={() => setChecked(!checked)}
@@ -33,13 +33,13 @@ export default function RememberLanguage() {
           name="remember"
         />
         <label
-          className="cursor-pointer pl-2 text-slate-500 peer-disabled:cursor-not-allowed peer-disabled:text-slate-400"
+          className="pl-2 cursor-pointer text-slate-500 peer-disabled:cursor-not-allowed peer-disabled:text-slate-400"
           htmlFor="id-c01"
         >
           {t("remember-me")}
         </label>
         <svg
-          className="pointer-events-none absolute left-0 top-1 h-4 w-4 -rotate-90 fill-white stroke-white opacity-0 transition-all duration-300 peer-checked:rotate-0 peer-checked:opacity-100 peer-disabled:cursor-not-allowed"
+          className="absolute left-0 top-1 w-4 h-4 opacity-0 transition-all duration-300 -rotate-90 pointer-events-none fill-white stroke-white peer-checked:rotate-0 peer-checked:opacity-100 peer-disabled:cursor-not-allowed"
           viewBox="0 0 16 16"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
@@ -61,7 +61,7 @@ export default function RememberLanguage() {
       </div>
 
       <button
-        className="inline-flex h-12 items-center justify-center gap-2 justify-self-center whitespace-nowrap rounded text-sm font-medium tracking-wide text-rose-500 transition duration-300 hover:bg-rose-50 hover:text-rose-600 focus:bg-rose-100 focus:text-rose-700 focus-visible:outline-none disabled:cursor-not-allowed disabled:text-rose-300 disabled:shadow-none disabled:hover:bg-transparent"
+        className="inline-flex gap-2 justify-center justify-self-center items-center h-12 text-sm font-medium tracking-wide text-rose-500 whitespace-nowrap rounded transition duration-300 hover:text-rose-600 hover:bg-rose-50 focus:text-rose-700 focus:bg-rose-100 focus-visible:outline-none disabled:text-rose-300 disabled:shadow-none disabled:cursor-not-allowed disabled:hover:bg-transparent"
         onClick={handleChangeLanguage}
       >
         <span className="order-2">{t("change-language")}</span>
