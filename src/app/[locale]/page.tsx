@@ -1,18 +1,18 @@
 "use client";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
-import RememberLanguage from "./RememberLanguage";
 import { useState } from "react";
-import Modal from "@/components/Modal";
+import Modal from "./_components/Modal";
+import RememberLanguage from "./_components/RememberLanguage";
 
 export default function Home() {
   const t = useTranslations("Signin");
   const [isShowing, setIsShowing] = useState(false);
 
   return (
-    <div className="w-screen h-screen flex items-center justify-evenly">
-      <div className="flex items-center justify-center px-4 py-10 bg-white sm:px-6 lg:px-8 sm:py-16 lg:py-24">
-        <div className="xl:w-full xl:max-w-sm 2xl:max-w-md xl:mx-auto">
+    <div className="flex justify-evenly items-center w-screen h-screen">
+      <div className="flex justify-center items-center py-10 px-4 bg-white sm:py-16 sm:px-6 lg:py-24 lg:px-8">
+        <div className="xl:mx-auto xl:w-full xl:max-w-sm 2xl:max-w-md">
           <h2 className="text-3xl font-bold leading-tight text-black sm:text-4xl">
             {t("title")}
           </h2>
@@ -31,13 +31,13 @@ export default function Home() {
                     type="email"
                     name="email"
                     placeholder="xyz@gmail.com"
-                    className="block w-full p-4 text-black placeholder-gray-500 transition-all duration-200 border border-gray-200 rounded-md bg-gray-50 focus:outline-none focus:border-blue-600 focus:bg-white caret-blue-600"
+                    className="block p-4 w-full placeholder-gray-500 text-black bg-gray-50 rounded-md border border-gray-200 transition-all duration-200 focus:bg-white focus:border-blue-600 focus:outline-none caret-blue-600"
                   />
                 </div>
               </div>
 
               <div>
-                <div className="flex items-center justify-between">
+                <div className="flex justify-between items-center">
                   <label
                     htmlFor=""
                     className="text-base font-medium text-gray-900"
@@ -47,7 +47,7 @@ export default function Home() {
 
                   <button
                     type="button"
-                    className="text-sm font-medium text-blue-600 hover:underline hover:text-blue-700 focus:text-blue-700"
+                    className="text-sm font-medium text-blue-600 hover:text-blue-700 hover:underline focus:text-blue-700"
                     onClick={() => setIsShowing(true)}
                   >
                     {t("forget-password")}?
@@ -74,7 +74,7 @@ export default function Home() {
                             type="email"
                             name="recover-email"
                             placeholder="xyz@gmail.com"
-                            className="block w-full p-4 text-black placeholder-gray-500 transition-all duration-200 border border-gray-200 rounded-md bg-gray-50 focus:outline-none focus:border-blue-600 focus:bg-white caret-blue-600"
+                            className="block p-4 w-full placeholder-gray-500 text-black bg-gray-50 rounded-md border border-gray-200 transition-all duration-200 focus:bg-white focus:border-blue-600 focus:outline-none caret-blue-600"
                           />
                         </div>
                       </div>
@@ -86,7 +86,7 @@ export default function Home() {
                     type="password"
                     name="password"
                     placeholder="123456"
-                    className="block w-full p-4 text-black placeholder-gray-500 transition-all duration-200 border border-gray-200 rounded-md bg-gray-50 focus:outline-none focus:border-blue-600 focus:bg-white caret-blue-600"
+                    className="block p-4 w-full placeholder-gray-500 text-black bg-gray-50 rounded-md border border-gray-200 transition-all duration-200 focus:bg-white focus:border-blue-600 focus:outline-none caret-blue-600"
                   />
                 </div>
               </div>
@@ -94,7 +94,7 @@ export default function Home() {
               <div>
                 <button
                   type="submit"
-                  className="inline-flex items-center justify-center w-full px-4 py-4 text-base font-semibold text-white transition-all duration-200 bg-blue-600 border border-transparent rounded-md focus:outline-none hover:bg-blue-700 focus:bg-blue-700"
+                  className="inline-flex justify-center items-center py-4 px-4 w-full text-base font-semibold text-white bg-blue-600 rounded-md border border-transparent transition-all duration-200 hover:bg-blue-700 focus:bg-blue-700 focus:outline-none"
                 >
                   {t("login")}
                 </button>
@@ -107,7 +107,7 @@ export default function Home() {
         </div>
       </div>
 
-      <div className="hidden lg:flex items-center justify-center px-4 py-10 sm:py-16 lg:py-24 sm:px-6 lg:px-8">
+      <div className="hidden justify-center items-center py-10 px-4 sm:py-16 sm:px-6 lg:flex lg:py-24 lg:px-8">
         <div>
           <Image
             className="w-96 h-96"
@@ -118,7 +118,7 @@ export default function Home() {
             priority
           />
 
-          <div className="mt-3 w-full max-w-md mx-auto xl:max-w-xl">
+          <div className="mx-auto mt-3 w-full max-w-md xl:max-w-xl">
             <h3 className="text-2xl font-semibold text-center text-black">
               {t("slogan")}
             </h3>

@@ -24,6 +24,9 @@
     "change-language": "Change Language",
     "logout": "Logout"
   },
+  "Search": {
+    "placeholder": "Search"
+  },
   "Dashboard": {
     "title": "Dashboard",
     "sub-title": "Multiple data in a single place"
