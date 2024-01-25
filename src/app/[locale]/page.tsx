@@ -2,8 +2,8 @@
 import Image from "next/image";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
-import Modal from "./_components/Modal";
-import RememberLanguage from "./_components/RememberLanguage";
+import Modal from "../../components/native/Modal";
+import RememberLanguage from "./remember-language";
 
 export default function Home() {
   const t = useTranslations("Signin");

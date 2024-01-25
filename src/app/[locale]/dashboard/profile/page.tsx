@@ -1,5 +1,5 @@
 import { useTranslations } from "next-intl";
-import PageTop from "../_components/PageTop";
+import PageTop from "../../../../components/native/PageTop";
 
 export default function Profile() {
   const t = useTranslations("Profile");
