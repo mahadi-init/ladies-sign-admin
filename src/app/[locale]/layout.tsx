@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { NextIntlClientProvider, useMessages } from "next-intl";
+import { Suspense } from "react";
+import StatusProvider from "./status-provider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -25,9 +27,11 @@ export default function RootLayout({
   return (
     <html lang={params.locale}>
       <body className={inter.className}>
-        <NextIntlClientProvider locale={params.locale} messages={messages}>
-          {children}
-        </NextIntlClientProvider>
+        <Suspense>
+          <NextIntlClientProvider locale={params.locale} messages={messages}>
+            <StatusProvider>{children}</StatusProvider>
+          </NextIntlClientProvider>
+        </Suspense>
       </body>
     </html>
   );

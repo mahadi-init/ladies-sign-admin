@@ -1,25 +1,26 @@
-"use client";
-import { useTranslations } from "next-intl";
-import { useState } from "react";
-import Wrapper from "../_components/Wrapper";
-import Table from "../_components/Table";
-import PageTop from "../_components/PageTop";
-import Search from "../_components/Search";
+import { BACKEND_URL } from "@/consts/site-info";
+import { getTranslations } from "next-intl/server";
+import PageTop from "../../../../components/native/PageTop";
+import { CategoryType } from "./type";
+import CategoryWrapper from "./wrapper";
 
-export default function Category() {
-  const t = useTranslations("Category");
-  const [search, setSearch] = useState("");
+const getCategories = async () => {
+  const res = await fetch(`${BACKEND_URL}/api/category/all`, {
+    next: { tags: ["category"] },
+  });
+
+  const data = await res.json();
+  return data.result;
+};
+
+export default async function Page() {
+  const t = await getTranslations("Category");
+  const categories: CategoryType[] = await getCategories();
 
   return (
     <div>
       <PageTop title={t("title")} subTitle={t("sub-title")} />
-      <Search search={search} setSearch={setSearch} />
-      <Wrapper>
-        <p>Image upload</p>
-        <div>
-          <Table />
-        </div>
-      </Wrapper>
+      <CategoryWrapper data={categories} />
     </div>
   );
 }
