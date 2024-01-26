@@ -9,6 +9,7 @@ import {
 
 export default function DropdownSelect({
   style,
+  name,
   placeholder,
   items,
   selectedItem,
@@ -16,12 +17,13 @@ export default function DropdownSelect({
 }: {
   style?: string;
   placeholder?: string;
+  name: string;
   items: string[];
   selectedItem: string;
   setSelectedItem: (item: string) => void;
 }) {
   return (
-    <Select value={selectedItem} onValueChange={setSelectedItem}>
+    <Select value={selectedItem} onValueChange={setSelectedItem} name={name}>
       <SelectTrigger className={style ?? "w-32"}>
         <SelectValue placeholder={placeholder} />
       </SelectTrigger>

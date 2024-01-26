@@ -7,7 +7,7 @@ import { PencilIcon, Trash2 } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
-export default function DeleteItem<T extends { _id: string }>({
+export default function DeleteCategory<T extends { _id: string }>({
   arg0,
 }: {
   arg0: T;

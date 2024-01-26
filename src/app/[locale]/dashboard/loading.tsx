@@ -1,15 +1,16 @@
-import LoadingSkeleton from "../../../components/native/LoadingSkeleton";
-
 export default function Loading() {
   return (
-    <div className="ml-72 mt-2">
-      <div className="ml-1">
-        <LoadingSkeleton />
-        <div className="mt-3"></div>
-        <LoadingSkeleton />
-        <div className="mt-3"></div>
-        <LoadingSkeleton />
-      </div>
+    <div className="mx-2 lg:ml-[300px] animate-pulse">
+      <div className="h-4 bg-gray-200 mt-3 mb-6 rounded" />
+      <div className="h-4 bg-gray-300 mb-6 rounded" />
+      <div className="h-4 bg-gray-200 mb-6 rounded" />
+      <div className="h-4 bg-gray-300 mb-6 rounded" />
+      <div className="h-4 bg-gray-200 mb-6 rounded" />
+      <div className="h-4 bg-gray-200 mt-3 mb-6 rounded" />
+      <div className="h-4 bg-gray-300 mb-6 rounded" />
+      <div className="h-4 bg-gray-200 mb-6 rounded" />
+      <div className="h-4 bg-gray-300 mb-6 rounded" />
+      <div className="h-4 bg-gray-200 mb-6 rounded" />
     </div>
   );
 }
