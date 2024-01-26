@@ -16,12 +16,10 @@ import {
   Users,
   UsersRound,
 } from "lucide-react";
-import { useTranslations } from "next-intl";
 import { usePathname } from "next/navigation";
 import clsx from "clsx";
 
 export default function Sidenav() {
-  const t = useTranslations("Sidenav");
   const pathname = usePathname();
   const [isSideNavOpen, setIsSideNavOpen] = useState(false);
 
@@ -112,14 +110,14 @@ export default function Sidenav() {
                   className={clsx(
                     "flex items-center gap-3 rounded p-3 text-slate-700 transition-colors hover:bg-rose-50 hover:text-rose-500 focus:bg-rose-50",
                     pathname.endsWith("dashboard") &&
-                      "bg-purple-50 text-purple-600 focus:bg-purple-50",
+                      "bg-purple-50 text-purple-600 focus:bg-purple-50"
                   )}
                 >
                   <div className="flex items-center self-center">
                     <LayoutDashboard size={18} />
                   </div>
                   <div className="flex overflow-hidden flex-col flex-1 gap-0 justify-center items-start w-full text-sm truncate">
-                    {t("dashboard")}
+                    Dashboard
                   </div>
                 </Link>
               </li>
@@ -130,19 +128,19 @@ export default function Sidenav() {
                   className={clsx(
                     "flex items-center gap-3 rounded p-3 text-slate-700 transition-colors hover:bg-rose-50 hover:text-rose-500 focus:bg-rose-50",
                     pathname.endsWith("products") &&
-                      "bg-purple-50 text-purple-600 focus:bg-purple-50",
+                      "bg-purple-50 text-purple-600 focus:bg-purple-50"
                   )}
                 >
                   <div className="flex items-center self-center">
                     <ShoppingBasket size={18} />
                   </div>
                   <div className="flex overflow-hidden flex-col flex-1 gap-0 justify-center items-start w-full text-sm truncate">
-                    {t("products")}
+                    Products
                   </div>
                   {/* TODO:OPEN AND CLOSE OPTION */}
-                  <span className="inline-flex justify-center items-center px-2 text-xs text-pink-500 bg-pink-100 rounded-full">
+                  {/* <span className="inline-flex justify-center items-center px-2 text-xs text-pink-500 bg-pink-100 rounded-full">
                     <ChevronDown size={15} />
-                  </span>
+                  </span> */}
                 </Link>
               </li>
               <li className="px-3">
@@ -152,14 +150,14 @@ export default function Sidenav() {
                   className={clsx(
                     "flex items-center gap-3 rounded p-3 text-slate-700 transition-colors hover:bg-rose-50 hover:text-rose-500 focus:bg-rose-50",
                     pathname.endsWith("category") &&
-                      "bg-purple-50 text-purple-600 focus:bg-purple-50",
+                      "bg-purple-50 text-purple-600 focus:bg-purple-50"
                   )}
                 >
                   <div className="flex items-center self-center">
                     <Ratio size={18} />
                   </div>
                   <div className="flex overflow-hidden flex-col flex-1 gap-0 justify-center items-start w-full text-sm truncate">
-                    {t("category")}
+                    Category
                   </div>
                 </Link>
               </li>
@@ -170,14 +168,14 @@ export default function Sidenav() {
                   className={clsx(
                     "flex items-center gap-3 rounded p-3 text-slate-700 transition-colors hover:bg-rose-50 hover:text-rose-500 focus:bg-rose-50",
                     pathname.endsWith("orders") &&
-                      "bg-purple-50 text-purple-600 focus:bg-purple-50",
+                      "bg-purple-50 text-purple-600 focus:bg-purple-50"
                   )}
                 >
                   <div className="flex items-center self-center">
                     <ListOrdered size={18} />
                   </div>
                   <div className="flex overflow-hidden flex-col flex-1 gap-0 justify-center items-start w-full text-sm truncate">
-                    {t("orders")}
+                    Orders
                   </div>
                   <span className="inline-flex justify-center items-center px-2 text-xs text-pink-500 bg-pink-100 rounded-full">
                     {/* TODO:ADD DYNAMCIC DATA */}7
@@ -192,14 +190,14 @@ export default function Sidenav() {
                   className={clsx(
                     "flex items-center gap-3 rounded p-3 text-slate-700 transition-colors hover:bg-rose-50 hover:text-rose-500 focus:bg-rose-50",
                     pathname.endsWith("brand") &&
-                      "bg-purple-50 text-purple-600 focus:bg-purple-50",
+                      "bg-purple-50 text-purple-600 focus:bg-purple-50"
                   )}
                 >
                   <div className="flex items-center self-center">
                     <Dice6 size={18} />
                   </div>
                   <div className="flex overflow-hidden flex-col flex-1 gap-0 justify-center items-start w-full text-sm truncate">
-                    {t("brand")}
+                    Brand
                   </div>
                 </Link>
               </li>
@@ -214,14 +212,14 @@ export default function Sidenav() {
                   className={clsx(
                     "flex items-center gap-3 rounded p-3 text-slate-700 transition-colors hover:bg-rose-50 hover:text-rose-500 focus:bg-rose-50",
                     pathname.endsWith("reviews") &&
-                      "bg-purple-50 text-purple-600 focus:bg-purple-50",
+                      "bg-purple-50 text-purple-600 focus:bg-purple-50"
                   )}
                 >
                   <div className="flex items-center self-center">
                     <Star size={18} />
                   </div>
                   <div className="flex overflow-hidden flex-col flex-1 gap-0 justify-center items-start w-full text-sm truncate">
-                    {t("reviews")}
+                    Reviews
                   </div>
                 </Link>
               </li>
@@ -232,14 +230,14 @@ export default function Sidenav() {
                   className={clsx(
                     "flex items-center gap-3 rounded p-3 text-slate-700 transition-colors hover:bg-rose-50 hover:text-rose-500 focus:bg-rose-50",
                     pathname.endsWith("coupons") &&
-                      "bg-purple-50 text-purple-600 focus:bg-purple-50",
+                      "bg-purple-50 text-purple-600 focus:bg-purple-50"
                   )}
                 >
                   <div className="flex items-center self-center">
                     <Component size={18} />
                   </div>
                   <div className="flex overflow-hidden flex-col flex-1 gap-0 justify-center items-start w-full text-sm truncate">
-                    {t("coupons")}
+                    Coupons
                   </div>
                 </Link>
               </li>
@@ -250,14 +248,14 @@ export default function Sidenav() {
                   className={clsx(
                     "flex items-center gap-3 rounded p-3 text-slate-700 transition-colors hover:bg-rose-50 hover:text-rose-500 focus:bg-rose-50",
                     pathname.endsWith("stuffs") &&
-                      "bg-purple-50 text-purple-600 focus:bg-purple-50",
+                      "bg-purple-50 text-purple-600 focus:bg-purple-50"
                   )}
                 >
                   <div className="flex items-center self-center">
                     <UsersRound size={18} />
                   </div>
                   <div className="flex overflow-hidden flex-col flex-1 gap-0 justify-center items-start w-full text-sm truncate">
-                    {t("stuffs")}
+                    Stuffs
                   </div>
                 </Link>
               </li>
@@ -268,14 +266,14 @@ export default function Sidenav() {
                   className={clsx(
                     "flex items-center gap-3 rounded p-3 text-slate-700 transition-colors hover:bg-rose-50 hover:text-rose-500 focus:bg-rose-50",
                     pathname.endsWith("users") &&
-                      "bg-purple-50 text-purple-600 focus:bg-purple-50",
+                      "bg-purple-50 text-purple-600 focus:bg-purple-50"
                   )}
                 >
                   <div className="flex items-center self-center">
                     <Users size={18} />
                   </div>
                   <div className="flex overflow-hidden flex-col flex-1 gap-0 justify-center items-start w-full text-sm truncate">
-                    {t("users")}
+                    Users
                   </div>
                 </Link>
               </li>
@@ -286,14 +284,14 @@ export default function Sidenav() {
                   className={clsx(
                     "flex items-center gap-3 rounded p-3 text-slate-700 transition-colors hover:bg-rose-50 hover:text-rose-500 focus:bg-rose-50",
                     pathname.endsWith("notifications") &&
-                      "bg-purple-50 text-purple-600 focus:bg-purple-50",
+                      "bg-purple-50 text-purple-600 focus:bg-purple-50"
                   )}
                 >
                   <div className="flex items-center self-center">
                     <BellRing size={18} />
                   </div>
                   <div className="flex overflow-hidden flex-col flex-1 gap-0 justify-center items-start w-full text-sm truncate">
-                    {t("notifications")}
+                    Notifications
                   </div>
                   <span className="inline-flex justify-center items-center px-2 text-xs text-pink-500 bg-pink-100 rounded-full">
                     2<span className="sr-only"> new notifications</span>
@@ -309,7 +307,7 @@ export default function Sidenav() {
               <LogOut size={18} />
             </div>
             <div className="flex overflow-hidden flex-col flex-1 gap-0 justify-center items-start w-full text-sm font-medium truncate">
-              {t("logout")}
+              Logout
             </div>
           </button>
         </footer>

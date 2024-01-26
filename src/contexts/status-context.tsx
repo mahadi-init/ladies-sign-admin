@@ -36,7 +36,9 @@ export function useStatusContext(event: string = "Event") {
       setStatus(Status.IDLE);
     }, 3000);
 
-    return clearTimeout(timeout);
+    return () => {
+      clearTimeout(timeout);
+    };
   }, [event, status]);
 
   return {
