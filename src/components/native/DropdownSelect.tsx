@@ -17,7 +17,7 @@ export default function DropdownSelect({
 }: {
   style?: string;
   placeholder?: string;
-  name: string;
+  name?: string;
   items: string[];
   selectedItem: string;
   setSelectedItem: (item: string) => void;
