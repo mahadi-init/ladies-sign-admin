@@ -2,16 +2,21 @@
 import { ChangeEvent, useState } from "react";
 import { Upload } from "lucide-react";
 import DropdownSelect from "../../../../../components/native/DropdownSelect";
-import { Button } from "@/components/ui/button";
-import { addCategory } from "./action";
+import { addCategory, getImageUrl } from "./_action";
+import SubmitButton from "@/components/native/SubmitButton";
+import { useStatusContext } from "@/contexts/status-context";
+import { Status } from "@/types/status";
 
 export default function AddCategory({
   productTypes,
 }: {
   productTypes: string[];
 }) {
+  const { setStatus } = useStatusContext("Category Add");
   const [image, setImage] = useState<string>();
-  const [selectedProductType, setSelectedProductType] = useState<string>("");
+  const [selectedProductType, setSelectedProductType] = useState<string>(
+    productTypes[0]
+  );
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
@@ -20,8 +25,33 @@ export default function AddCategory({
     }
   };
 
+  const handleFormAction = async (formData: FormData) => {
+    const imageRes = await getImageUrl(formData);
+
+    const parent = formData.get("parent");
+    const children = formData.get("children") as string;
+    const productType = formData.get("productType");
+    const description = formData.get("description");
+
+    const data = {
+      img: imageRes.data.url,
+      parent: parent,
+      children: children.split(","),
+      productType: productType,
+      description: description,
+    };
+
+    const res = await addCategory(data);
+
+    if (res) {
+      setStatus(Status.SUCCESS);
+    } else {
+      setStatus(Status.ERROR);
+    }
+  };
+
   return (
-    <form action={addCategory}>
+    <form action={handleFormAction}>
       <div className="flex flex-col items-center my-8 w-full">
         <picture>
           <img
@@ -52,45 +82,47 @@ export default function AddCategory({
         </label>
       </div>
       <div className="lg:ml-72  p-4 flex flex-col gap-4">
-        <div>
-          <label className="ml-1 font-medium">Parent</label>
+        <label className="ml-1 font-medium">
+          Parent
           <input
             type="text"
             name="parent"
             placeholder="Name"
+            required
             className="block p-2 pl-4 my-2 w-full placeholder-gray-500 text-black bg-gray-100 rounded-md border border-gray-200 transition-all duration-200 focus:bg-white focus:border-blue-600 focus:outline-none caret-blue-600"
           />
-        </div>
-        <div>
-          <label className="ml-1 font-medium">Children</label>
+        </label>
+        <label className="ml-1 font-medium">
+          Children
           <textarea
             name="children"
             placeholder="Enter multiple comma separated childrens"
+            required
             className="block p-2 pl-4 my-2 w-full placeholder-gray-500 text-black bg-gray-100 rounded-md border border-gray-200 transition-all duration-200 focus:bg-white focus:border-blue-600 focus:outline-none caret-blue-600"
           />
-        </div>
-        <div>
-          <label className="ml-1 font-medium">Product Type</label>
+        </label>
+        <label className="ml-1 font-medium">
+          Product Type
           <DropdownSelect
+            name="productType"
             placeholder="Select Product Type"
             style="w-full mt-1 bg-gray-100"
             items={productTypes}
             selectedItem={selectedProductType}
             setSelectedItem={setSelectedProductType}
           />
-        </div>
-        <div>
-          <label className="ml-1 font-medium">Description</label>
+        </label>
+        <label className="ml-1 font-medium">
+          Description
           <textarea
-            name="search"
+            name="description"
             placeholder="Enter description"
+            required
             className="block p-2 pl-4 my-2 w-full placeholder-gray-500 text-black bg-gray-100 rounded-md border border-gray-200 transition-all duration-200 focus:bg-white focus:border-blue-600 focus:outline-none caret-blue-600"
           />
-        </div>
+        </label>
 
-        <Button type="submit" className="w-fit">
-          Add Category
-        </Button>
+        <SubmitButton />
       </div>
     </form>
   );

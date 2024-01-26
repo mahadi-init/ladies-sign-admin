@@ -1,5 +1,5 @@
 import { BACKEND_URL } from "@/consts/site-info";
-import AddCategory from "./add-category";
+import AddCategory from "./add";
 
 const getProductTypes = async () => {
   const res = await fetch(`${BACKEND_URL}/api/product/all/product-types`);

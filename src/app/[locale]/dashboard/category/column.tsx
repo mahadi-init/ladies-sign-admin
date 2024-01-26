@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown } from "lucide-react";
 import { CategoryType } from "./type";
-import DeleteItem from "./delete-item";
+import DeleteCategory from "./delete";
 
 export const categoryColumn: ColumnDef<CategoryType>[] = [
   {
@@ -47,6 +47,6 @@ export const categoryColumn: ColumnDef<CategoryType>[] = [
   },
   {
     id: "actions",
-    cell: ({ row }) => <DeleteItem arg0={row.original} />,
+    cell: ({ row }) => <DeleteCategory arg0={row.original} />,
   },
 ];
