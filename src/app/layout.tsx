@@ -3,6 +3,8 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { Suspense } from "react";
 import StatusProvider from "./status-provider";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -25,6 +27,7 @@ export default function RootLayout({
         <Suspense>
           <StatusProvider>{children}</StatusProvider>
         </Suspense>
+        <ToastContainer />
       </body>
     </html>
   );
