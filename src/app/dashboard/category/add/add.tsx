@@ -34,7 +34,7 @@ export default function AddCategory({
     const description = formData.get("description");
 
     const data = {
-      img: "", //TODO:CHNAGE
+      img: "",
       parent: parent,
       children: children.split(","),
       productType: productType,

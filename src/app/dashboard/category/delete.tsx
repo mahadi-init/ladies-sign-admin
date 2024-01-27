@@ -5,6 +5,7 @@ import Link from "next/link";
 import { deleteCategory } from "./_action";
 import React, { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
+import DeleteButton from "@/components/native/DeleteButton";
 
 export default function DeleteCategory<T extends { _id: string }>({
   arg0,
@@ -52,16 +53,7 @@ export default function DeleteCategory<T extends { _id: string }>({
           <Trash2 size={16} />
         </Button>
       )}
-      {isConfirmed && (
-        <Button
-          type="submit"
-          size="icon"
-          variant="destructive"
-          className="h-8 w-8"
-        >
-          <Check size={16} />
-        </Button>
-      )}
+      {isConfirmed && <DeleteButton />}
     </form>
   );
 }
