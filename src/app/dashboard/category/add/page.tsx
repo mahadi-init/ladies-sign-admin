@@ -1,5 +1,6 @@
 import { BACKEND_URL } from "@/consts/site-info";
-import AddCategory from "./add";
+import SharedCategoryUI from "../_shared/ui";
+import { addCategory } from "./_action";
 
 const getProductTypes = async () => {
   const res = await fetch(`${BACKEND_URL}/api/product/all/product-types`);
@@ -8,12 +9,10 @@ const getProductTypes = async () => {
   return types.data;
 };
 
-export default async function Page() {
+export default async function AddCategory() {
   const productTypes = await getProductTypes();
 
   return (
-    <div>
-      <AddCategory productTypes={productTypes} />
-    </div>
+    <SharedCategoryUI productTypes={productTypes} serverAction={addCategory} />
   );
 }

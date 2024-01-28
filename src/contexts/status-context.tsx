@@ -3,35 +3,21 @@ import { createContext, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
 type StatusContextType = {
-  status: Status;
-  setStatus: (status: Status) => void;
+  startLoading: () => void;
+  setSuccessStatus: (status: Status) => void;
+  setErrorStatus: (status: Status) => void;
 };
 
 export const StatusContext = createContext<StatusContextType>({
-  status: Status.IDLE,
-  setStatus: () => {},
+  startLoading: () => {},
+  setSuccessStatus: () => {},
+  setErrorStatus: () => {},
 });
 
-export function useStatusContext(event: string = "Event") {
+export function useStatusContext() {
   const [status, setStatus] = useState<Status>(Status.IDLE);
 
   useEffect(() => {
-    if (status == Status.LOADING) {
-      toast(`Loading...`, {
-        isLoading: true,
-      });
-    }
-
-    if (status == Status.SUCCESS) {
-      toast.dismiss();
-      toast.success(`${event} Successful`);
-    }
-
-    if (status === Status.ERROR) {
-      toast.dismiss();
-      toast.error(`${event} Failed`);
-    }
-
     const timeout = setTimeout(() => {
       setStatus(Status.IDLE);
     }, 3000);
@@ -39,10 +25,33 @@ export function useStatusContext(event: string = "Event") {
     return () => {
       clearTimeout(timeout);
     };
-  }, [event, status]);
+  }, [status]);
+
+  const startLoading = () => {
+    setStatus(Status.LOADING);
+
+    toast(`Loading...`, {
+      isLoading: true,
+    });
+  };
+
+  const setSuccessStatus = (message: string) => {
+    toast.dismiss();
+
+    setStatus(Status.SUCCESS);
+    toast.success(message);
+  };
+
+  const setErrorStatus = (message: string) => {
+    toast.dismiss();
+
+    setStatus(Status.ERROR);
+    toast.error(message);
+  };
 
   return {
-    status,
-    setStatus,
+    startLoading,
+    setSuccessStatus,
+    setErrorStatus,
   };
 }

@@ -19,7 +19,7 @@ export default function DropdownSelect({
   placeholder?: string;
   name?: string;
   items: string[];
-  selectedItem: string;
+  selectedItem?: string;
   setSelectedItem: (item: string) => void;
 }) {
   return (

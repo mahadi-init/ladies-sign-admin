@@ -1,8 +1,10 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
 import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown } from "lucide-react";
+import DeleteCategory from "./_delete/delete";
 import { CategoryType } from "./type";
-import DeleteCategory from "./delete";
 
 export const categoryColumn: ColumnDef<CategoryType>[] = [
   {
@@ -13,10 +15,12 @@ export const categoryColumn: ColumnDef<CategoryType>[] = [
     accessorKey: "img",
     header: "Image",
     cell: ({ row }) => {
-      return (
+      return row.original.img ? (
         <picture>
-          <img className="w-8 " src={row.original.img} alt="cell image" />
+          <img className="w-10" src={row.original.img} alt="cell image" />
         </picture>
+      ) : (
+        <span className="text-xs">No Image</span>
       );
     },
   },
@@ -42,7 +46,7 @@ export const categoryColumn: ColumnDef<CategoryType>[] = [
     accessorKey: "children",
     header: "Items",
     cell: ({ row }) => {
-      return row.original.children.length;
+      return row.original.children?.length;
     },
   },
   {
