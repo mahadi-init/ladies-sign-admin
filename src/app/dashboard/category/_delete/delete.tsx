@@ -6,11 +6,7 @@ import React, { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import DeleteButton from "@/components/native/DeleteButton";
 
-export default function DeleteCategory<T extends { _id?: string }>({
-  arg0,
-}: {
-  arg0: T;
-}) {
+export default function DeleteCategory({ id }: { id?: string }) {
   const { setSuccessStatus, setErrorStatus } = useStatusContext();
   const [isConfirmed, setIsConfirmed] = useState(false);
 
@@ -25,7 +21,7 @@ export default function DeleteCategory<T extends { _id?: string }>({
   }, [isConfirmed]);
 
   const handleFormAction = async () => {
-    const res = await deleteCategory(arg0._id!!);
+    const res = await deleteCategory(id!!);
 
     if (res.status === 200) {
       setSuccessStatus(res.message);
@@ -37,7 +33,7 @@ export default function DeleteCategory<T extends { _id?: string }>({
   return (
     <form action={handleFormAction} className="flex items-center gap-4">
       <Button className="w-6 h-6" variant="outline">
-        <Link href={`/dashboard/category/edit/${arg0._id}`}>
+        <Link href={`/dashboard/category/edit/${id}`}>
           <PencilIcon size={16} />
         </Link>
       </Button>
@@ -45,7 +41,6 @@ export default function DeleteCategory<T extends { _id?: string }>({
         <Button
           type="button"
           size="icon"
-          // variant=""
           className="h-6 w-6"
           onClick={() => setIsConfirmed(true)}
         >

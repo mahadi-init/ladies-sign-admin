@@ -13,7 +13,7 @@ const getCategories = async () => {
   return data.result;
 };
 
-export default async function Page() {
+export default async function Category() {
   const categories: CategoryType[] = await getCategories();
   const searchTargets = ["_id", "parent"];
 

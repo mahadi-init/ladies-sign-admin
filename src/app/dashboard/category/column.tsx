@@ -51,6 +51,6 @@ export const categoryColumn: ColumnDef<CategoryType>[] = [
   },
   {
     id: "actions",
-    cell: ({ row }) => <DeleteCategory arg0={row.original} />,
+    cell: ({ row }) => <DeleteCategory id={row.original._id} />,
   },
 ];
