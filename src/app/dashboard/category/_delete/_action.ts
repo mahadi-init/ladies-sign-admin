@@ -4,30 +4,25 @@ import { BACKEND_URL } from "@/consts/site-info";
 import { Response } from "@/types/response";
 import { revalidatePath } from "next/cache";
 
-export async function addCategory<T>(value: T): Promise<Response> {
+export const deleteCategory = async (id: string): Promise<Response> => {
   try {
-    const res = await fetch(`${BACKEND_URL}/api/category/add`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(value),
+    const res = await fetch(`${BACKEND_URL}/api/category/delete/${id}`, {
+      method: "DELETE",
     });
 
     const data = await res.json();
-    console.log(data);
 
-    if (data.status) {
+    if (data.status || data.success) {
       revalidatePath("/dashboard/category");
 
       return {
         status: 200,
-        message: "Category created successfully",
+        message: "Category deleted successfully",
       };
     } else {
       return {
         status: 500,
-        message: "Failed creating category",
+        message: "Failed deleting category",
       };
     }
   } catch (err) {
@@ -36,4 +31,4 @@ export async function addCategory<T>(value: T): Promise<Response> {
       message: "Something went wrong",
     };
   }
-}
+};
