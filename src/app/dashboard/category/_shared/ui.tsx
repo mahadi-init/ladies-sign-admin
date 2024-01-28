@@ -18,7 +18,7 @@ type Inputs = {
 
 interface PropTypes extends CategoryType {
   productTypes: string[];
-  serverAction: <T = void>(data: T) => Promise<Response>;
+  serverAction: <T extends { _id?: string }>(data: T) => Promise<Response>;
 }
 
 export default function SharedCategoryUI<T extends PropTypes>(props: T) {
@@ -35,15 +35,13 @@ export default function SharedCategoryUI<T extends PropTypes>(props: T) {
     const productType = formData.get("productType");
     const visibility = formData.get("visibility");
 
-    console.log(visibility);
-    console.log(img);
-
     if (!img && visibility) {
       setErrorStatus("hide or select an image");
       return;
     }
 
     const value = {
+      _id: props._id,
       img: img,
       parent: parent,
       children: children.split(","),

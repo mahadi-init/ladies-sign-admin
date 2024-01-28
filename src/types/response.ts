@@ -1,4 +1,4 @@
 export type Response = {
-  status: number;
+  status: 200 | 400 | 500;
   message: string;
 };

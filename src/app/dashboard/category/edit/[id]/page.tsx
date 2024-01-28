@@ -4,14 +4,18 @@ import { editCategory } from "./_action";
 import { CategoryType } from "../../type";
 
 const getProductTypes = async (): Promise<string[]> => {
-  const res = await fetch(`${BACKEND_URL}/api/product/all/product-types`);
+  const res = await fetch(`${BACKEND_URL}/api/product/all/product-types`, {
+    cache: "reload",
+  });
   const types = await res.json();
 
   return types.data;
 };
 
 const getCategoryData = async (id: string): Promise<CategoryType> => {
-  const res = await fetch(`${BACKEND_URL}/api/category/get/${id}`);
+  const res = await fetch(`${BACKEND_URL}/api/category/get/${id}`, {
+    cache: "no-store",
+  });
   const data = await res.json();
 
   return data;
