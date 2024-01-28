@@ -3,7 +3,9 @@ import SharedCategoryUI from "../_shared/ui";
 import { addCategory } from "./_action";
 
 const getProductTypes = async () => {
-  const res = await fetch(`${BACKEND_URL}/api/product/all/product-types`);
+  const res = await fetch(`${BACKEND_URL}/api/product/all/product-types`, {
+    cache: "no-store",
+  });
   const types = await res.json();
 
   return types.data;

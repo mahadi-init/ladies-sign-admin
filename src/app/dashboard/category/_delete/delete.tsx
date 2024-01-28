@@ -31,12 +31,10 @@ export default function DeleteCategory({ id }: { id?: string }) {
   };
 
   return (
-    <form action={handleFormAction} className="flex items-center gap-4">
-      <Button className="w-6 h-6" variant="outline">
-        <Link href={`/dashboard/category/edit/${id}`}>
-          <PencilIcon size={16} />
-        </Link>
-      </Button>
+    <form action={handleFormAction} className="flex items-center gap-8">
+      <Link href={`/dashboard/category/edit/${id}`}>
+        <PencilIcon size={16} />
+      </Link>
       {!isConfirmed && (
         <Button
           type="button"
