@@ -8,10 +8,12 @@ export default function StatusProvider({
 }: {
   children: React.ReactNode;
 }) {
-  const { status, setStatus } = useStatusContext();
+  const { startLoading, setSuccessStatus, setErrorStatus } = useStatusContext();
 
   return (
-    <StatusContext.Provider value={{ status, setStatus }}>
+    <StatusContext.Provider
+      value={{ startLoading, setSuccessStatus, setErrorStatus }}
+    >
       {children}
     </StatusContext.Provider>
   );

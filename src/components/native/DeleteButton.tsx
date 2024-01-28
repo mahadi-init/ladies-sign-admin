@@ -13,7 +13,7 @@ export default function DeleteButton() {
       type="submit"
       size="icon"
       variant="destructive"
-      className="h-8 w-8"
+      className="h-6 w-6"
       disabled={pending}
     >
       {!pending ? (
