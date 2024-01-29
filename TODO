@@ -3,9 +3,10 @@ Working:
 
 
 Todo:
-  ☐ Category edit option
+  ✔ Category edit option @done(24-01-28 22:54)
   ☐ Authetication (role based)
 
 
 Fixme: 
   ✔ Category Image upload fails @done(24-01-28 16:55)
+  ☐ Category hide option doesn't work

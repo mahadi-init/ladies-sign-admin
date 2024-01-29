@@ -58,8 +58,8 @@ export default function SharedCategoryUI<T extends PropTypes>(props: T) {
   };
 
   return (
-    <form action={handleFormAction}>
-      <div className="flex flex-col items-center my-8 w-full">
+    <form action={handleFormAction} className="w-full lg:w-8/12">
+      <div className="flex flex-col items-center justify-center my-8 w-full">
         <picture>
           <img
             src={img ?? "/logo.png"}
@@ -99,7 +99,7 @@ export default function SharedCategoryUI<T extends PropTypes>(props: T) {
         </CldUploadButton>
       </div>
 
-      <div className="lg:ml-72  p-4 flex flex-col gap-6">
+      <div className="p-4 flex flex-col gap-6">
         <label className="ml-1 font-medium">
           Parent
           <input
