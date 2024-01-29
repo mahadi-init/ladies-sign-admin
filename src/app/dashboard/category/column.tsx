@@ -7,6 +7,7 @@ import { CategoryType } from "./type";
 import Link from "next/link";
 import { deleteCategory } from "./_delete/_action";
 import DeleteItem from "@/components/native/DeleteItem";
+import Image from "next/image";
 
 export const categoryColumn: ColumnDef<CategoryType>[] = [
   {
@@ -18,9 +19,7 @@ export const categoryColumn: ColumnDef<CategoryType>[] = [
     header: "Image",
     cell: ({ row }) => {
       return row.original.img ? (
-        <picture>
-          <img className="w-10" src={row.original.img} alt="cell image" />
-        </picture>
+        <Image className="w-10" src={row.original.img} alt="cell image" />
       ) : (
         <span className="text-xs">No Image</span>
       );
