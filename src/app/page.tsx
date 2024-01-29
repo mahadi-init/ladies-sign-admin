@@ -98,7 +98,7 @@ export default function Home() {
             height={900}
             src="/logo.png"
             alt="logo"
-            priority
+            loading="lazy"
           />
 
           <div className="mx-auto mt-3 w-full max-w-md xl:max-w-xl">
