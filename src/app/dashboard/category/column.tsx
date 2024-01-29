@@ -19,7 +19,14 @@ export const categoryColumn: ColumnDef<CategoryType>[] = [
     header: "Image",
     cell: ({ row }) => {
       return row.original.img ? (
-        <Image className="w-10" src={row.original.img} alt="cell image" />
+        <Image
+          className="w-10"
+          width={250}
+          height={250}
+          src={row.original.img}
+          alt="cell image"
+          loading="lazy"
+        />
       ) : (
         <span className="text-xs">No Image</span>
       );

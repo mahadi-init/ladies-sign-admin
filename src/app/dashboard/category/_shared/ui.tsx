@@ -67,6 +67,7 @@ export default function SharedCategoryUI<T extends PropTypes>(props: T) {
           height={400}
           width={400}
           alt="upload"
+          loading="lazy"
         />
 
         <CldUploadButton
