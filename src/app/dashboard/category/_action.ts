@@ -15,6 +15,7 @@ export async function addCategory<T>(value: T): Promise<Response> {
     });
 
     const data = await res.json();
+    console.log(data);
 
     if (data.status || data.success) {
       revalidatePath("/dashboard/category");

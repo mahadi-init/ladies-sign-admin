@@ -1,12 +1,17 @@
 import { useStatusContext } from "@/contexts/status-context";
-import { PencilIcon, Trash2 } from "lucide-react";
-import Link from "next/link";
-import { deleteCategory } from "./_action";
+import { Trash2 } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import DeleteButton from "@/components/native/DeleteButton";
+import { Response } from "@/types/response";
 
-export default function DeleteCategory({ id }: { id?: string }) {
+export default function DeleteItem({
+  id,
+  serverAction,
+}: {
+  id?: string;
+  serverAction: (id: string) => Promise<Response>;
+}) {
   const { setSuccessStatus, setErrorStatus } = useStatusContext();
   const [isConfirmed, setIsConfirmed] = useState(false);
 
@@ -21,7 +26,7 @@ export default function DeleteCategory({ id }: { id?: string }) {
   }, [isConfirmed]);
 
   const handleFormAction = async () => {
-    const res = await deleteCategory(id!!);
+    const res = await serverAction(id!!);
 
     if (res.status === 200) {
       setSuccessStatus(res.message);
@@ -31,10 +36,7 @@ export default function DeleteCategory({ id }: { id?: string }) {
   };
 
   return (
-    <form action={handleFormAction} className="flex items-center gap-8">
-      <Link href={`/dashboard/category/edit/${id}`}>
-        <PencilIcon size={16} />
-      </Link>
+    <form action={handleFormAction}>
       {!isConfirmed && (
         <Button
           type="button"
