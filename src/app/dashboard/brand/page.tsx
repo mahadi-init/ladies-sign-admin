@@ -1,9 +1,6 @@
-import PageTop from "@/components/native/PageTop";
+import SharedBrandUI from "./_shared/ui";
+import { addBrand } from "./_action";
 
-export default function Brand() {
-  return (
-    <div>
-      <PageTop title={"Brand"} subTitle={"Edit or Add new brand"} />
-    </div>
-  );
+export default async function AddBrand() {
+  return <SharedBrandUI serverAction={addBrand} />;
 }
