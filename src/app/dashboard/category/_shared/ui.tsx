@@ -9,6 +9,7 @@ import { CLOUDINARY_UPLOAD_PRESET } from "@/consts/site-info";
 import { Response } from "@/types/response";
 import { CategoryType } from "../type";
 import { useForm } from "react-hook-form";
+import Image from "next/image";
 
 type Inputs = {
   parent: string;
@@ -60,15 +61,13 @@ export default function SharedCategoryUI<T extends PropTypes>(props: T) {
   return (
     <form action={handleFormAction} className="w-full lg:w-8/12">
       <div className="flex flex-col items-center justify-center my-8 w-full">
-        <picture>
-          <img
-            src={img ?? "/logo.png"}
-            className="w-64 rounded-md"
-            height={400}
-            width={400}
-            alt="upload"
-          />
-        </picture>
+        <Image
+          src={img ?? "/logo.png"}
+          className="w-64 rounded-md"
+          height={400}
+          width={400}
+          alt="upload"
+        />
 
         <CldUploadButton
           uploadPreset={CLOUDINARY_UPLOAD_PRESET}
