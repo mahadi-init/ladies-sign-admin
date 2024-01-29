@@ -29,7 +29,7 @@ interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
   searchTargets: string[];
-  addItemRoute: string;
+  addItemRoute?: string;
 }
 
 export function DataTable<TData, TValue>({
@@ -57,7 +57,6 @@ export function DataTable<TData, TValue>({
     },
   });
 
-  //TODO: Add a dropdown to select filter option
   return (
     <div className="w-full">
       <div className="justify-between flex items-center">
@@ -84,11 +83,13 @@ export function DataTable<TData, TValue>({
             setSelectedItem={setSearchTarget}
           />
         </div>
-        <Button variant="outline" size="icon">
-          <Link href={addItemRoute}>
-            <PlusCircle />
-          </Link>
-        </Button>
+        {addItemRoute && (
+          <Button variant="outline" size="icon">
+            <Link href={addItemRoute}>
+              <PlusCircle />
+            </Link>
+          </Button>
+        )}
       </div>
       <div className="rounded-md border">
         <Table>
