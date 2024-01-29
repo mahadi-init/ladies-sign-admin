@@ -2,9 +2,11 @@
 
 import { Button } from "@/components/ui/button";
 import { ColumnDef } from "@tanstack/react-table";
-import { ArrowUpDown } from "lucide-react";
-import DeleteCategory from "./_delete/delete";
+import { ArrowUpDown, PencilIcon } from "lucide-react";
 import { CategoryType } from "./type";
+import Link from "next/link";
+import { deleteCategory } from "./_delete/_action";
+import DeleteItem from "@/components/native/DeleteItem";
 
 export const categoryColumn: ColumnDef<CategoryType>[] = [
   {
@@ -51,6 +53,13 @@ export const categoryColumn: ColumnDef<CategoryType>[] = [
   },
   {
     id: "actions",
-    cell: ({ row }) => <DeleteCategory id={row.original._id} />,
+    cell: ({ row }) => (
+      <div className="flex  items-center gap-8">
+        <Link href={`/dashboard/category/edit/${row.original._id}`}>
+          <PencilIcon size={16} />
+        </Link>
+        <DeleteItem id={row.original._id} serverAction={deleteCategory} />
+      </div>
+    ),
   },
 ];
