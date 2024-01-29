@@ -3,51 +3,48 @@ import { useState } from "react";
 import { Upload } from "lucide-react";
 import SubmitButton from "@/components/native/SubmitButton";
 import { useStatusContext } from "@/contexts/status-context";
-import DropdownSelect from "@/components/native/DropdownSelect";
 import { CldUploadButton } from "next-cloudinary";
 import { CLOUDINARY_UPLOAD_PRESET } from "@/consts/site-info";
 import { Response } from "@/types/response";
-import { CategoryType } from "../type";
 import { useForm } from "react-hook-form";
 import Image from "next/image";
+import { BrandType } from "../type";
 
 type Inputs = {
-  parent: string;
-  children: string;
-  visibility: boolean;
+  name: string;
+  email: string;
+  website: string;
+  location: string;
+  isActive: boolean;
 };
 
-interface PropTypes extends CategoryType {
-  productTypes: string[];
+interface PropTypes extends BrandType {
   serverAction: <T extends { _id?: string }>(data: T) => Promise<Response>;
 }
 
-export default function SharedCategoryUI<T extends PropTypes>(props: T) {
+export default function SharedBrandUI<T extends PropTypes>(props: T) {
   const { setSuccessStatus, setErrorStatus } = useStatusContext();
   const { register } = useForm<Inputs>();
-  const [img, setImg] = useState(props.img);
-  const [selectedProductType, setSelectedProductType] = useState(
-    props.productType ?? props.productTypes[0]
-  );
+  const [logo, setLogo] = useState(props.logo);
 
   const handleFormAction = async (formData: FormData) => {
-    const parent = formData.get("parent");
-    const children = formData.get("children") as string;
-    const productType = formData.get("productType");
-    const visibility = formData.get("visibility");
+    const name = formData.get("name") as string;
+    const email = formData.get("email") as string;
+    const website = formData.get("website");
+    const location = formData.get("location");
 
-    if (!img && visibility) {
-      setErrorStatus("hide or select an image");
+    if (!logo) {
+      setErrorStatus("select an image");
       return;
     }
 
     const value = {
       _id: props._id,
-      img: img,
-      parent: parent,
-      children: children.split(","),
-      status: visibility ? "Show" : "Hide",
-      productType: productType,
+      logo: logo,
+      name: name,
+      email: email,
+      website: website,
+      location: location,
     };
 
     const res = await props.serverAction(value);
@@ -63,7 +60,7 @@ export default function SharedCategoryUI<T extends PropTypes>(props: T) {
       <div className="flex flex-col items-center justify-center my-8 w-full">
         <picture>
           <Image
-            src={img ?? "/logo.png"}
+            src={logo ?? "/logo.png"}
             className="w-64 rounded-md"
             height={400}
             width={400}
@@ -81,7 +78,7 @@ export default function SharedCategoryUI<T extends PropTypes>(props: T) {
           onSuccess={(result) => {
             if (result.info) {
               //@ts-ignore
-              setImg(result.info.url);
+              setLogo(result.info.url);
             }
           }}
           onError={() => {
@@ -103,46 +100,58 @@ export default function SharedCategoryUI<T extends PropTypes>(props: T) {
 
       <div className="p-4 flex flex-col gap-6">
         <label className="ml-1 font-medium">
-          Parent
+          Name
           <input
-            {...(register("parent"), { required: true })}
+            {...(register("name"), { required: true })}
             type="text"
-            placeholder="Enter parent name"
-            name="parent"
-            defaultValue={props.parent}
+            placeholder="Enter name"
+            name="name"
+            defaultValue={props.name}
             className="block p-2 pl-4 my-2 w-full placeholder-gray-500 text-black bg-gray-100 rounded-md border border-gray-200 transition-all duration-200 focus:bg-white focus:border-blue-600 focus:outline-none caret-blue-600"
           />
         </label>
 
         <label className="ml-1 font-medium">
-          Children
-          <textarea
-            {...register("parent")}
-            name="children"
-            rows={2}
-            placeholder="Enter multiple comma separated children"
-            defaultValue={props.children}
+          Email
+          <input
+            {...(register("email"), { required: true })}
+            name="email"
+            type="email"
+            placeholder="Enter email"
+            defaultValue={props.email}
             className="block p-2 pl-4 my-2 w-full placeholder-gray-500 text-black bg-gray-100 rounded-md border border-gray-200 transition-all duration-200 focus:bg-white focus:border-blue-600 focus:outline-none caret-blue-600"
           />
         </label>
 
         <label className="ml-1 font-medium">
-          Product Type
-          <DropdownSelect
-            name="productType"
-            placeholder="Select Product Type"
-            style="w-full mt-1 bg-gray-100"
-            items={props.productTypes}
-            selectedItem={selectedProductType}
-            setSelectedItem={setSelectedProductType}
+          Website
+          <input
+            {...(register("website"), { required: true })}
+            name="website"
+            type="url"
+            placeholder="Enter website"
+            defaultValue={props.website}
+            className="block p-2 pl-4 my-2 w-full placeholder-gray-500 text-black bg-gray-100 rounded-md border border-gray-200 transition-all duration-200 focus:bg-white focus:border-blue-600 focus:outline-none caret-blue-600"
           />
         </label>
 
-        <div className="flex items-center">
+        <label className="ml-1 font-medium">
+          Location
+          <input
+            {...(register("location"), { required: true })}
+            name="location"
+            placeholder="Enter location"
+            defaultValue={props.location}
+            className="block p-2 pl-4 my-2 w-full placeholder-gray-500 text-black bg-gray-100 rounded-md border border-gray-200 transition-all duration-200 focus:bg-white focus:border-blue-600 focus:outline-none caret-blue-600"
+          />
+        </label>
+
+        {/* TODO:REMINER -> the main admin panel has active and not active option */}
+        {/* <div className="flex items-center">
           <label className="relative cursor-pointer mr-4">
             <input
-              {...register("visibility")}
-              name="visibility"
+              {...register("status")}
+              name="status"
               type="checkbox"
               defaultValue={props.status}
               className="sr-only peer"
@@ -152,7 +161,7 @@ export default function SharedCategoryUI<T extends PropTypes>(props: T) {
           <p className="text-sm font-medium text-gray-900 dark:text-gray-300">
             Show category in preview
           </p>
-        </div>
+        </div> */}
 
         <SubmitButton style="w-fit" />
       </div>

@@ -3,28 +3,28 @@
 import { Button } from "@/components/ui/button";
 import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown, PencilIcon } from "lucide-react";
-import { CategoryType } from "./type";
 import Link from "next/link";
-import { deleteCategory } from "./_delete/_action";
+import { deleteBrand } from "./_delete/_action";
 import DeleteItem from "@/components/native/DeleteItem";
 import Image from "next/image";
+import { BrandType } from "./type";
 
-export const categoryColumn: ColumnDef<CategoryType>[] = [
+export const brandColumn: ColumnDef<BrandType>[] = [
   {
     accessorKey: "_id",
     header: "ID",
   },
   {
-    accessorKey: "img",
-    header: "Image",
+    accessorKey: "logo",
+    header: "Logo",
     cell: ({ row }) => {
-      return row.original.img ? (
+      return row.original.logo ? (
         <picture>
           <Image
             className="w-10"
             width={250}
             height={250}
-            src={row.original.img}
+            src={row.original.logo}
             alt="cell image"
             loading="lazy"
           />
@@ -35,38 +35,45 @@ export const categoryColumn: ColumnDef<CategoryType>[] = [
     },
   },
   {
-    accessorKey: "parent",
+    accessorKey: "name",
     header: ({ column }) => {
       return (
         <Button
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Parent
+          Name
           <ArrowUpDown className="ml-2 w-4 h-4" />
         </Button>
       );
     },
   },
   {
-    accessorKey: "productType",
-    header: "Product Type",
+    accessorKey: "email",
+    header: "Email",
   },
   {
-    accessorKey: "children",
-    header: "Items",
-    cell: ({ row }) => {
-      return row.original.children?.length;
-    },
+    accessorKey: "website",
+    header: "Website",
+    // cell: ({ row }) => {
+    //   return row.original.children?.length;
+    // },
+  },
+  {
+    accessorKey: "location",
+    header: "Location",
+    // cell: ({ row }) => {
+    //   return row.original.children?.length;
+    // },
   },
   {
     id: "actions",
     cell: ({ row }) => (
       <div className="flex  items-center gap-8">
-        <Link href={`/dashboard/category/edit/${row.original._id}`}>
+        <Link href={`/dashboard/brand/edit/${row.original._id}`}>
           <PencilIcon size={16} />
         </Link>
-        <DeleteItem id={row.original._id} serverAction={deleteCategory} />
+        <DeleteItem id={row.original._id} serverAction={deleteBrand} />
       </div>
     ),
   },
