@@ -59,7 +59,7 @@ export default function SharedCategoryUI<T extends PropTypes>(props: T) {
   };
 
   return (
-    <form action={handleFormAction} className="w-full lg:w-8/12">
+    <form action={handleFormAction} className="w-full">
       <div className="flex flex-col items-center justify-center my-8 w-full">
         <picture>
           <Image
