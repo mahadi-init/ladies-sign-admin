@@ -29,7 +29,7 @@ interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
   searchTargets: string[];
-  addItemRoute?: string;
+  addItemRoute: string;
 }
 
 export function DataTable<TData, TValue>({
@@ -83,13 +83,9 @@ export function DataTable<TData, TValue>({
             setSelectedItem={setSearchTarget}
           />
         </div>
-        {addItemRoute && (
-          <Button variant="outline" size="icon">
-            <Link href={addItemRoute}>
-              <PlusCircle />
-            </Link>
-          </Button>
-        )}
+        <Button size="sm">
+          <Link href={addItemRoute}>Add Item</Link>
+        </Button>
       </div>
       <div className="rounded-md border">
         <Table>
