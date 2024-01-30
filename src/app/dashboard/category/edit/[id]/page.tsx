@@ -4,9 +4,7 @@ import { editCategory } from "./_action";
 import { CategoryType } from "../../type";
 
 const getProductTypes = async (): Promise<string[]> => {
-  const res = await fetch(`${BACKEND_URL}/api/product/all/product-types`, {
-    cache: "reload",
-  });
+  const res = await fetch(`${BACKEND_URL}/api/product/all/product-types`);
   const types = await res.json();
 
   return types.data;
