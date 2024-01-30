@@ -3,7 +3,6 @@ import { categoryColumn } from "./column";
 import { DataTable } from "@/components/native/DataTable";
 import { CategoryType } from "./type";
 import { getCategories } from "./utils/get-categories";
-import PageTop from "./PageTop";
 
 export default async function Layout({
   children,
@@ -15,13 +14,13 @@ export default async function Layout({
 
   return (
     <>
-      <PageTop />
-      <div className="flex flex-col p-2 mt-24 lg:justify-between lg:ml-72 lg:w-8/12 xl:flex-row xl:gap-8 xl:w-9/12 2xl:w-10/12">
+      <div className="flex flex-col p-2 lg:justify-between lg:ml-72 lg:w-8/12 xl:flex-row xl:gap-8 xl:w-9/12 2xl:w-10/12">
         {children}
         <DataTable
           columns={categoryColumn}
           data={categories}
           searchTargets={searchTargets}
+          addItemRoute="/dashboard/category/add"
         />
       </div>
     </>
