@@ -23,7 +23,6 @@ import {
 import { useState } from "react";
 import DropdownSelect from "./DropdownSelect";
 import Link from "next/link";
-import { PlusCircle } from "lucide-react";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];

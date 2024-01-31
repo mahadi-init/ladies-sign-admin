@@ -1,11 +1,11 @@
 import { BACKEND_URL } from "@/consts/site-info";
 import SharedCategoryUI from "../../_shared/ui";
-import { editCategory } from "./_action";
-import { CategoryType } from "../../type";
+import { editCoupon } from "./_action";
+import { CouponType } from "../../type";
 import { getProductTypes } from "@/utils/get-product-types";
 
-const getCategoryData = async (id: string): Promise<CategoryType> => {
-  const res = await fetch(`${BACKEND_URL}/api/category/get/${id}`, {
+const getCouponData = async (id: string): Promise<CouponType> => {
+  const res = await fetch(`${BACKEND_URL}/api/coupon/${id}`, {
     next: {
       revalidate: 10,
     },
@@ -15,19 +15,19 @@ const getCategoryData = async (id: string): Promise<CategoryType> => {
   return data;
 };
 
-export default async function EditCategory({
+export default async function EditCoupon({
   params,
 }: {
   params: { id: string };
 }) {
   const productTypes = await getProductTypes();
-  const data = await getCategoryData(params.id);
+  const data = await getCouponData(params.id);
 
   return (
     <SharedCategoryUI
       {...data}
       productTypes={productTypes}
-      serverAction={editCategory}
+      serverAction={editCoupon}
     />
   );
 }

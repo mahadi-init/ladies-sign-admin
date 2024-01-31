@@ -2,10 +2,10 @@
 
 import { BACKEND_URL } from "@/consts/site-info";
 import { Response } from "@/types/response";
-import { revalidatePath } from "next/cache";
+import { revalidateTag } from "next/cache";
 
 export async function editBrand<T extends { _id?: string }>(
-  value: T
+  value: T,
 ): Promise<Response> {
   try {
     const res = await fetch(`${BACKEND_URL}/api/brand/edit/${value._id}`, {
@@ -16,21 +16,16 @@ export async function editBrand<T extends { _id?: string }>(
       body: JSON.stringify(value),
     });
 
-    const data = await res.json();
-
-    if (data.status || data.success) {
-      revalidatePath("/dashboard/brand");
+    if (res.ok) {
+      revalidateTag("brands");
 
       return {
         status: 200,
         message: "Brand edited successfully",
       };
-    } else {
-      return {
-        status: 500,
-        message: "Failed editing brand",
-      };
     }
+
+    throw new Error();
   } catch (err) {
     return {
       status: 400,

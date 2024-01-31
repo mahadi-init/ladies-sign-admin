@@ -6,16 +6,16 @@ import { revalidateTag } from "next/cache";
 
 export const deleteCategory = async (id: string): Promise<Response> => {
   try {
-    const res = await fetch(`${BACKEND_URL}/api/category/delete/${id}`, {
+    const res = await fetch(`${BACKEND_URL}/api/coupon/${id}`, {
       method: "DELETE",
     });
 
     if (res.ok) {
-      revalidateTag("category");
+      revalidateTag("coupons");
 
       return {
         status: 200,
-        message: "Category deleted successfully",
+        message: "Coupon deleted successfully",
       };
     }
 

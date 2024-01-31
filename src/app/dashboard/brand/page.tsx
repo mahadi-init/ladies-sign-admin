@@ -1,3 +1,3 @@
-export default async function AddBrand() {
+export default async function Brand() {
   return <></>;
 }
