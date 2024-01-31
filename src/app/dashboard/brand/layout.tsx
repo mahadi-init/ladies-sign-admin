@@ -2,7 +2,7 @@ import React from "react";
 import { brandColumn } from "./column";
 import { DataTable } from "@/components/native/DataTable";
 import { BrandType } from "./type";
-import { getBrands } from "./utils/get-brand";
+import { getBrands } from "./utils/get-brands";
 
 export default async function Layout({
   children,

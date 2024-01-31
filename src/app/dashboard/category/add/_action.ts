@@ -2,7 +2,7 @@
 
 import { BACKEND_URL } from "@/consts/site-info";
 import { Response } from "@/types/response";
-import { revalidatePath } from "next/cache";
+import { revalidateTag } from "next/cache";
 
 export async function addCategory<T>(value: T): Promise<Response> {
   try {
@@ -14,22 +14,16 @@ export async function addCategory<T>(value: T): Promise<Response> {
       body: JSON.stringify(value),
     });
 
-    const data = await res.json();
-    console.log(data);
-
-    if (data.status || data.success) {
-      revalidatePath("/dashboard/category");
+    if (res.ok) {
+      revalidateTag("category");
 
       return {
         status: 200,
         message: "Category created successfully",
       };
-    } else {
-      return {
-        status: 500,
-        message: "Failed creating category",
-      };
     }
+
+    throw new Error();
   } catch (err) {
     return {
       status: 400,

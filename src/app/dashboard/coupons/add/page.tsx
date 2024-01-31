@@ -1,4 +1,3 @@
-import { BACKEND_URL } from "@/consts/site-info";
 import SharedCategoryUI from "../_shared/ui";
 import { addCategory } from "./_action";
 import { getProductTypes } from "@/utils/get-product-types";

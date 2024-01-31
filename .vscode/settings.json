@@ -1,5 +1,6 @@
 {
   "workbench.colorCustomizations": {
     "activityBar.background": "#00ff8c15"
-  }
+  },
+  "CodeGPT.apiKey": "OpenAI"
 }

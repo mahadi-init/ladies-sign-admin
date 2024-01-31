@@ -4,11 +4,11 @@ import { BACKEND_URL } from "@/consts/site-info";
 import { Response } from "@/types/response";
 import { revalidateTag } from "next/cache";
 
-export async function editCategory<T extends { _id?: string }>(
+export async function editCoupon<T extends { _id?: string }>(
   value: T,
 ): Promise<Response> {
   try {
-    const res = await fetch(`${BACKEND_URL}/api/category/edit/${value._id}`, {
+    const res = await fetch(`${BACKEND_URL}/api/coupon/${value._id}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
@@ -17,11 +17,11 @@ export async function editCategory<T extends { _id?: string }>(
     });
 
     if (res.ok) {
-      revalidateTag("category");
+      revalidateTag("coupons");
 
       return {
         status: 200,
-        message: "Category edited successfully",
+        message: "Coupon edited successfully",
       };
     }
 
