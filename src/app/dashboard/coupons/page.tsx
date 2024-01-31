@@ -1,3 +1,3 @@
-export default function Coupons() {
-  return <div></div>;
+export default async function Coupon() {
+  return <></>;
 }

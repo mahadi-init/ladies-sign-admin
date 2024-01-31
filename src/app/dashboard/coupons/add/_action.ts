@@ -4,21 +4,24 @@ import { BACKEND_URL } from "@/consts/site-info";
 import { Response } from "@/types/response";
 import { revalidateTag } from "next/cache";
 
-export const deleteCategory = async (id: string): Promise<Response> => {
+export async function addCategory<T>(value: T): Promise<Response> {
   try {
-    const res = await fetch(`${BACKEND_URL}/api/category/delete/${id}`, {
-      method: "DELETE",
+    const res = await fetch(`${BACKEND_URL}/api/coupon/add`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(value),
     });
 
     if (res.ok) {
-      revalidateTag("category");
+      revalidateTag("coupons");
 
       return {
         status: 200,
-        message: "Category deleted successfully",
+        message: "Coupon created successfully",
       };
     }
-
     throw new Error();
   } catch (err) {
     return {
@@ -26,4 +29,4 @@ export const deleteCategory = async (id: string): Promise<Response> => {
       message: "Something went wrong",
     };
   }
-};
+}
