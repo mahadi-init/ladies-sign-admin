@@ -5,7 +5,9 @@ import { BrandType } from "../../type";
 
 const getBrandData = async (id: string): Promise<BrandType> => {
   const res = await fetch(`${BACKEND_URL}/api/brand/get/${id}`, {
-    cache: "no-store",
+    next: {
+      revalidate: 10,
+    },
   });
   const data = await res.json();
 
