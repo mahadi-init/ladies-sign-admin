@@ -1,25 +1,29 @@
 "use server";
 
-import { BACKEND_URL } from "@/consts/site-info";
 import { Response } from "@/types/response";
 import { revalidateTag } from "next/cache";
 
-export async function addCoupon<T>(value: T): Promise<Response> {
+export async function addData<T>(
+  data: T,
+  queryUrl: string,
+  tag: string,
+  successMessage: string,
+): Promise<Response> {
   try {
-    const res = await fetch(`${BACKEND_URL}/api/coupon/add`, {
+    const res = await fetch(queryUrl, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(value),
+      body: JSON.stringify(data),
     });
 
     if (res.ok) {
-      revalidateTag("coupons");
+      revalidateTag(tag);
 
       return {
         status: 200,
-        message: "Coupon created successfully",
+        message: successMessage,
       };
     }
     throw new Error();

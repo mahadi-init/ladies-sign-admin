@@ -4,21 +4,24 @@ import { BACKEND_URL } from "@/consts/site-info";
 import { Response } from "@/types/response";
 import { revalidateTag } from "next/cache";
 
-export const deleteCoupon = async (id: string): Promise<Response> => {
+export async function addAdmin<T>(value: T): Promise<Response> {
   try {
-    const res = await fetch(`${BACKEND_URL}/api/coupon/${id}`, {
-      method: "DELETE",
+    const res = await fetch(`${BACKEND_URL}/api/admin/add`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(value),
     });
 
     if (res.ok) {
-      revalidateTag("coupons");
+      revalidateTag("admins");
 
       return {
         status: 200,
-        message: "Coupon deleted successfully",
+        message: "Admin created successfully",
       };
     }
-
     throw new Error();
   } catch (err) {
     return {
@@ -26,4 +29,4 @@ export const deleteCoupon = async (id: string): Promise<Response> => {
       message: "Something went wrong",
     };
   }
-};
+}

@@ -4,59 +4,55 @@ import { Upload } from "lucide-react";
 import SubmitButton from "@/components/native/SubmitButton";
 import { useStatusContext } from "@/contexts/status-context";
 import DropdownSelect from "@/components/native/DropdownSelect";
-import { CldUploadButton } from "next-cloudinary";
+import { CldUploadButton, CldUploadWidgetResults } from "next-cloudinary";
 import { CLOUDINARY_UPLOAD_PRESET } from "@/consts/site-info";
 import { Response } from "@/types/response";
 import { useForm } from "react-hook-form";
 import Image from "next/image";
-import { CouponType } from "../type";
+import { AdminType } from "../type";
 
+//TODO: Add status option
 type Inputs = {
-  title: string;
-  couponCode: string;
-  startTime: string;
-  endTime: Date;
-  discountPercentage: number;
-  minimumAmount: number;
-  productType: string;
+  name: string;
+  email: string;
+  password: string;
+  phone: string;
+  joiningDate: string;
 };
 
-interface PropTypes extends CouponType {
-  productTypes: string[];
+interface PropTypes extends AdminType {
+  adminRoles: string[];
   serverAction: <T extends { _id?: string }>(data: T) => Promise<Response>;
 }
 
-export default function SharedCouponUI<T extends PropTypes>(props: T) {
+export default function SharedAdminUI<T extends PropTypes>(props: T) {
   const { setSuccessStatus, setErrorStatus } = useStatusContext();
   const { register } = useForm<Inputs>();
-  const [logo, setLogo] = useState(props.logo);
-  const [productType, setProductType] = useState(
-    props.productType ?? props.productTypes[0],
-  );
+  const [image, setImage] = useState(props.image);
+  const [role, setAdminRole] = useState(props.role ?? props.adminRoles[0]);
 
   const handleFormAction = async (formData: FormData) => {
-    const title = formData.get("title");
-    const code = formData.get("code");
-    const startTime = formData.get("start");
-    const endTime = formData.get("end");
-    const discountPercentage = formData.get("discount");
-    const minimumAmount = formData.get("amount");
+    const name = formData.get("name");
+    const email = formData.get("email");
+    const password = formData.get("password");
+    const phone = formData.get("phone");
+    const joiningDate = formData.get("joining");
 
-    if (!logo) {
+    if (!image) {
       setErrorStatus("select an image");
       return;
     }
 
+    //FIXME: Joining has issues
     const value = {
       _id: props._id,
-      title: title,
-      logo: logo,
-      couponCode: code,
-      startTime: startTime,
-      endTime: endTime,
-      discountPercentage: discountPercentage,
-      minimumAmount: minimumAmount,
-      productType: productType,
+      name: name,
+      email: email,
+      image: image,
+      password: password,
+      phone: phone,
+      joiningDate: joiningDate,
+      role: role,
     };
 
     const res = await props.serverAction(value);
@@ -72,7 +68,7 @@ export default function SharedCouponUI<T extends PropTypes>(props: T) {
       <div className="flex flex-col items-center justify-center my-8 w-full">
         <picture>
           <Image
-            src={logo ?? "/logo.png"}
+            src={image ?? "/logo.png"}
             className="w-64 rounded-md"
             height={400}
             width={400}
@@ -87,10 +83,10 @@ export default function SharedCouponUI<T extends PropTypes>(props: T) {
             multiple: false,
             maxFiles: 1,
           }}
-          onSuccess={(result) => {
+          onSuccess={(result: CldUploadWidgetResults) => {
             if (result.info) {
-              //@ts-ignore
-              setLogo(result.info.url);
+              //@ts-expect-error
+              setImage(result.info.url);
             }
           }}
           onError={() => {
@@ -112,90 +108,74 @@ export default function SharedCouponUI<T extends PropTypes>(props: T) {
 
       <div className="p-4 flex flex-col gap-6">
         <label className="ml-1 font-medium">
-          Title
+          Name
           <input
-            {...(register("title"), { required: true })}
+            {...(register("name"), { required: true })}
             type="text"
-            placeholder="Enter title"
-            name="title"
-            defaultValue={props.title}
+            placeholder="Enter name"
+            name="name"
+            defaultValue={props.name}
             className="block p-2 pl-4 my-2 w-full placeholder-gray-500 text-black bg-gray-100 rounded-md border border-gray-200 transition-all duration-200 focus:bg-white focus:border-blue-600 focus:outline-none caret-blue-600"
           />
         </label>
 
         <label className="ml-1 font-medium">
-          Code
+          Email
           <input
-            {...(register("couponCode"), { required: true })}
+            {...(register("email"), { required: true })}
             type="text"
-            name="code"
-            placeholder="Enter coupon code"
-            defaultValue={props.couponCode}
+            name="email"
+            placeholder="Enter email"
+            defaultValue={props.email}
             className="block p-2 pl-4 my-2 w-full placeholder-gray-500 text-black bg-gray-100 rounded-md border border-gray-200 transition-all duration-200 focus:bg-white focus:border-blue-600 focus:outline-none caret-blue-600"
           />
         </label>
 
         <label className="ml-1 font-medium">
-          Start Time
+          Password
           <input
-            {...(register("startTime"), { required: true })}
+            {...(register("password"), { required: true })}
+            type="text"
+            name="password"
+            defaultValue={props.password}
+            className="block p-2 pl-4 my-2 w-full placeholder-gray-500 text-black bg-gray-100 rounded-md border border-gray-200 transition-all duration-200 focus:bg-white focus:border-blue-600 focus:outline-none caret-blue-600"
+          />
+        </label>
+
+        <label className="ml-1 font-medium">
+          Phone
+          <input
+            {...(register("phone"), { required: true })}
+            type="phone"
+            name="phone"
+            defaultValue={props.phone}
+            className="block p-2 pl-4 my-2 w-full placeholder-gray-500 text-black bg-gray-100 rounded-md border border-gray-200 transition-all duration-200 focus:bg-white focus:border-blue-600 focus:outline-none caret-blue-600"
+          />
+        </label>
+
+        <label className="ml-1 font-medium">
+          Joining Date
+          <input
+            {...(register("joiningDate"), { required: true })}
             type="date"
-            name="start"
+            name="joining"
             defaultValue={
-              props.startTime &&
-              new Date(props.startTime).toISOString().substring(0, 10)
+              props.joiningDate &&
+              new Date(props.joiningDate).toISOString().substring(0, 10)
             }
             className="block p-2 pl-4 my-2 w-full placeholder-gray-500 text-black bg-gray-100 rounded-md border border-gray-200 transition-all duration-200 focus:bg-white focus:border-blue-600 focus:outline-none caret-blue-600"
           />
         </label>
 
         <label className="ml-1 font-medium">
-          End Time
-          <input
-            {...(register("endTime"), { required: true })}
-            type="date"
-            name="end"
-            defaultValue={
-              props.endTime &&
-              new Date(props.endTime).toISOString().substring(0, 10)
-            }
-            className="block p-2 pl-4 my-2 w-full placeholder-gray-500 text-black bg-gray-100 rounded-md border border-gray-200 transition-all duration-200 focus:bg-white focus:border-blue-600 focus:outline-none caret-blue-600"
-          />
-        </label>
-
-        <label className="ml-1 font-medium">
-          Discount Percentage
-          <input
-            {...(register("discountPercentage"), { required: true })}
-            type="number"
-            name="discount"
-            placeholder="10"
-            defaultValue={props.discountPercentage}
-            className="block p-2 pl-4 my-2 w-full placeholder-gray-500 text-black bg-gray-100 rounded-md border border-gray-200 transition-all duration-200 focus:bg-white focus:border-blue-600 focus:outline-none caret-blue-600"
-          />
-        </label>
-
-        <label className="ml-1 font-medium">
-          Minimum amount
-          <input
-            {...(register("minimumAmount"), { required: true })}
-            type="number"
-            name="amount"
-            placeholder="300"
-            defaultValue={props.minimumAmount}
-            className="block p-2 pl-4 my-2 w-full placeholder-gray-500 text-black bg-gray-100 rounded-md border border-gray-200 transition-all duration-200 focus:bg-white focus:border-blue-600 focus:outline-none caret-blue-600"
-          />
-        </label>
-
-        <label className="ml-1 font-medium">
-          Product Type
+          Admin Role
           <DropdownSelect
             name="productType"
             placeholder="Select Product Type"
             style="w-full mt-1 bg-gray-100"
-            items={props.productTypes}
-            selectedItem={productType}
-            setSelectedItem={setProductType}
+            items={props.adminRoles}
+            selectedItem={role}
+            setSelectedItem={setAdminRole}
           />
         </label>
 

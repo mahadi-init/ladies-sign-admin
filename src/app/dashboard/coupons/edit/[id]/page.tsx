@@ -1,5 +1,5 @@
 import { BACKEND_URL } from "@/consts/site-info";
-import SharedCategoryUI from "../../_shared/ui";
+import SharedCouponUI from "../../_shared/ui";
 import { editCoupon } from "./_action";
 import { CouponType } from "../../type";
 import { getProductTypes } from "@/utils/get-product-types";
@@ -24,7 +24,7 @@ export default async function EditCoupon({
   const data = await getCouponData(params.id);
 
   return (
-    <SharedCategoryUI
+    <SharedCouponUI
       {...data}
       productTypes={productTypes}
       serverAction={editCoupon}
