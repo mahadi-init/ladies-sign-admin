@@ -1,21 +1,24 @@
 "use server";
 
-import { BACKEND_URL } from "@/consts/site-info";
 import { Response } from "@/types/response";
 import { revalidateTag } from "next/cache";
 
-export const deleteCoupon = async (id: string): Promise<Response> => {
+export const deleteData = async (
+  queryUrl: string,
+  tag: string,
+  successMessage: string,
+): Promise<Response> => {
   try {
-    const res = await fetch(`${BACKEND_URL}/api/coupon/${id}`, {
+    const res = await fetch(queryUrl, {
       method: "DELETE",
     });
 
     if (res.ok) {
-      revalidateTag("coupons");
+      revalidateTag(tag);
 
       return {
         status: 200,
-        message: "Coupon deleted successfully",
+        message: successMessage,
       };
     }
 

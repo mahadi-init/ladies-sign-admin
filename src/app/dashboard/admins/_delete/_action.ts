@@ -4,18 +4,18 @@ import { BACKEND_URL } from "@/consts/site-info";
 import { Response } from "@/types/response";
 import { revalidateTag } from "next/cache";
 
-export const deleteCoupon = async (id: string): Promise<Response> => {
+export const deleteAdmin = async (id: string): Promise<Response> => {
   try {
-    const res = await fetch(`${BACKEND_URL}/api/coupon/${id}`, {
+    const res = await fetch(`${BACKEND_URL}/api/admin/${id}`, {
       method: "DELETE",
     });
 
     if (res.ok) {
-      revalidateTag("coupons");
+      revalidateTag("admins");
 
       return {
         status: 200,
-        message: "Coupon deleted successfully",
+        message: "Admin deleted successfully",
       };
     }
 
