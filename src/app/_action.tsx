@@ -45,7 +45,7 @@ export async function userSignin<T>(data: T): Promise<Response> {
   } catch (err) {
     return {
       status: 400,
-      message: err.message,
+      message: "something went wrong",
     };
   }
 }
