@@ -1,15 +1,20 @@
 import React from "react";
 import { brandColumn } from "./column";
 import { DataTable } from "@/components/native/DataTable";
-import { BrandType } from "./type";
-import { getBrands } from "./utils/get-brands";
+import getData from "@/actions/get";
+import { BACKEND_URL } from "@/consts/site-info";
+import { BrandType } from "@/types/brand";
 
 export default async function Layout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const brands: BrandType[] = await getBrands();
+  const brands = await getData<BrandType[]>(
+    `${BACKEND_URL}/api/brand/all`,
+    300,
+    ["brand", "brands"]
+  );
   const searchTargets = ["_id", "name"];
 
   return (
@@ -18,7 +23,8 @@ export default async function Layout({
         {children}
         <DataTable
           columns={brandColumn}
-          data={brands}
+          //@ts-expect-error
+          data={brands.result}
           searchTargets={searchTargets}
           addItemRoute="/dashboard/brand/add"
         />

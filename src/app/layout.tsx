@@ -2,9 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { Suspense } from "react";
-import StatusProvider from "./status-provider";
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { Toaster } from "sonner";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -24,10 +22,8 @@ export default function RootLayout({
   return (
     <html>
       <body className={inter.className}>
-        <Suspense>
-          <StatusProvider>{children}</StatusProvider>
-        </Suspense>
-        <ToastContainer />
+        <Suspense>{children}</Suspense>
+        <Toaster position="top-right" richColors />
       </body>
     </html>
   );
