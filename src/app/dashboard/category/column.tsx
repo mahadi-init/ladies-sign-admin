@@ -3,11 +3,12 @@
 import { Button } from "@/components/ui/button";
 import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown, PencilIcon } from "lucide-react";
-import { CategoryType } from "./type";
 import Link from "next/link";
-import { deleteCategory } from "./_delete/_action";
 import DeleteItem from "@/components/native/DeleteItem";
 import Image from "next/image";
+import { CategoryType } from "@/types/category";
+import { deleteData } from "@/actions/delete";
+import { BACKEND_URL } from "@/consts/site-info";
 
 export const categoryColumn: ColumnDef<CategoryType>[] = [
   {
@@ -62,11 +63,16 @@ export const categoryColumn: ColumnDef<CategoryType>[] = [
   {
     id: "actions",
     cell: ({ row }) => (
-      <div className="flex  items-center gap-8">
+      <div className="flex gap-8 items-center">
         <Link href={`/dashboard/category/edit/${row.original._id}`}>
           <PencilIcon size={16} />
         </Link>
-        <DeleteItem id={row.original._id} serverAction={deleteCategory} />
+        <DeleteItem
+          queryUrl={`${BACKEND_URL}/api/category/delete/${row.original._id}`}
+          validationTag="category"
+          successMessage="Category deleted successfully"
+          serverAction={deleteData}
+        />
       </div>
     ),
   },

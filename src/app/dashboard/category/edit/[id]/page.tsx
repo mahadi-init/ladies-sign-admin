@@ -1,19 +1,9 @@
 import { BACKEND_URL } from "@/consts/site-info";
-import SharedCategoryUI from "../../_shared/ui";
-import { editCategory } from "./_action";
-import { CategoryType } from "../../type";
+import SharedCategoryUI from "../../ui";
 import { getProductTypes } from "@/utils/get-product-types";
-
-const getCategoryData = async (id: string): Promise<CategoryType> => {
-  const res = await fetch(`${BACKEND_URL}/api/category/get/${id}`, {
-    next: {
-      revalidate: 10,
-    },
-  });
-  const data = await res.json();
-
-  return data;
-};
+import { CategoryType } from "@/types/category";
+import { patchData } from "@/actions/patch";
+import getData from "@/actions/get";
 
 export default async function EditCategory({
   params,
@@ -21,13 +11,19 @@ export default async function EditCategory({
   params: { id: string };
 }) {
   const productTypes = await getProductTypes();
-  const data = await getCategoryData(params.id);
+  const data = await getData<CategoryType>(
+    `${BACKEND_URL}/api/category/get/${params.id}`,
+    10,
+  );
 
   return (
     <SharedCategoryUI
       {...data}
       productTypes={productTypes}
-      serverAction={editCategory}
+      queryUrl={`${BACKEND_URL}/api/category/edit/${params.id}`}
+      validationTag="category"
+      successMessage="Category edited successfully"
+      serverAction={patchData}
     />
   );
 }

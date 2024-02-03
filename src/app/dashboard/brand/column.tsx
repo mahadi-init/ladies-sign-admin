@@ -4,10 +4,11 @@ import { Button } from "@/components/ui/button";
 import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown, PencilIcon } from "lucide-react";
 import Link from "next/link";
-import { deleteBrand } from "./_delete/_action";
 import DeleteItem from "@/components/native/DeleteItem";
 import Image from "next/image";
-import { BrandType } from "./type";
+import { deleteData } from "@/actions/delete";
+import { BACKEND_URL } from "@/consts/site-info";
+import { BrandType } from "@/types/brand";
 
 export const brandColumn: ColumnDef<BrandType>[] = [
   {
@@ -55,16 +56,10 @@ export const brandColumn: ColumnDef<BrandType>[] = [
   {
     accessorKey: "website",
     header: "Website",
-    // cell: ({ row }) => {
-    //   return row.original.children?.length;
-    // },
   },
   {
     accessorKey: "location",
     header: "Location",
-    // cell: ({ row }) => {
-    //   return row.original.children?.length;
-    // },
   },
   {
     id: "actions",
@@ -73,7 +68,12 @@ export const brandColumn: ColumnDef<BrandType>[] = [
         <Link href={`/dashboard/brand/edit/${row.original._id}`}>
           <PencilIcon size={16} />
         </Link>
-        <DeleteItem id={row.original._id} serverAction={deleteBrand} />
+        <DeleteItem
+          queryUrl={`${BACKEND_URL}/api/brand/delete/${row.original._id}`}
+          validationTag="brands"
+          successMessage="Brand deleted successfully"
+          serverAction={deleteData}
+        />
       </div>
     ),
   },

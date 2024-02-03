@@ -1,28 +1,28 @@
 import { BACKEND_URL } from "@/consts/site-info";
-import { editAdmin } from "./_action";
-import SharedAdminUI from "../../_shared/ui";
-import { AdminType } from "../../type";
+import SharedAdminUI from "../../ui";
+import { patchData } from "@/actions/patch";
+import getData from "@/actions/get";
+import { AdminType } from "@/types/admin";
 
-const getAdminData = async (id: string): Promise<AdminType> => {
-  const res = await fetch(`${BACKEND_URL}/api/admin/get/${id}`, {
-    next: {
-      revalidate: 10,
-    },
-  });
-  const data = await res.json();
-
-  return data;
-};
-
-export default async function EditCoupon({
+export default async function EditAdmin({
   params,
 }: {
   params: { id: string };
 }) {
   const adminRoles = ["Super Admin", "Admin", "Manager", "CEO"];
-  const data = await getAdminData(params.id);
+  const data = await getData<AdminType>(
+    `${BACKEND_URL}/api/admin/get/${params.id}`,
+    10
+  );
 
   return (
-    <SharedAdminUI {...data} adminRoles={adminRoles} serverAction={editAdmin} />
+    <SharedAdminUI
+      {...data}
+      adminRoles={adminRoles}
+      queryUrl={`${BACKEND_URL}/api/admin/update-stuff/${params.id}`}
+      validationTag="admins"
+      successMessage="Admin edited successfully"
+      serverAction={patchData}
+    />
   );
 }
