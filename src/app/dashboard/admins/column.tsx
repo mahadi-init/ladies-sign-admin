@@ -4,10 +4,11 @@ import { Button } from "@/components/ui/button";
 import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown, PencilIcon } from "lucide-react";
 import Link from "next/link";
-import { deleteAdmin } from "./_delete/_action";
 import DeleteItem from "@/components/native/DeleteItem";
 import Image from "next/image";
-import { AdminType } from "./type";
+import { BACKEND_URL } from "@/consts/site-info";
+import { deleteData } from "@/actions/delete";
+import { AdminType } from "@/types/admin";
 
 export const couponColumn: ColumnDef<AdminType>[] = [
   {
@@ -91,7 +92,12 @@ export const couponColumn: ColumnDef<AdminType>[] = [
         <Link href={`/dashboard/admins/edit/${row.original._id}`}>
           <PencilIcon size={16} />
         </Link>
-        <DeleteItem id={row.original._id} serverAction={deleteAdmin} />
+        <DeleteItem
+          queryUrl={`${BACKEND_URL}/api/admin/${row.original._id}`}
+          validationTag="admins"
+          successMessage="Admin deleted successfully"
+          serverAction={deleteData}
+        />
       </div>
     ),
   },

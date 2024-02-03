@@ -1,15 +1,20 @@
 import React from "react";
 import { couponColumn } from "./column";
 import { DataTable } from "@/components/native/DataTable";
-import { AdminType } from "./type";
-import { getAdmins } from "./utils/get-admins";
+import getData from "@/actions/get";
+import { BACKEND_URL } from "@/consts/site-info";
+import { AdminType } from "@/types/admin";
 
 export default async function Layout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const admins: AdminType[] = await getAdmins();
+  const admins = await getData<AdminType[]>(
+    `${BACKEND_URL}/api/admin/all`,
+    300,
+    ["admins", "admin"]
+  );
   const searchTargets = ["_id", "name", "email"];
 
   return (
@@ -18,7 +23,8 @@ export default async function Layout({
         {children}
         <DataTable
           columns={couponColumn}
-          data={admins}
+          //@ts-expect-error
+          data={admins.data}
           searchTargets={searchTargets}
           addItemRoute="/dashboard/admins/add"
         />

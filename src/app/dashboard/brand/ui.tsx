@@ -1,14 +1,11 @@
 "use client";
 import { useState } from "react";
-import { Upload } from "lucide-react";
 import SubmitButton from "@/components/native/SubmitButton";
-import { useStatusContext } from "@/contexts/status-context";
-import { CldUploadButton } from "next-cloudinary";
-import { CLOUDINARY_UPLOAD_PRESET } from "@/consts/site-info";
 import { Response } from "@/types/response";
 import { useForm } from "react-hook-form";
-import Image from "next/image";
-import { BrandType } from "../type";
+import { BrandType } from "@/types/brand";
+import { toast } from "sonner";
+import ImageUploader from "@/components/native/ImageUploader";
 
 type Inputs = {
   name: string;
@@ -19,11 +16,18 @@ type Inputs = {
 };
 
 interface PropTypes extends BrandType {
-  serverAction: <T extends { _id?: string }>(data: T) => Promise<Response>;
+  queryUrl: string;
+  validationTag: string;
+  successMessage: string;
+  serverAction: <T>(
+    data: T,
+    queryUrl: string,
+    validationTag: string,
+    successMessage: string,
+  ) => Promise<Response>;
 }
 
 export default function SharedBrandUI<T extends PropTypes>(props: T) {
-  const { setSuccessStatus, setErrorStatus } = useStatusContext();
   const { register } = useForm<Inputs>();
   const [logo, setLogo] = useState(props.logo);
 
@@ -34,11 +38,11 @@ export default function SharedBrandUI<T extends PropTypes>(props: T) {
     const location = formData.get("location");
 
     if (!logo) {
-      setErrorStatus("select an image");
+      toast.error("select an image");
       return;
     }
 
-    const value = {
+    const data = {
       _id: props._id,
       logo: logo,
       name: name,
@@ -47,58 +51,26 @@ export default function SharedBrandUI<T extends PropTypes>(props: T) {
       location: location,
     };
 
-    const res = await props.serverAction(value);
+    const res = await props.serverAction(
+      data,
+      props.queryUrl,
+      props.validationTag,
+      props.successMessage,
+    );
     if (res.status === 200) {
-      setSuccessStatus(res.message);
+      toast.success(res.message);
     } else {
-      setErrorStatus(res.message);
+      toast.error(res.message);
     }
   };
 
   return (
     <form action={handleFormAction} className="w-full lg:w-8/12">
-      <div className="flex flex-col items-center justify-center my-8 w-full">
-        <picture>
-          <Image
-            src={logo ?? "/logo.png"}
-            className="w-64 rounded-md"
-            height={400}
-            width={400}
-            alt="upload"
-            loading="lazy"
-          />
-        </picture>
-
-        <CldUploadButton
-          uploadPreset={CLOUDINARY_UPLOAD_PRESET}
-          options={{
-            multiple: false,
-            maxFiles: 1,
-          }}
-          onSuccess={(result) => {
-            if (result.info) {
-              //@ts-ignore
-              setLogo(result.info.url);
-            }
-          }}
-          onError={() => {
-            setErrorStatus("Error uploading");
-          }}
-        >
-          <label
-            htmlFor="uploadFile1"
-            className="flex flex-col justify-center items-center mx-auto mt-4 w-80 h-24 text-base text-black bg-white rounded border-2 border-gray-300 border-dashed cursor-pointer font-[sans-serif]"
-          >
-            <Upload />
-            Upload
-            <p className="mt-2 text-xs text-gray-400">
-              PNG, JPG SVG, WEBP, and GIF are Allowed.
-            </p>
-          </label>
-        </CldUploadButton>
+      <div className="flex flex-col justify-center items-center my-8 w-full">
+        <ImageUploader image={logo} setImage={setLogo} />
       </div>
 
-      <div className="p-4 flex flex-col gap-6">
+      <div className="flex flex-col gap-6 p-4">
         <label className="ml-1 font-medium">
           Name
           <input
@@ -148,7 +120,7 @@ export default function SharedBrandUI<T extends PropTypes>(props: T) {
 
         {/* TODO:REMINER -> the main admin panel has active and not active option */}
         {/* <div className="flex items-center">
-          <label className="relative cursor-pointer mr-4">
+          <label className="relative mr-4 cursor-pointer">
             <input
               {...register("status")}
               name="status"

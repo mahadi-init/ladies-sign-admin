@@ -1,15 +1,20 @@
 import React from "react";
 import { categoryColumn } from "./column";
 import { DataTable } from "@/components/native/DataTable";
-import { CategoryType } from "./type";
-import { getCategories } from "./utils/get-categories";
+import { CategoryType } from "@/types/category";
+import getData from "@/actions/get";
+import { BACKEND_URL } from "@/consts/site-info";
 
 export default async function Layout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const categories: CategoryType[] = await getCategories();
+  const categories = await getData<CategoryType[]>(
+    `${BACKEND_URL}/api/category/all`,
+    300,
+    ["category", "categories"],
+  );
   const searchTargets = ["_id", "parent"];
 
   return (
@@ -18,7 +23,8 @@ export default async function Layout({
         {children}
         <DataTable
           columns={categoryColumn}
-          data={categories}
+          //@ts-expect-error
+          data={categories.result}
           searchTargets={searchTargets}
           addItemRoute="/dashboard/category/add"
         />

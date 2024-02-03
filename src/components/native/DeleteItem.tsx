@@ -1,18 +1,22 @@
-import { useStatusContext } from "@/contexts/status-context";
 import { Trash2 } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import DeleteButton from "@/components/native/DeleteButton";
 import { Response } from "@/types/response";
+import { toast } from "sonner";
 
-export default function DeleteItem({
-  id,
-  serverAction,
-}: {
-  id?: string;
-  serverAction: (id: string) => Promise<Response>;
-}) {
-  const { setSuccessStatus, setErrorStatus } = useStatusContext();
+interface PropTypes {
+  queryUrl: string;
+  validationTag: string;
+  successMessage: string;
+  serverAction: (
+    queryUrl: string,
+    validationTag: string,
+    successMessage: string,
+  ) => Promise<Response>;
+}
+
+export default function DeleteItem(props: PropTypes) {
   const [isConfirmed, setIsConfirmed] = useState(false);
 
   useEffect(() => {
@@ -26,12 +30,16 @@ export default function DeleteItem({
   }, [isConfirmed]);
 
   const handleFormAction = async () => {
-    const res = await serverAction(id!!);
+    const res = await props.serverAction(
+      props.queryUrl,
+      props.validationTag,
+      props.successMessage,
+    );
 
     if (res.status === 200) {
-      setSuccessStatus(res.message);
+      toast.success(res.message);
     } else {
-      setErrorStatus(res.message);
+      toast.error(res.message);
     }
   };
 
@@ -41,7 +49,7 @@ export default function DeleteItem({
         <Button
           type="button"
           size="icon"
-          className="h-6 w-6"
+          className="w-6 h-6"
           onClick={() => setIsConfirmed(true)}
         >
           <Trash2 size={16} />

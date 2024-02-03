@@ -1,3 +1,7 @@
+import { cookies } from "next/headers";
+
 export default function Dashboard() {
-  return <></>;
+  const role = cookies().get("role-token");
+
+  return <>{role?.value}</>;
 }
