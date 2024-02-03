@@ -1,15 +1,12 @@
 "use client";
 import { useState } from "react";
-import { Upload } from "lucide-react";
 import SubmitButton from "@/components/native/SubmitButton";
-import { useStatusContext } from "@/contexts/status-context";
 import DropdownSelect from "@/components/native/DropdownSelect";
-import { CldUploadButton, CldUploadWidgetResults } from "next-cloudinary";
-import { CLOUDINARY_UPLOAD_PRESET } from "@/consts/site-info";
 import { Response } from "@/types/response";
 import { useForm } from "react-hook-form";
-import Image from "next/image";
-import { AdminType } from "../type";
+import { AdminType } from "@/types/admin";
+import ImageUploader from "@/components/native/ImageUploader";
+import { toast } from "sonner";
 
 //TODO: Add status option
 type Inputs = {
@@ -22,11 +19,18 @@ type Inputs = {
 
 interface PropTypes extends AdminType {
   adminRoles: string[];
-  serverAction: <T extends { _id?: string }>(data: T) => Promise<Response>;
+  queryUrl: string;
+  validationTag: string;
+  successMessage: string;
+  serverAction: <T>(
+    data: T,
+    queryUrl: string,
+    validationTag: string,
+    successMessage: string,
+  ) => Promise<Response>;
 }
 
 export default function SharedAdminUI<T extends PropTypes>(props: T) {
-  const { setSuccessStatus, setErrorStatus } = useStatusContext();
   const { register } = useForm<Inputs>();
   const [image, setImage] = useState(props.image);
   const [role, setAdminRole] = useState(props.role ?? props.adminRoles[0]);
@@ -39,12 +43,12 @@ export default function SharedAdminUI<T extends PropTypes>(props: T) {
     const joiningDate = formData.get("joining");
 
     if (!image) {
-      setErrorStatus("select an image");
+      toast.success("select an image");
       return;
     }
 
     //FIXME: Joining has issues
-    const value = {
+    const data = {
       _id: props._id,
       name: name,
       email: email,
@@ -55,58 +59,26 @@ export default function SharedAdminUI<T extends PropTypes>(props: T) {
       role: role,
     };
 
-    const res = await props.serverAction(value);
+    const res = await props.serverAction(
+      data,
+      props.queryUrl,
+      props.validationTag,
+      props.successMessage,
+    );
     if (res.status === 200) {
-      setSuccessStatus(res.message);
+      toast.success(res.message);
     } else {
-      setErrorStatus(res.message);
+      toast.error(res.message);
     }
   };
 
   return (
     <form action={handleFormAction} className="w-full">
-      <div className="flex flex-col items-center justify-center my-8 w-full">
-        <picture>
-          <Image
-            src={image ?? "/logo.png"}
-            className="w-64 rounded-md"
-            height={400}
-            width={400}
-            alt="upload"
-            loading="lazy"
-          />
-        </picture>
-
-        <CldUploadButton
-          uploadPreset={CLOUDINARY_UPLOAD_PRESET}
-          options={{
-            multiple: false,
-            maxFiles: 1,
-          }}
-          onSuccess={(result: CldUploadWidgetResults) => {
-            if (result.info) {
-              //@ts-expect-error
-              setImage(result.info.url);
-            }
-          }}
-          onError={() => {
-            setErrorStatus("Error uploading");
-          }}
-        >
-          <label
-            htmlFor="uploadFile1"
-            className="flex flex-col justify-center items-center mx-auto mt-4 w-80 h-24 text-base text-black bg-white rounded border-2 border-gray-300 border-dashed cursor-pointer font-[sans-serif]"
-          >
-            <Upload />
-            Upload
-            <p className="mt-2 text-xs text-gray-400">
-              PNG, JPG SVG, WEBP, and GIF are Allowed.
-            </p>
-          </label>
-        </CldUploadButton>
+      <div className="flex flex-col justify-center items-center my-8 w-full">
+        <ImageUploader image={image} setImage={setImage} />
       </div>
 
-      <div className="p-4 flex flex-col gap-6">
+      <div className="flex flex-col gap-6 p-4">
         <label className="ml-1 font-medium">
           Name
           <input

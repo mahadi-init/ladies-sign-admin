@@ -1,19 +1,9 @@
+import getData from "@/actions/get";
+import { patchData } from "@/actions/patch";
 import { BACKEND_URL } from "@/consts/site-info";
-import SharedCouponUI from "../../_shared/ui";
-import { editCoupon } from "./_action";
-import { CouponType } from "../../type";
+import { CouponType } from "@/types/coupon";
 import { getProductTypes } from "@/utils/get-product-types";
-
-const getCouponData = async (id: string): Promise<CouponType> => {
-  const res = await fetch(`${BACKEND_URL}/api/coupon/${id}`, {
-    next: {
-      revalidate: 10,
-    },
-  });
-  const data = await res.json();
-
-  return data;
-};
+import SharedCouponUI from "../../ui";
 
 export default async function EditCoupon({
   params,
@@ -21,13 +11,19 @@ export default async function EditCoupon({
   params: { id: string };
 }) {
   const productTypes = await getProductTypes();
-  const data = await getCouponData(params.id);
+  const data = await getData<CouponType>(
+    `${BACKEND_URL}/api/coupon/${params.id}`,
+    10,
+  );
 
   return (
     <SharedCouponUI
       {...data}
       productTypes={productTypes}
-      serverAction={editCoupon}
+      queryUrl={`${BACKEND_URL}/api/coupon/${params.id}`}
+      validationTag="coupon"
+      successMessage="Coupon edited successfully"
+      serverAction={patchData}
     />
   );
 }

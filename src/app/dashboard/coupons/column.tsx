@@ -4,10 +4,11 @@ import { Button } from "@/components/ui/button";
 import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown, PencilIcon } from "lucide-react";
 import Link from "next/link";
-import { deleteCoupon } from "./_delete/_action";
 import DeleteItem from "@/components/native/DeleteItem";
 import Image from "next/image";
-import { CouponType } from "./type";
+import { CouponType } from "@/types/coupon";
+import { deleteData } from "@/actions/delete";
+import { BACKEND_URL } from "@/consts/site-info";
 
 export const couponColumn: ColumnDef<CouponType>[] = [
   {
@@ -93,11 +94,16 @@ export const couponColumn: ColumnDef<CouponType>[] = [
   {
     id: "actions",
     cell: ({ row }) => (
-      <div className="flex  items-center gap-8">
+      <div className="flex gap-8 items-center">
         <Link href={`/dashboard/coupons/edit/${row.original._id}`}>
           <PencilIcon size={16} />
         </Link>
-        <DeleteItem id={row.original._id} serverAction={deleteCoupon} />
+        <DeleteItem
+          queryUrl={`${BACKEND_URL}/api/coupon/${row.original._id}`}
+          validationTag="coupons"
+          successMessage="Coupon deleted successfull"
+          serverAction={deleteData}
+        />
       </div>
     ),
   },

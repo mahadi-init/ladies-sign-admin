@@ -1,15 +1,20 @@
 import React from "react";
 import { couponColumn } from "./column";
 import { DataTable } from "@/components/native/DataTable";
-import { getCoupons } from "./utils/get-coupons";
-import { CouponType } from "./type";
+import { CouponType } from "@/types/coupon";
+import getData from "@/actions/get";
+import { BACKEND_URL } from "@/consts/site-info";
 
 export default async function Layout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const coupons: CouponType[] = await getCoupons();
+  const coupons: CouponType[] = await getData(
+    `${BACKEND_URL}/api/coupon`,
+    300,
+    ["coupon", "coupons"],
+  );
   const searchTargets = ["_id", "title", "couponCode"];
 
   return (
