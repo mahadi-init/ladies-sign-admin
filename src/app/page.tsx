@@ -10,7 +10,7 @@ import { useForm } from "react-hook-form";
 import RecoverPassword from "./recover-password";
 import { useState } from "react";
 
-const User = z.object({
+const UserSchema = z.object({
   email: z.string().email("Invalid email address"),
   password: z.string().min(6, "mininum 6 character required"),
 });
@@ -21,11 +21,11 @@ export default function Login() {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<z.infer<typeof User>>({
-    resolver: zodResolver(User),
+  } = useForm<z.infer<typeof UserSchema>>({
+    resolver: zodResolver(UserSchema),
   });
 
-  const handleFormAction = async (data: z.infer<typeof User>) => {
+  const handleFormAction = async (data: z.infer<typeof UserSchema>) => {
     setPending(true);
 
     const res = await userSignin({
@@ -51,29 +51,27 @@ export default function Login() {
           </h2>
 
           <form
-            onSubmit={handleSubmit((e) => handleFormAction(e))}
+            onSubmit={handleSubmit((data) => handleFormAction(data))}
             className="mt-6"
           >
             <div className="space-y-5">
               <div>
-                <div>
-                  <label htmlFor="email" className="ml-1 font-medium">
-                    Email
-                    <Input
-                      {...register("email")}
-                      id="email"
-                      type="email"
-                      placeholder="Enter email"
-                      className="mt-2.5"
-                      required
-                    />
-                  </label>
-                  {errors.email?.message && (
-                    <span className="mt-1 text-xs text-red-700">
-                      {errors.email?.message}
-                    </span>
-                  )}
-                </div>
+                <label htmlFor="email" className="ml-1 font-medium">
+                  Email
+                  <Input
+                    {...register("email")}
+                    id="email"
+                    type="email"
+                    placeholder="Enter email"
+                    className="mt-2.5"
+                    required
+                  />
+                </label>
+                {errors.email?.message && (
+                  <span className="mt-1 text-xs text-red-700">
+                    {errors.email?.message}
+                  </span>
+                )}
               </div>
 
               <div>
