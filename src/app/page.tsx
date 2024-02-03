@@ -1,29 +1,45 @@
 "use client";
 import Image from "next/image";
-import Modal from "../components/native/Modal";
 import SubmitButton from "@/components/native/SubmitButton";
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
 import { userSignin } from "./_action";
 import { toast } from "sonner";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import RecoverPassword from "./recover-password";
+import { useState } from "react";
+
+const User = z.object({
+  email: z.string().email({ message: "Invalid email address" }),
+  password: z.string().min(6, { message: "mininum 6 character required" }),
+});
 
 export default function Login() {
-  const handleFormAction = async (formData: FormData) => {
-    const email = formData.get("email");
-    const password = formData.get("password");
+  const [pending, setPending] = useState(false);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<z.infer<typeof User>>({
+    resolver: zodResolver(User),
+  });
 
-    const data = {
-      email: email,
-      password: password,
-    };
+  const handleFormAction = async (data: z.infer<typeof User>) => {
+    setPending(true);
 
-    const user = await userSignin(data);
+    const res = await userSignin({
+      email: data.email,
+      password: data.password,
+    });
 
-    if (user.status === 200) {
-      toast.success(user.message);
+    if (res.status === 200) {
+      toast.success("Logged in successful");
     } else {
-      toast.error(user.message);
+      toast.error("Login failed");
     }
+
+    setPending(false);
   };
 
   return (
@@ -34,22 +50,30 @@ export default function Login() {
             Continue Sign in to Ladies Sign
           </h2>
 
-          <form action={handleFormAction} className="mt-6">
+          <form
+            onSubmit={handleSubmit((e) => handleFormAction(e))}
+            className="mt-6"
+          >
             <div className="space-y-5">
               <div>
-                <label
-                  htmlFor="email"
-                  className="text-base font-medium text-gray-900"
-                >
-                  Email
-                  <Input
-                    id="email"
-                    type="email"
-                    name="email"
-                    placeholder="xyz@gmail.com"
-                    className="mt-2.5"
-                  />
-                </label>
+                <div>
+                  <label htmlFor="email" className="ml-1 font-medium">
+                    Email
+                    <Input
+                      {...register("email")}
+                      id="email"
+                      type="email"
+                      placeholder="Enter email"
+                      className="mt-2.5"
+                      required
+                    />
+                  </label>
+                  {errors.email?.message && (
+                    <span className="mt-1 text-xs text-red-700">
+                      {errors.email?.message}
+                    </span>
+                  )}
+                </div>
               </div>
 
               <div>
@@ -61,52 +85,27 @@ export default function Login() {
                     Password
                   </label>
 
-                  <Modal
-                    title="Recover Password"
-                    description="By entering the email address you recover the account "
-                    openModalTrigger={
-                      <Button
-                        type="button"
-                        variant="link"
-                        className="text-blue-600"
-                      >
-                        Forget password?
-                      </Button>
-                    }
-                  >
-                    <div className="space-y-5">
-                      <div>
-                        <label
-                          htmlFor="email"
-                          className="text-base font-medium text-gray-900"
-                        >
-                          Email
-                          <Input
-                            id="email"
-                            type="email"
-                            name="email"
-                            placeholder="xyz@gmail.com"
-                            className="mt-2.5"
-                          />
-                        </label>
-                      </div>
-                    </div>
-                  </Modal>
+                  <RecoverPassword />
                 </div>
+
                 <div className="mt-2.5">
                   <Input
+                    {...register("password")}
                     id="password"
                     type="password"
-                    name="password"
-                    placeholder="12345"
+                    placeholder="123456"
+                    required
                   />
+                  {errors.password?.message && (
+                    <span className="mt-1 text-xs text-red-700">
+                      {errors.password?.message}
+                    </span>
+                  )}
                 </div>
               </div>
-
-              <div>
-                <SubmitButton style="w-full" />
-              </div>
+              <SubmitButton pending={pending} style="w-full" />
             </div>
+
             <div className="mt-4">
               <label htmlFor="remember-me" className="flex gap-2">
                 <input
