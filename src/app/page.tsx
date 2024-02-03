@@ -11,8 +11,8 @@ import RecoverPassword from "./recover-password";
 import { useState } from "react";
 
 const User = z.object({
-  email: z.string().email({ message: "Invalid email address" }),
-  password: z.string().min(6, { message: "mininum 6 character required" }),
+  email: z.string().email("Invalid email address"),
+  password: z.string().min(6, "mininum 6 character required"),
 });
 
 export default function Login() {
