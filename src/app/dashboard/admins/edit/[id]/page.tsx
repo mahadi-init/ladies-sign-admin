@@ -1,8 +1,8 @@
 import { BACKEND_URL } from "@/consts/site-info";
-import SharedAdminUI from "../../ui";
 import { patchData } from "@/actions/patch";
 import getData from "@/actions/get";
 import { AdminType } from "@/types/admin";
+import SharedAdminUI from "@/ui/SharedAdminUI";
 
 export default async function EditAdmin({
   params,
@@ -12,7 +12,7 @@ export default async function EditAdmin({
   const adminRoles = ["Super Admin", "Admin", "Manager", "CEO"];
   const data = await getData<AdminType>(
     `${BACKEND_URL}/api/admin/get/${params.id}`,
-    10
+    10,
   );
 
   return (

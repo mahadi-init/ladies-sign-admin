@@ -1,6 +1,6 @@
 import { BACKEND_URL } from "@/consts/site-info";
-import SharedAdminUI from "../ui";
 import { addData } from "@/actions/post";
+import SharedAdminUI from "@/ui/SharedAdminUI";
 
 export default async function AddAdmin() {
   const AdminRoles = ["Super Admin", "Admin", "Manager", "CEO"];

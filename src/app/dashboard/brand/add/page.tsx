@@ -1,6 +1,6 @@
 import { BACKEND_URL } from "@/consts/site-info";
-import SharedBrandUI from "../ui";
 import { addData } from "@/actions/post";
+import SharedBrandUI from "@/ui/SharedBrandUI";
 
 export default async function AddBrand() {
   return (
