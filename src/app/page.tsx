@@ -101,7 +101,7 @@ export default function Login() {
                   )}
                 </div>
               </div>
-              <SubmitButton pending={pending} style="w-full" />
+              <SubmitButton style="w-full" />
             </div>
 
             <div className="mt-4">
