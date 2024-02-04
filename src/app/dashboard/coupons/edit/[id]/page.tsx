@@ -2,8 +2,8 @@ import getData from "@/actions/get";
 import { patchData } from "@/actions/patch";
 import { BACKEND_URL } from "@/consts/site-info";
 import { CouponType } from "@/types/coupon";
+import SharedCouponUI from "@/ui/SharedCouponUI";
 import { getProductTypes } from "@/utils/get-product-types";
-import SharedCouponUI from "../../ui";
 
 export default async function EditCoupon({
   params,

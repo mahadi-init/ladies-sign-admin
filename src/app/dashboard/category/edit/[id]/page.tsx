@@ -1,9 +1,9 @@
 import { BACKEND_URL } from "@/consts/site-info";
-import SharedCategoryUI from "../../ui";
 import { getProductTypes } from "@/utils/get-product-types";
 import { CategoryType } from "@/types/category";
 import { patchData } from "@/actions/patch";
 import getData from "@/actions/get";
+import SharedCategoryUI from "@/ui/SharedCategoryUI";
 
 export default async function EditCategory({
   params,
