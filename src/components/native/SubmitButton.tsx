@@ -1,7 +1,6 @@
 "use client";
-import { PlusCircle } from "lucide-react";
 import { Button } from "../ui/button";
-import { ReloadIcon } from "@radix-ui/react-icons";
+import { EnterIcon, ReloadIcon } from "@radix-ui/react-icons";
 
 export default function SubmitButton({
   pending,
@@ -18,10 +17,9 @@ export default function SubmitButton({
           <span>Please wait</span>
         </>
       ) : (
-        <div className="flex gap-1 items-center">
-          <PlusCircle size={20} />
-          <span>Submit</span>
-        </div>
+        <>
+          <EnterIcon className="mr-2 w-4 h-4" /> Submit
+        </>
       )}
     </Button>
   );

@@ -201,7 +201,7 @@ export default function SharedAdminUI<T extends PropTypes>(props: T) {
           />
         </label>
 
-        <div className="flex gap-4">
+        <div className="flex gap-4 items-center">
           <ResetButton action={() => reset()} />
           <SubmitButton pending={pending} style="w-fit" />
         </div>
