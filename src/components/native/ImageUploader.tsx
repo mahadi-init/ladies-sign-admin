@@ -1,6 +1,7 @@
 import { CLOUDINARY_UPLOAD_PRESET } from "@/consts/site-info";
 import { Upload } from "lucide-react";
 import { CldUploadButton } from "next-cloudinary";
+import Image from "next/image";
 import { toast } from "sonner";
 
 export default function ImageUploader({
@@ -13,13 +14,13 @@ export default function ImageUploader({
   return (
     <>
       <picture>
-        <img
+        <Image
           src={image ?? "/logo.png"}
           className="w-64 rounded-md"
           height={400}
           width={400}
-          alt="upload"
-          loading="lazy"
+          alt="beautiful image"
+          placeholder="empty"
         />
       </picture>
 

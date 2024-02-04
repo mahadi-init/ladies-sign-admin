@@ -4,19 +4,19 @@ import { BACKEND_URL } from "@/consts/site-info";
 import { Response } from "@/types/response";
 import { redirect } from "next/navigation";
 import { cookies } from "next/headers";
-
-const cookiesSetup = async (role: string) => {
-  switch (role) {
-    case "Admin":
-      cookies().set("role-token", process.env.ADMIN_TOKEN as string);
-      break;
-    case "Super Admin":
-      cookies().set("role-token", process.env.ADMIN_TOKEN as string);
-      break;
-    default:
-      cookies().set("role-token", "damnseller");
-  }
-};
+//
+// const cookiesSetup = async (role: string) => {
+//   switch (role) {
+//     case "Admin":
+//       cookies().set("role-token", process.env.ADMIN_TOKEN as string);
+//       break;
+//     case "Super Admin":
+//       cookies().set("role-token", process.env.ADMIN_TOKEN as string);
+//       break;
+//     default:
+//       cookies().set("role-token", "damnseller");
+//   }
+// };
 
 export async function userSignin<T>(data: T): Promise<Response> {
   try {
