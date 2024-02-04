@@ -22,8 +22,6 @@ export default function Modal({
   description?: string;
   children: React.ReactNode;
 }) {
-  const [pending, setPending] = useState(false);
-
   return (
     <Dialog>
       <DialogTrigger asChild>{openModalTrigger}</DialogTrigger>
@@ -34,7 +32,7 @@ export default function Modal({
         </DialogHeader>
         {children}
         <DialogFooter>
-          <SubmitButton pending={pending} />
+          <SubmitButton />
         </DialogFooter>
       </DialogContent>
     </Dialog>

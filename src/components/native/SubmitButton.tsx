@@ -1,14 +1,11 @@
 "use client";
+import { useFormStatus } from "react-dom";
 import { Button } from "../ui/button";
 import { EnterIcon, ReloadIcon } from "@radix-ui/react-icons";
 
-export default function SubmitButton({
-  pending,
-  style,
-}: {
-  pending: boolean;
-  style?: string;
-}) {
+export default function SubmitButton({ style }: { style?: string }) {
+  const { pending } = useFormStatus();
+
   return (
     <Button type="submit" disabled={pending} className={style}>
       {pending ? (
