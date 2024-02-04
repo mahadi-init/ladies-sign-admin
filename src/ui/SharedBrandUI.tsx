@@ -71,7 +71,7 @@ export default function SharedBrandUI<T extends PropTypes>(props: T) {
 
   return (
     <form
-      className="w-full lg:w-8/12"
+      className="w-full"
       onSubmit={handleSubmit((data) => handleFormAction(data))}
     >
       <div className="flex flex-col justify-center items-center my-8 w-full">

@@ -80,8 +80,8 @@ export default function SharedCategoryUI<T extends PropTypes>(props: T) {
 
   return (
     <form
-      onSubmit={handleSubmit((data) => handleFormAction(data))}
       className="w-full"
+      onSubmit={handleSubmit((data) => handleFormAction(data))}
     >
       <div className="flex flex-col justify-center items-center my-8 w-full">
         <ImageUploader image={img} setImage={setImg} />
