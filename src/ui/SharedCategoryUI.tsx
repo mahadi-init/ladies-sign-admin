@@ -7,12 +7,15 @@ import { useForm } from "react-hook-form";
 import { CategoryType } from "@/types/category";
 import { toast } from "sonner";
 import ImageUploader from "@/components/native/ImageUploader";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import ResetButton from "@/components/native/ResetButton";
 
-type Inputs = {
-  parent: string;
-  children: string;
-  visibility: boolean;
-};
+const CategorySchema = z.object({
+  parent: z.string(),
+  children: z.string(),
+  visibility: z.enum(["Show", "Hide"]),
+});
 
 interface PropTypes extends CategoryType {
   productTypes: string[];
@@ -28,30 +31,35 @@ interface PropTypes extends CategoryType {
 }
 
 export default function SharedCategoryUI<T extends PropTypes>(props: T) {
-  const { register } = useForm<Inputs>();
+  const [pending, setPending] = useState(false);
   const [img, setImg] = useState(props.img);
-  const [selectedProductType, setSelectedProductType] = useState(
+  const [productType, setProductType] = useState(
     props.productType ?? props.productTypes[0],
   );
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<z.infer<typeof CategorySchema>>({
+    resolver: zodResolver(CategorySchema),
+  });
 
-  const handleFormAction = async (formData: FormData) => {
-    const parent = formData.get("parent");
-    const children = formData.get("children") as string;
-    const productType = formData.get("productType");
-    const visibility = formData.get("visibility");
-
+  const handleFormAction = async (formData: z.infer<typeof CategorySchema>) => {
     //FIXME: FIX THE visibility issue
-    if (!img && visibility) {
+    if (!img && formData.visibility) {
       toast.error("hide or select an image");
       return;
     }
 
+    setPending(true);
+
     const data = {
       _id: props._id,
       img: img,
-      parent: parent,
-      children: children.split(","),
-      status: visibility ? "Show" : "Hide",
+      parent: formData.parent,
+      children: formData.children.split(","),
+      status: formData.visibility,
       productType: productType,
     };
 
@@ -66,38 +74,58 @@ export default function SharedCategoryUI<T extends PropTypes>(props: T) {
     } else {
       toast.error(res.message);
     }
+
+    setPending(false);
   };
 
   return (
-    <form action={handleFormAction} className="w-full">
+    <form
+      onSubmit={handleSubmit((data) => handleFormAction(data))}
+      className="w-full"
+    >
       <div className="flex flex-col justify-center items-center my-8 w-full">
         <ImageUploader image={img} setImage={setImg} />
       </div>
 
       <div className="flex flex-col gap-6 p-4">
-        <label className="ml-1 font-medium">
-          Parent
-          <input
-            {...(register("parent"), { required: true })}
-            type="text"
-            placeholder="Enter parent name"
-            name="parent"
-            defaultValue={props.parent}
-            className="block p-2 pl-4 my-2 w-full placeholder-gray-500 text-black bg-gray-100 rounded-md border border-gray-200 transition-all duration-200 focus:bg-white focus:border-blue-600 focus:outline-none caret-blue-600"
-          />
-        </label>
+        <div>
+          <label className="ml-1 font-medium">
+            Parent
+            <input
+              {...register("parent")}
+              type="text"
+              placeholder="Enter parent name"
+              name="parent"
+              defaultValue={props.parent}
+              required
+              className="block p-2 pl-4 my-2 w-full placeholder-gray-500 text-black bg-gray-100 rounded-md border border-gray-200 transition-all duration-200 focus:bg-white focus:border-blue-600 focus:outline-none caret-blue-600"
+            />
+          </label>
+          {errors.parent?.message && (
+            <span className="mt-1 text-xs text-red-700">
+              {errors.parent?.message}
+            </span>
+          )}
+        </div>
 
-        <label className="ml-1 font-medium">
-          Children
-          <textarea
-            {...register("parent")}
-            name="children"
-            rows={2}
-            placeholder="Enter multiple comma separated children"
-            defaultValue={props.children}
-            className="block p-2 pl-4 my-2 w-full placeholder-gray-500 text-black bg-gray-100 rounded-md border border-gray-200 transition-all duration-200 focus:bg-white focus:border-blue-600 focus:outline-none caret-blue-600"
-          />
-        </label>
+        <div>
+          <label className="ml-1 font-medium">
+            Children
+            <textarea
+              {...register("parent")}
+              name="children"
+              rows={2}
+              placeholder="Enter multiple comma separated children"
+              defaultValue={props.children}
+              className="block p-2 pl-4 my-2 w-full placeholder-gray-500 text-black bg-gray-100 rounded-md border border-gray-200 transition-all duration-200 focus:bg-white focus:border-blue-600 focus:outline-none caret-blue-600"
+            />
+          </label>
+          {errors.children?.message && (
+            <span className="mt-1 text-xs text-red-700">
+              {errors.children?.message}
+            </span>
+          )}
+        </div>
 
         <label className="ml-1 font-medium">
           Product Type
@@ -106,8 +134,8 @@ export default function SharedCategoryUI<T extends PropTypes>(props: T) {
             placeholder="Select Product Type"
             style="w-full mt-1 bg-gray-100"
             items={props.productTypes}
-            selectedItem={selectedProductType}
-            setSelectedItem={setSelectedProductType}
+            selectedItem={productType}
+            setSelectedItem={setProductType}
           />
         </label>
 
@@ -127,7 +155,10 @@ export default function SharedCategoryUI<T extends PropTypes>(props: T) {
           </p>
         </div>
 
-        <SubmitButton style="w-fit" />
+        <div>
+          <ResetButton action={() => reset()} />
+          <SubmitButton pending={pending} style="w-fit" />
+        </div>
       </div>
     </form>
   );

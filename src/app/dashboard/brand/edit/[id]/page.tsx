@@ -1,8 +1,8 @@
 import { BACKEND_URL } from "@/consts/site-info";
-import SharedBrandUI from "../../ui";
 import { BrandType } from "@/types/brand";
 import { patchData } from "@/actions/patch";
 import getData from "@/actions/get";
+import SharedBrandUI from "@/ui/SharedBrandUI";
 
 export default async function EditBrand({
   params,
@@ -11,7 +11,7 @@ export default async function EditBrand({
 }) {
   const data = await getData<BrandType>(
     `${BACKEND_URL}/api/brand/get/${params.id}`,
-    10
+    10,
   );
 
   return (
