@@ -9,7 +9,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import SubmitButton from "./SubmitButton";
-import React from "react";
+import React, { useState } from "react";
 
 export default function Modal({
   openModalTrigger,
@@ -22,6 +22,8 @@ export default function Modal({
   description?: string;
   children: React.ReactNode;
 }) {
+  const [pending, setPending] = useState(false);
+
   return (
     <Dialog>
       <DialogTrigger asChild>{openModalTrigger}</DialogTrigger>
@@ -32,7 +34,7 @@ export default function Modal({
         </DialogHeader>
         {children}
         <DialogFooter>
-          <SubmitButton />
+          <SubmitButton pending={pending} />
         </DialogFooter>
       </DialogContent>
     </Dialog>
