@@ -3,15 +3,9 @@ import CalendarIcon from "@/icons/Calender";
 import ClipboardListIcon from "@/icons/ClipboardList";
 import ShoppingBagIcon from "@/icons/ShoppingBag";
 import UsersIcon from "@/icons/Users";
+import { DashboardOrderSummaryType } from "@/types/Dashboard";
 
-interface DashboardData {
-  todayOrderAmount: number;
-  yesterdayOrderAmount: number;
-  monthlyOrderAmount: number;
-  totalOrderAmount: number;
-}
-
-export default function StatisticCards(props: DashboardData) {
+export default function StatisticCards(props: DashboardOrderSummaryType) {
   return (
     <div className="grid grid-cols-1 gap-4 mt-6 mb-8 md:grid-cols-2 lg:grid-cols-4">
       <Card className="flex justify-between items-center p-4 bg-white rounded-lg shadow">
