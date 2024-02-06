@@ -5,21 +5,25 @@ import { CouponType } from "@/types/coupon";
 import SharedCouponUI from "@/ui/SharedCouponUI";
 import { getProductTypes } from "@/utils/get-product-types";
 
+const getCouponData = async (id: string) => {
+  const data = await getData<CouponType>(`${BACKEND_URL}/api/coupon/${id}`, 10);
+  return data;
+};
+
 export default async function EditCoupon({
   params,
 }: {
   params: { id: string };
 }) {
-  const productTypes = await getProductTypes();
-  const data = await getData<CouponType>(
-    `${BACKEND_URL}/api/coupon/${params.id}`,
-    10,
-  );
+  const data = await Promise.all([
+    await getProductTypes(),
+    await getCouponData(params.id),
+  ]);
 
   return (
     <SharedCouponUI
-      {...data}
-      productTypes={productTypes}
+      {...data[1]}
+      productTypes={data[0]}
       queryUrl={`${BACKEND_URL}/api/coupon/${params.id}`}
       validationTag="coupon"
       successMessage="Coupon edited successfully"
