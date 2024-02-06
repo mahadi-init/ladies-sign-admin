@@ -15,28 +15,13 @@ export default async function Dashboard() {
     await getMostSellingCategory(),
   ]);
 
-  const {
-    todayOrderAmount,
-    yesterdayOrderAmount,
-    monthlyOrderAmount,
-    totalOrderAmount,
-  } = data[0];
-
-  const report = data[1];
-  const mostSelling = data[2];
-
   return (
     <div className="p-4 mt-12 lg:mt-4 lg:ml-72">
       <PageTop title="Dashboard" />
-      <StatisticCards
-        todayOrderAmount={todayOrderAmount}
-        yesterdayOrderAmount={yesterdayOrderAmount}
-        monthlyOrderAmount={monthlyOrderAmount}
-        totalOrderAmount={totalOrderAmount}
-      />
+      <StatisticCards {...data[0]} />
       <div className="grid grid-cols-1 gap-4 items-center xl:grid-cols-2">
-        <SalesStatistics data={report} />
-        <MostSellingCategory data={mostSelling} />
+        <SalesStatistics data={data[1]} />
+        <MostSellingCategory data={data[2]} />
       </div>
     </div>
   );

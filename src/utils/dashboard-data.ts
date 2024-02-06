@@ -1,8 +1,9 @@
 import getData from "@/actions/get";
 import { BACKEND_URL } from "@/consts/site-info";
+import { DashboardOrderSummaryType } from "@/types/Dashboard";
 
 export const getDashboardOrderData = async () => {
-  const data = await getData(
+  const data = await getData<DashboardOrderSummaryType[]>(
     `${BACKEND_URL}/api/user-order/dashboard-amount`,
     300,
     ["dashboard"],
