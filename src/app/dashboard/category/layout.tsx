@@ -1,9 +1,10 @@
 import React from "react";
-import { categoryColumn } from "./column";
 import { DataTable } from "@/components/native/DataTable";
 import { CategoryType } from "@/types/category";
 import getData from "@/actions/get";
 import { BACKEND_URL } from "@/consts/site-info";
+import PageTop from "@/components/native/PageTop";
+import { categoryColumn } from "@/columns/CategoryColumn";
 
 export default async function Layout({
   children,
@@ -18,17 +19,18 @@ export default async function Layout({
   const searchTargets = ["_id", "parent"];
 
   return (
-    <>
-      <div className="flex flex-col p-2 lg:justify-between lg:ml-72 lg:w-8/12 xl:flex-row xl:gap-8 xl:w-9/12 2xl:w-10/12">
+    <div className="px-4 mt-12 lg:mt-4 lg:ml-72">
+      <PageTop title="Category" />
+      <div className="flex flex-col 2xl:flex-row 2xl:gap-2 2xl:justify-between">
         {children}
         <DataTable
           columns={categoryColumn}
-          //@ts-expect-error
+          //@ts-ignore
           data={categories.result}
           searchTargets={searchTargets}
           addItemRoute="/dashboard/category/add"
         />
       </div>
-    </>
+    </div>
   );
 }

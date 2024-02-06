@@ -3,11 +3,11 @@ export interface CouponType {
   title?: string;
   logo?: string;
   couponCode?: string;
-  startTime?: string;
-  endTime?: string;
+  startTime?: Date;
+  endTime?: Date;
   discountPercentage?: number;
   minimumAmount?: number;
   productType?: string;
   status?: string;
-  createdAt?: string;
+  createdAt?: Date;
 }

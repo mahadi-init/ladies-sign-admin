@@ -14,9 +14,7 @@ export default function SubmitButton({ style }: { style?: string }) {
           <span>Please wait</span>
         </>
       ) : (
-        <>
-          <EnterIcon className="mr-2 w-4 h-4" /> Submit
-        </>
+        <span>Submit</span>
       )}
     </Button>
   );
