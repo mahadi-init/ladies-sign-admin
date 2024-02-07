@@ -2,20 +2,26 @@
 import Image from "next/image";
 import SubmitButton from "@/components/native/SubmitButton";
 import { Input } from "@/components/ui/input";
+import { userSignIn } from "@/actions/user-signin";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 import RecoverPassword from "@/components/native/RecoverPassword";
 
 export default function Login() {
+  const router = useRouter();
+
   const handleFormAction = async (formData: FormData) => {
-    // const res = await userSignin({
-    //   email: data.email,
-    //   password: data.password,
-    // });
-    //
-    // if (res.status === 200) {
-    //   toast.success("Logged in successful");
-    // } else {
-    //   toast.error("Login failed");
-    // }
+    const email = formData.get("email") as string;
+    const password = formData.get("password") as string;
+
+    const res = await userSignIn(email, password);
+
+    if (res.status === 200) {
+      toast.success(res.message);
+      router.replace("/dashboard");
+    } else {
+      toast.error(res.message);
+    }
   };
 
   return (
@@ -26,13 +32,14 @@ export default function Login() {
             Continue Sign in to Ladies Sign
           </h2>
 
-          <form className="mt-6" action={handleFormAction}>
+          <form action={handleFormAction} className="mt-6">
             <div className="space-y-5">
               <label htmlFor="email" className="ml-1 font-medium">
-                Email
+                Email <span className="text-red-600">*</span>
                 <Input
                   id="email"
                   type="email"
+                  name="email"
                   placeholder="Enter email"
                   className="mt-2.5"
                   required
@@ -45,15 +52,14 @@ export default function Login() {
                     htmlFor="password"
                     className="text-base font-medium text-gray-900"
                   >
-                    Password
+                    Password <span className="text-red-600">*</span>
                   </label>
-
                   <RecoverPassword />
                 </div>
-
                 <Input
                   id="password"
                   type="password"
+                  name="password"
                   placeholder="123456"
                   className="mt-2.5"
                   required
