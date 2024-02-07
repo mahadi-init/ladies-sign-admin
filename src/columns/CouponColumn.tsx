@@ -6,26 +6,26 @@ import { ArrowUpDown, PencilIcon } from "lucide-react";
 import Link from "next/link";
 import DeleteItem from "@/components/native/DeleteItem";
 import Image from "next/image";
-import { BACKEND_URL } from "@/consts/site-info";
+import { CouponType } from "@/types/coupon";
 import { deleteData } from "@/actions/delete";
-import { AdminType } from "@/types/admin";
+import { BACKEND_URL } from "@/consts/site-info";
 
-export const couponColumn: ColumnDef<AdminType>[] = [
+export const couponColumn: ColumnDef<CouponType>[] = [
   {
     accessorKey: "_id",
     header: "ID",
   },
   {
-    accessorKey: "image",
-    header: "IMAGE",
+    accessorKey: "logo",
+    header: "LOGO",
     cell: ({ row }) => {
-      return row.original.image ? (
+      return row.original.logo ? (
         <picture>
           <Image
             className="w-10"
             width={250}
             height={250}
-            src={row.original.image}
+            src={row.original.logo}
             alt="cell image"
             loading="lazy"
           />
@@ -36,36 +36,26 @@ export const couponColumn: ColumnDef<AdminType>[] = [
     },
   },
   {
-    accessorKey: "name",
+    accessorKey: "title",
     header: ({ column }) => {
       return (
         <Button
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          NAME
+          TITLE
           <ArrowUpDown className="ml-2 w-4 h-4" />
         </Button>
       );
     },
   },
   {
-    accessorKey: "email",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          EMAIL
-          <ArrowUpDown className="ml-2 w-4 h-4" />
-        </Button>
-      );
-    },
+    accessorKey: "couponCode",
+    header: "CODE",
   },
   {
-    accessorKey: "phone",
-    header: "PHONE",
+    accessorKey: "discountPercentage",
+    header: "DISCOUNT",
   },
   {
     accessorKey: "status",
@@ -82,20 +72,46 @@ export const couponColumn: ColumnDef<AdminType>[] = [
     },
   },
   {
-    accessorKey: "role",
-    header: "ROLE",
+    accessorKey: "startTime",
+    header: "START",
+    cell: ({ row }) => {
+      return (
+        <p>
+          {row.original.startTime ? (
+            new Date(row.original.startTime).toISOString().substring(0, 10)
+          ) : (
+            <span className="font-medium">-</span>
+          )}
+        </p>
+      );
+    },
+  },
+  {
+    accessorKey: "endTime",
+    header: "END",
+    cell: ({ row }) => {
+      return (
+        <p>
+          {row.original.endTime ? (
+            new Date(row.original.endTime).toISOString().substring(0, 10)
+          ) : (
+            <span className="font-medium">-</span>
+          )}
+        </p>
+      );
+    },
   },
   {
     id: "actions",
     cell: ({ row }) => (
-      <div className="flex  items-center gap-8">
-        <Link href={`/dashboard/admins/edit/${row.original._id}`}>
+      <div className="flex gap-8 items-center">
+        <Link href={`/dashboard/coupons/edit/${row.original._id}`}>
           <PencilIcon size={16} />
         </Link>
         <DeleteItem
-          queryUrl={`${BACKEND_URL}/api/admin/${row.original._id}`}
-          validationTag="admins"
-          successMessage="Admin deleted successfully"
+          queryUrl={`${BACKEND_URL}/api/coupon/${row.original._id}`}
+          validationTag="coupons"
+          successMessage="Coupon deleted successfull"
           serverAction={deleteData}
         />
       </div>

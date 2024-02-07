@@ -1,9 +1,10 @@
 import React from "react";
-import { couponColumn } from "./column";
 import { DataTable } from "@/components/native/DataTable";
 import getData from "@/actions/get";
 import { BACKEND_URL } from "@/consts/site-info";
 import { AdminType } from "@/types/admin";
+import PageTop from "@/components/native/PageTop";
+import { adminColumn } from "@/columns/AdminColumn";
 
 export default async function Layout({
   children,
@@ -13,22 +14,23 @@ export default async function Layout({
   const admins = await getData<AdminType[]>(
     `${BACKEND_URL}/api/admin/all`,
     300,
-    ["admins", "admin"]
+    ["admins", "admin"],
   );
   const searchTargets = ["_id", "name", "email"];
 
   return (
-    <>
-      <div className="flex flex-col p-2 lg:justify-between lg:ml-72 lg:w-8/12 xl:flex-row xl:gap-4 xl:w-9/12 2xl:w-10/12">
+    <div className="px-4 mt-12 lg:mt-4 lg:ml-72">
+      <PageTop title="Admins" />
+      <div className="flex flex-col 2xl:flex-row 2xl:gap-2 2xl:justify-between">
         {children}
         <DataTable
-          columns={couponColumn}
+          columns={adminColumn}
           //@ts-expect-error
           data={admins.data}
           searchTargets={searchTargets}
           addItemRoute="/dashboard/admins/add"
         />
       </div>
-    </>
+    </div>
   );
 }

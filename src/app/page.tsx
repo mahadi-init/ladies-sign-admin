@@ -2,10 +2,10 @@
 import Image from "next/image";
 import SubmitButton from "@/components/native/SubmitButton";
 import { Input } from "@/components/ui/input";
-import RecoverPassword from "./recover-password";
 import { userSignIn } from "@/actions/user-signin";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import RecoverPassword from "@/components/native/RecoverPassword";
 
 export default function Login() {
   const router = useRouter();
