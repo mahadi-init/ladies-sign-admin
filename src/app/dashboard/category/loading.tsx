@@ -2,7 +2,9 @@ import LoadingSkeleton from "@/components/native/LoadingSkeleton";
 
 export default function Loading() {
   return (
-    <div className="w-full">
+    <div className="p-2 w-full">
+      <LoadingSkeleton />
+      <LoadingSkeleton />
       <LoadingSkeleton />
     </div>
   );

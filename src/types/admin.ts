@@ -7,5 +7,5 @@ export interface AdminType {
   status?: string;
   password?: string;
   role?: string;
-  joiningDate?: string;
+  joiningDate?: Date;
 }

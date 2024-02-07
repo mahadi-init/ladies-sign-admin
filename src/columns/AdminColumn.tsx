@@ -6,26 +6,26 @@ import { ArrowUpDown, PencilIcon } from "lucide-react";
 import Link from "next/link";
 import DeleteItem from "@/components/native/DeleteItem";
 import Image from "next/image";
-import { CouponType } from "@/types/coupon";
-import { deleteData } from "@/actions/delete";
 import { BACKEND_URL } from "@/consts/site-info";
+import { deleteData } from "@/actions/delete";
+import { AdminType } from "@/types/admin";
 
-export const couponColumn: ColumnDef<CouponType>[] = [
+export const adminColumn: ColumnDef<AdminType>[] = [
   {
     accessorKey: "_id",
     header: "ID",
   },
   {
-    accessorKey: "logo",
-    header: "LOGO",
+    accessorKey: "image",
+    header: "IMAGE",
     cell: ({ row }) => {
-      return row.original.logo ? (
+      return row.original.image ? (
         <picture>
           <Image
             className="w-10"
             width={250}
             height={250}
-            src={row.original.logo}
+            src={row.original.image}
             alt="cell image"
             loading="lazy"
           />
@@ -36,26 +36,36 @@ export const couponColumn: ColumnDef<CouponType>[] = [
     },
   },
   {
-    accessorKey: "title",
+    accessorKey: "name",
     header: ({ column }) => {
       return (
         <Button
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          TITLE
+          NAME
           <ArrowUpDown className="ml-2 w-4 h-4" />
         </Button>
       );
     },
   },
   {
-    accessorKey: "couponCode",
-    header: "CODE",
+    accessorKey: "email",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          EMAIL
+          <ArrowUpDown className="ml-2 w-4 h-4" />
+        </Button>
+      );
+    },
   },
   {
-    accessorKey: "discountPercentage",
-    header: "DISCOUNT",
+    accessorKey: "phone",
+    header: "PHONE",
   },
   {
     accessorKey: "status",
@@ -72,36 +82,20 @@ export const couponColumn: ColumnDef<CouponType>[] = [
     },
   },
   {
-    accessorKey: "startTime",
-    header: "START",
-    cell: ({ row }) => {
-      return (
-        <p>
-          {new Date(row.original.startTime!!).toISOString().substring(0, 10)}
-        </p>
-      );
-    },
-  },
-  {
-    accessorKey: "endTime",
-    header: "END",
-    cell: ({ row }) => {
-      return (
-        <p>{new Date(row.original.endTime!!).toISOString().substring(0, 10)}</p>
-      );
-    },
+    accessorKey: "role",
+    header: "ROLE",
   },
   {
     id: "actions",
     cell: ({ row }) => (
       <div className="flex gap-8 items-center">
-        <Link href={`/dashboard/coupons/edit/${row.original._id}`}>
+        <Link href={`/dashboard/admins/edit/${row.original._id}`}>
           <PencilIcon size={16} />
         </Link>
         <DeleteItem
-          queryUrl={`${BACKEND_URL}/api/coupon/${row.original._id}`}
-          validationTag="coupons"
-          successMessage="Coupon deleted successfull"
+          queryUrl={`${BACKEND_URL}/api/admin/${row.original._id}`}
+          validationTag="admins"
+          successMessage="Admin deleted successfully"
           serverAction={deleteData}
         />
       </div>
