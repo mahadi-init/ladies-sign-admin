@@ -12,6 +12,7 @@ import {
   ShieldHalf,
   ShoppingBasket,
   Star,
+  User,
   Users,
   UsersRound,
 } from "lucide-react";
@@ -95,7 +96,7 @@ export default function Sidenav() {
                   className={clsx(
                     "flex items-center gap-3 rounded p-3 text-slate-700 transition-colors hover:bg-rose-50 hover:text-rose-500 focus:bg-rose-50",
                     pathname.endsWith("dashboard") &&
-                      "bg-purple-50 text-purple-600"
+                      "bg-purple-50 text-purple-600",
                   )}
                 >
                   <div className="flex items-center self-center">
@@ -114,7 +115,7 @@ export default function Sidenav() {
                   className={clsx(
                     "flex items-center gap-3 rounded p-3 text-slate-700 transition-colors hover:bg-rose-50 hover:text-rose-500 focus:bg-rose-50",
                     pathname.includes("products") &&
-                      "bg-purple-50 text-purple-600"
+                      "bg-purple-50 text-purple-600",
                   )}
                 >
                   <div className="flex items-center self-center">
@@ -133,7 +134,7 @@ export default function Sidenav() {
                   className={clsx(
                     "flex items-center gap-3 rounded p-3 text-slate-700 transition-colors hover:bg-rose-50 hover:text-rose-500 focus:bg-rose-50",
                     pathname.includes("category") &&
-                      "bg-purple-100 text-purple-800"
+                      "bg-purple-100 text-purple-800",
                   )}
                 >
                   <div className="flex items-center self-center">
@@ -152,7 +153,7 @@ export default function Sidenav() {
                   className={clsx(
                     "flex items-center gap-3 rounded p-3 text-slate-700 transition-colors hover:bg-rose-50 hover:text-rose-500 focus:bg-rose-50",
                     pathname.includes("orders") &&
-                      "bg-purple-100 text-purple-800"
+                      "bg-purple-100 text-purple-800",
                   )}
                 >
                   <div className="flex items-center self-center">
@@ -175,7 +176,7 @@ export default function Sidenav() {
                   className={clsx(
                     "flex items-center gap-3 rounded p-3 text-slate-700 transition-colors hover:bg-rose-50 hover:text-rose-500 focus:bg-rose-50",
                     pathname.includes("brand") &&
-                      "bg-purple-100 text-purple-800"
+                      "bg-purple-100 text-purple-800",
                   )}
                 >
                   <div className="flex items-center self-center">
@@ -197,7 +198,7 @@ export default function Sidenav() {
                   className={clsx(
                     "flex items-center gap-3 rounded p-3 text-slate-700 transition-colors hover:bg-rose-50 hover:text-rose-500 focus:bg-rose-50",
                     pathname.includes("reviews") &&
-                      "bg-purple-100 text-purple-800 "
+                      "bg-purple-100 text-purple-800 ",
                   )}
                 >
                   <div className="flex items-center self-center">
@@ -216,7 +217,7 @@ export default function Sidenav() {
                   className={clsx(
                     "flex items-center gap-3 rounded p-3 text-slate-700 transition-colors hover:bg-rose-50 hover:text-rose-500 focus:bg-rose-50",
                     pathname.includes("coupons") &&
-                      "bg-purple-100 text-purple-800"
+                      "bg-purple-100 text-purple-800",
                   )}
                 >
                   <div className="flex items-center self-center">
@@ -235,7 +236,7 @@ export default function Sidenav() {
                   className={clsx(
                     "flex items-center gap-3 rounded p-3 text-slate-700 transition-colors hover:bg-rose-50 hover:text-rose-500 focus:bg-rose-50",
                     pathname.includes("admins") &&
-                      "bg-purple-100 text-purple-800"
+                      "bg-purple-100 text-purple-800",
                   )}
                 >
                   <div className="flex items-center self-center">
@@ -247,24 +248,24 @@ export default function Sidenav() {
                 </Link>
               </li>
 
-              <li className="px-3">
-                <Link
-                  href="/dashboard/stuffs"
-                  onClick={hideSideNav}
-                  className={clsx(
-                    "flex items-center gap-3 rounded p-3 text-slate-700 transition-colors hover:bg-rose-50 hover:text-rose-500 focus:bg-rose-50",
-                    pathname.includes("stuffs") &&
-                      "bg-purple-100 text-purple-800"
-                  )}
-                >
-                  <div className="flex items-center self-center">
-                    <UsersRound size={18} />
-                  </div>
-                  <div className="flex overflow-hidden flex-col flex-1 gap-0 justify-center items-start w-full text-sm truncate">
-                    Stuffs
-                  </div>
-                </Link>
-              </li>
+              {/* <li className="px-3"> */}
+              {/*   <Link */}
+              {/*     href="/dashboard/stuffs" */}
+              {/*     onClick={hideSideNav} */}
+              {/*     className={clsx( */}
+              {/*       "flex items-center gap-3 rounded p-3 text-slate-700 transition-colors hover:bg-rose-50 hover:text-rose-500 focus:bg-rose-50", */}
+              {/*       pathname.includes("stuffs") && */}
+              {/*         "bg-purple-100 text-purple-800", */}
+              {/*     )} */}
+              {/*   > */}
+              {/*     <div className="flex items-center self-center"> */}
+              {/*       <UsersRound size={18} /> */}
+              {/*     </div> */}
+              {/*     <div className="flex overflow-hidden flex-col flex-1 gap-0 justify-center items-start w-full text-sm truncate"> */}
+              {/*       Stuffs */}
+              {/*     </div> */}
+              {/*   </Link> */}
+              {/* </li> */}
 
               <li className="px-3">
                 <Link
@@ -273,7 +274,7 @@ export default function Sidenav() {
                   className={clsx(
                     "flex items-center gap-3 rounded p-3 text-slate-700 transition-colors hover:bg-rose-50 hover:text-rose-500 focus:bg-rose-50",
                     pathname.includes("users") &&
-                      "bg-purple-100 text-purple-800"
+                      "bg-purple-100 text-purple-800",
                   )}
                 >
                   <div className="flex items-center self-center">
@@ -287,12 +288,31 @@ export default function Sidenav() {
 
               <li className="px-3">
                 <Link
+                  href="/dashboard/profile"
+                  onClick={hideSideNav}
+                  className={clsx(
+                    "flex items-center gap-3 rounded p-3 text-slate-700 transition-colors hover:bg-rose-50 hover:text-rose-500 focus:bg-rose-50",
+                    pathname.includes("profile") &&
+                      "bg-purple-100 text-purple-800",
+                  )}
+                >
+                  <div className="flex items-center self-center">
+                    <User size={18} />
+                  </div>
+                  <div className="flex overflow-hidden flex-col flex-1 gap-0 justify-center items-start w-full text-sm truncate">
+                    Profile
+                  </div>
+                </Link>
+              </li>
+
+              <li className="px-3">
+                <Link
                   href="/dashboard/notifications"
                   onClick={hideSideNav}
                   className={clsx(
                     "flex items-center gap-3 rounded p-3 text-slate-700 transition-colors hover:bg-rose-50 hover:text-rose-500 focus:bg-rose-50",
                     pathname.includes("notifications") &&
-                      "bg-purple-100 text-purple-800"
+                      "bg-purple-100 text-purple-800",
                   )}
                 >
                   <div className="flex items-center self-center">
