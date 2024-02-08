@@ -3,7 +3,7 @@ import CalendarIcon from "@/icons/Calender";
 import ClipboardListIcon from "@/icons/ClipboardList";
 import ShoppingBagIcon from "@/icons/ShoppingBag";
 import UsersIcon from "@/icons/Users";
-import { DashboardOrderSummaryType } from "@/types/Dashboard";
+import { DashboardOrderSummaryType } from "@/types/dashboard";
 
 export default function StatisticCards(props: DashboardOrderSummaryType) {
   return (

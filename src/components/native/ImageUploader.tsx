@@ -2,7 +2,14 @@ import { CLOUDINARY_UPLOAD_PRESET } from "@/consts/site-info";
 import { Upload } from "lucide-react";
 import { CldUploadButton } from "next-cloudinary";
 import Image from "next/image";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
+
+enum UploadStatus {
+  IDLE,
+  LOADING,
+  SUCCESS,
+}
 
 export default function ImageUploader({
   image,
@@ -11,6 +18,24 @@ export default function ImageUploader({
   image?: string;
   setImage: (arg0?: string) => void;
 }) {
+  const [uploadStatus, setUploadStatus] = useState<UploadStatus>(
+    UploadStatus.IDLE,
+  );
+
+  useEffect(() => {
+    if (uploadStatus === UploadStatus.LOADING) {
+      toast.dismiss();
+      toast.loading("Image uploading..");
+      return;
+    }
+
+    if (uploadStatus === UploadStatus.SUCCESS) {
+      toast.dismiss();
+      toast.success("Upload succeed");
+      return;
+    }
+  }, [uploadStatus]);
+
   return (
     <>
       <picture>
@@ -21,6 +46,9 @@ export default function ImageUploader({
           width={400}
           alt="beautiful image"
           placeholder="empty"
+          onLoad={() => {
+            image && setUploadStatus(UploadStatus.SUCCESS);
+          }}
         />
       </picture>
 
@@ -32,7 +60,7 @@ export default function ImageUploader({
         }}
         onSuccess={(result) => {
           if (result.info) {
-            toast.success("Image uploaded");
+            setUploadStatus(UploadStatus.LOADING);
             //@ts-ignore
             setImage(result.info.url);
           }
