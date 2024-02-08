@@ -1,6 +1,6 @@
 import getData from "@/actions/get";
 import { BACKEND_URL } from "@/consts/site-info";
-import { DashboardOrderSummaryType } from "@/types/Dashboard";
+import { DashboardOrderSummaryType } from "@/types/dashboard";
 
 export const getDashboardOrderData = async () => {
   const data = await getData<DashboardOrderSummaryType[]>(
