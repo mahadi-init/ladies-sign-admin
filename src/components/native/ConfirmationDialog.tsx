@@ -11,18 +11,18 @@ import {
 } from "@/components/ui/alert-dialog";
 import React from "react";
 
-export function ConfirmationDialog({
+export default function ConfirmationDialog({
   alertText,
-  openDialogTrigger,
   children,
+  action,
 }: {
   alertText: string;
-  openDialogTrigger: React.ReactNode;
   children: React.ReactNode;
+  action: () => void;
 }) {
   return (
     <AlertDialog>
-      <AlertDialogTrigger asChild>{openDialogTrigger}</AlertDialogTrigger>
+      <AlertDialogTrigger asChild>{children}</AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
@@ -30,7 +30,7 @@ export function ConfirmationDialog({
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction>{children}</AlertDialogAction>
+          <AlertDialogAction onClick={action}>Confirm</AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
