@@ -1,9 +1,15 @@
 "use client";
 import { useFormStatus } from "react-dom";
 import { Button } from "../ui/button";
-import { EnterIcon, ReloadIcon } from "@radix-ui/react-icons";
+import { ReloadIcon } from "@radix-ui/react-icons";
 
-export default function SubmitButton({ style }: { style?: string }) {
+export default function SubmitButton({
+  text,
+  style,
+}: {
+  text?: string;
+  style?: string;
+}) {
   const { pending } = useFormStatus();
 
   return (
@@ -14,7 +20,7 @@ export default function SubmitButton({ style }: { style?: string }) {
           <span>Please wait</span>
         </>
       ) : (
-        <span>Submit</span>
+        <span>{text ?? "Submit"}</span>
       )}
     </Button>
   );

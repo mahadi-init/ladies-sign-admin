@@ -2,25 +2,11 @@
 
 import { BACKEND_URL } from "@/consts/site-info";
 import { Response } from "@/types/response";
-import { cookies } from "next/headers";
-
-const cookiesSetup = async (role: string) => {
-  switch (role) {
-    case "Admin":
-      cookies().set("access-token", process.env.ADMIN_TOKEN as string);
-      break;
-    case "Super Admin":
-      cookies().set("access-token", process.env.SUPER_ADMIN_TOKEN as string);
-      break;
-    default:
-      cookies().set("access-token", process.env.SELLER_TOEKN as string);
-      break;
-  }
-};
+import { cookiesSetup } from "@/utils/cookies-setup";
 
 export const userSignIn = async (
   email: string,
-  password: string
+  password: string,
 ): Promise<Response> => {
   try {
     const res = await fetch(`${BACKEND_URL}/api/admin/login`, {
@@ -33,8 +19,8 @@ export const userSignIn = async (
     });
 
     if (res.status === 200) {
-      const { name, role } = await res.json();
-      cookiesSetup(role);
+      const { _id, name, role } = await res.json();
+      cookiesSetup(_id, role);
 
       return {
         status: 200,

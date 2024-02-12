@@ -1,9 +1,9 @@
-import { Trash2 } from "lucide-react";
-import React, { useEffect, useState } from "react";
-import { Button } from "@/components/ui/button";
-import DeleteButton from "@/components/native/DeleteButton";
+import React from "react";
 import { Response } from "@/types/response";
 import { toast } from "sonner";
+import ConfirmationDialog from "./ConfirmationDialog";
+import { Button } from "../ui/button";
+import { Trash2 } from "lucide-react";
 
 interface PropTypes {
   queryUrl: string;
@@ -17,18 +17,6 @@ interface PropTypes {
 }
 
 export default function DeleteItem(props: PropTypes) {
-  const [isConfirmed, setIsConfirmed] = useState(false);
-
-  useEffect(() => {
-    const timeout = setTimeout(() => {
-      setIsConfirmed(false);
-    }, 3000);
-
-    return () => {
-      clearTimeout(timeout);
-    };
-  }, [isConfirmed]);
-
   const handleFormAction = async () => {
     const res = await props.serverAction(
       props.queryUrl,
@@ -44,18 +32,15 @@ export default function DeleteItem(props: PropTypes) {
   };
 
   return (
-    <form action={handleFormAction}>
-      {!isConfirmed && (
-        <Button
-          type="button"
-          size="icon"
-          className="w-6 h-6"
-          onClick={() => setIsConfirmed(true)}
-        >
+    <form>
+      <ConfirmationDialog
+        alertText="The action will perform a delete operation"
+        action={handleFormAction}
+      >
+        <Button type="button" size="icon" className="w-6 h-6">
           <Trash2 size={16} />
         </Button>
-      )}
-      {isConfirmed && <DeleteButton />}
+      </ConfirmationDialog>
     </form>
   );
 }

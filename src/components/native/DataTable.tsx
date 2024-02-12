@@ -28,7 +28,7 @@ interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
   searchTargets: string[];
-  addItemRoute: string;
+  addItemRoute?: string;
 }
 
 export function DataTable<TData, TValue>({
@@ -58,8 +58,8 @@ export function DataTable<TData, TValue>({
 
   return (
     <div className="w-full">
-      <div className="justify-between flex items-center">
-        <div className="flex items-center gap-2">
+      <div className="flex justify-between items-center">
+        <div className="flex gap-2 items-center">
           <div className="flex items-center py-4">
             <Input
               placeholder="Filter Item.."
@@ -82,9 +82,11 @@ export function DataTable<TData, TValue>({
             setSelectedItem={setSearchTarget}
           />
         </div>
-        <Button size="sm">
-          <Link href={addItemRoute}>Add Item</Link>
-        </Button>
+        {addItemRoute && (
+          <Button size="sm">
+            <Link href={addItemRoute}>Add Item</Link>
+          </Button>
+        )}
       </div>
       <div className="rounded-md border">
         <Table>
@@ -97,9 +99,9 @@ export function DataTable<TData, TValue>({
                       {header.isPlaceholder
                         ? null
                         : flexRender(
-                            header.column.columnDef.header,
-                            header.getContext()
-                          )}
+                          header.column.columnDef.header,
+                          header.getContext(),
+                        )}
                     </TableHead>
                   );
                 })}
@@ -117,7 +119,7 @@ export function DataTable<TData, TValue>({
                     <TableCell key={cell.id}>
                       {flexRender(
                         cell.column.columnDef.cell,
-                        cell.getContext()
+                        cell.getContext(),
                       )}
                     </TableCell>
                   ))}
