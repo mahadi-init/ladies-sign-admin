@@ -3,7 +3,7 @@ import { getProductTypes } from "@/utils/get-product-types";
 import { BACKEND_URL } from "@/consts/site-info";
 import SharedCouponUI from "@/ui/SharedCouponUI";
 
-export default async function AddCategory() {
+export default async function AddCoupon() {
   const productTypes = await getProductTypes();
 
   return (
