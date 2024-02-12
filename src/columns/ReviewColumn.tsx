@@ -23,11 +23,11 @@ export const reviewColumn: ColumnDef<ReviewType>[] = [
     },
   },
   {
-    accessorKey: "productName",
+    accessorKey: "product",
     header: "PRODUCT",
     cell: ({ row }) => {
       //TODO:ADD PRODUCT ROUTE
-      return <Link href="#">{row.original.productName}</Link>;
+      return <Link href="#">{row.original.product}</Link>;
     },
   },
   {

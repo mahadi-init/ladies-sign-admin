@@ -2,7 +2,7 @@ export interface ReviewType {
   _id?: string;
   userId?: string;
   productId?: string;
-  productName?: string;
+  product?: string;
   productImage?: string;
   rating?: number;
   comment?: string;
