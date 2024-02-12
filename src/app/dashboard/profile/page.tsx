@@ -1,5 +1,4 @@
 "use client";
-import { Button } from "@/components/ui/button";
 import {
   CardTitle,
   CardHeader,
@@ -11,20 +10,45 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import PageTop from "@/components/native/PageTop";
 import ImageUploader from "@/components/native/ImageUploader";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { UserAccessContext } from "../access-provider";
+import SubmitButton from "@/components/native/SubmitButton";
+import { fetcher } from "@/utils/fetcher";
+import { BACKEND_URL } from "@/consts/site-info";
+import useSWR from "swr";
+import { ProfileType } from "@/types/profile";
+import FullPageLoading from "@/components/native/FullPageLoading";
+import BalanceCard from "./balance-card";
 
-export default function Component() {
+export default function Profile() {
+  const { userId } = useContext(UserAccessContext);
+  const { data, error, isLoading } = useSWR<ProfileType>(
+    `${BACKEND_URL}/api/admin/get/${userId}`,
+    fetcher,
+  );
   const [image, setImage] = useState<string>();
+
+  if (isLoading) {
+    return <FullPageLoading />;
+  }
+
+  if (error) {
+    return new error();
+  }
 
   return (
     <div className="px-4 mt-12 lg:mt-4 lg:ml-72">
       <PageTop title="Profile" />
-      <div className="flex flex-col gap-8 mt-8 xl:flex-row">
-        <div className="flex flex-col items-center">
-          <ImageUploader image={image} setImage={setImage} />
+
+      <div>
+        <div className="flex flex-col gap-8 my-8 xl:flex-row">
+          <div className="flex flex-col items-center">
+            <ImageUploader image={image ?? data?.image} setImage={setImage} />
+          </div>
+          <BalanceCard />
         </div>
         <div className="grid grid-cols-1 gap-8 w-full">
-          <Card className="col-span-1">
+          <Card className="col-span-1 shadow">
             <CardHeader>
               <CardTitle>Basic Information</CardTitle>
             </CardHeader>
@@ -37,7 +61,8 @@ export default function Component() {
                       id="name"
                       type="text"
                       name="name"
-                      placeholder="Your Name"
+                      defaultValue={data?.name}
+                      placeholder="Jhon Doe"
                       className="mt-2 bg-gray-100"
                     />
                   </Label>
@@ -48,7 +73,8 @@ export default function Component() {
                       id="email"
                       type="email"
                       name="email"
-                      placeholder="name@example.com"
+                      defaultValue={data?.email}
+                      placeholder="xyz@example.com"
                       className="mt-2 bg-gray-100"
                     />
                   </Label>
@@ -59,18 +85,55 @@ export default function Component() {
                       id="phone"
                       type="tel"
                       name="phone"
-                      placeholder="Phone Number"
+                      defaultValue={data?.phone}
+                      placeholder="013123456789"
+                      className="mt-2 bg-gray-100"
+                    />
+                  </Label>
+
+                  <Label htmlFor="address">
+                    City
+                    <Input
+                      id="city"
+                      type="text"
+                      name="city"
+                      defaultValue={data?.city}
+                      placeholder="Dhaka"
+                      className="mt-2 bg-gray-100"
+                    />
+                  </Label>
+
+                  <Label htmlFor="address">
+                    Address
+                    <Input
+                      id="address"
+                      type="text"
+                      name="address"
+                      defaultValue={data?.address}
+                      placeholder="Dhanmondi 32"
+                      className="mt-2 bg-gray-100"
+                    />
+                  </Label>
+
+                  <Label htmlFor="address">
+                    Referral Code
+                    <Input
+                      id="text"
+                      type="text"
+                      name="referral"
+                      defaultValue={data?.referralCode}
+                      placeholder="JHON1234"
                       className="mt-2 bg-gray-100"
                     />
                   </Label>
                 </div>
               </form>
             </CardContent>
-            <CardFooter className="flex justify-end">
-              <Button>Save</Button>
+            <CardFooter className="justify-end">
+              <SubmitButton />
             </CardFooter>
           </Card>
-          <Card className="col-span-1">
+          <Card className="col-span-1 shadow">
             <CardHeader>
               <CardTitle>Security</CardTitle>
             </CardHeader>
@@ -117,8 +180,8 @@ export default function Component() {
                 </div>
               </form>
             </CardContent>
-            <CardFooter className="flex justify-end">
-              <Button>Save</Button>
+            <CardFooter className="justify-end">
+              <SubmitButton />
             </CardFooter>
           </Card>
         </div>

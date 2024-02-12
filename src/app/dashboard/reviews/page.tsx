@@ -1,3 +1,3 @@
-export default async function AddCategory() {
+export default async function Review() {
   return <></>;
 }
