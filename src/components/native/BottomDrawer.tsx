@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import {
   Drawer,
   DrawerClose,
@@ -13,14 +13,17 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 
-export default function BottomDrawer({
-  drawerTrigger,
-}: {
-  drawerTrigger: React.ReactNode;
-}) {
+/**
+ * WithdrawBottomDrawer component that renders a withdraw form in a bottom drawer.
+ *
+ * @return {JSX.Element} The JSX for the withdraw form in a bottom drawer
+ */
+export default function WithdrawBottomDrawer(): JSX.Element {
   return (
     <Drawer>
-      <DrawerTrigger>{drawerTrigger}</DrawerTrigger>
+      <DrawerTrigger className={buttonVariants({ variant: "default" })}>
+        Withdraw
+      </DrawerTrigger>
       <DrawerContent>
         <form className="mx-auto w-full max-w-sm">
           <DrawerHeader>

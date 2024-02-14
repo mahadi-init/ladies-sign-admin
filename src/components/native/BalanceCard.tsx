@@ -1,19 +1,23 @@
+"use client";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
-  CardTitle,
-  CardHeader,
-  CardContent,
   Card,
+  CardContent,
   CardFooter,
+  CardHeader,
+  CardTitle,
 } from "@/components/ui/card";
-import { AvatarImage, AvatarFallback, Avatar } from "@/components/ui/avatar";
-import { TableCell, TableRow, TableBody, Table } from "@/components/ui/table";
-import SubmitButton from "@/components/native/SubmitButton";
-import { Button } from "@/components/ui/button";
-import BottomDrawer from "./BottomDrawer";
-import { ArrowUpIcon } from "@/icons/ArrowUpIcon";
+import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { ArrowDownIcon } from "@/icons/ArrowDownIcon";
+import { ArrowUpIcon } from "@/icons/ArrowUpIcon";
+import WithdrawBottomDrawer from "./BottomDrawer";
 
-export default function BalanceCard() {
+/**
+ * Renders a balance card component displaying account balance information and transaction history.
+ *
+ * @return {JSX.Element} The rendered balance card component
+ */
+export default function BalanceCard(): JSX.Element {
   return (
     <Card className="flex flex-col w-full shadow">
       <CardHeader className="flex flex-row items-center space-y-0">
@@ -76,7 +80,7 @@ export default function BalanceCard() {
         </Table>
       </CardContent>
       <CardFooter className="justify-end mt-4">
-        <BottomDrawer drawerTrigger={<Button>Withdraw</Button>} />
+        <WithdrawBottomDrawer />
       </CardFooter>
     </Card>
   );
