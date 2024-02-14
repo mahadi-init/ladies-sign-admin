@@ -1,4 +1,9 @@
-export default function LoadingSkeleton() {
+/**
+ * Renders a loading skeleton component.
+ *
+ * @return {JSX.Element} The loading skeleton component to be rendered.
+ */
+export default function LoadingSkeleton(): JSX.Element {
   return (
     <div role="status" className="max-w-sm animate-pulse">
       <div className="mb-4 h-2.5 w-48 rounded-full bg-gray-200 dark:bg-gray-700"></div>

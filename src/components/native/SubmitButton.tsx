@@ -1,15 +1,22 @@
 "use client";
+import { ReloadIcon } from "@radix-ui/react-icons";
 import { useFormStatus } from "react-dom";
 import { Button } from "../ui/button";
-import { ReloadIcon } from "@radix-ui/react-icons";
 
+/**
+ * Renders a SubmitButton component with the provided text and style, and disables it when pending.
+ *
+ * @param {string} text - The text to display on the button. Optional.
+ * @param {string} style - The CSS class to apply to the button. Optional.
+ * @return {JSX.Element} The rendered SubmitButton component.
+ */
 export default function SubmitButton({
   text,
   style,
 }: {
   text?: string;
   style?: string;
-}) {
+}): JSX.Element {
   const { pending } = useFormStatus();
 
   return (

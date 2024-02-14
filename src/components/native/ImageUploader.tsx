@@ -12,15 +12,22 @@ enum UploadStatus {
   SUCCESS,
 }
 
+/**
+ * Image uploader component for uploading and displaying images.
+ *
+ * @param {string} image - the image to be displayed
+ * @param {function} setImage - the function to set the image
+ * @return {JSX.Element} - the rendered component
+ */
 export default function ImageUploader({
   image,
   setImage,
 }: {
   image?: string;
   setImage: (arg0?: string) => void;
-}) {
+}): JSX.Element {
   const [uploadStatus, setUploadStatus] = useState<UploadStatus>(
-    UploadStatus.IDLE,
+    UploadStatus.IDLE
   );
 
   return (
@@ -32,7 +39,7 @@ export default function ImageUploader({
         <div
           className={clsx(
             "flex justify-center items-center w-64 h-48 bg-gray-300 rounded sm:w-96 dark:bg-gray-700",
-            uploadStatus != UploadStatus.LOADING && "hidden",
+            uploadStatus != UploadStatus.LOADING && "hidden"
           )}
         >
           <svg
@@ -51,7 +58,7 @@ export default function ImageUploader({
           src={image ?? "/logo.png"}
           className={clsx(
             "w-72 rounded-md",
-            uploadStatus === UploadStatus.LOADING && "w-0 h-0",
+            uploadStatus === UploadStatus.LOADING && "w-0 h-0"
           )}
           height={400}
           width={400}

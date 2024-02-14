@@ -2,12 +2,25 @@
 
 import { BACKEND_URL } from "@/consts/site-info";
 import { Response } from "@/types/response";
+import { Role } from "@/types/role";
 import { cookiesSetup } from "@/utils/cookies-setup";
 
-export const userSignIn = async (
+interface UserResponseType extends Response {
+  id?: string;
+  role?: Role;
+}
+
+/**
+ * User sign-in function that sends a POST request to the backend API to log in the user.
+ *
+ * @param {string} email - The email of the user
+ * @param {string} password - The password of the user
+ * @return {Promise<UserResponseType>} An object containing the user ID, role, status, and a message
+ */
+export async function userSignIn(
   email: string,
-  password: string,
-): Promise<Response> => {
+  password: string
+): Promise<UserResponseType> {
   try {
     const res = await fetch(`${BACKEND_URL}/api/admin/login`, {
       method: "POST",
@@ -23,6 +36,8 @@ export const userSignIn = async (
       cookiesSetup(_id, role);
 
       return {
+        id: _id,
+        role: role,
         status: 200,
         message: `${name} signed in as ${role}`,
       };
@@ -35,4 +50,4 @@ export const userSignIn = async (
       message: "Login failed",
     };
   }
-};
+}

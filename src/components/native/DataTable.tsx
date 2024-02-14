@@ -1,4 +1,14 @@
 "use client";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -10,19 +20,9 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
+import Link from "next/link";
 import { useState } from "react";
 import DropdownSelect from "./DropdownSelect";
-import Link from "next/link";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -31,12 +31,21 @@ interface DataTableProps<TData, TValue> {
   addItemRoute?: string;
 }
 
+/**
+ * Renders a data table component with the provided data and columns, and allows filtering and pagination.
+ *
+ * @param {DataTableProps<TData, TValue>} columns - The columns for the data table
+ * @param {DataTableProps<TData, TValue>} data - The data to be displayed in the table
+ * @param {DataTableProps<TData, TValue>} searchTargets - The targets for filtering
+ * @param {DataTableProps<TData, TValue>} addItemRoute - The route for adding new items
+ * @return {JSX.Element} The rendered data table component
+ */
 export function DataTable<TData, TValue>({
   columns,
   data,
   searchTargets,
   addItemRoute,
-}: DataTableProps<TData, TValue>) {
+}: DataTableProps<TData, TValue>): JSX.Element {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [searchTarget, setSearchTarget] = useState<string>(searchTargets[0]);
@@ -99,9 +108,9 @@ export function DataTable<TData, TValue>({
                       {header.isPlaceholder
                         ? null
                         : flexRender(
-                          header.column.columnDef.header,
-                          header.getContext(),
-                        )}
+                            header.column.columnDef.header,
+                            header.getContext()
+                          )}
                     </TableHead>
                   );
                 })}
@@ -119,7 +128,7 @@ export function DataTable<TData, TValue>({
                     <TableCell key={cell.id}>
                       {flexRender(
                         cell.column.columnDef.cell,
-                        cell.getContext(),
+                        cell.getContext()
                       )}
                     </TableCell>
                   ))}
