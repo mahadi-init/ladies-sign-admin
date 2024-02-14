@@ -6,7 +6,7 @@ import { userSignIn } from "@/actions/user-signin";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import RecoverPassword from "@/components/native/RecoverPassword";
-import { getCookies } from "cookies-next";
+import { Role } from "@/types/role";
 
 export default function Login() {
   const router = useRouter();
@@ -19,7 +19,12 @@ export default function Login() {
 
     if (res.status === 200) {
       toast.success(res.message);
-      router.replace("/dashboard");
+
+      if (res.role === Role.Seller) {
+        router.replace("/seller/profile");
+      } else {
+        router.replace("/dashboard");
+      }
     } else {
       toast.error(res.message);
     }
@@ -67,18 +72,6 @@ export default function Login() {
                 />
               </div>
               <SubmitButton style="w-full" />
-            </div>
-
-            <div className="mt-4">
-              <label htmlFor="remember-me" className="flex gap-2">
-                <input
-                  id="remember-me"
-                  type="checkbox"
-                  name="remember-me"
-                  className="w-4"
-                />
-                <p className="font-semibold">Remember me</p>
-              </label>
             </div>
           </form>
         </div>

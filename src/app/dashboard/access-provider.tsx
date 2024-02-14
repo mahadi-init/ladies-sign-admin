@@ -2,6 +2,7 @@
 
 import React, { createContext, useEffect, useState } from "react";
 import { Role } from "@/types/role";
+import { AccessToken } from "@/types/token";
 
 export const UserAccessContext = createContext<{
   userId?: string;
@@ -24,13 +25,13 @@ export default function AccessProvider({
       return;
     }
 
-    if (accessToken === process.env.NEXT_PUBLIC_SUPER_ADMIN_TOKEN) {
+    if (accessToken === AccessToken.SUPER_ADMIN) {
       setUserRole(Role.SuperAdmin);
-    } else if (accessToken === process.env.NEXT_PUBLIC_ADMIN_TOKEN) {
+    } else if (accessToken === AccessToken.ADMIN) {
       setUserRole(Role.Admin);
-    } else if (accessToken === process.env.NEXT_PUBLIC_EDITOR_TOKEN) {
+    } else if (accessToken === AccessToken.EDITOR) {
       setUserRole(Role.Editor);
-    } else if (accessToken === process.env.NEXT_PUBLIC_SELLER_TOKEN) {
+    } else if (accessToken === AccessToken.SELLER) {
       setUserRole(Role.Seller);
     }
   }, [accessToken]);

@@ -1,5 +1,10 @@
 import { BACKEND_URL } from "@/consts/site-info";
 
+/**
+ * Retrieves the product types from the backend API.
+ *
+ * @return {Promise<string[]>} The array of product types
+ */
 export const getProductTypes = async (): Promise<string[]> => {
   try {
     const res = await fetch(`${BACKEND_URL}/api/product/all/product-types`, {
