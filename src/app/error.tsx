@@ -8,7 +8,7 @@ export default function Error({
   reset: () => void;
 }) {
   return (
-    <div className="flex justify-center items-center w-screen h-screen">
+    <div className="flex flex-col justify-center items-center w-screen h-screen">
       <h2 className="text-2xl font-semibold text-red-500">{error.message}</h2>
       <button
         type="button"
