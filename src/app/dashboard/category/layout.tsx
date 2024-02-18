@@ -1,10 +1,10 @@
-import React from "react";
-import { DataTable } from "@/components/native/DataTable";
-import { CategoryType } from "@/types/category";
 import getData from "@/actions/get";
-import { BACKEND_URL } from "@/consts/site-info";
-import PageTop from "@/components/native/PageTop";
 import { categoryColumn } from "@/columns/CategoryColumn";
+import { DataTable } from "@/components/native/DataTable";
+import PageTop from "@/components/native/PageTop";
+import { BACKEND_URL } from "@/consts/site-info";
+import { CategoryType } from "@/types/category";
+import React from "react";
 
 export default async function Layout({
   children,
@@ -14,12 +14,12 @@ export default async function Layout({
   const categories = await getData<CategoryType[]>(
     `${BACKEND_URL}/api/category/all`,
     300,
-    ["category", "categories"],
+    ["category", "categories"]
   );
   const searchTargets = ["_id", "parent"];
 
   return (
-    <div className="px-4 mt-12 lg:mt-4 lg:ml-72">
+    <>
       <PageTop title="Category" />
       <div className="flex flex-col 2xl:flex-row 2xl:gap-2 2xl:justify-between">
         {children}
@@ -31,6 +31,6 @@ export default async function Layout({
           addItemRoute="/dashboard/category/add"
         />
       </div>
-    </div>
+    </>
   );
 }

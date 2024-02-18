@@ -1,8 +1,8 @@
 import Sidenav from "@/components/native/SideNav";
+import type { Metadata } from "next";
+import { cookies } from "next/headers";
 import React from "react";
 import AccessProvider from "./access-provider";
-import { cookies } from "next/headers";
-import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Ladies Sign Admin",
@@ -19,7 +19,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <AccessProvider userId={userId?.value} accessToken={accessToken?.value}>
       <Sidenav />
-      {children}
+      <div className="px-4 mt-12 lg:mt-4 lg:ml-72">{children}</div>
     </AccessProvider>
   );
 }
