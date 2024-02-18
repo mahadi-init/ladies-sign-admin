@@ -1,10 +1,10 @@
-import React from "react";
-import { DataTable } from "@/components/native/DataTable";
 import getData from "@/actions/get";
-import { BACKEND_URL } from "@/consts/site-info";
-import PageTop from "@/components/native/PageTop";
-import { UserType } from "@/types/user";
 import { userColumn } from "@/columns/UserColumn";
+import { DataTable } from "@/components/native/DataTable";
+import PageTop from "@/components/native/PageTop";
+import { BACKEND_URL } from "@/consts/site-info";
+import { UserType } from "@/types/user";
+import React from "react";
 
 export default async function Layout({
   children,
@@ -18,7 +18,7 @@ export default async function Layout({
   const searchTargets = ["_id", "name", "email", "phone"];
 
   return (
-    <div className="px-4 mt-12 lg:mt-4 lg:ml-72">
+    <>
       <PageTop title="Users" />
       <div className="flex flex-col 2xl:flex-row 2xl:gap-2 2xl:justify-between">
         {children}
@@ -30,6 +30,6 @@ export default async function Layout({
           // addItemRoute="/dashboard/users/add"
         />
       </div>
-    </div>
+    </>
   );
 }
