@@ -26,9 +26,9 @@ export default function Profile() {
   }
 
   return (
-    <div className="px-4 mt-12 lg:mt-4 lg:ml-72">
+    <>
       <PageTop title="Profile" />
       <SharedProfileUI data={data} />
-    </div>
+    </>
   );
 }
