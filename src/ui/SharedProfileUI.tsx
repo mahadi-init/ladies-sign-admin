@@ -23,7 +23,7 @@ import { useState } from "react";
 export default function SharedProfileUI({
   data,
 }: {
-  data?: ProfileType;
+  data?: Partial<ProfileType>;
 }): JSX.Element {
   const [image, setImage] = useState<string>();
 

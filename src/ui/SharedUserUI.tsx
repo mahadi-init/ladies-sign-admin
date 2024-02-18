@@ -1,14 +1,14 @@
 "use client";
-import SubmitButton from "@/components/native/SubmitButton";
-import { Response } from "@/types/response";
-import { toast } from "sonner";
-import { Input } from "@/components/ui/input";
-import { UserType } from "@/types/user";
 import ResetButton from "@/components/native/ResetButton";
+import SubmitButton from "@/components/native/SubmitButton";
+import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { Response } from "@/types/response";
+import { UserType } from "@/types/user";
 import Image from "next/image";
+import { toast } from "sonner";
 
-interface PropTypes extends UserType {
+interface PropTypes extends Partial<UserType> {
   queryUrl: string;
   validationTag: string;
   successMessage: string;
@@ -16,7 +16,7 @@ interface PropTypes extends UserType {
     data: T,
     queryUrl: string,
     validationTag: string,
-    successMessage: string,
+    successMessage: string
   ) => Promise<Response>;
 }
 
@@ -48,7 +48,7 @@ export default function SharedUserUI<T extends PropTypes>(props: T) {
       data,
       props.queryUrl,
       props.validationTag,
-      props.successMessage,
+      props.successMessage
     );
     if (res.status === 200) {
       toast.success(res.message);
