@@ -1,14 +1,14 @@
 "use client";
-import { useState } from "react";
-import SubmitButton from "@/components/native/SubmitButton";
 import DropdownSelect from "@/components/native/DropdownSelect";
-import { Response } from "@/types/response";
-import { CategoryType } from "@/types/category";
-import { toast } from "sonner";
 import ImageUploader from "@/components/native/ImageUploader";
+import SubmitButton from "@/components/native/SubmitButton";
 import { Input } from "@/components/ui/input";
+import { CategoryType } from "@/types/category";
+import { Response } from "@/types/response";
+import { useState } from "react";
+import { toast } from "sonner";
 
-interface PropTypes extends CategoryType {
+interface PropTypes extends Partial<CategoryType> {
   productTypes: string[];
   queryUrl: string;
   validationTag: string;
@@ -17,14 +17,14 @@ interface PropTypes extends CategoryType {
     data: T,
     queryUrl: string,
     validationTag: string,
-    successMessage: string,
+    successMessage: string
   ) => Promise<Response>;
 }
 
 export default function SharedCategoryUI<T extends PropTypes>(props: T) {
   const [img, setImg] = useState(props.img);
   const [productType, setProductType] = useState(
-    props.productType ?? props.productTypes[0],
+    props.productType ?? props.productTypes[0]
   );
 
   const handleFormAction = async (formData: FormData) => {
@@ -51,7 +51,7 @@ export default function SharedCategoryUI<T extends PropTypes>(props: T) {
       data,
       props.queryUrl,
       props.validationTag,
-      props.successMessage,
+      props.successMessage
     );
     if (res.status === 200) {
       toast.success(res.message);

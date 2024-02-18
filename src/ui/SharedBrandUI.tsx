@@ -1,13 +1,13 @@
 "use client";
-import { useState } from "react";
-import SubmitButton from "@/components/native/SubmitButton";
-import { Response } from "@/types/response";
-import { BrandType } from "@/types/brand";
-import { toast } from "sonner";
 import ImageUploader from "@/components/native/ImageUploader";
+import SubmitButton from "@/components/native/SubmitButton";
 import { Input } from "@/components/ui/input";
+import { BrandType } from "@/types/brand";
+import { Response } from "@/types/response";
+import { useState } from "react";
+import { toast } from "sonner";
 
-interface PropTypes extends BrandType {
+interface PropTypes extends Partial<BrandType> {
   queryUrl: string;
   validationTag: string;
   successMessage: string;
@@ -15,7 +15,7 @@ interface PropTypes extends BrandType {
     data: T,
     queryUrl: string,
     validationTag: string,
-    successMessage: string,
+    successMessage: string
   ) => Promise<Response>;
 }
 
@@ -41,7 +41,7 @@ export default function SharedBrandUI<T extends PropTypes>(props: T) {
       data,
       props.queryUrl,
       props.validationTag,
-      props.successMessage,
+      props.successMessage
     );
     if (res.status === 200) {
       toast.success(res.message);
