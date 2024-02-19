@@ -1,3 +1,4 @@
+"use client";
 import { Response } from "@/types/response";
 import { Trash2 } from "lucide-react";
 import { toast } from "sonner";
@@ -11,7 +12,7 @@ interface PropTypes {
   serverAction: (
     queryUrl: string,
     validationTag: string,
-    successMessage: string
+    successMessage: string,
   ) => Promise<Response>;
 }
 
@@ -26,7 +27,7 @@ export default function DeleteItem(props: PropTypes): JSX.Element {
     const res = await props.serverAction(
       props.queryUrl,
       props.validationTag,
-      props.successMessage
+      props.successMessage,
     );
 
     if (res.status === 200) {
