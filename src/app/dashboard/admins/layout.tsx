@@ -1,9 +1,10 @@
-import React from "react";
-import { couponColumn } from "./column";
-import { DataTable } from "@/components/native/DataTable";
 import getData from "@/actions/get";
+import { adminColumn } from "@/columns/AdminColumn";
+import { DataTable } from "@/components/native/DataTable";
+import PageTop from "@/components/native/PageTop";
 import { BACKEND_URL } from "@/consts/site-info";
 import { AdminType } from "@/types/admin";
+import React from "react";
 
 export default async function Layout({
   children,
@@ -19,10 +20,11 @@ export default async function Layout({
 
   return (
     <>
-      <div className="flex flex-col p-2 lg:justify-between lg:ml-72 lg:w-8/12 xl:flex-row xl:gap-4 xl:w-9/12 2xl:w-10/12">
+      <PageTop title="Admins" />
+      <div className="flex flex-col 2xl:flex-row 2xl:gap-2 2xl:justify-between">
         {children}
         <DataTable
-          columns={couponColumn}
+          columns={adminColumn}
           //@ts-expect-error
           data={admins.data}
           searchTargets={searchTargets}

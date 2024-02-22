@@ -1,31 +1,46 @@
 "use client";
-
 import { Button } from "@/components/ui/button";
 import { ColumnDef } from "@tanstack/react-table";
-import { ArrowUpDown, PencilIcon } from "lucide-react";
-import Link from "next/link";
+import { ArrowUpDown } from "lucide-react";
 import DeleteItem from "@/components/native/DeleteItem";
-import Image from "next/image";
 import { BACKEND_URL } from "@/consts/site-info";
 import { deleteData } from "@/actions/delete";
-import { AdminType } from "@/types/admin";
+import { ReviewType } from "@/types/review";
+import Image from "next/image";
+import Link from "next/link";
 
-export const couponColumn: ColumnDef<AdminType>[] = [
+export const reviewColumn: ColumnDef<ReviewType>[] = [
   {
     accessorKey: "_id",
     header: "ID",
   },
   {
-    accessorKey: "image",
+    accessorKey: "userId",
+    header: "USER",
+    cell: ({ row }) => {
+      //TODO:ADD USER ROUTE
+      return <Link href="#">{row.original.userId}</Link>;
+    },
+  },
+  {
+    accessorKey: "product",
+    header: "PRODUCT",
+    cell: ({ row }) => {
+      //TODO:ADD PRODUCT ROUTE
+      return <Link href="#">{row.original.product}</Link>;
+    },
+  },
+  {
+    accessorKey: "productImage",
     header: "IMAGE",
     cell: ({ row }) => {
-      return row.original.image ? (
+      return row.original.productImage ? (
         <picture>
           <Image
             className="w-10"
             width={250}
             height={250}
-            src={row.original.image}
+            src={row.original.productImage}
             alt="cell image"
             loading="lazy"
           />
@@ -36,66 +51,41 @@ export const couponColumn: ColumnDef<AdminType>[] = [
     },
   },
   {
-    accessorKey: "name",
+    accessorKey: "rating",
     header: ({ column }) => {
       return (
         <Button
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          NAME
+          RATING
           <ArrowUpDown className="ml-2 w-4 h-4" />
         </Button>
       );
     },
   },
   {
-    accessorKey: "email",
+    accessorKey: "comment",
     header: ({ column }) => {
       return (
         <Button
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          EMAIL
+          COMMENT
           <ArrowUpDown className="ml-2 w-4 h-4" />
         </Button>
       );
     },
-  },
-  {
-    accessorKey: "phone",
-    header: "PHONE",
-  },
-  {
-    accessorKey: "status",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          STATUS
-          <ArrowUpDown className="ml-2 w-4 h-4" />
-        </Button>
-      );
-    },
-  },
-  {
-    accessorKey: "role",
-    header: "ROLE",
   },
   {
     id: "actions",
     cell: ({ row }) => (
-      <div className="flex  items-center gap-8">
-        <Link href={`/dashboard/admins/edit/${row.original._id}`}>
-          <PencilIcon size={16} />
-        </Link>
+      <div className="flex gap-8 items-center">
         <DeleteItem
-          queryUrl={`${BACKEND_URL}/api/admin/${row.original._id}`}
-          validationTag="admins"
-          successMessage="Admin deleted successfully"
+          queryUrl={`${BACKEND_URL}/api/review/delete/${row.original.productId}`}
+          validationTag="reviews"
+          successMessage="Review deleted successfully"
           serverAction={deleteData}
         />
       </div>

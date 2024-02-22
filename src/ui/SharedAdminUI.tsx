@@ -1,14 +1,14 @@
 "use client";
-import { useState } from "react";
-import SubmitButton from "@/components/native/SubmitButton";
 import DropdownSelect from "@/components/native/DropdownSelect";
-import { Response } from "@/types/response";
-import { AdminType } from "@/types/admin";
 import ImageUploader from "@/components/native/ImageUploader";
-import { toast } from "sonner";
+import SubmitButton from "@/components/native/SubmitButton";
 import { Input } from "@/components/ui/input";
+import { AdminType } from "@/types/admin";
+import { Response } from "@/types/response";
+import { useState } from "react";
+import { toast } from "sonner";
 
-interface PropTypes extends AdminType {
+interface PropTypes extends Partial<AdminType> {
   adminRoles: string[];
   queryUrl: string;
   validationTag: string;
@@ -17,7 +17,7 @@ interface PropTypes extends AdminType {
     data: T,
     queryUrl: string,
     validationTag: string,
-    successMessage: string,
+    successMessage: string
   ) => Promise<Response>;
 }
 
@@ -53,7 +53,7 @@ export default function SharedAdminUI<T extends PropTypes>(props: T) {
       data,
       props.queryUrl,
       props.validationTag,
-      props.successMessage,
+      props.successMessage
     );
     if (res.status === 200) {
       toast.success(res.message);

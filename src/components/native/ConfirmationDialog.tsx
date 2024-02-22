@@ -11,18 +11,26 @@ import {
 } from "@/components/ui/alert-dialog";
 import React from "react";
 
-export function ConfirmationDialog({
+/**
+ * Renders a confirmation dialog with the given alert text and children, and handles the provided action.
+ *
+ * @param {string} alertText - The text to be displayed in the confirmation dialog alert
+ * @param {React.ReactNode} children - The content to be displayed in the confirmation dialog
+ * @param {() => void} action - The action to be performed upon confirmation
+ * @return {React.ReactElement} The confirmation dialog component
+ */
+export default function ConfirmationDialog({
   alertText,
-  openDialogTrigger,
   children,
+  action,
 }: {
   alertText: string;
-  openDialogTrigger: React.ReactNode;
   children: React.ReactNode;
-}) {
+  action: () => void;
+}): React.ReactElement {
   return (
     <AlertDialog>
-      <AlertDialogTrigger asChild>{openDialogTrigger}</AlertDialogTrigger>
+      <AlertDialogTrigger asChild>{children}</AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
@@ -30,7 +38,7 @@ export function ConfirmationDialog({
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction>{children}</AlertDialogAction>
+          <AlertDialogAction onClick={action}>Confirm</AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>

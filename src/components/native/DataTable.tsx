@@ -1,4 +1,14 @@
 "use client";
+import { Button, buttonVariants } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -10,33 +20,32 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
+import Link from "next/link";
 import { useState } from "react";
 import DropdownSelect from "./DropdownSelect";
-import Link from "next/link";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
   searchTargets: string[];
-  addItemRoute: string;
+  addItemRoute?: string;
 }
 
+/**
+ * Renders a data table component with the provided data and columns, and allows filtering and pagination.
+ *
+ * @param {DataTableProps<TData, TValue>} columns - The columns for the data table
+ * @param {DataTableProps<TData, TValue>} data - The data to be displayed in the table
+ * @param {DataTableProps<TData, TValue>} searchTargets - The targets for filtering
+ * @param {DataTableProps<TData, TValue>} addItemRoute - The route for adding new items
+ * @return {JSX.Element} The rendered data table component
+ */
 export function DataTable<TData, TValue>({
   columns,
   data,
   searchTargets,
   addItemRoute,
-}: DataTableProps<TData, TValue>) {
+}: DataTableProps<TData, TValue>): JSX.Element {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [searchTarget, setSearchTarget] = useState<string>(searchTargets[0]);
@@ -58,8 +67,8 @@ export function DataTable<TData, TValue>({
 
   return (
     <div className="w-full">
-      <div className="justify-between flex items-center">
-        <div className="flex items-center gap-2">
+      <div className="flex justify-between items-center">
+        <div className="flex gap-2 items-center">
           <div className="flex items-center py-4">
             <Input
               placeholder="Filter Item.."
@@ -82,9 +91,11 @@ export function DataTable<TData, TValue>({
             setSelectedItem={setSearchTarget}
           />
         </div>
-        <Button size="sm">
-          <Link href={addItemRoute}>Add Item</Link>
-        </Button>
+        {addItemRoute && (
+          <Link href={addItemRoute} className={buttonVariants({ size: "sm" })}>
+            Add Item
+          </Link>
+        )}
       </div>
       <div className="rounded-md border">
         <Table>
