@@ -1,7 +1,6 @@
 "use client";
-import Image from "next/image";
-import Link from "next/link";
-import React, { useEffect, useState } from "react";
+import useLogout from "@/hooks/useLogout";
+import clsx from "clsx";
 import {
   BellRing,
   Component,
@@ -13,43 +12,25 @@ import {
   ShieldHalf,
   ShoppingBasket,
   Star,
+  User,
   Users,
-  UsersRound,
 } from "lucide-react";
+import Link from "next/link";
 import { usePathname } from "next/navigation";
-import clsx from "clsx";
+import { useState } from "react";
+import { toast } from "sonner";
+import { Button } from "../ui/button";
+import ConfirmationDialog from "./ConfirmationDialog";
 
-export default function Sidenav() {
+/**
+ * This function renders the side navigation menu
+ *
+ * @return {JSX.Element} The rendered side navigation menu
+ */
+export default function Sidenav(): JSX.Element {
   const pathname = usePathname();
-  const [title, setTitle] = useState("");
+  const { handleLogout } = useLogout();
   const [isSideNavOpen, setIsSideNavOpen] = useState(false);
-
-  useEffect(() => {
-    const routes = [
-      "products",
-      "category",
-      "orders",
-      "brand",
-      "reviews",
-      "coupons",
-      "admins",
-      "stuffs",
-      "users",
-      "notifications",
-    ];
-
-    if (pathname.endsWith("dashboard")) {
-      setTitle("dashboard");
-
-      return;
-    }
-
-    for (let i = 0; i < routes.length; i++) {
-      if (pathname.includes(routes[i])) {
-        setTitle(routes[i]);
-      }
-    }
-  }, [pathname]);
 
   const hideSideNav = async () => {
     setIsSideNavOpen(false);
@@ -58,10 +39,11 @@ export default function Sidenav() {
   return (
     <>
       {/* @ts-ignore */}
-      <button
+      <Button
+        variant="outline"
         title="Side navigation"
         type="button"
-        className={`visible fixed left-6 top-6 z-40 order-10 block h-10 w-10 self-center rounded bg-white opacity-100 lg:hidden ${
+        className={`visible fixed left-2 top-1 z-40 order-10 block h-10 w-10 self-center rounded bg-white opacity-100 lg:hidden ${
           isSideNavOpen
             ? "visible opacity-100 [&_span:nth-child(1)]:w-6 [&_span:nth-child(1)]:translate-y-0 [&_span:nth-child(1)]:rotate-45 [&_span:nth-child(3)]:w-0 [&_span:nth-child(2)]:-rotate-45 "
             : ""
@@ -86,7 +68,7 @@ export default function Sidenav() {
             className="block absolute w-1/2 h-0.5 rounded-full transition-all duration-300 transform origin-top-left translate-y-2 bg-slate-900"
           ></span>
         </div>
-      </button>
+      </Button>
 
       {/*  <!-- Side Navigation --> */}
       <aside
@@ -96,14 +78,6 @@ export default function Sidenav() {
           isSideNavOpen ? "translate-x-0" : " -translate-x-full"
         }`}
       >
-        <div className="flex flex-col gap-2 items-center p-6 border-b border-slate-200">
-          <div className="flex flex-col items-center gap-1 justify-center w-full min-w-0 text-center min-h-[2rem]">
-            <p className="text-sm">You are currently at.</p>
-            <h4 className="w-full text-xl truncate text-slate-700 font-bold">
-              {title.charAt(0).toUpperCase() + title.slice(1)}
-            </h4>
-          </div>
-        </div>
         <nav
           aria-label="side navigation"
           className="overflow-auto flex-1 divide-y divide-slate-100"
@@ -116,7 +90,8 @@ export default function Sidenav() {
                   onClick={hideSideNav}
                   className={clsx(
                     "flex items-center gap-3 rounded p-3 text-slate-700 transition-colors hover:bg-rose-50 hover:text-rose-500 focus:bg-rose-50",
-                    title === "dashboard" && "bg-purple-50 text-purple-600",
+                    pathname.endsWith("dashboard") &&
+                      "bg-purple-50 text-purple-600"
                   )}
                 >
                   <div className="flex items-center self-center">
@@ -127,13 +102,15 @@ export default function Sidenav() {
                   </div>
                 </Link>
               </li>
+
               <li className="px-3">
                 <Link
                   href="/dashboard/products"
                   onClick={hideSideNav}
                   className={clsx(
                     "flex items-center gap-3 rounded p-3 text-slate-700 transition-colors hover:bg-rose-50 hover:text-rose-500 focus:bg-rose-50",
-                    title === "products" && "bg-purple-50 text-purple-600",
+                    pathname.includes("products") &&
+                      "bg-purple-50 text-purple-600"
                   )}
                 >
                   <div className="flex items-center self-center">
@@ -144,13 +121,15 @@ export default function Sidenav() {
                   </div>
                 </Link>
               </li>
+
               <li className="px-3">
                 <Link
                   href="/dashboard/category"
                   onClick={hideSideNav}
                   className={clsx(
                     "flex items-center gap-3 rounded p-3 text-slate-700 transition-colors hover:bg-rose-50 hover:text-rose-500 focus:bg-rose-50",
-                    title === "category" && "bg-purple-100 text-purple-800",
+                    pathname.includes("category") &&
+                      "bg-purple-100 text-purple-800"
                   )}
                 >
                   <div className="flex items-center self-center">
@@ -161,13 +140,15 @@ export default function Sidenav() {
                   </div>
                 </Link>
               </li>
+
               <li className="px-3">
                 <Link
                   href="/dashboard/orders"
                   onClick={hideSideNav}
                   className={clsx(
                     "flex items-center gap-3 rounded p-3 text-slate-700 transition-colors hover:bg-rose-50 hover:text-rose-500 focus:bg-rose-50",
-                    title === "orders" && "bg-purple-100 text-purple-800",
+                    pathname.includes("orders") &&
+                      "bg-purple-100 text-purple-800"
                   )}
                 >
                   <div className="flex items-center self-center">
@@ -182,13 +163,15 @@ export default function Sidenav() {
                   </span>
                 </Link>
               </li>
+
               <li className="px-3">
                 <Link
                   href="/dashboard/brand"
                   onClick={hideSideNav}
                   className={clsx(
                     "flex items-center gap-3 rounded p-3 text-slate-700 transition-colors hover:bg-rose-50 hover:text-rose-500 focus:bg-rose-50",
-                    title === "brand" && "bg-purple-100 text-purple-800",
+                    pathname.includes("brand") &&
+                      "bg-purple-100 text-purple-800"
                   )}
                 >
                   <div className="flex items-center self-center">
@@ -209,7 +192,8 @@ export default function Sidenav() {
                   onClick={hideSideNav}
                   className={clsx(
                     "flex items-center gap-3 rounded p-3 text-slate-700 transition-colors hover:bg-rose-50 hover:text-rose-500 focus:bg-rose-50",
-                    title === "reviews" && "bg-purple-100 text-purple-800 ",
+                    pathname.includes("reviews") &&
+                      "bg-purple-100 text-purple-800 "
                   )}
                 >
                   <div className="flex items-center self-center">
@@ -220,13 +204,15 @@ export default function Sidenav() {
                   </div>
                 </Link>
               </li>
+
               <li className="px-3">
                 <Link
                   href="/dashboard/coupons"
                   onClick={hideSideNav}
                   className={clsx(
                     "flex items-center gap-3 rounded p-3 text-slate-700 transition-colors hover:bg-rose-50 hover:text-rose-500 focus:bg-rose-50",
-                    title === "coupons" && "bg-purple-100 text-purple-800",
+                    pathname.includes("coupons") &&
+                      "bg-purple-100 text-purple-800"
                   )}
                 >
                   <div className="flex items-center self-center">
@@ -237,13 +223,15 @@ export default function Sidenav() {
                   </div>
                 </Link>
               </li>
+
               <li className="px-3">
                 <Link
                   href="/dashboard/admins"
                   onClick={hideSideNav}
                   className={clsx(
                     "flex items-center gap-3 rounded p-3 text-slate-700 transition-colors hover:bg-rose-50 hover:text-rose-500 focus:bg-rose-50",
-                    title === "admins" && "bg-purple-100 text-purple-800",
+                    pathname.includes("admins") &&
+                      "bg-purple-100 text-purple-800"
                   )}
                 >
                   <div className="flex items-center self-center">
@@ -257,28 +245,12 @@ export default function Sidenav() {
 
               <li className="px-3">
                 <Link
-                  href="/dashboard/stuffs"
-                  onClick={hideSideNav}
-                  className={clsx(
-                    "flex items-center gap-3 rounded p-3 text-slate-700 transition-colors hover:bg-rose-50 hover:text-rose-500 focus:bg-rose-50",
-                    title === "stuffs" && "bg-purple-100 text-purple-800",
-                  )}
-                >
-                  <div className="flex items-center self-center">
-                    <UsersRound size={18} />
-                  </div>
-                  <div className="flex overflow-hidden flex-col flex-1 gap-0 justify-center items-start w-full text-sm truncate">
-                    Stuffs
-                  </div>
-                </Link>
-              </li>
-              <li className="px-3">
-                <Link
                   href="/dashboard/users"
                   onClick={hideSideNav}
                   className={clsx(
                     "flex items-center gap-3 rounded p-3 text-slate-700 transition-colors hover:bg-rose-50 hover:text-rose-500 focus:bg-rose-50",
-                    title === "users" && "bg-purple-100 text-purple-800",
+                    pathname.includes("users") &&
+                      "bg-purple-100 text-purple-800"
                   )}
                 >
                   <div className="flex items-center self-center">
@@ -289,14 +261,34 @@ export default function Sidenav() {
                   </div>
                 </Link>
               </li>
+
+              <li className="px-3">
+                <Link
+                  href="/dashboard/profile"
+                  onClick={hideSideNav}
+                  className={clsx(
+                    "flex items-center gap-3 rounded p-3 text-slate-700 transition-colors hover:bg-rose-50 hover:text-rose-500 focus:bg-rose-50",
+                    pathname.includes("profile") &&
+                      "bg-purple-100 text-purple-800"
+                  )}
+                >
+                  <div className="flex items-center self-center">
+                    <User size={18} />
+                  </div>
+                  <div className="flex overflow-hidden flex-col flex-1 gap-0 justify-center items-start w-full text-sm truncate">
+                    Profile
+                  </div>
+                </Link>
+              </li>
+
               <li className="px-3">
                 <Link
                   href="/dashboard/notifications"
                   onClick={hideSideNav}
                   className={clsx(
                     "flex items-center gap-3 rounded p-3 text-slate-700 transition-colors hover:bg-rose-50 hover:text-rose-500 focus:bg-rose-50",
-                    title === "notifications" &&
-                      "bg-purple-100 text-purple-800",
+                    pathname.includes("notifications") &&
+                      "bg-purple-100 text-purple-800"
                   )}
                 >
                   <div className="flex items-center self-center">
@@ -313,15 +305,29 @@ export default function Sidenav() {
             </ul>
           </div>
         </nav>
+
         <footer className="p-3 border-t border-slate-200">
-          <button className="flex gap-3 items-center p-3 rounded transition-colors hover:text-rose-500 text-slate-900">
-            <div className="flex items-center self-center">
-              <LogOut size={18} />
-            </div>
-            <div className="flex overflow-hidden flex-col flex-1 gap-0 justify-center items-start w-full text-sm font-medium truncate">
-              Logout
-            </div>
-          </button>
+          <ConfirmationDialog
+            alertText="You will logged out from admin panel"
+            action={() => {
+              toast.promise(handleLogout, {
+                loading: "Loading...",
+                success: () => {
+                  return `Logout successful`;
+                },
+                error: "Error",
+              });
+            }}
+          >
+            <button className="flex gap-3 items-center p-3 rounded transition-colors hover:text-rose-500 text-slate-900">
+              <div className="flex items-center self-center">
+                <LogOut size={18} />
+              </div>
+              <div className="flex overflow-hidden flex-col flex-1 gap-0 justify-center items-start w-full text-sm font-medium truncate">
+                Logout
+              </div>
+            </button>
+          </ConfirmationDialog>
         </footer>
       </aside>
 

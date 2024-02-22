@@ -7,6 +7,13 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
+/**
+ * Function for rendering a dropdown select component with given options.
+ *
+ * @param {Object} param0 - Destructured object containing style, name,
+ * placeholder, items, selectedItem, and setSelectedItem
+ * @return {JSX.Element} The rendered dropdown select component
+ */
 export default function DropdownSelect({
   style,
   name,
@@ -21,7 +28,7 @@ export default function DropdownSelect({
   items: string[];
   selectedItem?: string;
   setSelectedItem: (item: string) => void;
-}) {
+}): JSX.Element {
   return (
     <Select value={selectedItem} onValueChange={setSelectedItem} name={name}>
       <SelectTrigger className={style ?? "w-32"}>

@@ -1,9 +1,22 @@
 "use client";
+import { ReloadIcon } from "@radix-ui/react-icons";
 import { useFormStatus } from "react-dom";
 import { Button } from "../ui/button";
-import { EnterIcon, ReloadIcon } from "@radix-ui/react-icons";
 
-export default function SubmitButton({ style }: { style?: string }) {
+/**
+ * Renders a SubmitButton component with the provided text and style, and disables it when pending.
+ *
+ * @param {string} text - The text to display on the button. Optional.
+ * @param {string} style - The CSS class to apply to the button. Optional.
+ * @return {JSX.Element} The rendered SubmitButton component.
+ */
+export default function SubmitButton({
+  text,
+  style,
+}: {
+  text?: string;
+  style?: string;
+}): JSX.Element {
   const { pending } = useFormStatus();
 
   return (
@@ -14,9 +27,7 @@ export default function SubmitButton({ style }: { style?: string }) {
           <span>Please wait</span>
         </>
       ) : (
-        <>
-          <EnterIcon className="mr-2 w-4 h-4" /> Submit
-        </>
+        <span>{text ?? "Submit"}</span>
       )}
     </Button>
   );
