@@ -1,3 +1,4 @@
+"use client";
 import { Response } from "@/types/response";
 import { Trash2 } from "lucide-react";
 import { toast } from "sonner";
@@ -42,7 +43,12 @@ export default function DeleteItem(props: PropTypes): JSX.Element {
         alertText="The action will perform a delete operation"
         action={handleFormAction}
       >
-        <Button type="button" size="icon" className="w-6 h-6">
+        <Button
+          type="button"
+          size="icon"
+          className="w-6 h-6"
+          variant="destructive"
+        >
           <Trash2 size={16} />
         </Button>
       </ConfirmationDialog>
