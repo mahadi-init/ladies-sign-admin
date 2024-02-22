@@ -1,5 +1,5 @@
 "use client";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
   Table,
@@ -92,9 +92,9 @@ export function DataTable<TData, TValue>({
           />
         </div>
         {addItemRoute && (
-          <Button size="sm">
-            <Link href={addItemRoute}>Add Item</Link>
-          </Button>
+          <Link href={addItemRoute} className={buttonVariants({ size: "sm" })}>
+            Add Item
+          </Link>
         )}
       </div>
       <div className="rounded-md border">
