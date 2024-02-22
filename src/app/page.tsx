@@ -1,15 +1,48 @@
 "use client";
-import Image from "next/image";
+import { userSignIn } from "@/actions/user-signin";
+import RecoverPassword from "@/components/native/RecoverPassword";
 import SubmitButton from "@/components/native/SubmitButton";
 import { Input } from "@/components/ui/input";
-import { userSignIn } from "@/actions/user-signin";
-import { useRouter } from "next/navigation";
-import { toast } from "sonner";
-import RecoverPassword from "@/components/native/RecoverPassword";
 import { Role } from "@/types/role";
+import { hasSiteAccessPermission } from "@/utils/site-access-permission";
+import { getCookie } from "cookies-next";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { toast } from "sonner";
+
+enum AccessStatus {
+  LOADING,
+  ERROR,
+}
 
 export default function Login() {
   const router = useRouter();
+  const [hasAccess, setHasAccess] = useState<AccessStatus>(
+    AccessStatus.LOADING
+  );
+
+  // Check if user has access permission
+  // If yes, redirect to dashboard If no, redirect to login
+  useEffect(() => {
+    const token = getCookie("access-token");
+
+    if (hasSiteAccessPermission(token)) {
+      router.replace("/dashboard");
+    }
+
+    setHasAccess(AccessStatus.ERROR);
+  }, [router]);
+
+  // Render loading state
+  if (hasAccess === AccessStatus.LOADING) {
+    return (
+      <div className="w-screen h-screen flex flex-col justify-center items-center">
+        <Image src="/authenticating.gif" height={300} width={300} alt="auth" />
+        <p className="font-medium">Authenticating...</p>
+      </div>
+    );
+  }
 
   const handleFormAction = async (formData: FormData) => {
     const email = formData.get("email") as string;
