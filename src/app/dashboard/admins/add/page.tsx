@@ -1,5 +1,5 @@
-import { BACKEND_URL } from "@/consts/site-info";
 import { addData } from "@/actions/post";
+import { BACKEND_URL } from "@/consts/site-info";
 import SharedAdminUI from "@/ui/SharedAdminUI";
 
 export default async function AddAdmin() {

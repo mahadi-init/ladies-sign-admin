@@ -8,9 +8,18 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import React from "react";
 import SubmitButton from "./SubmitButton";
-import React, { useState } from "react";
 
+/**
+ * Renders a modal component with the specified title, description, and children.
+ *
+ * @param {React.ReactNode} openModalTrigger - The trigger to open the modal
+ * @param {string} title - The title of the modal
+ * @param {string} [description] - An optional description of the modal
+ * @param {React.ReactNode} children - The content to be displayed within the modal
+ * @return {JSX.Element} The rendered modal component
+ */
 export default function Modal({
   openModalTrigger,
   title,
@@ -21,7 +30,7 @@ export default function Modal({
   title: string;
   description?: string;
   children: React.ReactNode;
-}) {
+}): JSX.Element {
   return (
     <Dialog>
       <DialogTrigger asChild>{openModalTrigger}</DialogTrigger>

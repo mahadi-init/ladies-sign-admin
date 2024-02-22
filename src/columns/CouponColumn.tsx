@@ -77,7 +77,11 @@ export const couponColumn: ColumnDef<CouponType>[] = [
     cell: ({ row }) => {
       return (
         <p>
-          {new Date(row.original.startTime!!).toISOString().substring(0, 10)}
+          {row.original.startTime ? (
+            new Date(row.original.startTime).toISOString().substring(0, 10)
+          ) : (
+            <span className="font-medium">-</span>
+          )}
         </p>
       );
     },
@@ -87,7 +91,13 @@ export const couponColumn: ColumnDef<CouponType>[] = [
     header: "END",
     cell: ({ row }) => {
       return (
-        <p>{new Date(row.original.endTime!!).toISOString().substring(0, 10)}</p>
+        <p>
+          {row.original.endTime ? (
+            new Date(row.original.endTime).toISOString().substring(0, 10)
+          ) : (
+            <span className="font-medium">-</span>
+          )}
+        </p>
       );
     },
   },

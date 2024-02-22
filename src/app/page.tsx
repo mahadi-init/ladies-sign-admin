@@ -2,44 +2,32 @@
 import Image from "next/image";
 import SubmitButton from "@/components/native/SubmitButton";
 import { Input } from "@/components/ui/input";
-import { userSignin } from "./_action";
+import { userSignIn } from "@/actions/user-signin";
+import { useRouter } from "next/navigation";
 import { toast } from "sonner";
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import RecoverPassword from "./recover-password";
-import { useState } from "react";
-
-const UserSchema = z.object({
-  email: z.string().email("Invalid email address"),
-  password: z.string().min(6, "mininum 6 character required"),
-});
+import RecoverPassword from "@/components/native/RecoverPassword";
+import { Role } from "@/types/role";
 
 export default function Login() {
-  const [pending, setPending] = useState(false);
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<z.infer<typeof UserSchema>>({
-    resolver: zodResolver(UserSchema),
-  });
+  const router = useRouter();
 
-  const handleFormAction = async (data: z.infer<typeof UserSchema>) => {
-    setPending(true);
+  const handleFormAction = async (formData: FormData) => {
+    const email = formData.get("email") as string;
+    const password = formData.get("password") as string;
 
-    const res = await userSignin({
-      email: data.email,
-      password: data.password,
-    });
+    const res = await userSignIn(email, password);
 
     if (res.status === 200) {
-      toast.success("Logged in successful");
-    } else {
-      toast.error("Login failed");
-    }
+      toast.success(res.message);
 
-    setPending(false);
+      if (res.role === Role.Seller) {
+        router.replace("/seller/profile");
+      } else {
+        router.replace("/dashboard");
+      }
+    } else {
+      toast.error(res.message);
+    }
   };
 
   return (
@@ -50,29 +38,19 @@ export default function Login() {
             Continue Sign in to Ladies Sign
           </h2>
 
-          <form
-            onSubmit={handleSubmit((data) => handleFormAction(data))}
-            className="mt-6"
-          >
+          <form action={handleFormAction} className="mt-6">
             <div className="space-y-5">
-              <div>
-                <label htmlFor="email" className="ml-1 font-medium">
-                  Email
-                  <Input
-                    {...register("email")}
-                    id="email"
-                    type="email"
-                    placeholder="Enter email"
-                    className="mt-2.5"
-                    required
-                  />
-                </label>
-                {errors.email?.message && (
-                  <span className="mt-1 text-xs text-red-700">
-                    {errors.email?.message}
-                  </span>
-                )}
-              </div>
+              <label htmlFor="email" className="ml-1 font-medium">
+                Email <span className="text-red-600">*</span>
+                <Input
+                  id="email"
+                  type="email"
+                  name="email"
+                  placeholder="Enter email"
+                  className="mt-2.5"
+                  required
+                />
+              </label>
 
               <div>
                 <div className="flex justify-between items-center">
@@ -80,40 +58,20 @@ export default function Login() {
                     htmlFor="password"
                     className="text-base font-medium text-gray-900"
                   >
-                    Password
+                    Password <span className="text-red-600">*</span>
                   </label>
-
                   <RecoverPassword />
                 </div>
-
-                <div className="mt-2.5">
-                  <Input
-                    {...register("password")}
-                    id="password"
-                    type="password"
-                    placeholder="123456"
-                    required
-                  />
-                  {errors.password?.message && (
-                    <span className="mt-1 text-xs text-red-700">
-                      {errors.password?.message}
-                    </span>
-                  )}
-                </div>
+                <Input
+                  id="password"
+                  type="password"
+                  name="password"
+                  placeholder="123456"
+                  className="mt-2.5"
+                  required
+                />
               </div>
               <SubmitButton style="w-full" />
-            </div>
-
-            <div className="mt-4">
-              <label htmlFor="remember-me" className="flex gap-2">
-                <input
-                  id="remember-me"
-                  type="checkbox"
-                  name="remember-me"
-                  className="w-4"
-                />
-                <p className="font-semibold">Remember me</p>
-              </label>
             </div>
           </form>
         </div>
