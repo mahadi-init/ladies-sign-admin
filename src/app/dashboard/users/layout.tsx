@@ -27,7 +27,6 @@ export default async function Layout({
           //@ts-expect-error
           data={users.data}
           searchTargets={searchTargets}
-          // addItemRoute="/dashboard/users/add"
         />
       </div>
     </>
