@@ -1,5 +1,11 @@
 import { Status } from "@/types/status";
-import clsx from "clsx";
+import { Badge } from "../ui/badge";
+
+enum Variant {
+  default = "default",
+  secondary = "secondary",
+  destructive = "destructive",
+}
 
 /**
  * StatusIndicator component that displays the status with different colors based on the status value.
@@ -12,15 +18,19 @@ export default function StatusIndicator({
 }: {
   status: Status;
 }): JSX.Element {
-  const getColor = () => {
-    if (status === Status.active) {
-      return "text-green-600";
+  const getColor = (): Variant => {
+    if (status === Status.active || status === Status.Show) {
+      return Variant.secondary;
     } else if (status === Status.inactive) {
-      return "text-yellow-600";
+      return Variant.default;
     } else {
-      return "text-red-600";
+      return Variant.destructive;
     }
   };
 
-  return <p className={clsx("text-sm font-semibold", getColor())}>{status}</p>;
+  return (
+    <Badge variant={getColor()} className="text-xs font-semibold">
+      {status}
+    </Badge>
+  );
 }
