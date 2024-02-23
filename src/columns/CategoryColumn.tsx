@@ -1,14 +1,16 @@
 "use client";
 
+import { deleteData } from "@/actions/delete";
+import DeleteItem from "@/components/native/DeleteItem";
+import StatusIndicator from "@/components/native/StatusIndicator";
 import { Button } from "@/components/ui/button";
+import { BACKEND_URL } from "@/consts/site-info";
+import { CategoryType } from "@/types/category";
+import { Status } from "@/types/status";
 import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown, PencilIcon } from "lucide-react";
-import Link from "next/link";
-import DeleteItem from "@/components/native/DeleteItem";
 import Image from "next/image";
-import { CategoryType } from "@/types/category";
-import { deleteData } from "@/actions/delete";
-import { BACKEND_URL } from "@/consts/site-info";
+import Link from "next/link";
 
 export const categoryColumn: ColumnDef<CategoryType>[] = [
   {
@@ -17,12 +19,12 @@ export const categoryColumn: ColumnDef<CategoryType>[] = [
   },
   {
     accessorKey: "img",
-    header: "Image",
+    header: "IMAGE",
     cell: ({ row }) => {
       return row.original.img ? (
         <picture>
           <Image
-            className="w-10"
+            className="max-w-10"
             width={250}
             height={250}
             src={row.original.img}
@@ -43,7 +45,7 @@ export const categoryColumn: ColumnDef<CategoryType>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Parent
+          PARENT
           <ArrowUpDown className="ml-2 w-4 h-4" />
         </Button>
       );
@@ -51,13 +53,30 @@ export const categoryColumn: ColumnDef<CategoryType>[] = [
   },
   {
     accessorKey: "productType",
-    header: "Product Type",
+    header: "PRODUCT TYPE",
   },
   {
     accessorKey: "children",
-    header: "Items",
+    header: "ITEMS",
     cell: ({ row }) => {
       return row.original.children?.length;
+    },
+  },
+  {
+    accessorKey: "status",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          STATUS
+          <ArrowUpDown className="ml-2 w-4 h-4" />
+        </Button>
+      );
+    },
+    cell: ({ row }) => {
+      return <StatusIndicator status={row.original.status as Status} />;
     },
   },
   {
