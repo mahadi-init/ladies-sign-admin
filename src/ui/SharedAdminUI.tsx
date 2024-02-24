@@ -1,7 +1,7 @@
 "use client";
+import ButtonGroup from "@/components/native/ButtonGroup";
 import DropdownSelect from "@/components/native/DropdownSelect";
 import ImageUploader from "@/components/native/ImageUploader";
-import SubmitButton from "@/components/native/SubmitButton";
 import { Input } from "@/components/ui/input";
 import { AdminType } from "@/types/admin";
 import { Response } from "@/types/response";
@@ -30,14 +30,9 @@ export default function SharedAdminUI<T extends PropTypes>(props: T) {
     const email = formData.get("email");
     const password = formData.get("password");
     const phone = formData.get("phone");
-    const joiningDate = formData.get("joining");
+    const inactive = formData.get("inactive");
+    //FIXME: ACTIVE INACTIVE ISSUE
 
-    if (!image) {
-      toast.error("select an image");
-      return;
-    }
-
-    // FIXME: Joining has issues
     const data = {
       _id: props._id,
       name: name,
@@ -45,8 +40,8 @@ export default function SharedAdminUI<T extends PropTypes>(props: T) {
       image: image,
       password: password,
       phone: phone,
-      joiningDate: joiningDate,
       role: adminRole,
+      status: inactive === "on" ? "Inactive" : "Active",
     };
 
     const res = await props.serverAction(
@@ -70,7 +65,7 @@ export default function SharedAdminUI<T extends PropTypes>(props: T) {
 
       <div className="flex flex-col gap-6 p-4">
         <label className="ml-1 font-medium">
-          Name
+          Name <span className="text-red-600">*</span>
           <Input
             type="text"
             name="name"
@@ -82,7 +77,7 @@ export default function SharedAdminUI<T extends PropTypes>(props: T) {
         </label>
 
         <label className="ml-1 font-medium">
-          Email
+          Email <span className="text-red-600">*</span>
           <Input
             type="email"
             name="email"
@@ -94,7 +89,7 @@ export default function SharedAdminUI<T extends PropTypes>(props: T) {
         </label>
 
         <label className="ml-1 font-medium">
-          Password
+          Password <span className="text-red-600">*</span>
           <Input
             type="text"
             name="password"
@@ -116,20 +111,6 @@ export default function SharedAdminUI<T extends PropTypes>(props: T) {
         </label>
 
         <label className="ml-1 font-medium">
-          Joining Date
-          <Input
-            type="date"
-            name="joining"
-            defaultValue={
-              props.joiningDate &&
-              new Date(props.joiningDate).toISOString().substring(0, 10)
-            }
-            className="mt-1 bg-gray-100"
-            required
-          />
-        </label>
-
-        <label className="ml-1 font-medium">
           Admin Role
           <DropdownSelect
             name="productType"
@@ -141,7 +122,18 @@ export default function SharedAdminUI<T extends PropTypes>(props: T) {
           />
         </label>
 
-        <SubmitButton style="w-fit" />
+        <label className="ml-1 font-medium flex items-center gap-2">
+          <Input
+            type="checkbox"
+            name="inactive"
+            className="bg-gray-100 w-fit"
+            defaultChecked={props.status === "Inactive"}
+          />
+          Inactive
+          <span className="text-xs text-red-600">(default Active)</span>
+        </label>
+
+        <ButtonGroup />
       </div>
     </form>
   );
