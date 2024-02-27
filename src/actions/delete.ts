@@ -28,9 +28,18 @@ export const deleteData = async (
         status: 200,
         message: successMessage,
       };
-    }
+    } else {
+      const { message } = await res.json();
 
-    throw new Error();
+      if (!message) {
+        throw new Error();
+      }
+
+      return {
+        status: 400,
+        message: message,
+      };
+    }
   } catch (err) {
     return {
       status: 400,

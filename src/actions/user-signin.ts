@@ -41,9 +41,18 @@ export async function userSignIn(
         status: 200,
         message: `${name} signed in as ${role}`,
       };
-    }
+    } else {
+      const { message } = await res.json();
 
-    throw new Error();
+      if (!message) {
+        throw new Error();
+      }
+
+      return {
+        status: 400,
+        message: message,
+      };
+    }
   } catch (err) {
     return {
       status: 400,

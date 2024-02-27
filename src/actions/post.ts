@@ -35,8 +35,18 @@ export async function addData<T>(
         status: 200,
         message: successMessage,
       };
+    } else {
+      const { message } = await res.json();
+
+      if (!message) {
+        throw new Error();
+      }
+
+      return {
+        status: 400,
+        message: message,
+      };
     }
-    throw new Error();
   } catch (err) {
     return {
       status: 400,
