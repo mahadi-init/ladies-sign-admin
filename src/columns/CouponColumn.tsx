@@ -9,6 +9,9 @@ import Image from "next/image";
 import { CouponType } from "@/types/coupon";
 import { deleteData } from "@/actions/delete";
 import { BACKEND_URL } from "@/consts/site-info";
+import { Badge } from "@/components/ui/badge";
+import StatusIndicator from "@/components/native/StatusIndicator";
+import { Status } from "@/types/status";
 
 export const couponColumn: ColumnDef<CouponType>[] = [
   {
@@ -69,6 +72,9 @@ export const couponColumn: ColumnDef<CouponType>[] = [
           <ArrowUpDown className="ml-2 w-4 h-4" />
         </Button>
       );
+    },
+    cell: ({ row }) => {
+      return <StatusIndicator status={row.original.status as Status} />;
     },
   },
   {

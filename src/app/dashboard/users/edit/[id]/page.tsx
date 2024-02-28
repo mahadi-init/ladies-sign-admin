@@ -12,8 +12,6 @@ const getUserData = async (id: string) => {
 export default async function EditUser({ params }: { params: { id: string } }) {
   const user = await getUserData(params.id);
 
-  console.log(user);
-
   return (
     <SharedUserUI
       //@ts-expect-error

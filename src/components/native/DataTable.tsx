@@ -23,6 +23,7 @@ import {
 import Link from "next/link";
 import { useState } from "react";
 import DropdownSelect from "./DropdownSelect";
+import { ArrowUpIcon, BadgePlus } from "lucide-react";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -92,8 +93,11 @@ export function DataTable<TData, TValue>({
           />
         </div>
         {addItemRoute && (
-          <Link href={addItemRoute} className={buttonVariants({ size: "sm" })}>
-            Add Item
+          <Link
+            href={addItemRoute}
+            className={buttonVariants({ size: "sm", variant: "outline" })}
+          >
+            <BadgePlus />
           </Link>
         )}
       </div>
@@ -109,7 +113,7 @@ export function DataTable<TData, TValue>({
                         ? null
                         : flexRender(
                             header.column.columnDef.header,
-                            header.getContext()
+                            header.getContext(),
                           )}
                     </TableHead>
                   );
@@ -128,7 +132,7 @@ export function DataTable<TData, TValue>({
                     <TableCell key={cell.id}>
                       {flexRender(
                         cell.column.columnDef.cell,
-                        cell.getContext()
+                        cell.getContext(),
                       )}
                     </TableCell>
                   ))}
