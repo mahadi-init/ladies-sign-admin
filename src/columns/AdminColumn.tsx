@@ -1,14 +1,16 @@
 "use client";
 
+import { deleteData } from "@/actions/delete";
+import DeleteItem from "@/components/native/DeleteItem";
+import StatusIndicator from "@/components/native/StatusIndicator";
 import { Button } from "@/components/ui/button";
+import { BACKEND_URL } from "@/consts/site-info";
+import { AdminType } from "@/types/admin";
+import { Status } from "@/types/status";
 import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown, PencilIcon } from "lucide-react";
-import Link from "next/link";
-import DeleteItem from "@/components/native/DeleteItem";
 import Image from "next/image";
-import { BACKEND_URL } from "@/consts/site-info";
-import { deleteData } from "@/actions/delete";
-import { AdminType } from "@/types/admin";
+import Link from "next/link";
 
 export const adminColumn: ColumnDef<AdminType>[] = [
   {
@@ -79,6 +81,9 @@ export const adminColumn: ColumnDef<AdminType>[] = [
           <ArrowUpDown className="ml-2 w-4 h-4" />
         </Button>
       );
+    },
+    cell: ({ row }) => {
+      return <StatusIndicator status={row.original.status as Status} />;
     },
   },
   {

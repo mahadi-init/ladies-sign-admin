@@ -1,14 +1,16 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
-import { ColumnDef } from "@tanstack/react-table";
-import { ArrowUpDown, PencilIcon } from "lucide-react";
-import Link from "next/link";
-import DeleteItem from "@/components/native/DeleteItem";
-import Image from "next/image";
 import { deleteData } from "@/actions/delete";
+import DeleteItem from "@/components/native/DeleteItem";
+import StatusIndicator from "@/components/native/StatusIndicator";
+import { Button } from "@/components/ui/button";
 import { BACKEND_URL } from "@/consts/site-info";
 import { BrandType } from "@/types/brand";
+import { Status } from "@/types/status";
+import { ColumnDef } from "@tanstack/react-table";
+import { ArrowUpDown, PencilIcon } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
 
 export const brandColumn: ColumnDef<BrandType>[] = [
   {
@@ -17,12 +19,12 @@ export const brandColumn: ColumnDef<BrandType>[] = [
   },
   {
     accessorKey: "logo",
-    header: "Logo",
+    header: "LOGO",
     cell: ({ row }) => {
       return row.original.logo ? (
         <picture>
           <Image
-            className="w-10"
+            className="max-w-10"
             width={250}
             height={250}
             src={row.original.logo}
@@ -43,7 +45,7 @@ export const brandColumn: ColumnDef<BrandType>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Name
+          NAME
           <ArrowUpDown className="ml-2 w-4 h-4" />
         </Button>
       );
@@ -51,15 +53,32 @@ export const brandColumn: ColumnDef<BrandType>[] = [
   },
   {
     accessorKey: "email",
-    header: "Email",
+    header: "EMAIL",
   },
   {
     accessorKey: "website",
-    header: "Website",
+    header: "WEBSITE",
   },
   {
     accessorKey: "location",
-    header: "Location",
+    header: "LOCATION",
+  },
+  {
+    accessorKey: "status",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          STATUS
+          <ArrowUpDown className="ml-2 w-4 h-4" />
+        </Button>
+      );
+    },
+    cell: ({ row }) => {
+      return <StatusIndicator status={row.original.status as Status} />;
+    },
   },
   {
     id: "actions",

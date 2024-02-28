@@ -1,7 +1,7 @@
 "use client";
+import ButtonGroup from "@/components/native/ButtonGroup";
 import DropdownSelect from "@/components/native/DropdownSelect";
 import ImageUploader from "@/components/native/ImageUploader";
-import SubmitButton from "@/components/native/SubmitButton";
 import { Input } from "@/components/ui/input";
 import { CategoryType } from "@/types/category";
 import { Response } from "@/types/response";
@@ -28,23 +28,22 @@ export default function SharedCategoryUI<T extends PropTypes>(props: T) {
   );
 
   const handleFormAction = async (formData: FormData) => {
-    //FIXME: FIX THE visibility issue
-    // if (!img && formData.visibility) {
-    //   toast.error("hide or select an image");
-    //   return;
-    // }
-    //
-    //
     const parent = formData.get("parent");
     const children = formData.get("children") as string;
+    const hide = formData.get("hide");
+
+    if (!img && !hide) {
+      toast.error("hide or select an image");
+      return;
+    }
 
     const data = {
       _id: props._id,
       img: img,
       parent: parent,
       children: children.split(","),
-      // status: formData.visibility,
       productType: productType,
+      status: hide === "on" ? "Hide" : "Show",
     };
 
     const res = await props.serverAction(
@@ -66,17 +65,18 @@ export default function SharedCategoryUI<T extends PropTypes>(props: T) {
         <ImageUploader image={img} setImage={setImg} />
       </div>
 
-      <div className="flex flex-col gap-6 p-4">
+      <div className="flex flex-col gap-8 p-4">
         <label className="ml-1 font-medium">
-          Parent
+          Parent <span className="text-red-600">*</span>
           <Input
             type="text"
             name="parent"
-            placeholder="Enter parent name"
+            placeholder="Headphones"
             defaultValue={props.parent}
             className="mt-1 bg-gray-100"
             required
           />
+          <p className="text-xs ml-1 mt-1.5 italic">category name</p>
         </label>
 
         <label className="ml-1 font-medium">
@@ -84,14 +84,17 @@ export default function SharedCategoryUI<T extends PropTypes>(props: T) {
           <textarea
             name="children"
             rows={2}
-            placeholder="Enter multiple comma separated children"
+            placeholder="Kids Headphones,Bluetooth Headphones,On-Ear Headphones"
             defaultValue={props.children}
             className="block p-2 pl-4 my-2 w-full placeholder-gray-500 text-black bg-gray-100 rounded-md border border-gray-200 transition-all duration-200 focus:bg-white focus:border-blue-600 focus:outline-none caret-blue-600"
           />
+          <p className="text-xs ml-1 italic">
+            multiple comma separated children
+          </p>
         </label>
 
         <label className="ml-1 font-medium">
-          Product Type
+          Product Type <span className="text-red-600">*</span>
           <DropdownSelect
             name="productType"
             placeholder="Select Product Type"
@@ -102,7 +105,17 @@ export default function SharedCategoryUI<T extends PropTypes>(props: T) {
           />
         </label>
 
-        <SubmitButton style="w-fit" />
+        <label className="ml-1 font-medium flex items-center gap-2">
+          <Input
+            type="checkbox"
+            name="hide"
+            className="bg-gray-100 w-fit"
+            defaultChecked={props.status === "Hide"}
+          />
+          Hide <span className="text-xs text-red-600">(default show)</span>
+        </label>
+
+        <ButtonGroup />
       </div>
     </form>
   );

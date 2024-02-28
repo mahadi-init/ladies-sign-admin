@@ -1,5 +1,7 @@
 export enum Status {
-  "active" = "active",
-  "inactive" = "inactive",
-  "blocked" = "blocked",
+  "Active" = "active",
+  "Inactive" = "inactive",
+  "Blocked" = "blocked",
+  "Show" = "show",
+  "Hide" = "hide",
 }

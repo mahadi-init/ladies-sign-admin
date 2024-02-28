@@ -1,6 +1,6 @@
 "use client";
+import ButtonGroup from "@/components/native/ButtonGroup";
 import ImageUploader from "@/components/native/ImageUploader";
-import SubmitButton from "@/components/native/SubmitButton";
 import { Input } from "@/components/ui/input";
 import { BrandType } from "@/types/brand";
 import { Response } from "@/types/response";
@@ -27,6 +27,12 @@ export default function SharedBrandUI<T extends PropTypes>(props: T) {
     const email = formData.get("email");
     const website = formData.get("website");
     const location = formData.get("location");
+    const Inactive = formData.get("inactive");
+
+    if (!logo && !Inactive) {
+      toast.error("hide or select an image");
+      return;
+    }
 
     const data = {
       _id: props._id,
@@ -35,6 +41,7 @@ export default function SharedBrandUI<T extends PropTypes>(props: T) {
       email: email,
       website: website,
       location: location,
+      status: Inactive === "on" ? "inactive" : "active",
     };
 
     const res = await props.serverAction(
@@ -58,7 +65,7 @@ export default function SharedBrandUI<T extends PropTypes>(props: T) {
 
       <div className="flex flex-col gap-6 p-4">
         <label className="ml-1 font-medium">
-          Name
+          Name <span className="text-red-600">*</span>
           <Input
             type="text"
             name="name"
@@ -77,7 +84,6 @@ export default function SharedBrandUI<T extends PropTypes>(props: T) {
             placeholder="sony@gmail.com"
             defaultValue={props.email}
             className="mt-1 bg-gray-100"
-            required
           />
         </label>
 
@@ -89,7 +95,6 @@ export default function SharedBrandUI<T extends PropTypes>(props: T) {
             placeholder="https://sony.com"
             defaultValue={props.website}
             className="mt-1 bg-gray-100"
-            required
           />
         </label>
 
@@ -101,11 +106,21 @@ export default function SharedBrandUI<T extends PropTypes>(props: T) {
             placeholder="USA"
             defaultValue={props.location}
             className="mt-1 bg-gray-100"
-            required
           />
         </label>
 
-        <SubmitButton style="w-fit" />
+        <label className="ml-1 font-medium flex items-center gap-2">
+          <Input
+            type="checkbox"
+            name="inactive"
+            className="bg-gray-100 w-fit"
+            defaultChecked={props.status === "inactive"}
+          />
+          Inactive
+          <span className="text-xs text-red-600">(default active)</span>
+        </label>
+
+        <ButtonGroup />
       </div>
     </form>
   );
