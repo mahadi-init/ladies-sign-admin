@@ -9,11 +9,9 @@ export default async function Brand() {
   const brands = await getData<BrandType[]>(
     `${BACKEND_URL}/api/brand/all`,
     300,
-    ["brand", "brands"]
+    ["brand", "brands"],
   );
   const searchTargets = ["_id", "name"];
-
-  console.log(brands);
 
   return (
     <>

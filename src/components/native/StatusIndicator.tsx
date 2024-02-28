@@ -19,7 +19,7 @@ export default function StatusIndicator({
   status: Status;
 }): JSX.Element {
   const getColor = (): Variant => {
-    const lowercaseStatus = status.toLowerCase();
+    const lowercaseStatus = status?.toLowerCase();
 
     if (lowercaseStatus === Status.Active || lowercaseStatus === Status.Show) {
       return Variant.secondary;

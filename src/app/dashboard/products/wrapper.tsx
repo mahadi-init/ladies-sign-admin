@@ -1,13 +1,12 @@
 "use client";
-
 import DropdownSelect from "@/components/native/DropdownSelect";
 import { buttonVariants } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { ArrowUpIcon } from "@/icons/ArrowUpIcon";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { ProductResponse } from "./page";
 import ProductItems from "./product-items";
+import { BadgePlus } from "lucide-react";
 
 export default function Wrapper({
   productTypes,
@@ -20,10 +19,11 @@ export default function Wrapper({
   const [filteredProducts, setFilteredProducts] =
     useState<ProductResponse[]>(products);
 
+  //FIXME: doesn't work filter all the time
   useEffect(() => {
     if (dropdownFilter) {
       setFilteredProducts(
-        products.filter((item) => item.productType === dropdownFilter)
+        products.filter((item) => item.productType === dropdownFilter),
       );
     } else {
       setFilteredProducts(products);
@@ -39,8 +39,8 @@ export default function Wrapper({
   const handleSearchFilter = (search: string): void => {
     setFilteredProducts(
       products.filter((item) =>
-        item.title.toLowerCase().includes(search.toLowerCase())
-      )
+        item.title.toLowerCase().includes(search.toLowerCase()),
+      ),
     );
   };
 
@@ -62,7 +62,7 @@ export default function Wrapper({
             href="/dashboard/products/add"
             className={buttonVariants({ size: "sm", variant: "outline" })}
           >
-            <ArrowUpIcon />
+            <BadgePlus />
           </Link>
         </div>
       </div>

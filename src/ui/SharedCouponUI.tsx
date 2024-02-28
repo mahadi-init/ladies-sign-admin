@@ -1,7 +1,7 @@
 "use client";
+import ButtonGroup from "@/components/native/ButtonGroup";
 import DropdownSelect from "@/components/native/DropdownSelect";
 import ImageUploader from "@/components/native/ImageUploader";
-import SubmitButton from "@/components/native/SubmitButton";
 import { Input } from "@/components/ui/input";
 import { CouponType } from "@/types/coupon";
 import { Response } from "@/types/response";
@@ -17,14 +17,14 @@ interface PropTypes extends Partial<CouponType> {
     data: T,
     queryUrl: string,
     validationTag: string,
-    successMessage: string
+    successMessage: string,
   ) => Promise<Response>;
 }
 
 export default function SharedCouponUI<T extends PropTypes>(props: T) {
   const [logo, setLogo] = useState(props.logo);
   const [productType, setProductType] = useState(
-    props.productType ?? props.productTypes[0]
+    props.productType ?? props.productTypes[0],
   );
   const handleFormAction = async (formData: FormData) => {
     const title = formData.get("title");
@@ -33,12 +33,15 @@ export default function SharedCouponUI<T extends PropTypes>(props: T) {
     const end = formData.get("end");
     const discountPercentage = formData.get("discount");
     const minimumAmount = formData.get("amount");
+    const inactive = formData.get("inactive");
+    //TODO:Test the result
 
     if (!logo) {
       toast.error("select an image");
       return;
     }
 
+    //FIXME: check if endtime less than today
     const data = {
       _id: props._id,
       title: title,
@@ -49,13 +52,14 @@ export default function SharedCouponUI<T extends PropTypes>(props: T) {
       discountPercentage: discountPercentage,
       minimumAmount: minimumAmount,
       productType: productType,
+      status: inactive === "on" ? "inactive" : "active",
     };
 
     const res = await props.serverAction(
       data,
       props.queryUrl,
       props.validationTag,
-      props.successMessage
+      props.successMessage,
     );
     if (res.status === 200) {
       toast.success(res.message);
@@ -72,7 +76,7 @@ export default function SharedCouponUI<T extends PropTypes>(props: T) {
 
       <div className="flex flex-col gap-6 p-4">
         <label className="ml-1 font-medium">
-          Title
+          Title <span className="text-red-600">*</span>
           <Input
             type="text"
             name="title"
@@ -84,7 +88,7 @@ export default function SharedCouponUI<T extends PropTypes>(props: T) {
         </label>
 
         <label className="ml-1 font-medium">
-          Code
+          Code <span className="text-red-600">*</span>
           <Input
             type="text"
             name="code"
@@ -95,6 +99,7 @@ export default function SharedCouponUI<T extends PropTypes>(props: T) {
           />
         </label>
 
+        {/*FIXME:Date issue*/}
         <label className="ml-1 font-medium">
           Start Time
           <Input
@@ -104,13 +109,13 @@ export default function SharedCouponUI<T extends PropTypes>(props: T) {
               props.startTime &&
               new Date(props.startTime).toISOString().substring(0, 10)
             }
-            required
             className="mt-1 bg-gray-100"
           />
         </label>
 
+        {/*FIXME:Date issue*/}
         <label className="ml-1 font-medium">
-          End Time
+          End Time <span className="text-red-600">*</span>
           <Input
             type="date"
             name="end"
@@ -124,7 +129,7 @@ export default function SharedCouponUI<T extends PropTypes>(props: T) {
         </label>
 
         <label className="ml-1 font-medium">
-          Discount Percentage
+          Discount Percentage <span className="text-red-600">*</span>
           <Input
             type="number"
             name="discount"
@@ -136,7 +141,7 @@ export default function SharedCouponUI<T extends PropTypes>(props: T) {
         </label>
 
         <label className="ml-1 font-medium">
-          Minimum amount
+          Minimum amount <span className="text-red-600">*</span>
           <Input
             type="number"
             name="amount"
@@ -148,7 +153,7 @@ export default function SharedCouponUI<T extends PropTypes>(props: T) {
         </label>
 
         <label className="ml-1 font-medium">
-          Product Type
+          Product Type <span className="text-red-600">*</span>
           <DropdownSelect
             name="productType"
             placeholder="Select Product Type"
@@ -158,7 +163,18 @@ export default function SharedCouponUI<T extends PropTypes>(props: T) {
             setSelectedItem={setProductType}
           />
         </label>
-        <SubmitButton style="w-fit" />
+
+        <label className="ml-1 font-medium flex items-center gap-2">
+          <Input
+            type="checkbox"
+            name="inactive"
+            className="bg-gray-100 w-fit"
+            defaultChecked={props.status === "Hide"}
+          />
+          Inactive <span className="text-xs text-red-600">(default show)</span>
+        </label>
+
+        <ButtonGroup />
       </div>
     </form>
   );

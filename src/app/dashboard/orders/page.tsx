@@ -18,7 +18,6 @@ const getOrders = async (): Promise<OrderType[]> => {
 export default async function Orders() {
   const orders = await getOrders();
   const searchTargets = ["_id", "name", "email"];
-  console.log(orders);
 
   return (
     <>
