@@ -3,23 +3,38 @@ import { BACKEND_URL } from "@/consts/site-info";
 import { fetcher } from "@/utils/fetcher";
 import { forwardRef } from "react";
 import useSWR from "swr";
+import { Card } from "../ui/card";
+import FullPageLoading from "./FullPageLoading";
 
 function InvoiceGenerator({ orderId }: { orderId: string }) {
   const { data, error, isLoading } = useSWR(
-    `${BACKEND_URL}/order/${orderId}`,
+    `${BACKEND_URL}/api/order/${orderId}`,
     fetcher,
   );
 
-  console.log(data);
+  if (isLoading) {
+    return <FullPageLoading />;
+  }
 
+  if (error) {
+    return (
+      <div>
+        <p className="text-red-500">{error.message}</p>
+      </div>
+    );
+  }
+
+  //FIXME: make it compatible with the proper data instead of static one
   return (
-    <div className="max-w-lg mx-auto my-10 p-6 bg-white shadow-md">
+    <div className="w-full mx-auto my-10 p-6 bg-white shadow-md">
       <div className="mb-6 text-center">
-        <h1 className="text-3xl font-bold">ThemePure</h1>
-        <p className="text-gray-600">Dhaka, Bangladesh</p>
+        <h1 className="text-3xl font-bold">Ladies Sign</h1>
+        <p className="text-gray-600">
+          Akanda Bari, Ramnogor, Jamalpur, Bangladesh
+        </p>
         <p className="text-gray-600">0123456789</p>
       </div>
-      <div className="mb-6 p-4 border">
+      <Card className="mb-6 p-4 border">
         <div className="grid grid-cols-3 gap-4 mb-4">
           <h2 className="col-span-1 text-sm font-bold">PRODUCT</h2>
           <h2 className="col-span-1 text-sm font-bold">QUANTITY</h2>
@@ -30,8 +45,8 @@ function InvoiceGenerator({ orderId }: { orderId: string }) {
           <p className="col-span-1 text-sm">1</p>
           <p className="col-span-1 text-sm">$120.00</p>
         </div>
-      </div>
-      <div className="mb-6 p-4 border">
+      </Card>
+      <Card className="mb-6 p-4 border">
         <h2 className="text-lg font-bold mb-4">Order Price</h2>
         <div className="grid grid-cols-2 gap-4 mb-2">
           <p className="text-sm">Subtotal</p>
@@ -45,8 +60,8 @@ function InvoiceGenerator({ orderId }: { orderId: string }) {
           <p className="text-sm font-bold">Grand total:</p>
           <p className="text-sm font-bold">$180.00</p>
         </div>
-      </div>
-      <div className="mb-6 p-4 border">
+      </Card>
+      <Card className="mb-6 p-4 border">
         <div className="grid grid-cols-2 gap-4 mb-2">
           <p className="text-sm font-bold">Payment Method</p>
           <p className="text-sm">COD</p>
@@ -63,7 +78,7 @@ function InvoiceGenerator({ orderId }: { orderId: string }) {
           <p className="text-sm font-bold">Date:</p>
           <p className="text-sm">16/07/2023</p>
         </div>
-      </div>
+      </Card>
       <div className="text-center">
         <p className="text-lg font-semibold">
           Thank you for your order. Come again!

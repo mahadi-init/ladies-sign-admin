@@ -7,7 +7,6 @@ import { OrderType } from "@/types/order";
 import { OrderStatusType } from "@/types/order-status";
 import OrderStatusIndicator from "@/components/native/OrderStatusIndicator";
 import { HoverToolkit } from "@/components/native/HoverToolkit";
-import PrintInvoice from "@/components/native/PrintInvoice";
 
 export const orderColumn: ColumnDef<OrderType>[] = [
   {
@@ -106,11 +105,10 @@ export const orderColumn: ColumnDef<OrderType>[] = [
         <HoverToolkit text="Send to courir">
           <Send size={22} />
         </HoverToolkit>
-        <HoverToolkit text="View">
-          <View size={22} />
-        </HoverToolkit>
         <HoverToolkit text="Invoice">
-          <PrintInvoice />
+          <Link href={`/dashboard/orders/invoice/${row.original._id}`}>
+            <View size={20} />
+          </Link>
         </HoverToolkit>
       </div>
     ),
