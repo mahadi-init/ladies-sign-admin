@@ -1,19 +1,7 @@
-import getData from "@/actions/get";
 import { orderColumn } from "@/columns/OrderColumn";
 import { DataTable } from "@/components/native/DataTable";
 import PageTop from "@/components/native/PageTop";
-import { BACKEND_URL } from "@/consts/site-info";
-import { OrderType } from "@/types/OrderType";
-
-const getOrders = async (): Promise<OrderType[]> => {
-  const res = await getData(`${BACKEND_URL}/api/order/orders`, 10, [
-    "orders",
-    "order",
-  ]);
-
-  //@ts-expect-error
-  return res.data;
-};
+import { getOrders } from "@/utils/get-orders";
 
 export default async function Orders() {
   const orders = await getOrders();
@@ -26,6 +14,7 @@ export default async function Orders() {
         <DataTable
           columns={orderColumn}
           data={orders}
+          statusFiltering={["pending", "processing", "delivered", "cancelled"]}
           searchTargets={searchTargets}
         />
       </div>

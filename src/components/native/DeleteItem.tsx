@@ -12,22 +12,16 @@ interface PropTypes {
   serverAction: (
     queryUrl: string,
     validationTag: string,
-    successMessage: string
+    successMessage: string,
   ) => Promise<Response>;
 }
 
-/**
- * This function handles the form action for deleting an item.
- *
- * @param {PropTypes} props - the properties passed to the component
- * @return {JSX.Element} The JSX element representing the form
- */
 export default function DeleteItem(props: PropTypes): JSX.Element {
   const handleFormAction = async () => {
     const res = await props.serverAction(
       props.queryUrl,
       props.validationTag,
-      props.successMessage
+      props.successMessage,
     );
 
     if (res.status === 200) {

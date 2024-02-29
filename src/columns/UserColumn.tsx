@@ -51,17 +51,7 @@ export const userColumn: ColumnDef<UserType>[] = [
   },
   {
     accessorKey: "status",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          STATUS
-          <ArrowUpDown className="ml-2 w-4 h-4" />
-        </Button>
-      );
-    },
+    header: "STATUS",
     cell: ({ row }) => (
       <>
         <StatusIndicator status={row.original.status as Status} />

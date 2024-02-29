@@ -20,36 +20,30 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
+import { BadgePlus } from "lucide-react";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import DropdownSelect from "./DropdownSelect";
-import { ArrowUpIcon, BadgePlus } from "lucide-react";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
-  searchTargets: string[];
+  searchTargets?: string[];
+  statusFiltering?: string[];
   addItemRoute?: string;
 }
 
-/**
- * Renders a data table component with the provided data and columns, and allows filtering and pagination.
- *
- * @param {DataTableProps<TData, TValue>} columns - The columns for the data table
- * @param {DataTableProps<TData, TValue>} data - The data to be displayed in the table
- * @param {DataTableProps<TData, TValue>} searchTargets - The targets for filtering
- * @param {DataTableProps<TData, TValue>} addItemRoute - The route for adding new items
- * @return {JSX.Element} The rendered data table component
- */
 export function DataTable<TData, TValue>({
   columns,
   data,
-  searchTargets,
+  searchTargets = [],
+  statusFiltering,
   addItemRoute,
 }: DataTableProps<TData, TValue>): JSX.Element {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [searchTarget, setSearchTarget] = useState<string>(searchTargets[0]);
+  const [statusFilter, setStatusFilter] = useState<string>();
 
   const table = useReactTable({
     data,
@@ -66,40 +60,57 @@ export function DataTable<TData, TValue>({
     },
   });
 
+  useEffect(() => {
+    table.getColumn("status")?.setFilterValue(statusFilter);
+  }, [statusFilter, table]);
+
+  //FIXME: Fix the resposivness of the columns
   return (
     <div className="w-full">
       <div className="flex justify-between items-center">
-        <div className="flex gap-2 items-center">
-          <div className="flex items-center py-4">
-            <Input
-              placeholder="Filter Item.."
-              value={
-                (table.getColumn(searchTarget)?.getFilterValue() as string) ??
-                ""
-              }
-              onChange={(event) =>
-                table
-                  .getColumn(searchTarget)
-                  ?.setFilterValue(event.target.value)
-              }
-              className="max-w-sm"
+        {searchTargets.length > 0 && (
+          <div className="flex gap-2 items-center">
+            <div className="flex items-center py-4">
+              <Input
+                placeholder="Filter Item.."
+                value={
+                  (table.getColumn(searchTarget)?.getFilterValue() as string) ??
+                  ""
+                }
+                onChange={(event) =>
+                  table
+                    .getColumn(searchTarget)
+                    ?.setFilterValue(event.target.value)
+                }
+                className="max-w-xs"
+              />
+            </div>
+            <DropdownSelect
+              placeholder={`Filter by ${searchTarget}`}
+              items={searchTargets}
+              selectedItem={searchTarget}
+              setSelectedItem={setSearchTarget}
             />
           </div>
-          <DropdownSelect
-            placeholder={`Filter by ${searchTarget}`}
-            items={searchTargets}
-            selectedItem={searchTarget}
-            setSelectedItem={setSearchTarget}
-          />
-        </div>
-        {addItemRoute && (
-          <Link
-            href={addItemRoute}
-            className={buttonVariants({ size: "sm", variant: "outline" })}
-          >
-            <BadgePlus />
-          </Link>
         )}
+        <div className="flex gap-2 items-center">
+          {statusFiltering && (
+            <DropdownSelect
+              placeholder="Status"
+              items={statusFiltering}
+              selectedItem={statusFilter}
+              setSelectedItem={setStatusFilter}
+            />
+          )}
+          {addItemRoute && (
+            <Link
+              href={addItemRoute}
+              className={buttonVariants({ size: "sm", variant: "outline" })}
+            >
+              <BadgePlus />
+            </Link>
+          )}
+        </div>
       </div>
       <div className="rounded-md border">
         <Table>

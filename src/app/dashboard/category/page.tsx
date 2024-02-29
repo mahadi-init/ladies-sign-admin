@@ -9,7 +9,7 @@ export default async function Category() {
   const categories = await getData<CategoryType[]>(
     `${BACKEND_URL}/api/category/all`,
     300,
-    ["category", "categories"]
+    ["category", "categories"],
   );
   const searchTargets = ["_id", "parent"];
 
@@ -23,6 +23,7 @@ export default async function Category() {
           //@ts-ignore
           data={categories.result}
           searchTargets={searchTargets}
+          statusFiltering={["Show", "Hide"]}
           addItemRoute="/dashboard/category/add"
         />
       </div>

@@ -1,14 +1,13 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { ColumnDef } from "@tanstack/react-table";
-import { ArrowUpDown, PencilIcon } from "lucide-react";
+import { ArrowUpDown, PencilIcon, Printer, Send, View } from "lucide-react";
 import Link from "next/link";
-import DeleteItem from "@/components/native/DeleteItem";
-import Image from "next/image";
-import { BACKEND_URL } from "@/consts/site-info";
-import { deleteData } from "@/actions/delete";
-import { OrderType } from "@/types/OrderType";
-import { Badge } from "@/components/ui/badge";
+import { OrderType } from "@/types/order";
+import { OrderStatusType } from "@/types/order-status";
+import OrderStatusIndicator from "@/components/native/OrderStatusIndicator";
+import { HoverToolkit } from "@/components/native/HoverToolkit";
+import PrintInvoice from "@/components/native/PrintInvoice";
 
 export const orderColumn: ColumnDef<OrderType>[] = [
   {
@@ -80,13 +79,7 @@ export const orderColumn: ColumnDef<OrderType>[] = [
     header: "STATUS",
     cell: ({ row }) => {
       return (
-        <Badge
-          variant={
-            row.original.status !== "cancelled" ? "outline" : "destructive"
-          }
-        >
-          {row.original.status}
-        </Badge>
+        <OrderStatusIndicator status={row.original.status as OrderStatusType} />
       );
     },
   },
@@ -105,15 +98,20 @@ export const orderColumn: ColumnDef<OrderType>[] = [
     id: "actions",
     cell: ({ row }) => (
       <div className="flex gap-8 items-center">
-        <Link href={`/dashboard/admins/edit/${row.original._id}`}>
-          <PencilIcon size={16} />
-        </Link>
-        <DeleteItem
-          queryUrl={`${BACKEND_URL}/api/admin/${row.original._id}`}
-          validationTag="admins"
-          successMessage="Admin deleted successfully"
-          serverAction={deleteData}
-        />
+        <HoverToolkit text="Edit">
+          <Link href={`/dashboard/orders/edit/${row.original._id}`}>
+            <PencilIcon size={20} />
+          </Link>
+        </HoverToolkit>
+        <HoverToolkit text="Send to courir">
+          <Send size={22} />
+        </HoverToolkit>
+        <HoverToolkit text="View">
+          <View size={22} />
+        </HoverToolkit>
+        <HoverToolkit text="Invoice">
+          <PrintInvoice />
+        </HoverToolkit>
       </div>
     ),
   },
