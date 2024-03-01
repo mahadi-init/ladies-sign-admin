@@ -1,30 +1,9 @@
 "use client";
-import { BACKEND_URL } from "@/consts/site-info";
-import { fetcher } from "@/utils/fetcher";
 import { forwardRef } from "react";
-import useSWR from "swr";
 import { Card } from "../ui/card";
-import FullPageLoading from "./FullPageLoading";
+import { OrderType } from "@/types/order";
 
-function InvoiceGenerator({ orderId }: { orderId: string }) {
-  const { data, error, isLoading } = useSWR(
-    `${BACKEND_URL}/api/order/${orderId}`,
-    fetcher,
-  );
-
-  if (isLoading) {
-    return <FullPageLoading />;
-  }
-
-  if (error) {
-    return (
-      <div>
-        <p className="text-red-500">{error.message}</p>
-      </div>
-    );
-  }
-
-  //FIXME: make it compatible with the proper data instead of static one
+function InvoiceGenerator({ data }: { data?: OrderType }) {
   return (
     <div className="w-full mx-auto my-10 p-6 bg-white shadow-md">
       <div className="mb-6 text-center">
@@ -41,42 +20,51 @@ function InvoiceGenerator({ orderId }: { orderId: string }) {
           <h2 className="col-span-1 text-sm font-bold">TOTAL</h2>
         </div>
         <div className="grid grid-cols-3 gap-4">
-          <p className="col-span-1 text-sm">Headphones Wireless.</p>
-          <p className="col-span-1 text-sm">1</p>
-          <p className="col-span-1 text-sm">$120.00</p>
+          {data?.cart.map((item) => {
+            return (
+              <>
+                <p className="col-span-1 text-sm">{item.title}</p>
+                <p className="col-span-1 text-sm">{item.quantity}</p>
+                <p className="col-span-1 text-sm">৳{item.price}</p>
+              </>
+            );
+          })}
         </div>
       </Card>
       <Card className="mb-6 p-4 border">
         <h2 className="text-lg font-bold mb-4">Order Price</h2>
         <div className="grid grid-cols-2 gap-4 mb-2">
           <p className="text-sm">Subtotal</p>
-          <p className="text-sm">$120.00</p>
+          <p className="text-sm">৳{data?.subTotal}</p>
         </div>
         <div className="grid grid-cols-2 gap-4 mb-2">
           <p className="text-sm">Shipping cost:</p>
-          <p className="text-sm">$60.00</p>
+          <p className="text-sm">৳{data?.shippingCost}</p>
         </div>
         <div className="grid grid-cols-2 gap-4">
           <p className="text-sm font-bold">Grand total:</p>
-          <p className="text-sm font-bold">$180.00</p>
+          <p className="text-sm font-bold">${data?.totalAmount}</p>
         </div>
       </Card>
       <Card className="mb-6 p-4 border">
         <div className="grid grid-cols-2 gap-4 mb-2">
           <p className="text-sm font-bold">Payment Method</p>
-          <p className="text-sm">COD</p>
+          <p className="text-sm">{data?.paymentMethod}</p>
         </div>
         <div className="grid grid-cols-2 gap-4 mb-2">
           <p className="text-sm font-bold">Bill No:</p>
-          <p className="text-sm">#1000</p>
+          <p className="text-sm">{data?._id}</p>
         </div>
         <div className="grid grid-cols-2 gap-4 mb-2">
           <p className="text-sm font-bold">No of items:</p>
-          <p className="text-sm">1</p>
+          <p className="text-sm">{data?.cart.length}</p>
         </div>
         <div className="grid grid-cols-2 gap-4">
           <p className="text-sm font-bold">Date:</p>
-          <p className="text-sm">16/07/2023</p>
+          <p className="text-sm">
+            {data?.createdAt &&
+              new Date(data?.createdAt).toDateString().substring(0, 10)}
+          </p>
         </div>
       </Card>
       <div className="text-center">

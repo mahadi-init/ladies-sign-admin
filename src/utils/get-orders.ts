@@ -1,8 +1,8 @@
 import getData from "@/actions/get";
 import { BACKEND_URL } from "@/consts/site-info";
-import { OrderType } from "@/types/order";
+import { OrderSummaryType } from "@/types/order";
 
-export const getOrders = async (): Promise<OrderType[]> => {
+export const getOrders = async (): Promise<OrderSummaryType[]> => {
   const res = await getData(`${BACKEND_URL}/api/order/orders`, 10, [
     "orders",
     "order",

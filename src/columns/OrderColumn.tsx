@@ -1,38 +1,24 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { ColumnDef } from "@tanstack/react-table";
-import { ArrowUpDown, PencilIcon, Printer, Send, View } from "lucide-react";
+import { ArrowUpDown, PencilIcon, Send, View } from "lucide-react";
 import Link from "next/link";
-import { OrderType } from "@/types/order";
-import { OrderStatusType } from "@/types/order-status";
+import { OrderSummaryType } from "@/types/order";
 import OrderStatusIndicator from "@/components/native/OrderStatusIndicator";
 import { HoverToolkit } from "@/components/native/HoverToolkit";
 
-export const orderColumn: ColumnDef<OrderType>[] = [
+export const orderColumn: ColumnDef<OrderSummaryType>[] = [
   {
     accessorKey: "_id",
     header: "ID",
+    cell: ({ row }) => {
+      return (
+        <Link className="font-medium" href={`/order/${row.original._id}`}>
+          {row.original._id}
+        </Link>
+      );
+    },
   },
-  // {
-  //   accessorKey: "image",
-  //   header: "IMAGE",
-  //   cell: ({ row }) => {
-  //     return row.original.image ? (
-  //       <picture>
-  //         <Image
-  //           className="w-10"
-  //           width={250}
-  //           height={250}
-  //           src={row.original.image}
-  //           alt="cell image"
-  //           loading="lazy"
-  //         />
-  //       </picture>
-  //     ) : (
-  //       <span className="text-xs">No Image</span>
-  //     );
-  //   },
-  // },
   {
     accessorKey: "name",
     header: ({ column }) => {
@@ -77,9 +63,7 @@ export const orderColumn: ColumnDef<OrderType>[] = [
     accessorKey: "status",
     header: "STATUS",
     cell: ({ row }) => {
-      return (
-        <OrderStatusIndicator status={row.original.status as OrderStatusType} />
-      );
+      return <OrderStatusIndicator status={row.original.status} />;
     },
   },
   {
