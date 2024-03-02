@@ -15,7 +15,7 @@ export async function patchData<T>(
   data: T,
   queryUrl: string,
   validationTag: string,
-  successMessage: string
+  successMessage: string,
 ): Promise<Response> {
   try {
     const res = await fetch(queryUrl, {
@@ -24,6 +24,7 @@ export async function patchData<T>(
         "Content-Type": "application/json",
       },
       body: JSON.stringify(data),
+      cache: "no-store",
     });
 
     if (res.ok) {
