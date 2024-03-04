@@ -2,6 +2,7 @@ import { OrderStatusType } from "./order-status";
 
 export interface OrderSummaryType {
   _id: string;
+  invoice: number;
   name: string;
   address: string;
   city: string;
@@ -9,16 +10,18 @@ export interface OrderSummaryType {
   shippingCost: number;
   subTotal: string;
   status: OrderStatusType;
+  trackingCode?: string;
+  trackingLink?: string;
+  contact: string;
+  note: string;
   createdAt: Date;
 }
 
 export interface OrderType extends Partial<OrderSummaryType> {
   email: string;
-  contact: string;
   country: string;
   zipCode: number;
   discount: number;
-  invoice: number;
   paymentMethod: string;
   cart: {
     brand: {

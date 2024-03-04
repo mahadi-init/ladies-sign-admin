@@ -5,11 +5,11 @@ import { getOrders } from "@/utils/get-orders";
 
 export default async function Orders() {
   const orders = await getOrders();
-  const searchTargets = ["_id", "name", "email"];
+  const searchTargets = ["invoice", "name", "address"];
 
   return (
     <>
-      <PageTop title="Admins" />
+      <PageTop title="Orders" />
       <div className="flex flex-col 2xl:flex-row 2xl:gap-2 2xl:justify-between">
         <DataTable
           columns={orderColumn}

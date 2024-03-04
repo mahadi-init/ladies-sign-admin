@@ -53,7 +53,7 @@ function InvoiceGenerator({ data }: { data?: OrderType }) {
         </div>
         <div className="grid grid-cols-2 gap-4 mb-2">
           <p className="text-sm font-bold">Bill No:</p>
-          <p className="text-sm">{data?._id}</p>
+          <p className="text-sm"># {data?.invoice}</p>
         </div>
         <div className="grid grid-cols-2 gap-4 mb-2">
           <p className="text-sm font-bold">No of items:</p>

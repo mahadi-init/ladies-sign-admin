@@ -14,7 +14,7 @@ export default function Invoice({ params }: { params: { id: string } }) {
   const ref = useRef(null);
   const { data, error, isLoading } = useSWR<OrderType>(
     `${BACKEND_URL}/api/order/${params.id}`,
-    fetcher,
+    fetcher
   );
 
   const handlePrint = useReactToPrint({

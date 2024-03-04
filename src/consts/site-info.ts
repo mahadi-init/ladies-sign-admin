@@ -8,6 +8,7 @@ export const CLOUDINARY_UPLOAD_PRESET = "ladies-sign-preset";
 // api format /api/v1/{endpoint}
 export const STEADFAST_BASE_URL = process.env
   .NEXT_PUBLIC_STEADFAST_BASE_URL as string;
-export const STEADFAST_API_KEY = process.env.STEADFAST_API_KEY as string;
+export const STEADFAST_API_KEY = process.env
+  .NEXT_PUBLIC_STEADFAST_API_KEY as string;
 export const STEADFAST_SECRECT_KEY = process.env
-  .STEADFAST_SECRECT_KEY as string;
+  .NEXT_PUBLIC_STEADFAST_SECRECT_KEY as string;

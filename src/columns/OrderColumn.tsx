@@ -1,20 +1,28 @@
 "use client";
-import { Button } from "@/components/ui/button";
-import { ColumnDef } from "@tanstack/react-table";
-import { ArrowUpDown, PencilIcon, Send, View } from "lucide-react";
-import Link from "next/link";
-import { OrderSummaryType } from "@/types/order";
-import OrderStatusIndicator from "@/components/native/OrderStatusIndicator";
+import ConfirmationDialog from "@/components/native/ConfirmationDialog";
+import DeliveryStatus from "@/components/native/DeliveryStatus";
 import { HoverToolkit } from "@/components/native/HoverToolkit";
+import OrderStatusDropdown from "@/components/native/OrderStatusDropdown";
+import { Button } from "@/components/ui/button";
+import { OrderSummaryType } from "@/types/order";
+import { OrderStatusType } from "@/types/order-status";
+import { sendOrder } from "@/utils/order-send";
+import { ColumnDef } from "@tanstack/react-table";
+import { ArrowUpDown, Send, View } from "lucide-react";
+import Link from "next/link";
+import { toast } from "sonner";
 
 export const orderColumn: ColumnDef<OrderSummaryType>[] = [
   {
-    accessorKey: "_id",
-    header: "ID",
+    accessorKey: "invoice",
+    header: "INVOICE",
     cell: ({ row }) => {
       return (
-        <Link className="font-medium" href={`/order/${row.original._id}`}>
-          {row.original._id}
+        <Link
+          href={`/dashboard/orders/details/${row.original._id}`}
+          className="font-medium"
+        >
+          # {row.original.invoice}
         </Link>
       );
     },
@@ -52,18 +60,30 @@ export const orderColumn: ColumnDef<OrderSummaryType>[] = [
     header: "TOTAL",
   },
   {
-    accessorKey: "shippingCost",
-    header: "SHIPPING",
-  },
-  {
-    accessorKey: "subTotal",
-    header: "SUBTOTAL",
+    accessorKey: "delivery",
+    header: "DELIVERY",
+    cell: ({ row }) => {
+      return (
+        <>
+          {row.original.status === OrderStatusType.Processing ? (
+            <DeliveryStatus trackingCode={row.original.trackingCode} />
+          ) : (
+            <p className="text-red-600 font-medium">NULL</p>
+          )}
+        </>
+      );
+    },
   },
   {
     accessorKey: "status",
     header: "STATUS",
     cell: ({ row }) => {
-      return <OrderStatusIndicator status={row.original.status} />;
+      return (
+        <OrderStatusDropdown
+          id={row.original._id}
+          status={row.original.status}
+        />
+      );
     },
   },
   {
@@ -81,13 +101,26 @@ export const orderColumn: ColumnDef<OrderSummaryType>[] = [
     id: "actions",
     cell: ({ row }) => (
       <div className="flex gap-8 items-center">
-        <HoverToolkit text="Edit">
-          <Link href={`/dashboard/orders/edit/${row.original._id}`}>
-            <PencilIcon size={20} />
-          </Link>
-        </HoverToolkit>
+        {/* <HoverToolkit text="Edit"> */}
+        {/*   <Link href={`/dashboard/orders/edit/${row.original._id}`}> */}
+        {/*     <PencilIcon size={20} /> */}
+        {/*   </Link> */}
+        {/* </HoverToolkit> */}
         <HoverToolkit text="Send to courir">
-          <Send size={22} />
+          <ConfirmationDialog
+            alertText="This will send order to courier"
+            action={async () => {
+              const res = await sendOrder(row.original);
+
+              if (res.status === 200) {
+                toast.success(res.message);
+              } else {
+                toast.error(res.message);
+              }
+            }}
+          >
+            <Send size={22} className="cursor-pointer" />
+          </ConfirmationDialog>
         </HoverToolkit>
         <HoverToolkit text="Invoice">
           <Link href={`/dashboard/orders/invoice/${row.original._id}`}>

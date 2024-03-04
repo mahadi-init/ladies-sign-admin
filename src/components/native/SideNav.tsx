@@ -27,7 +27,11 @@ import ConfirmationDialog from "./ConfirmationDialog";
  *
  * @return {JSX.Element} The rendered side navigation menu
  */
-export default function Sidenav(): JSX.Element {
+export default function Sidenav({
+  numOfPendingOrder,
+}: {
+  numOfPendingOrder: number;
+}): JSX.Element {
   const pathname = usePathname();
   const { handleLogout } = useLogout();
   const [isSideNavOpen, setIsSideNavOpen] = useState(false);
@@ -158,7 +162,7 @@ export default function Sidenav(): JSX.Element {
                     Orders
                   </div>
                   <span className="inline-flex justify-center items-center px-2 text-xs text-pink-500 bg-pink-100 rounded-full">
-                    {/* TODO:ADD DYNAMCIC DATA */}7
+                    {numOfPendingOrder}
                     <span className="sr-only"> new orders</span>
                   </span>
                 </Link>

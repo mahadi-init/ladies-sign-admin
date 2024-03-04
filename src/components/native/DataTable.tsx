@@ -36,13 +36,15 @@ interface DataTableProps<TData, TValue> {
 export function DataTable<TData, TValue>({
   columns,
   data,
-  searchTargets = [],
+  searchTargets,
   statusFiltering,
   addItemRoute,
 }: DataTableProps<TData, TValue>): JSX.Element {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
-  const [searchTarget, setSearchTarget] = useState<string>(searchTargets[0]);
+  const [searchTarget, setSearchTarget] = useState<string>(
+    searchTargets?.[0] ?? ""
+  );
   const [statusFilter, setStatusFilter] = useState<string>();
 
   const table = useReactTable({
@@ -68,11 +70,15 @@ export function DataTable<TData, TValue>({
   return (
     <div className="w-full">
       <div className="flex justify-between items-center">
-        {searchTargets.length > 0 && (
+        {searchTargets && (
           <div className="flex gap-2 items-center">
             <div className="flex items-center py-4">
               <Input
                 placeholder="Filter Item.."
+                // defaultValue={
+                //   (table.getColumn(searchTarget)?.getFilterValue() as string) ??
+                //   ""
+                // }
                 value={
                   (table.getColumn(searchTarget)?.getFilterValue() as string) ??
                   ""
@@ -124,7 +130,7 @@ export function DataTable<TData, TValue>({
                         ? null
                         : flexRender(
                             header.column.columnDef.header,
-                            header.getContext(),
+                            header.getContext()
                           )}
                     </TableHead>
                   );
@@ -143,7 +149,7 @@ export function DataTable<TData, TValue>({
                     <TableCell key={cell.id}>
                       {flexRender(
                         cell.column.columnDef.cell,
-                        cell.getContext(),
+                        cell.getContext()
                       )}
                     </TableCell>
                   ))}

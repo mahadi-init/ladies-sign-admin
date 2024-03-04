@@ -1,5 +1,6 @@
 export type CategoryType = {
   _id: string;
+  id: string;
   img: string;
   parent: string;
   children: string[];
