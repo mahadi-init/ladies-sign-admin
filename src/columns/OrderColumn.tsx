@@ -8,7 +8,7 @@ import { OrderSummaryType } from "@/types/order";
 import { OrderStatusType } from "@/types/order-status";
 import { sendOrder } from "@/utils/order-send";
 import { ColumnDef } from "@tanstack/react-table";
-import { ArrowUpDown, Send, View } from "lucide-react";
+import { ArrowUpDown, CheckCircle, Send, View } from "lucide-react";
 import Link from "next/link";
 import { toast } from "sonner";
 
@@ -16,16 +16,16 @@ export const orderColumn: ColumnDef<OrderSummaryType>[] = [
   {
     accessorKey: "invoice",
     header: "INVOICE",
-    cell: ({ row }) => {
-      return (
-        <Link
-          href={`/dashboard/orders/details/${row.original._id}`}
-          className="font-medium"
-        >
-          # {row.original.invoice}
-        </Link>
-      );
-    },
+    // cell: ({ row }) => {
+    //   return (
+    //     <Link
+    //       href={`/dashboard/orders/details/${row.original._id}`}
+    //       className="font-medium"
+    //     >
+    //       # {row.original.invoice}
+    //     </Link>
+    //   );
+    // },
   },
   {
     accessorKey: "name",
@@ -65,10 +65,8 @@ export const orderColumn: ColumnDef<OrderSummaryType>[] = [
     cell: ({ row }) => {
       return (
         <>
-          {row.original.status === OrderStatusType.Processing ? (
+          {row.original.status === OrderStatusType.Processing && (
             <DeliveryStatus trackingCode={row.original.trackingCode} />
-          ) : (
-            <p className="text-red-600 font-medium">NULL</p>
           )}
         </>
       );
@@ -106,7 +104,7 @@ export const orderColumn: ColumnDef<OrderSummaryType>[] = [
         {/*     <PencilIcon size={20} /> */}
         {/*   </Link> */}
         {/* </HoverToolkit> */}
-        <HoverToolkit text="Send to courir">
+        {row.original.status === OrderStatusType.Pending ? (
           <ConfirmationDialog
             alertText="This will send order to courier"
             action={async () => {
@@ -121,7 +119,9 @@ export const orderColumn: ColumnDef<OrderSummaryType>[] = [
           >
             <Send size={22} className="cursor-pointer" />
           </ConfirmationDialog>
-        </HoverToolkit>
+        ) : (
+          <CheckCircle size={22} />
+        )}
         <HoverToolkit text="Invoice">
           <Link href={`/dashboard/orders/invoice/${row.original._id}`}>
             <View size={20} />

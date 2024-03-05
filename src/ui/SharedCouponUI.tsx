@@ -17,14 +17,14 @@ interface PropTypes extends Partial<CouponType> {
     data: T,
     queryUrl: string,
     validationTag: string,
-    successMessage: string,
+    successMessage: string
   ) => Promise<Response>;
 }
 
 export default function SharedCouponUI<T extends PropTypes>(props: T) {
   const [logo, setLogo] = useState(props.logo);
   const [productType, setProductType] = useState(
-    props.productType ?? props.productTypes[0],
+    props.productType ?? props.productTypes[0]
   );
   const handleFormAction = async (formData: FormData) => {
     const title = formData.get("title");
@@ -59,7 +59,7 @@ export default function SharedCouponUI<T extends PropTypes>(props: T) {
       data,
       props.queryUrl,
       props.validationTag,
-      props.successMessage,
+      props.successMessage
     );
     if (res.status === 200) {
       toast.success(res.message);
@@ -155,7 +155,6 @@ export default function SharedCouponUI<T extends PropTypes>(props: T) {
         <label className="ml-1 font-medium">
           Product Type <span className="text-red-600">*</span>
           <DropdownSelect
-            name="productType"
             placeholder="Select Product Type"
             style="w-full mt-1 bg-gray-100"
             items={props.productTypes}

@@ -1,27 +1,50 @@
-import getData from "@/actions/get";
 import { userColumn } from "@/columns/UserColumn";
 import { DataTable } from "@/components/native/DataTable";
 import PageTop from "@/components/native/PageTop";
-import { BACKEND_URL } from "@/consts/site-info";
-import { UserType } from "@/types/user";
-import React from "react";
+import getAllUsers from "@/utils/get-all-users";
+import { User } from "@clerk/nextjs/server";
+
+export interface SiteUser {
+  id: string;
+  banned: boolean;
+  image: string;
+  name: string;
+  email: string;
+  phone: string;
+  lastSignInAt: number | null;
+}
+
+const formattedUser = (users: User[]) => {
+  const data = users.map((user) => {
+    return {
+      id: user.id,
+      banned: user.banned,
+      image: user.imageUrl,
+      name: user.firstName + " " + user.lastName,
+      email: user.emailAddresses[0]?.emailAddress,
+      phone: user.phoneNumbers[0]?.phoneNumber,
+      lastSignInAt: user.lastSignInAt,
+    };
+  });
+
+  return data;
+};
 
 export default async function Users() {
-  const users: UserType[] = await getData(`${BACKEND_URL}/api/user/all`, 0, [
-    "user",
-    "users",
-  ]);
-  const searchTargets = ["_id", "name", "email", "phone"];
+  const formattedUsers = formattedUser(await getAllUsers());
+
+  //TODO:ADD SEARCH OPTION
+  // const searchTargets = ["_id", "name", "email", "phone"];
 
   return (
     <>
       <PageTop title="Users" />
-      <div className="flex flex-col 2xl:flex-row 2xl:gap-2 2xl:justify-between">
+      {/* TODO:FROM THE FRONTEND ADD ID TO DATABASE */}
+      <div className="mt-4 flex flex-col 2xl:flex-row 2xl:gap-2 2xl:justify-between">
         <DataTable
           columns={userColumn}
-          //@ts-expect-error
-          data={users.data}
-          searchTargets={searchTargets}
+          data={formattedUsers}
+          // searchTargets={searchTargets}
         />
       </div>
     </>

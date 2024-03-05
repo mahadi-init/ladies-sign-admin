@@ -22,7 +22,7 @@ import {
 } from "@tanstack/react-table";
 import { BadgePlus } from "lucide-react";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import DropdownSelect from "./DropdownSelect";
 
 interface DataTableProps<TData, TValue> {
@@ -62,9 +62,9 @@ export function DataTable<TData, TValue>({
     },
   });
 
-  useEffect(() => {
-    table.getColumn("status")?.setFilterValue(statusFilter);
-  }, [statusFilter, table]);
+  // useEffect(() => {
+  //   table.getColumn("status")?.setFilterValue(statusFilter);
+  // }, [statusFilter, table]);
 
   //FIXME: Fix the resposivness of the columns
   return (
@@ -75,19 +75,19 @@ export function DataTable<TData, TValue>({
             <div className="flex items-center py-4">
               <Input
                 placeholder="Filter Item.."
-                // defaultValue={
-                //   (table.getColumn(searchTarget)?.getFilterValue() as string) ??
-                //   ""
-                // }
-                value={
+                defaultValue={
                   (table.getColumn(searchTarget)?.getFilterValue() as string) ??
                   ""
                 }
-                onChange={(event) =>
+                onChange={(event) => {
+                  console.log(searchTarget);
+
+                  console.log(event.target.value);
+
                   table
                     .getColumn(searchTarget)
-                    ?.setFilterValue(event.target.value)
-                }
+                    ?.setFilterValue(event.target.value);
+                }}
                 className="max-w-xs"
               />
             </div>

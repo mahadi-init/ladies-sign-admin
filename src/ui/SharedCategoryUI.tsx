@@ -96,7 +96,6 @@ export default function SharedCategoryUI<T extends PropTypes>(props: T) {
         <label className="ml-1 font-medium">
           Product Type <span className="text-red-600">*</span>
           <DropdownSelect
-            name="productType"
             placeholder="Select Product Type"
             style="w-full mt-1 bg-gray-100"
             items={props.productTypes}

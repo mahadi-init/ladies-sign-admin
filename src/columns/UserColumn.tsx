@@ -1,76 +1,107 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
-import { ColumnDef } from "@tanstack/react-table";
-import { ArrowUpDown, PencilIcon } from "lucide-react";
-import Link from "next/link";
-import DeleteItem from "@/components/native/DeleteItem";
-import { BACKEND_URL } from "@/consts/site-info";
-import { deleteData } from "@/actions/delete";
-import { UserType } from "@/types/user";
+import { SiteUser } from "@/app/dashboard/users/page";
+import ConfirmationDialog from "@/components/native/ConfirmationDialog";
+import { HoverToolkit } from "@/components/native/HoverToolkit";
 import StatusIndicator from "@/components/native/StatusIndicator";
-import { Status } from "@/types/status";
+import { clerkClient } from "@clerk/nextjs";
+import { ColumnDef } from "@tanstack/react-table";
+import { Ban, LogOut, Trash } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
 
-export const userColumn: ColumnDef<UserType>[] = [
+export const userColumn: ColumnDef<SiteUser>[] = [
   {
-    accessorKey: "_id",
+    accessorKey: "id",
     header: "ID",
   },
-
+  {
+    accessorKey: "image",
+    header: "IMAGE",
+    cell: ({ row }) => {
+      return (
+        <Image
+          className="rounded-full"
+          src={row.original.image}
+          width={50}
+          height={50}
+          alt="profile"
+        />
+      );
+    },
+  },
   {
     accessorKey: "name",
-    header: ({ column }) => {
+    header: "NAME",
+    cell: ({ row }) => {
       return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        <Link
+          href={`/dashboard/users/details/${row.original.id}`}
+          className="truncate text-medium underline"
         >
-          NAME
-          <ArrowUpDown className="ml-2 w-4 h-4" />
-        </Button>
+          {row.original.name ?? "--"}
+        </Link>
       );
     },
   },
   {
     accessorKey: "email",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          EMAIL
-          <ArrowUpDown className="ml-2 w-4 h-4" />
-        </Button>
-      );
-    },
+    header: "EMAIL",
   },
   {
     accessorKey: "phone",
     header: "PHONE",
+    cell: ({ row }) => {
+      return <p className="truncate text-medium">{row.original.phone}</p>;
+    },
   },
   {
     accessorKey: "status",
     header: "STATUS",
-    cell: ({ row }) => (
-      <>
-        <StatusIndicator status={row.original.status as Status} />
-      </>
-    ),
+    cell: ({ row }) => {
+      return (
+        //@ts-expect-error
+        <StatusIndicator status={row.original.banned ? "Blocked" : "Active"} />
+      );
+    },
   },
   {
     id: "actions",
     cell: ({ row }) => (
       <div className="flex gap-8 items-center">
-        <Link href={`/dashboard/users/edit/${row.original._id}`}>
-          <PencilIcon size={16} />
-        </Link>
-        <DeleteItem
-          queryUrl={`${BACKEND_URL}/api/user/delete/${row.original._id}`}
-          validationTag="users"
-          successMessage="Admin deleted successfully"
-          serverAction={deleteData}
-        />
+        <ConfirmationDialog
+          alertText="This will delete user"
+          action={async () =>
+            // FIXME:Doesn't work
+            await clerkClient.users.deleteUser(row.original.id)
+          }
+        >
+          <HoverToolkit text="Logout user">
+            <LogOut size={16} className="cursor-pointer" />
+          </HoverToolkit>
+        </ConfirmationDialog>
+        <ConfirmationDialog
+          alertText="This will delete user"
+          action={async () =>
+            // FIXME:Doesn't work
+            await clerkClient.users.deleteUser(row.original.id)
+          }
+        >
+          <HoverToolkit text="Ban user">
+            <Ban size={16} className="cursor-pointer" />
+          </HoverToolkit>
+        </ConfirmationDialog>
+        <ConfirmationDialog
+          alertText="This will delete user"
+          action={async () =>
+            // FIXME:Doesn't work
+            await clerkClient.users.deleteUser(row.original.id)
+          }
+        >
+          <HoverToolkit text="Delete user">
+            <Trash size={16} className="cursor-pointer" />
+          </HoverToolkit>
+        </ConfirmationDialog>
       </div>
     ),
   },

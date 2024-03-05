@@ -13,7 +13,7 @@ export default function OrderStatusDropdown({
   id: string;
   status: string;
 }) {
-  const options = ["pending", "processing", "delivered", "cancelled"];
+  const options = ["delivered", "cancelled"];
   const [option, setOption] = useState(status);
   const [showOptions, setShowOptions] = useState(false);
 

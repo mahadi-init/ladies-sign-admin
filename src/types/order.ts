@@ -2,7 +2,7 @@ import { OrderStatusType } from "./order-status";
 
 export interface OrderSummaryType {
   _id: string;
-  invoice: number;
+  invoice: string;
   name: string;
   address: string;
   city: string;
