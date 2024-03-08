@@ -4,14 +4,8 @@ import CashIcon from "@/icons/CashIcon";
 import ClipboardListIcon from "@/icons/ClipboardList";
 import ShoppingBagIcon from "@/icons/ShoppingBag";
 import UsersIcon from "@/icons/Users";
-import { DashboardOrderSummaryType } from "@/types/dashboard";
+import { DashboardOrderSummaryType } from "@/shared/home/dashboard.t";
 
-/**
- * Render statistic cards based on the provided order summary data.
- *
- * @param {DashboardOrderSummaryType} props - the order summary data to be displayed
- * @return {JSX.Element} the rendered statistic cards component
- */
 export default function StatisticCards(
   props: DashboardOrderSummaryType
 ): JSX.Element {

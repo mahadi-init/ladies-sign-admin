@@ -2,9 +2,9 @@ import getData from "@/actions/get";
 import { patchData } from "@/actions/patch";
 import { Breadcrumbs } from "@/components/native/Breadcrumbs";
 import PageTop from "@/components/native/PageTop";
-import { BACKEND_URL } from "@/consts/site-info";
-import { BrandType } from "@/types/brand";
-import SharedBrandUI from "@/ui/SharedBrandUI";
+import BrandUI from "@/shared/brands/BrandUI";
+import { BrandType } from "@/shared/brands/brand.t";
+import { BACKEND_URL } from "../../../../../../site-info";
 
 export default async function EditBrand({
   params,
@@ -25,7 +25,7 @@ export default async function EditBrand({
           { title: "Brand", link: "/dashboard/brand" },
         ]}
       />
-      <SharedBrandUI
+      <BrandUI
         {...data}
         queryUrl={`${BACKEND_URL}/api/brand/edit/${params.id}`}
         validationTag="brands"

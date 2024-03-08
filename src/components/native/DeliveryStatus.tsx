@@ -1,9 +1,9 @@
+import { useEffect, useState } from "react";
 import {
   STEADFAST_API_KEY,
   STEADFAST_BASE_URL,
   STEADFAST_SECRECT_KEY,
-} from "@/consts/site-info";
-import { useEffect, useState } from "react";
+} from "../../../site-info";
 
 export default function DeliveryStatus({
   trackingCode,
@@ -22,7 +22,7 @@ export default function DeliveryStatus({
             "Api-Key": STEADFAST_API_KEY,
             "Secret-Key": STEADFAST_SECRECT_KEY,
           },
-        },
+        }
       );
 
       const data = await res.json();

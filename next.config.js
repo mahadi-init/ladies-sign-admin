@@ -11,12 +11,18 @@ const nextConfig = {
       {
         hostname: "img.clerk.com",
       },
+      {
+        hostname: "scontent.fdac24-2.fna.fbcdn.net",
+      },
     ],
   },
   logging: {
     fetches: {
-      fullUrl: true,
+      fullUrl: false,
     },
+  },
+  experimental: {
+    typedRoutes: true,
   },
 };
 

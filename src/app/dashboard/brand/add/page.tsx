@@ -1,8 +1,8 @@
 import { addData } from "@/actions/post";
 import { Breadcrumbs } from "@/components/native/Breadcrumbs";
 import PageTop from "@/components/native/PageTop";
-import { BACKEND_URL } from "@/consts/site-info";
-import SharedBrandUI from "@/ui/SharedBrandUI";
+import BrandUI from "@/shared/brands/BrandUI";
+import { BACKEND_URL } from "../../../../../site-info";
 
 export default async function AddBrand() {
   return (
@@ -14,7 +14,7 @@ export default async function AddBrand() {
           { title: "Brand", link: "/dashboard/brand" },
         ]}
       />
-      <SharedBrandUI
+      <BrandUI
         queryUrl={`${BACKEND_URL}/api/brand/add`}
         validationTag="brands"
         successMessage="Brand created successfully"

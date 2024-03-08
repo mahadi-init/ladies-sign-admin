@@ -1,13 +1,13 @@
 import { addData } from "@/actions/post";
-import { getProductTypes } from "@/utils/get-product-types";
-import { BACKEND_URL } from "@/consts/site-info";
-import SharedCouponUI from "@/ui/SharedCouponUI";
+import CouponUI from "@/shared/coupons/CouponUI";
+import { getProductTypes } from "@/shared/products/get-product-types";
+import { BACKEND_URL } from "../../../../../site-info";
 
 export default async function AddCoupon() {
   const productTypes = await getProductTypes();
 
   return (
-    <SharedCouponUI
+    <CouponUI
       productTypes={productTypes}
       queryUrl={`${BACKEND_URL}/api/coupon/add`}
       validationTag="coupon"

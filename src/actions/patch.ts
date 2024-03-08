@@ -1,22 +1,13 @@
 "use server";
-import { Response } from "@/types/response";
+import { LocalResponse } from "@/types/response.t";
 import { revalidateTag } from "next/cache";
 
-/**
- * Sends a PATCH request to the specified URL with the provided data.
- * @template T - The type of the data being sent.
- * @param {T} data - The data to be sent in the request body.
- * @param {string} queryUrl - The URL to send the request to.
- * @param {string} validationTag - The validation tag to be revalidated if the request is successful.
- * @param {string} successMessage - The success message to be returned if the request is successful.
- * @returns {Promise<Response>} - A promise that resolves to the response of the request.
- */
 export async function patchData<T>(
   data: T,
   queryUrl: string,
   validationTag: string,
-  successMessage: string,
-): Promise<Response> {
+  successMessage: string
+): Promise<LocalResponse> {
   try {
     const res = await fetch(queryUrl, {
       method: "PATCH",

@@ -1,6 +1,5 @@
 "use client";
-import { Button, buttonVariants } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 import {
   Table,
   TableBody,
@@ -20,32 +19,19 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { BadgePlus } from "lucide-react";
-import Link from "next/link";
 import { useState } from "react";
-import DropdownSelect from "./DropdownSelect";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
-  searchTargets?: string[];
-  statusFiltering?: string[];
-  addItemRoute?: string;
 }
 
 export function DataTable<TData, TValue>({
   columns,
   data,
-  searchTargets,
-  statusFiltering,
-  addItemRoute,
 }: DataTableProps<TData, TValue>): JSX.Element {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
-  const [searchTarget, setSearchTarget] = useState<string>(
-    searchTargets?.[0] ?? ""
-  );
-  const [statusFilter, setStatusFilter] = useState<string>();
 
   const table = useReactTable({
     data,
@@ -62,62 +48,8 @@ export function DataTable<TData, TValue>({
     },
   });
 
-  // useEffect(() => {
-  //   table.getColumn("status")?.setFilterValue(statusFilter);
-  // }, [statusFilter, table]);
-
-  //FIXME: Fix the resposivness of the columns
   return (
     <div className="w-full">
-      <div className="flex justify-between items-center">
-        {searchTargets && (
-          <div className="flex gap-2 items-center">
-            <div className="flex items-center py-4">
-              <Input
-                placeholder="Filter Item.."
-                defaultValue={
-                  (table.getColumn(searchTarget)?.getFilterValue() as string) ??
-                  ""
-                }
-                onChange={(event) => {
-                  console.log(searchTarget);
-
-                  console.log(event.target.value);
-
-                  table
-                    .getColumn(searchTarget)
-                    ?.setFilterValue(event.target.value);
-                }}
-                className="max-w-xs"
-              />
-            </div>
-            <DropdownSelect
-              placeholder={`Filter by ${searchTarget}`}
-              items={searchTargets}
-              selectedItem={searchTarget}
-              setSelectedItem={setSearchTarget}
-            />
-          </div>
-        )}
-        <div className="flex gap-2 items-center">
-          {statusFiltering && (
-            <DropdownSelect
-              placeholder="Status"
-              items={statusFiltering}
-              selectedItem={statusFilter}
-              setSelectedItem={setStatusFilter}
-            />
-          )}
-          {addItemRoute && (
-            <Link
-              href={addItemRoute}
-              className={buttonVariants({ size: "sm", variant: "outline" })}
-            >
-              <BadgePlus />
-            </Link>
-          )}
-        </div>
-      </div>
       <div className="rounded-md border">
         <Table>
           <TableHeader>

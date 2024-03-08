@@ -1,4 +1,5 @@
 import { ChevronRightIcon } from "@/icons/ChevronRightIcon";
+import { Route } from "next";
 import Link from "next/link";
 
 interface BreadcrumbsProps {
@@ -18,7 +19,7 @@ export function Breadcrumbs({ props }: { props: BreadcrumbsProps[] }) {
             <li key={index}>
               <Link
                 className="font-medium text-sm flex items-center gap-2 text-slate-500 transition-colors hover:text-slate-900 "
-                href={item.link}
+                href={item.link as Route}
               >
                 {item.title}
                 {index !== props.length - 1 ? (

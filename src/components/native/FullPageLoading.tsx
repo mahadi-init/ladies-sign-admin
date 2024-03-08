@@ -1,8 +1,3 @@
-/**
- * Renders a full page loading indicator.
- *
- * @return {JSX.Element} The loading indicator component
- */
 export default function FullPageLoading(): JSX.Element {
   return (
     <div className="mx-1 animate-pulse">

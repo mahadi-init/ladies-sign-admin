@@ -1,10 +1,10 @@
-import { CLOUDINARY_UPLOAD_PRESET } from "@/consts/site-info";
 import clsx from "clsx";
 import { Upload } from "lucide-react";
 import { CldUploadButton } from "next-cloudinary";
 import Image from "next/image";
 import { useState } from "react";
 import { toast } from "sonner";
+import { CLOUDINARY_UPLOAD_PRESET } from "../../../site-info";
 
 enum UploadStatus {
   IDLE,
@@ -12,19 +12,14 @@ enum UploadStatus {
   SUCCESS,
 }
 
-/**
- * Image uploader component for uploading and displaying images.
- *
- * @param {string} image - the image to be displayed
- * @param {function} setImage - the function to set the image
- * @return {JSX.Element} - the rendered component
- */
 export default function ImageUploader({
   image,
   setImage,
+  style,
 }: {
   image?: string;
   setImage: (arg0?: string) => void;
+  style?: string;
 }): JSX.Element {
   const [uploadStatus, setUploadStatus] = useState<UploadStatus>(
     UploadStatus.IDLE
@@ -53,51 +48,53 @@ export default function ImageUploader({
           </svg>
         </div>
       </div>
-      <picture>
-        <Image
-          src={image ?? "/logo.png"}
-          className={clsx(
-            "w-72 rounded-md",
-            uploadStatus === UploadStatus.LOADING && "w-0 h-0"
-          )}
-          height={400}
-          width={400}
-          alt="beautiful image"
-          placeholder="empty"
-          onLoad={() => {
-            image && setUploadStatus(UploadStatus.SUCCESS);
-          }}
-        />
-      </picture>
+      <div className={style}>
+        <picture>
+          <Image
+            src={image ?? "/logo.png"}
+            className={clsx(
+              "w-72 rounded-md",
+              uploadStatus === UploadStatus.LOADING && "w-0 h-0"
+            )}
+            height={400}
+            width={400}
+            alt="beautiful image"
+            placeholder="empty"
+            onLoad={() => {
+              image && setUploadStatus(UploadStatus.SUCCESS);
+            }}
+          />
+        </picture>
 
-      <CldUploadButton
-        uploadPreset={CLOUDINARY_UPLOAD_PRESET}
-        options={{
-          multiple: false,
-          maxFiles: 1,
-        }}
-        onSuccess={(result) => {
-          if (result.info) {
-            setUploadStatus(UploadStatus.LOADING);
-            //@ts-ignore
-            setImage(result.info.url);
-          }
-        }}
-        onError={() => {
-          toast.error("Error uploading");
-        }}
-      >
-        <label
-          htmlFor="uploadFile1"
-          className="flex flex-col justify-center items-center mx-auto mt-4 w-80 h-24 text-base text-black bg-white rounded border-2 border-gray-300 border-dashed cursor-pointer font-[sans-serif]"
+        <CldUploadButton
+          uploadPreset={CLOUDINARY_UPLOAD_PRESET}
+          options={{
+            multiple: false,
+            maxFiles: 1,
+          }}
+          onSuccess={(result) => {
+            if (result.info) {
+              setUploadStatus(UploadStatus.LOADING);
+              //@ts-ignore
+              setImage(result.info.url);
+            }
+          }}
+          onError={() => {
+            toast.error("Error uploading");
+          }}
         >
-          <Upload />
-          Upload
-          <p className="mt-2 text-xs text-gray-400">
-            PNG, JPG SVG, WEBP, and GIF are Allowed.
-          </p>
-        </label>
-      </CldUploadButton>
+          <label
+            htmlFor="uploadFile1"
+            className="flex flex-col justify-center items-center mx-auto mt-4 w-80 h-24 text-base text-black bg-white rounded border-2 border-gray-300 border-dashed cursor-pointer font-[sans-serif]"
+          >
+            <Upload />
+            Upload
+            <p className="mt-2 text-xs text-gray-400">
+              PNG, JPG SVG, WEBP, and GIF are Allowed.
+            </p>
+          </label>
+        </CldUploadButton>
+      </div>
     </>
   );
 }

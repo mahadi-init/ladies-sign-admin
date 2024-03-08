@@ -2,12 +2,6 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ResponsiveLine } from "@nivo/line";
 
-/**
- * Renders a curved line chart based on the provided data.
- *
- * @param {Object} data - An array of objects representing the data points for the chart. Each object should have a string property 'x' for the x-axis value and a number property 'y' for the y-axis value.
- * @return {JSX.Element} The JSX element representing the curved line chart.
- */
 function CurvedlineChart({
   data,
 }: {

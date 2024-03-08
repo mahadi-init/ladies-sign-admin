@@ -2,13 +2,6 @@ function lowercaseFirstLetter(str: string) {
   return str.charAt(0).toLowerCase() + str.slice(1);
 }
 
-/**
- * Renders the top section of a page with the specified title.
- *
- * @param {{ title: string }} title - The title of the page
- * @param {{ showSubTitle: boolean }} showSubTitle - Whether to show the subtitle
- * @return {JSX.Element} The JSX element representing the top section of the page
- */
 export default function PageTop({
   title,
   showSubTitle = true,

@@ -2,10 +2,10 @@ import getData from "@/actions/get";
 import { patchData } from "@/actions/patch";
 import { Breadcrumbs } from "@/components/native/Breadcrumbs";
 import PageTop from "@/components/native/PageTop";
-import { BACKEND_URL } from "@/consts/site-info";
-import { CategoryType } from "@/types/category";
-import SharedCategoryUI from "@/ui/SharedCategoryUI";
-import { getProductTypes } from "@/utils/get-product-types";
+import CategoryUI from "@/shared/categories/CategoryUI";
+import { CategoryType } from "@/shared/categories/category.t";
+import { getProductTypes } from "@/shared/products/get-product-types";
+import { BACKEND_URL } from "../../../../../../site-info";
 
 const getCategoryData = async (id: string) => {
   const data = await getData<CategoryType>(
@@ -35,7 +35,7 @@ export default async function EditCategory({
           { title: "Category", link: "/dashboard/category" },
         ]}
       />
-      <SharedCategoryUI
+      <CategoryUI
         {...data[1]}
         productTypes={data[0]}
         queryUrl={`${BACKEND_URL}/api/category/edit/${params.id}`}

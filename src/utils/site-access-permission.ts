@@ -1,4 +1,4 @@
-import { AccessToken } from "@/types/token";
+import { AccessToken } from "@/types/token.t";
 
 export function hasSiteAccessPermission(accessToken?: string) {
   if (!accessToken) {

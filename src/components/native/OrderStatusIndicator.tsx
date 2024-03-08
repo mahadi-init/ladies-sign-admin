@@ -1,4 +1,4 @@
-import { OrderStatusType } from "@/types/order-status";
+import { OrderStatusType } from "@/types/enums.t";
 import { Badge } from "../ui/badge";
 
 type BadgeVariants = "default" | "outline" | "secondary" | "destructive";
@@ -8,17 +8,17 @@ export default function OrderStatusIndicator({
 }: {
   status: OrderStatusType;
 }) {
-  const getVariant = () => {
+  const getVariant = (): BadgeVariants => {
     let variant: BadgeVariants;
 
     switch (status) {
-      case OrderStatusType.Pending:
+      case "PENDING":
         variant = "default";
         break;
-      case OrderStatusType.Processing:
+      case "PROCESSING":
         variant = "secondary";
         break;
-      case OrderStatusType.Delivered:
+      case "DELIVERED":
         variant = "outline";
         break;
       default:

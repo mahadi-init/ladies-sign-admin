@@ -22,11 +22,6 @@ import { toast } from "sonner";
 import { Button } from "../ui/button";
 import ConfirmationDialog from "./ConfirmationDialog";
 
-/**
- * This function renders the side navigation menu
- *
- * @return {JSX.Element} The rendered side navigation menu
- */
 export default function Sidenav({
   numOfPendingOrder,
 }: {

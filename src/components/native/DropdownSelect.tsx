@@ -13,15 +13,25 @@ export default function DropdownSelect({
   items,
   selectedItem,
   setSelectedItem,
+  action,
 }: {
   style?: string;
   placeholder?: string;
   items: string[];
   selectedItem?: string;
   setSelectedItem: (item: string) => void;
+  action?: <T>(value: T) => void;
 }): JSX.Element {
   return (
-    <Select value={selectedItem} onValueChange={setSelectedItem}>
+    <Select
+      value={selectedItem}
+      onValueChange={(value) => {
+        setSelectedItem(value);
+        if (action) {
+          action(value);
+        }
+      }}
+    >
       <SelectTrigger className={style ?? "w-32"}>
         <SelectValue placeholder={placeholder} />
       </SelectTrigger>

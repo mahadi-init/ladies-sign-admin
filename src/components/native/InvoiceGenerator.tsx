@@ -1,7 +1,7 @@
 "use client";
+import { OrderType } from "@/shared/Orders/order.t";
 import { forwardRef } from "react";
 import { Card } from "../ui/card";
-import { OrderType } from "@/types/order";
 
 function InvoiceGenerator({ data }: { data?: OrderType }) {
   return (

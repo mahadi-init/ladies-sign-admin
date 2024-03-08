@@ -1,7 +1,7 @@
 import getData from "@/actions/get";
 import PageTop from "@/components/native/PageTop";
-import { BACKEND_URL } from "@/consts/site-info";
-import { getProductTypes } from "@/utils/get-product-types";
+import { getProductTypes } from "@/shared/products/get-product-types";
+import { BACKEND_URL } from "../../../../site-info";
 import Wrapper from "./wrapper";
 
 export interface ProductResponse {

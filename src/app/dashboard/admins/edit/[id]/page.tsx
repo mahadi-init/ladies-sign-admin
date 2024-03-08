@@ -2,9 +2,9 @@ import getData from "@/actions/get";
 import { patchData } from "@/actions/patch";
 import { Breadcrumbs } from "@/components/native/Breadcrumbs";
 import PageTop from "@/components/native/PageTop";
-import { BACKEND_URL } from "@/consts/site-info";
-import { AdminType } from "@/types/admin";
-import SharedAdminUI from "@/ui/SharedAdminUI";
+import AdminUI from "@/shared/admins/AdminUI";
+import { AdminType } from "@/shared/admins/admin.t";
+import { BACKEND_URL } from "../../../../../../site-info";
 
 const getAdminData = async (id: string) => {
   const data = await getData<AdminType>(
@@ -32,7 +32,7 @@ export default async function EditAdmin({
           { title: "Admin", link: "/dashboard/admins" },
         ]}
       />
-      <SharedAdminUI
+      <AdminUI
         {...data[1]}
         adminRoles={data[0]}
         queryUrl={`${BACKEND_URL}/api/admin/update-stuff/${params.id}`}

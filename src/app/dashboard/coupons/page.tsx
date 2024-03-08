@@ -1,30 +1,20 @@
 import getData from "@/actions/get";
-import { couponColumn } from "@/columns/CouponColumn";
-import { DataTable } from "@/components/native/DataTable";
 import PageTop from "@/components/native/PageTop";
-import { BACKEND_URL } from "@/consts/site-info";
-import { CouponType } from "@/types/coupon";
-import React from "react";
+import { CouponType } from "@/shared/coupons/coupon.t";
+import { BACKEND_URL } from "../../../../site-info";
+import Wrapper from "./Wrapper";
 
 export default async function Coupons() {
   const coupons: CouponType[] = await getData(
     `${BACKEND_URL}/api/coupon`,
     300,
-    ["coupon", "coupons"],
+    ["coupon", "coupons"]
   );
-  const searchTargets = ["_id", "title", "couponCode"];
 
   return (
     <>
       <PageTop title="Coupons" />
-      <div className="flex flex-col 2xl:flex-row 2xl:gap-2 2xl:justify-between">
-        <DataTable
-          columns={couponColumn}
-          data={coupons}
-          searchTargets={searchTargets}
-          addItemRoute="/dashboard/coupons/add"
-        />
-      </div>
+      <Wrapper coupons={coupons} />
     </>
   );
 }

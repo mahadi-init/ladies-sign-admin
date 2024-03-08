@@ -1,5 +1,5 @@
 "use client";
-import { Response } from "@/types/response";
+import { LocalResponse } from "@/types/response.t";
 import { Trash2 } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "../ui/button";
@@ -12,8 +12,8 @@ interface PropTypes {
   serverAction: (
     queryUrl: string,
     validationTag: string,
-    successMessage: string,
-  ) => Promise<Response>;
+    successMessage: string
+  ) => Promise<LocalResponse>;
 }
 
 export default function DeleteItem(props: PropTypes): JSX.Element {
@@ -21,7 +21,7 @@ export default function DeleteItem(props: PropTypes): JSX.Element {
     const res = await props.serverAction(
       props.queryUrl,
       props.validationTag,
-      props.successMessage,
+      props.successMessage
     );
 
     if (res.status === 200) {

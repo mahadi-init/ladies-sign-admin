@@ -9,9 +9,11 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { BACKEND_URL } from "@/consts/site-info";
-import { OrderType } from "@/types/order";
+import { OrderType } from "@/shared/Orders/order.t";
+import clsx from "clsx";
+import { Route } from "next";
 import Link from "next/link";
+import { BACKEND_URL } from "../../../../../../site-info";
 
 export default async function OrderDetails({
   params,
@@ -24,8 +26,6 @@ export default async function OrderDetails({
     ["details"]
   );
 
-  console.log(details);
-
   return (
     <div>
       <h2 className="text-3xl text-center">Order Details</h2>
@@ -37,7 +37,7 @@ export default async function OrderDetails({
           <p className="text-xl">Tracking Code: {details.trackingCode}</p>
         )}
         {details.trackingLink && (
-          <Link href={details.trackingLink}>
+          <Link href={details.trackingLink as Route}>
             Tracking Link : {details.trackingLink}
           </Link>
         )}
@@ -71,9 +71,19 @@ export default async function OrderDetails({
               <TableCell>{item.title}</TableCell>
               <TableCell>{item.productType}</TableCell>
               <TableCell>{item.quantity}</TableCell>
-              <TableCell>{item.status}</TableCell>
+              <TableCell
+                className={clsx(
+                  item.status === "in-stock"
+                    ? "text-green-700 fon-semibold"
+                    : "text-red-700 font-semibold"
+                )}
+              >
+                {item.status}
+              </TableCell>
               <TableCell>{item.brand.name}</TableCell>
               <TableCell>{item.category.name}</TableCell>
+              <TableCell>{item.sku}</TableCell>
+              <TableCell>{item.orderQuantity}</TableCell>
               <TableCell className="text-right">{item.price}</TableCell>
             </TableRow>
           ))}

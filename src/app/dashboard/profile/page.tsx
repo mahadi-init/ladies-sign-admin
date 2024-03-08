@@ -1,12 +1,12 @@
 "use client";
 import FullPageLoading from "@/components/native/FullPageLoading";
 import PageTop from "@/components/native/PageTop";
-import { BACKEND_URL } from "@/consts/site-info";
-import { ProfileType } from "@/types/profile";
-import SharedProfileUI from "@/ui/SharedProfileUI";
+import ProfileUI from "@/shared/profile/ProfileUI";
+import { ProfileType } from "@/shared/profile/profile.t";
 import { fetcher } from "@/utils/fetcher";
 import { useContext, useState } from "react";
 import useSWR from "swr";
+import { BACKEND_URL } from "../../../../site-info";
 import { UserAccessContext } from "../access-provider";
 
 export default function Profile() {
@@ -28,7 +28,7 @@ export default function Profile() {
   return (
     <>
       <PageTop title="Profile" />
-      <SharedProfileUI data={data} />
+      <ProfileUI data={data} />
     </>
   );
 }

@@ -5,11 +5,6 @@ import { Button } from "@/components/ui/button";
 import useLogout from "@/hooks/useLogout";
 import { toast } from "sonner";
 
-/**
- * Component for rendering a Logout button with a confirmation dialog.
- *
- * @return {JSX.Element} The rendered LogoutButton component
- */
 export default function LogoutButton(): JSX.Element {
   const { handleLogout } = useLogout();
 

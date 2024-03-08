@@ -2,13 +2,13 @@
 import FullPageLoading from "@/components/native/FullPageLoading";
 import InvoiceGenerator from "@/components/native/InvoiceGenerator";
 import { Button } from "@/components/ui/button";
-import { BACKEND_URL } from "@/consts/site-info";
-import { OrderType } from "@/types/order";
+import { OrderType } from "@/shared/Orders/order.t";
 import { fetcher } from "@/utils/fetcher";
 import { Printer } from "lucide-react";
 import { useRef } from "react";
 import { useReactToPrint } from "react-to-print";
 import useSWR from "swr";
+import { BACKEND_URL } from "../../../../../../site-info";
 
 export default function Invoice({ params }: { params: { id: string } }) {
   const ref = useRef(null);

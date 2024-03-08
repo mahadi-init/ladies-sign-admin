@@ -2,11 +2,11 @@
 import DropdownSelect from "@/components/native/DropdownSelect";
 import { buttonVariants } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { BadgePlus } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { ProductResponse } from "./page";
 import ProductItems from "./product-items";
-import { BadgePlus } from "lucide-react";
 
 export default function Wrapper({
   productTypes,
@@ -23,7 +23,7 @@ export default function Wrapper({
   useEffect(() => {
     if (dropdownFilter) {
       setFilteredProducts(
-        products.filter((item) => item.productType === dropdownFilter),
+        products.filter((item) => item.productType === dropdownFilter)
       );
     } else {
       setFilteredProducts(products);
@@ -39,8 +39,8 @@ export default function Wrapper({
   const handleSearchFilter = (search: string): void => {
     setFilteredProducts(
       products.filter((item) =>
-        item.title.toLowerCase().includes(search.toLowerCase()),
-      ),
+        item.title.toLowerCase().includes(search.toLowerCase())
+      )
     );
   };
 
@@ -59,7 +59,7 @@ export default function Wrapper({
             setSelectedItem={setDropdownFilter}
           />
           <Link
-            href="/dashboard/products/add"
+            href={`/dashboard/products/add`}
             className={buttonVariants({ size: "sm", variant: "outline" })}
           >
             <BadgePlus />

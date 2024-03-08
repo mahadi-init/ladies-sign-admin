@@ -1,9 +1,9 @@
 import { addData } from "@/actions/post";
 import { Breadcrumbs } from "@/components/native/Breadcrumbs";
 import PageTop from "@/components/native/PageTop";
-import { BACKEND_URL } from "@/consts/site-info";
-import SharedCategoryUI from "@/ui/SharedCategoryUI";
-import { getProductTypes } from "@/utils/get-product-types";
+import CategoryUI from "@/shared/categories/CategoryUI";
+import { getProductTypes } from "@/shared/products/get-product-types";
+import { BACKEND_URL } from "../../../../../site-info";
 
 export default async function AddCategory() {
   const productTypes = await getProductTypes();
@@ -17,7 +17,7 @@ export default async function AddCategory() {
           { title: "Category", link: "/dashboard/category" },
         ]}
       />
-      <SharedCategoryUI
+      <CategoryUI
         productTypes={productTypes}
         queryUrl={`${BACKEND_URL}/api/category/add`}
         validationTag="category"

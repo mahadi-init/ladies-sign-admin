@@ -1,11 +1,11 @@
 import getData from "@/actions/get";
 import AccessDenied from "@/components/native/AccessDenied";
 import PageTop from "@/components/native/PageTop";
-import { BACKEND_URL } from "@/consts/site-info";
-import { ProfileType } from "@/types/profile";
-import { AccessToken } from "@/types/token";
-import SharedProfileUI from "@/ui/SharedProfileUI";
+import ProfileUI from "@/shared/profile/ProfileUI";
+import { ProfileType } from "@/shared/profile/profile.t";
+import { AccessToken } from "@/types/token.t";
 import { cookies } from "next/headers";
+import { BACKEND_URL } from "../../../../site-info";
 import LogoutButton from "./logout-button";
 
 const getSellerData = async (userId?: string) => {
@@ -33,7 +33,7 @@ export default async function SellerProfile(): Promise<JSX.Element> {
   return (
     <div className="p-4">
       <PageTop title="Seller Profile" />
-      <SharedProfileUI data={seller} />
+      <ProfileUI data={seller} />
       <LogoutButton />
     </div>
   );

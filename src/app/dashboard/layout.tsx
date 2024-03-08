@@ -1,9 +1,9 @@
 import getData from "@/actions/get";
 import Sidenav from "@/components/native/SideNav";
-import { BACKEND_URL } from "@/consts/site-info";
 import type { Metadata } from "next";
 import { cookies } from "next/headers";
 import React from "react";
+import { BACKEND_URL } from "../../../site-info";
 import AccessProvider from "./access-provider";
 
 export const metadata: Metadata = {

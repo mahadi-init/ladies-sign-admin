@@ -1,17 +1,17 @@
-import { orderColumn } from "@/columns/OrderColumn";
 import { DataTable } from "@/components/native/DataTable";
 import MostSellingCategory from "@/components/native/MostSellingCategory";
 import PageTop from "@/components/native/PageTop";
 import SalesStatistics from "@/components/native/SalesStaistic";
 import StatisticCards from "@/components/native/StatisticCards";
-import { DashboardOrderSummaryType } from "@/types/dashboard";
+import { orderColumn } from "@/shared/Orders/OrderColumn";
+import { getOrders } from "@/shared/Orders/get-orders";
 import {
   getDashboardOrderData,
   getMostSellingCategory,
   getSalesOrdersStatistics,
-} from "@/utils/dashboard-data";
-import { getOrders } from "@/utils/get-orders";
-import { getSteadFastBalance } from "@/utils/get-steadfast-balance";
+} from "@/shared/home/dashboard-data";
+import { DashboardOrderSummaryType } from "@/shared/home/dashboard.t";
+import { getSteadFastBalance } from "@/shared/home/get-steadfast-balance";
 
 export default async function Dashboard() {
   const data = await Promise.all([

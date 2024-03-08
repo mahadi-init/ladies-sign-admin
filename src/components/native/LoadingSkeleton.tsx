@@ -1,8 +1,3 @@
-/**
- * Renders a loading skeleton component.
- *
- * @return {JSX.Element} The loading skeleton component to be rendered.
- */
 export default function LoadingSkeleton(): JSX.Element {
   return (
     <div role="status" className="max-w-sm animate-pulse">
