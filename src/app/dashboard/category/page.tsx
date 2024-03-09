@@ -15,7 +15,7 @@ export default async function Category() {
     <>
       <PageTop title="Category" />
       {/* @ts-expect-error */}
-      <Wrapper categories={categories.result} />
+      <Wrapper categories={categories.data} />
     </>
   );
 }

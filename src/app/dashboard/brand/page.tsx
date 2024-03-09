@@ -15,7 +15,7 @@ export default async function Brand() {
     <>
       <PageTop title="Brands" />
       {/* @ts-expect-error */}
-      <Wrapper brands={brands.result} />
+      <Wrapper brands={brands.data} />
     </>
   );
 }

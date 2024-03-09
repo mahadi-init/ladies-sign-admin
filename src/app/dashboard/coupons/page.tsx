@@ -14,7 +14,8 @@ export default async function Coupons() {
   return (
     <>
       <PageTop title="Coupons" />
-      <Wrapper coupons={coupons} />
+      {/* @ts-expect-error */}
+      <Wrapper coupons={coupons.data} />
     </>
   );
 }
