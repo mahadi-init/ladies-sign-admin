@@ -7,6 +7,7 @@ import Wrapper from "./Wrapper";
 export default async function Admin() {
   const admins = await getData<AdminType[]>(
     `${BACKEND_URL}/api/admin/all`,
+    true,
     300,
     ["admins", "admin"]
   );
@@ -14,8 +15,7 @@ export default async function Admin() {
   return (
     <>
       <PageTop title="Admins" />
-      {/* @ts-expect-error */}
-      <Wrapper admins={admins.data} />
+      <Wrapper admins={admins} />
     </>
   );
 }

@@ -5,11 +5,24 @@ import { buttonVariants } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { categoryColumn } from "@/shared/categories/CategoryColumn";
 import { CategoryType } from "@/shared/categories/category.t";
-import { BadgePlus } from "lucide-react";
+import { BadgePlus, Eye, EyeOff, LayoutDashboard } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
-const statusItems = ["ALL", "Show", "Hide"];
+const statuses = [
+  {
+    title: "ALL",
+    icon: <LayoutDashboard size={18} />,
+  },
+  {
+    title: "SHOW",
+    icon: <Eye size={18} />,
+  },
+  {
+    title: "HIDE",
+    icon: <EyeOff size={18} />,
+  },
+];
 
 export default function Wrapper({
   categories,
@@ -56,7 +69,7 @@ export default function Wrapper({
         <div className="flex gap-2">
           <DropdownSelect
             placeholder="status"
-            items={statusItems}
+            items={statuses}
             selectedItem={status}
             setSelectedItem={setStatus}
           />

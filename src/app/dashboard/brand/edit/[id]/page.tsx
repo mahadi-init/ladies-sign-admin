@@ -13,7 +13,7 @@ export default async function EditBrand({
 }) {
   const data = await getData<BrandType>(
     `${BACKEND_URL}/api/brand/get/${params.id}`,
-    0
+    true
   );
 
   return (

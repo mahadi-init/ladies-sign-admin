@@ -70,8 +70,7 @@ export const userColumn: ColumnDef<UserType>[] = [
     header: "STATUS",
     cell: ({ row }) => {
       return (
-        //@ts-expect-error
-        <StatusIndicator status={row.original.banned ? "Blocked" : "Active"} />
+        <StatusIndicator status={row.original.banned ? "INACTIVE" : "ACTIVE"} />
       );
     },
   },

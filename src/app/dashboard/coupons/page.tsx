@@ -7,6 +7,7 @@ import Wrapper from "./Wrapper";
 export default async function Coupons() {
   const coupons: CouponType[] = await getData(
     `${BACKEND_URL}/api/coupon`,
+    true,
     300,
     ["coupon", "coupons"]
   );
@@ -14,8 +15,7 @@ export default async function Coupons() {
   return (
     <>
       <PageTop title="Coupons" />
-      {/* @ts-expect-error */}
-      <Wrapper coupons={coupons.data} />
+      <Wrapper coupons={coupons} />
     </>
   );
 }

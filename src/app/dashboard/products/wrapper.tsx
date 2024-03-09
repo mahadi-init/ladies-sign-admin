@@ -1,5 +1,5 @@
 "use client";
-import DropdownSelect from "@/components/native/DropdownSelect";
+import NonIconDropdownSelect from "@/components/native/NonIconDropdown";
 import { buttonVariants } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { BadgePlus } from "lucide-react";
@@ -19,23 +19,16 @@ export default function Wrapper({
   const [filteredProducts, setFilteredProducts] =
     useState<ProductResponse[]>(products);
 
-  //FIXME: doesn't work filter all the time
   useEffect(() => {
-    if (dropdownFilter) {
+    if (dropdownFilter === "ALL" || dropdownFilter === "") {
+      setFilteredProducts(products);
+    } else {
       setFilteredProducts(
         products.filter((item) => item.productType === dropdownFilter)
       );
-    } else {
-      setFilteredProducts(products);
     }
   }, [dropdownFilter, products]);
 
-  /**
-   * A function to handle search filtering.
-   *
-   * @param {string} search - the search string to filter products
-   * @return {void}
-   */
   const handleSearchFilter = (search: string): void => {
     setFilteredProducts(
       products.filter((item) =>
@@ -53,8 +46,8 @@ export default function Wrapper({
           onChange={(e) => handleSearchFilter(e.target.value)}
         />
         <div className="flex items-center gap-2">
-          <DropdownSelect
-            items={productTypes}
+          <NonIconDropdownSelect
+            items={["ALL", ...productTypes]}
             selectedItem={dropdownFilter}
             setSelectedItem={setDropdownFilter}
           />

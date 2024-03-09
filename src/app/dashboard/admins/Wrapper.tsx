@@ -3,13 +3,12 @@ import { DataTable } from "@/components/native/DataTable";
 import DropdownSelect from "@/components/native/DropdownSelect";
 import { buttonVariants } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Statuses } from "@/data/statuses.data";
 import { AdminType } from "@/shared/admins/admin.t";
 import { BadgePlus } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { adminColumn } from "../../../shared/admins/AdminColumn";
-
-const statusItems = ["ALL", "Active", "Inactive"];
 
 export default function Wrapper({ admins }: { admins: AdminType[] }) {
   const [search, setSearch] = useState("");
@@ -51,7 +50,7 @@ export default function Wrapper({ admins }: { admins: AdminType[] }) {
         <div className="flex gap-2">
           <DropdownSelect
             placeholder="status"
-            items={statusItems}
+            items={Statuses}
             selectedItem={status}
             setSelectedItem={setStatus}
           />

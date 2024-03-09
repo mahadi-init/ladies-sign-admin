@@ -1,6 +1,6 @@
 "use client";
 import ButtonGroup from "@/components/native/ButtonGroup";
-import DropdownSelect from "@/components/native/DropdownSelect";
+import NonIconDropdownSelect from "@/components/native/NonIconDropdown";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -78,6 +78,7 @@ export default function SharedProductUI({
       <div className="p-6 bg-gray-100 rounded-lg shadow">
         <div className="mb-6">
           <h2 className="text-xl font-semibold mb-2">General</h2>
+          {/* <ImageUploader /> */}
           <div className="grid grid-cols-1 gap-4">
             <div>
               <label className="block text-sm font-medium mb-1" htmlFor="title">
@@ -105,6 +106,7 @@ export default function SharedProductUI({
                 required
               />
             </div>
+            UI
           </div>
         </div>
         <div className="mb-6">
@@ -237,7 +239,7 @@ export default function SharedProductUI({
             >
               ProductType <span className="text-red-500">*</span>
             </label>
-            <DropdownSelect
+            <NonIconDropdownSelect
               style="w-full"
               placeholder="Select..."
               items={productTypes}
@@ -256,7 +258,7 @@ export default function SharedProductUI({
             >
               Brand <span className="text-red-500">*</span>
             </label>
-            <DropdownSelect
+            <NonIconDropdownSelect
               style="w-full"
               placeholder="Select..."
               items={brands}

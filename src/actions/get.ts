@@ -1,5 +1,6 @@
 export default async function getData<T>(
   queryUrl: string,
+  hasNestedData = false,
   revalidate: number = 0,
   tags?: string[]
 ): Promise<T> {
@@ -9,7 +10,11 @@ export default async function getData<T>(
       tags: tags,
     },
   });
-  const data = await res.json();
+  const value = await res.json();
 
-  return data;
+  if (hasNestedData) {
+    return value.data;
+  } else {
+    return value;
+  }
 }

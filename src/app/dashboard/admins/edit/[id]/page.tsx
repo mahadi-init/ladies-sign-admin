@@ -9,7 +9,7 @@ import { BACKEND_URL } from "../../../../../../site-info";
 const getAdminData = async (id: string) => {
   const data = await getData<AdminType>(
     `${BACKEND_URL}/api/admin/get/${id}`,
-    10
+    true
   );
 
   return data;

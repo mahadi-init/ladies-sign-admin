@@ -2,11 +2,10 @@
 import { DataTable } from "@/components/native/DataTable";
 import DropdownSelect from "@/components/native/DropdownSelect";
 import { Input } from "@/components/ui/input";
+import { Statuses } from "@/data/statuses.data";
 import { userColumn } from "@/shared/users/UserColumn";
 import { UserType } from "@/shared/users/user.t";
 import { useEffect, useState } from "react";
-
-const statusItems = ["ALL", "Active", "Banned"];
 
 export default function Wrapper({ users }: { users: UserType[] }) {
   const [search, setSearch] = useState("");
@@ -48,7 +47,7 @@ export default function Wrapper({ users }: { users: UserType[] }) {
         <div className="flex gap-2">
           <DropdownSelect
             placeholder="Status"
-            items={statusItems}
+            items={Statuses}
             selectedItem={status}
             setSelectedItem={setStatus}
           />

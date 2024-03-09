@@ -11,6 +11,7 @@ import LogoutButton from "./logout-button";
 const getSellerData = async (userId?: string) => {
   const data = await getData<ProfileType>(
     `${BACKEND_URL}/api/admin/get/${userId}`,
+    true,
     10
   );
 
@@ -20,7 +21,7 @@ const getSellerData = async (userId?: string) => {
 export default async function SellerProfile(): Promise<JSX.Element> {
   const token = cookies().get("access-token");
   const userId = cookies().get("user-access-id");
-  const seller = await getSellerData(userId?.value);
+  const seller = await getSellerData(userId?.name);
 
   if (token?.value !== AccessToken.SELLER) {
     return (

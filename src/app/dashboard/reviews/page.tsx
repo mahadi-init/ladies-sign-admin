@@ -7,6 +7,7 @@ import Wrapper from "./Wrapper";
 export default async function Reviews() {
   const reviews: ReviewType[] = await getData(
     `${BACKEND_URL}/api/review/all`,
+    true,
     300,
     ["review", "reviews"]
   );
@@ -14,8 +15,7 @@ export default async function Reviews() {
   return (
     <>
       <PageTop title="Reviews" />
-      {/*@ts-expect-error*/}
-      <Wrapper reviews={reviews.data} />
+      <Wrapper reviews={reviews} />
     </>
   );
 }

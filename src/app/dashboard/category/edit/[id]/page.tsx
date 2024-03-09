@@ -10,7 +10,7 @@ import { BACKEND_URL } from "../../../../../../site-info";
 const getCategoryData = async (id: string) => {
   const data = await getData<CategoryType>(
     `${BACKEND_URL}/api/category/get/${id}`,
-    0
+    true
   );
 
   return data;

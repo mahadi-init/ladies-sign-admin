@@ -12,13 +12,14 @@ import { BACKEND_URL } from "../../../../../../site-info";
 
 export default function Invoice({ params }: { params: { id: string } }) {
   const ref = useRef(null);
-  const { data, error, isLoading } = useSWR<OrderType>(
-    `${BACKEND_URL}/api/order/${params.id}`,
-    fetcher
-  );
+  const {
+    data: value,
+    error,
+    isLoading,
+  } = useSWR<OrderType>(`${BACKEND_URL}/api/order/${params.id}`, fetcher);
 
   const handlePrint = useReactToPrint({
-    documentTitle: `${data?._id}`,
+    documentTitle: `${value?._id}`,
     onBeforePrint: () => console.log("before printing..."),
     onAfterPrint: () => console.log("after printing..."),
     removeAfterPrint: true,
@@ -39,7 +40,8 @@ export default function Invoice({ params }: { params: { id: string } }) {
   return (
     <>
       <div ref={ref}>
-        <InvoiceGenerator data={data} />
+        {/* @ts-expect-error */}
+        <InvoiceGenerator data={value.data} />
       </div>
 
       <Button

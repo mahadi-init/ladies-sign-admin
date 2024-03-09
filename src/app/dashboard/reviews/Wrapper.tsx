@@ -5,11 +5,44 @@ import { buttonVariants } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { reviewColumn } from "@/shared/reviews/ReviewColumn";
 import { ReviewType } from "@/shared/reviews/review.t";
-import { BadgePlus } from "lucide-react";
+import {
+  BadgePlus,
+  LayoutDashboard,
+  Tally1,
+  Tally2,
+  Tally3,
+  Tally4,
+  Tally5,
+} from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
-const statusItems = ["ALL", "5", "4", "3", "2", "1"];
+const statusItems = [
+  {
+    title: "ALL",
+    icon: <LayoutDashboard size={18} />,
+  },
+  {
+    title: "5",
+    icon: <Tally5 size={18} />,
+  },
+  {
+    title: "4",
+    icon: <Tally4 size={18} />,
+  },
+  {
+    title: "3",
+    icon: <Tally3 size={18} />,
+  },
+  {
+    title: "2",
+    icon: <Tally2 size={18} />,
+  },
+  {
+    title: "1",
+    icon: <Tally1 size={18} />,
+  },
+] as const;
 
 export default function Wrapper({ reviews }: { reviews: ReviewType[] }) {
   const [search, setSearch] = useState("");

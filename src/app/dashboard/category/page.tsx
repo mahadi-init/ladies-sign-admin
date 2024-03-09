@@ -7,6 +7,7 @@ import Wrapper from "./Wrapper";
 export default async function Category() {
   const categories = await getData<CategoryType[]>(
     `${BACKEND_URL}/api/category/all`,
+    true,
     300,
     ["category", "categories"]
   );
@@ -14,8 +15,7 @@ export default async function Category() {
   return (
     <>
       <PageTop title="Category" />
-      {/* @ts-expect-error */}
-      <Wrapper categories={categories.data} />
+      <Wrapper categories={categories} />
     </>
   );
 }

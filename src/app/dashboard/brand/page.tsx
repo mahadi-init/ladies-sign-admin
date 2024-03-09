@@ -7,6 +7,7 @@ import Wrapper from "./Wrapper";
 export default async function Brand() {
   const brands = await getData<BrandType[]>(
     `${BACKEND_URL}/api/brand/all`,
+    true,
     300,
     ["brand", "brands"]
   );
@@ -14,8 +15,7 @@ export default async function Brand() {
   return (
     <>
       <PageTop title="Brands" />
-      {/* @ts-expect-error */}
-      <Wrapper brands={brands.data} />
+      <Wrapper brands={brands} />
     </>
   );
 }

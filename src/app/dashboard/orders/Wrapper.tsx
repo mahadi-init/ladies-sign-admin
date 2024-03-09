@@ -5,12 +5,11 @@ import DropdownSelect from "@/components/native/DropdownSelect";
 import { buttonVariants } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { orderColumn } from "@/shared/Orders/OrderColumn";
+import { statuses } from "@/shared/Orders/order-statuses.data";
 import { OrderSummaryType } from "@/shared/Orders/order.t";
 import { BadgePlus } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-
-const statusItems = ["ALL", "pending", "processing", "delivered", "cancelled"];
 
 export default function Wrapper({ orders }: { orders: OrderSummaryType[] }) {
   const [search, setSearch] = useState("");
@@ -50,8 +49,9 @@ export default function Wrapper({ orders }: { orders: OrderSummaryType[] }) {
         />
         <div className="flex gap-2">
           <DropdownSelect
+            style="w-36"
             placeholder="status"
-            items={statusItems}
+            items={statuses}
             selectedItem={status}
             setSelectedItem={setStatus}
           />

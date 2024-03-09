@@ -1,7 +1,7 @@
 import { OrderStatusType } from "@/types/enums.t";
 import { ResetIcon } from "@radix-ui/react-icons";
 import { useState } from "react";
-import DropdownSelect from "./DropdownSelect";
+import NonIconDropdownSelect from "./NonIconDropdown";
 import OrderStatusIndicator from "./OrderStatusIndicator";
 
 export default function StatusUpdateDropdown({
@@ -20,7 +20,7 @@ export default function StatusUpdateDropdown({
     <div>
       {showOptions ? (
         <div className="flex gap-2 items-center">
-          <DropdownSelect
+          <NonIconDropdownSelect
             items={options}
             selectedItem={option}
             setSelectedItem={setOption}

@@ -1,7 +1,7 @@
 "use client";
 import ButtonGroup from "@/components/native/ButtonGroup";
-import DropdownSelect from "@/components/native/DropdownSelect";
 import ImageUploader from "@/components/native/ImageUploader";
+import NonIconDropdownSelect from "@/components/native/NonIconDropdown";
 import { Input } from "@/components/ui/input";
 import { LocalResponse } from "@/types/response.t";
 import { useState } from "react";
@@ -95,7 +95,7 @@ export default function CategoryUI<T extends PropTypes>(props: T) {
 
         <label className="ml-1 font-medium">
           Product Type <span className="text-red-600">*</span>
-          <DropdownSelect
+          <NonIconDropdownSelect
             placeholder="Select Product Type"
             style="w-full mt-1 bg-gray-100"
             items={props.productTypes}

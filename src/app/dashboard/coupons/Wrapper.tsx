@@ -3,13 +3,12 @@ import { DataTable } from "@/components/native/DataTable";
 import DropdownSelect from "@/components/native/DropdownSelect";
 import { buttonVariants } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Statuses } from "@/data/statuses.data";
 import { couponColumn } from "@/shared/coupons/CouponColumn";
 import { CouponType } from "@/shared/coupons/coupon.t";
 import { BadgePlus } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-
-const statusItems = ["ALL", "active", "inactive"];
 
 export default function Wrapper({ coupons }: { coupons: CouponType[] }) {
   const [search, setSearch] = useState("");
@@ -49,7 +48,7 @@ export default function Wrapper({ coupons }: { coupons: CouponType[] }) {
         <div className="flex gap-2">
           <DropdownSelect
             placeholder="status"
-            items={statusItems}
+            items={Statuses}
             selectedItem={status}
             setSelectedItem={setStatus}
           />

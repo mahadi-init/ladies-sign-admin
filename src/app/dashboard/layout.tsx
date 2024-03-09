@@ -21,15 +21,16 @@ export default async function Layout({
 }) {
   const userId = cookies().get("user-access-id");
   const accessToken = cookies().get("access-token");
-  const getPendingOrder = await getData<{ data: number }>(
+  const getPendingOrder = await getData<number>(
     `${BACKEND_URL}/api/order/orders/pending`,
+    true,
     5,
     ["orders", "order"]
   );
 
   return (
     <AccessProvider userId={userId?.value} accessToken={accessToken?.value}>
-      <Sidenav numOfPendingOrder={getPendingOrder.data} />
+      <Sidenav numOfPendingOrder={getPendingOrder} />
       <div className="px-4 mt-12 lg:mt-4 lg:ml-72">{children}</div>
     </AccessProvider>
   );

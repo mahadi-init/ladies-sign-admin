@@ -6,7 +6,10 @@ import { getProductTypes } from "@/shared/products/get-product-types";
 import { BACKEND_URL } from "../../../../../../site-info";
 
 const getCouponData = async (id: string) => {
-  const data = await getData<CouponType>(`${BACKEND_URL}/api/coupon/${id}`, 10);
+  const data = await getData<CouponType>(
+    `${BACKEND_URL}/api/coupon/${id}`,
+    true
+  );
   return data;
 };
 

@@ -79,7 +79,7 @@ export const orderColumn: ColumnDef<OrderSummaryType>[] = [
     cell: ({ row }) => {
       return (
         <StatusUpdateDropdown
-          options={["pending", "processing", "delivered", "canceled"]}
+          options={["PENDING", "PROCESSING", "DELIVERED", "CANCELLED"]}
           status={row.original.status}
           action={async <T,>(item: T) => {
             //update status

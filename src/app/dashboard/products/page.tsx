@@ -23,6 +23,7 @@ export interface ProductResponse {
 const getProducts = async () => {
   const res = await getData<ProductResponse[]>(
     `${BACKEND_URL}/api/product/all`,
+    false,
     10,
     ["product", "products"]
   );

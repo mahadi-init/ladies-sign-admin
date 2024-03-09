@@ -7,7 +7,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-export default function DropdownSelect({
+export default function NonIconDropdownSelect({
   style,
   placeholder,
   items,
@@ -17,7 +17,7 @@ export default function DropdownSelect({
 }: {
   style?: string;
   placeholder?: string;
-  items: readonly { title: string; icon: JSX.Element }[];
+  items: string[];
   selectedItem?: string;
   setSelectedItem: (item: string) => void;
   action?: <T>(value: T) => void;
@@ -39,11 +39,12 @@ export default function DropdownSelect({
         <SelectGroup>
           {items.map((item, index) => {
             return (
-              <SelectItem key={index} value={item.title}>
-                <div className="flex gap-2 items-center text-xs font-medium">
-                  {item.icon}
-                  {item.title}
-                </div>
+              <SelectItem
+                key={index}
+                value={item}
+                className="text-xs font-medium"
+              >
+                {item}
               </SelectItem>
             );
           })}
