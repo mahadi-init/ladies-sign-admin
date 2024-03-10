@@ -1,13 +1,9 @@
 import ImageUploader from "@/components/native/ImageUploader";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-
-interface ColorVariant {
-  name: string;
-  code: string;
-  sizes: string;
-  image?: string;
-}
+import { useState } from "react";
+import { toast } from "sonner";
+import { ColorVariant } from "./ProductUI";
 
 export default function ProductVariants({
   colorVariants,
@@ -16,10 +12,18 @@ export default function ProductVariants({
   colorVariants: ColorVariant[];
   setColorVariants: (arg0: ColorVariant[]) => void;
 }) {
+  const [image, setImage] = useState<string>();
+
+  const handleImageChange = (index: number, image?: string) => {
+    const updatedColorVariants = [...colorVariants];
+    updatedColorVariants[index].image = image;
+    setColorVariants(updatedColorVariants);
+  };
+
   const handleColorVariantChange = (
     index: number,
     fieldName: keyof ColorVariant,
-    value: string,
+    value: string
   ) => {
     const updatedColorVariants = [...colorVariants];
     updatedColorVariants[index][fieldName] = value;
@@ -32,8 +36,13 @@ export default function ProductVariants({
       <hr className="mb-6" />
       {colorVariants.map((variant, index) => (
         <div key={index}>
-          <div className="w-full flex flex-col items-center">
-            {/* <ImageUploader image={variant.image} /> */}
+          <div className="flex flex-col items-center">
+            <ImageUploader
+              image={variant.image}
+              setImage={setImage}
+              index={index}
+              action={handleImageChange}
+            />
           </div>
           <div className="mt-8 grid grid-cols-3 gap-6 mb-6">
             <div>
@@ -41,7 +50,7 @@ export default function ProductVariants({
                 className="block text-sm font-medium mb-1"
                 htmlFor={`color-name-${index}`}
               >
-                Color Name
+                Color Name <span className="text-red-600">*</span>
               </label>
               <Input
                 id={`color-name-${index}`}
@@ -58,7 +67,7 @@ export default function ProductVariants({
                 className="block text-sm font-medium mb-1"
                 htmlFor={`color-code-${index}`}
               >
-                Color Code
+                Color Code <span className="text-red-600">*</span>
               </label>
               <Input
                 id={`color-code-${index}`}
@@ -75,7 +84,7 @@ export default function ProductVariants({
                 className="block text-sm font-medium mb-1"
                 htmlFor={`sizes-${index}`}
               >
-                Sizes
+                Sizes <span className="text-red-600">*</span>
               </label>
               <Input
                 id={`sizes-${index}`}
@@ -96,12 +105,27 @@ export default function ProductVariants({
       <Button
         type="button"
         className="mt-4"
-        onClick={() =>
-          setColorVariants([
-            ...colorVariants,
-            { name: "", code: "", sizes: "" },
-          ])
-        }
+        onClick={() => {
+          if (!image) {
+            toast.error("image can't be empty");
+            return;
+          }
+
+          if (
+            colorVariants.some(
+              (variant) =>
+                !variant.name ||
+                !variant.code ||
+                !variant.sizes ||
+                !variant.image
+            )
+          ) {
+            toast.error("Some options are empty");
+            return;
+          }
+
+          setColorVariants([...colorVariants, {}]);
+        }}
       >
         Add Variants
       </Button>

@@ -1,7 +1,9 @@
 import clsx from "clsx";
 import { Upload } from "lucide-react";
+import { Route } from "next";
 import { CldUploadButton } from "next-cloudinary";
 import Image from "next/image";
+import Link from "next/link";
 import { useState } from "react";
 import { toast } from "sonner";
 import { CLOUDINARY_UPLOAD_PRESET } from "../../../site-info";
@@ -15,11 +17,13 @@ enum UploadStatus {
 export default function ImageUploader({
   image,
   setImage,
-  style,
+  index,
+  action,
 }: {
   image?: string;
   setImage: (arg0?: string) => void;
-  style?: string;
+  index?: number;
+  action?: (index: number, image?: string) => void;
 }): JSX.Element {
   const [uploadStatus, setUploadStatus] = useState<UploadStatus>(
     UploadStatus.IDLE
@@ -48,7 +52,7 @@ export default function ImageUploader({
           </svg>
         </div>
       </div>
-      <div className={style}>
+      <>
         <picture>
           <Image
             src={image ?? "/logo.png"}
@@ -65,6 +69,15 @@ export default function ImageUploader({
             }}
           />
         </picture>
+        {image && (
+          <Link
+            href={image as Route}
+            className="mt-4  font-medium text-blue-500"
+            target="_blank"
+          >
+            Image URL
+          </Link>
+        )}
 
         <CldUploadButton
           uploadPreset={CLOUDINARY_UPLOAD_PRESET}
@@ -73,10 +86,13 @@ export default function ImageUploader({
             maxFiles: 1,
           }}
           onSuccess={(result) => {
-            if (result.info) {
-              setUploadStatus(UploadStatus.LOADING);
-              //@ts-ignore
-              setImage(result.info.url);
+            setUploadStatus(UploadStatus.LOADING);
+            //@ts-expect-error;
+            setImage(result.info.url);
+
+            if (action && index !== undefined) {
+              //@ts-expect-error;
+              action(index, result.info.url);
             }
           }}
           onError={() => {
@@ -94,7 +110,7 @@ export default function ImageUploader({
             </p>
           </label>
         </CldUploadButton>
-      </div>
+      </>
     </>
   );
 }

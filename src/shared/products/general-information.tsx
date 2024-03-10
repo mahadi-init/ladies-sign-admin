@@ -1,6 +1,7 @@
 import ImageUploader from "@/components/native/ImageUploader";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { ProductCategoryAccordin } from "./product-category-accordin";
 
 export default function GeneralInformation({
   image,
@@ -13,8 +14,25 @@ export default function GeneralInformation({
     <div className="p-6 bg-gray-100 rounded-lg shadow">
       <div className="mb-6">
         <h2 className="text-xl font-semibold mb-2">General</h2>
-        <div className="w-full flex flex-col items-center">
-          <ImageUploader image={image} setImage={setImage} />
+        <div className="flex flex-col  xl:flex-row justify-evenly pb-2 xl:items-center">
+          <div className=" flex flex-col items-center">
+            <ImageUploader image={image} setImage={setImage} />
+          </div>
+          <div className="flex flex-col gap-4 xl:w-1/2">
+            <ProductCategoryAccordin />
+            <label htmlFor="tags" className="block text-sm font-medium mb-1">
+              Tags
+              <Input
+                id="tags"
+                placeholder="Enter tags"
+                name="tags"
+                className="mt-1.5"
+              />
+              <p className="text-xs text-gray-500 mt-1">
+                Set the base price of product.
+              </p>
+            </label>
+          </div>
         </div>
         <div className="grid grid-cols-1 gap-4">
           <div>

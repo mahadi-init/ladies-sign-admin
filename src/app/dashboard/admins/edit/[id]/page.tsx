@@ -20,7 +20,7 @@ export default async function EditAdmin({
 }: {
   params: { id: string };
 }) {
-  const adminRoles = ["Admin", "Editor", "Seller"];
+  const adminRoles = ["ADMIN", "EDITOR", "SELLER"];
   const data = await Promise.all([adminRoles, await getAdminData(params.id)]);
 
   return (

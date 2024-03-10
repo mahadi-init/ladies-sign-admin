@@ -1,11 +1,8 @@
 import NonIconDropdownSelect from "@/components/native/NonIconDropdown";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-
-interface Field {
-  key: string;
-  value: string;
-}
+import { toast } from "sonner";
+import { Field } from "./ProductUI";
 
 export default function AdditionalInformation({
   productTypes,
@@ -29,7 +26,7 @@ export default function AdditionalInformation({
   const handleFieldChange = (
     index: number,
     fieldName: keyof Field,
-    value: string,
+    value: string
   ): void => {
     const updatedFields: Field[] = [...fields];
     updatedFields[index][fieldName] = value;
@@ -53,7 +50,6 @@ export default function AdditionalInformation({
             selectedItem={selectedType}
             setSelectedItem={setSelectedType}
           />
-
           <p className="mt-2 text-sm text-gray-500">
             Set the product ProductType.
           </p>
@@ -97,7 +93,7 @@ export default function AdditionalInformation({
                   className="block text-sm font-medium text-gray-700"
                   htmlFor={`key${index}`}
                 >
-                  Key
+                  Key <span className="text-red-600">*</span>
                 </label>
                 <Input
                   id={`key${index}`}
@@ -114,7 +110,7 @@ export default function AdditionalInformation({
                   className="block text-sm font-medium text-gray-700"
                   htmlFor={`value${index}`}
                 >
-                  Value
+                  Value <span className="text-red-600">*</span>
                 </label>
                 <Input
                   id={`value${index}`}
@@ -133,7 +129,11 @@ export default function AdditionalInformation({
           <Button
             type="button"
             onClick={() => {
-              setFields([...fields, { key: "", value: "" }]);
+              if (fields.some((field) => !field.key || !field.value)) {
+                toast.error("Some options are empty");
+                return;
+              }
+              setFields([...fields, {}]);
             }}
           >
             Add Field

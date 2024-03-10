@@ -14,6 +14,7 @@ import { Label } from "@/components/ui/label";
 import { useState } from "react";
 import { ProfileType } from "./profile.t";
 
+//FIXME: GET DATA FROM API
 export default function ProfileUI({
   data,
 }: {

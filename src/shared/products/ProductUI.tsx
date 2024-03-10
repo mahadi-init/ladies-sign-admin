@@ -2,8 +2,20 @@
 import ButtonGroup from "@/components/native/ButtonGroup";
 import { useState } from "react";
 import AdditionalInformation from "./additional-information";
-import ProductVariants from "./product-variants";
 import GeneralInformation from "./general-information";
+import ProductVariants from "./product-variants";
+
+export interface Field {
+  key?: string;
+  value?: string;
+}
+
+export interface ColorVariant {
+  name?: string;
+  code?: string;
+  sizes?: string;
+  image?: string;
+}
 
 export default function SharedProductUI({
   productTypes,
@@ -16,22 +28,19 @@ export default function SharedProductUI({
   const [selectedType, setSelectedType] = useState<string>();
   const [selectedBrand, setSelectedBrand] = useState<string>();
 
-  const [fields, setFields] = useState([
+  const [fields, setFields] = useState<Field[]>([
     {
       key: "",
       value: "",
     },
   ]);
-  const [colorVariants, setColorVariants] = useState([
+  const [colorVariants, setColorVariants] = useState<ColorVariant[]>([
     {
       name: "",
       code: "",
       sizes: "",
     },
   ]);
-
-  console.log(fields);
-  console.log(colorVariants);
 
   const handleFormAction = (formData: FormData) => {
     const title = formData.get("title");

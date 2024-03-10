@@ -17,7 +17,7 @@ interface PropTypes extends Partial<AdminType> {
     data: T,
     queryUrl: string,
     validationTag: string,
-    successMessage: string,
+    successMessage: string
   ) => Promise<LocalResponse>;
 }
 
@@ -48,7 +48,7 @@ export default function AdminUI<T extends PropTypes>(props: T) {
       data,
       props.queryUrl,
       props.validationTag,
-      props.successMessage,
+      props.successMessage
     );
     if (res.status === 200) {
       toast.success(res.message);

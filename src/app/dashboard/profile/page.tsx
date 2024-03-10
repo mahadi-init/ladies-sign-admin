@@ -4,7 +4,7 @@ import PageTop from "@/components/native/PageTop";
 import ProfileUI from "@/shared/profile/ProfileUI";
 import { ProfileType } from "@/shared/profile/profile.t";
 import { fetcher } from "@/utils/fetcher";
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import useSWR from "swr";
 import { BACKEND_URL } from "../../../../site-info";
 import { UserAccessContext } from "../access-provider";
@@ -15,7 +15,6 @@ export default function Profile() {
     `${BACKEND_URL}/api/admin/get/${userId}`,
     fetcher
   );
-  const [image, setImage] = useState<string>();
 
   if (isLoading) {
     return <FullPageLoading />;
