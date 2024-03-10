@@ -4,7 +4,7 @@ export interface AdminType {
   image: string;
   email: string;
   phone: string;
-  status: string;
+  status: "ACTIVE" | "INACTIVE";
   password: string;
   role: string;
   joiningDate: Date;

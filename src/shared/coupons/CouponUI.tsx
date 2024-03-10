@@ -17,14 +17,14 @@ interface PropTypes extends Partial<CouponType> {
     data: T,
     queryUrl: string,
     validationTag: string,
-    successMessage: string
+    successMessage: string,
   ) => Promise<LocalResponse>;
 }
 
 export default function CouponUI<T extends PropTypes>(props: T) {
   const [logo, setLogo] = useState(props.logo);
   const [productType, setProductType] = useState(
-    props.productType ?? props.productTypes[0]
+    props.productType ?? props.productTypes[0],
   );
   const handleFormAction = async (formData: FormData) => {
     const title = formData.get("title");
@@ -52,14 +52,14 @@ export default function CouponUI<T extends PropTypes>(props: T) {
       discountPercentage: discountPercentage,
       minimumAmount: minimumAmount,
       productType: productType,
-      status: inactive === "on" ? "inactive" : "active",
+      status: inactive === "on" ? "INACTIVE" : "ACTIVE",
     };
 
     const res = await props.serverAction(
       data,
       props.queryUrl,
       props.validationTag,
-      props.successMessage
+      props.successMessage,
     );
     if (res.status === 200) {
       toast.success(res.message);
@@ -168,7 +168,7 @@ export default function CouponUI<T extends PropTypes>(props: T) {
             type="checkbox"
             name="inactive"
             className="bg-gray-100 w-fit"
-            defaultChecked={props.status === "Hide"}
+            defaultChecked={props.status === "INACTIVE"}
           />
           Inactive <span className="text-xs text-red-600">(default show)</span>
         </label>

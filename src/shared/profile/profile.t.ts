@@ -10,7 +10,7 @@ export interface ProfileType {
   address: string;
   referralCode: string;
   phone: string;
-  status: string;
+  status: "ACTIVE" | "INACTIVE";
   role: Role;
   joiningDate: Date;
 }

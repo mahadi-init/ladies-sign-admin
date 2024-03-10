@@ -17,7 +17,7 @@ interface PropTypes extends Partial<AdminType> {
     data: T,
     queryUrl: string,
     validationTag: string,
-    successMessage: string
+    successMessage: string,
   ) => Promise<LocalResponse>;
 }
 
@@ -41,14 +41,14 @@ export default function AdminUI<T extends PropTypes>(props: T) {
       password: password,
       phone: phone,
       role: adminRole,
-      status: inactive === "on" ? "Inactive" : "Active",
+      status: inactive === "on" ? "INACTIVE" : "ACTIVE",
     };
 
     const res = await props.serverAction(
       data,
       props.queryUrl,
       props.validationTag,
-      props.successMessage
+      props.successMessage,
     );
     if (res.status === 200) {
       toast.success(res.message);
@@ -126,7 +126,7 @@ export default function AdminUI<T extends PropTypes>(props: T) {
             type="checkbox"
             name="inactive"
             className="bg-gray-100 w-fit"
-            defaultChecked={props.status === "Inactive"}
+            defaultChecked={props.status === "INACTIVE"}
           />
           Inactive
           <span className="text-xs text-red-600">(default Active)</span>

@@ -8,6 +8,6 @@ export interface CouponType {
   discountPercentage: number;
   minimumAmount: number;
   productType: string;
-  status: string;
+  status: "ACTIVE" | "INACTIVE";
   createdAt: Date;
 }

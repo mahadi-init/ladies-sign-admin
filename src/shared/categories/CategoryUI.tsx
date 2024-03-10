@@ -17,14 +17,14 @@ interface PropTypes extends Partial<CategoryType> {
     data: T,
     queryUrl: string,
     validationTag: string,
-    successMessage: string
+    successMessage: string,
   ) => Promise<LocalResponse>;
 }
 
 export default function CategoryUI<T extends PropTypes>(props: T) {
   const [img, setImg] = useState(props.img);
   const [productType, setProductType] = useState(
-    props.productType ?? props.productTypes[0]
+    props.productType ?? props.productTypes[0],
   );
 
   const handleFormAction = async (formData: FormData) => {
@@ -43,14 +43,14 @@ export default function CategoryUI<T extends PropTypes>(props: T) {
       parent: parent,
       children: children.split(","),
       productType: productType,
-      status: hide === "on" ? "Hide" : "Show",
+      status: hide === "on" ? "HIDE" : "SHOW",
     };
 
     const res = await props.serverAction(
       data,
       props.queryUrl,
       props.validationTag,
-      props.successMessage
+      props.successMessage,
     );
     if (res.status === 200) {
       toast.success(res.message);
@@ -109,7 +109,7 @@ export default function CategoryUI<T extends PropTypes>(props: T) {
             type="checkbox"
             name="hide"
             className="bg-gray-100 w-fit"
-            defaultChecked={props.status === "Hide"}
+            defaultChecked={props.status === "HIDE"}
           />
           Hide <span className="text-xs text-red-600">(default show)</span>
         </label>

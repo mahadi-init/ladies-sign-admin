@@ -20,8 +20,7 @@ export default async function AddProduct() {
         ]}
       />
       <div className="mt-4">
-        {/* @ts-expect-error */}
-        <ProductUI productTypes={data[0]} brands={data[1].data} />
+        <ProductUI productTypes={data[0]} brands={data[1]} />
       </div>
     </div>
   );

@@ -39,11 +39,7 @@ export default function NonIconDropdownSelect({
         <SelectGroup>
           {items.map((item, index) => {
             return (
-              <SelectItem
-                key={index}
-                value={item}
-                className="text-xs font-medium"
-              >
+              <SelectItem key={index} value={item} className=" font-medium">
                 {item}
               </SelectItem>
             );

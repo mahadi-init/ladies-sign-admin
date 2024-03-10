@@ -47,6 +47,7 @@ export default function Wrapper({
         />
         <div className="flex items-center gap-2">
           <NonIconDropdownSelect
+            placeholder="filter by type"
             items={["ALL", ...productTypes]}
             selectedItem={dropdownFilter}
             setSelectedItem={setDropdownFilter}

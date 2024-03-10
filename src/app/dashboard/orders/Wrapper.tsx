@@ -2,13 +2,10 @@
 
 import { DataTable } from "@/components/native/DataTable";
 import DropdownSelect from "@/components/native/DropdownSelect";
-import { buttonVariants } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { orderColumn } from "@/shared/Orders/OrderColumn";
 import { statuses } from "@/shared/Orders/order-statuses.data";
 import { OrderSummaryType } from "@/shared/Orders/order.t";
-import { BadgePlus } from "lucide-react";
-import Link from "next/link";
 import { useEffect, useState } from "react";
 
 export default function Wrapper({ orders }: { orders: OrderSummaryType[] }) {
@@ -33,9 +30,9 @@ export default function Wrapper({ orders }: { orders: OrderSummaryType[] }) {
         Object.values(item).some(
           (value) =>
             typeof value === "string" &&
-            value.toLowerCase().includes(search.toLowerCase())
-        )
-      )
+            value.toLowerCase().includes(search.toLowerCase()),
+        ),
+      ),
     );
   }, [orders, search]);
 
@@ -55,12 +52,6 @@ export default function Wrapper({ orders }: { orders: OrderSummaryType[] }) {
             selectedItem={status}
             setSelectedItem={setStatus}
           />
-          <Link
-            href={"/dashboard/category/add"}
-            className={buttonVariants({ size: "sm", variant: "outline" })}
-          >
-            <BadgePlus />
-          </Link>
         </div>
       </div>
       <DataTable columns={orderColumn} data={filteredOrders} />

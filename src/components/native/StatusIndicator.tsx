@@ -11,8 +11,6 @@ export default function StatusIndicator({
   const getColor = (): Variant => {
     if (status === "ACTIVE" || status === "SHOW") {
       return "secondary";
-    } else if (status === "INACTIVE") {
-      return "default";
     } else {
       return "destructive";
     }

@@ -5,5 +5,5 @@ export interface BrandType {
   email: string;
   website: string;
   location: string;
-  status: "active" | "inactive";
+  status: "ACTIVE" | "INACTIVE";
 }

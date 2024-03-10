@@ -15,7 +15,7 @@ interface PropTypes extends Partial<BrandType> {
     data: T,
     queryUrl: string,
     validationTag: string,
-    successMessage: string
+    successMessage: string,
   ) => Promise<LocalResponse>;
 }
 
@@ -41,14 +41,14 @@ export default function BrandUI<T extends PropTypes>(props: T) {
       email: email,
       website: website,
       location: location,
-      status: Inactive === "on" ? "inactive" : "active",
+      status: Inactive === "on" ? "INACTIVE" : "ACTIVE",
     };
 
     const res = await props.serverAction(
       data,
       props.queryUrl,
       props.validationTag,
-      props.successMessage
+      props.successMessage,
     );
     if (res.status === 200) {
       toast.success(res.message);
@@ -114,7 +114,7 @@ export default function BrandUI<T extends PropTypes>(props: T) {
             type="checkbox"
             name="inactive"
             className="bg-gray-100 w-fit"
-            defaultChecked={props.status === "inactive"}
+            defaultChecked={props.status === "INACTIVE"}
           />
           Inactive
           <span className="text-xs text-red-600">(default active)</span>

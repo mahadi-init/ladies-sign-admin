@@ -22,8 +22,9 @@ export default async function OrderDetails({
 }) {
   const details = await getData<OrderType>(
     `${BACKEND_URL}/api/order/${params.id}`,
+    true,
     10,
-    ["details"]
+    ["details"],
   );
 
   return (
@@ -73,9 +74,9 @@ export default async function OrderDetails({
               <TableCell>{item.quantity}</TableCell>
               <TableCell
                 className={clsx(
-                  item.status === "in-stock"
+                  item.status === "IN-STOCK"
                     ? "text-green-700 fon-semibold"
-                    : "text-red-700 font-semibold"
+                    : "text-red-700 font-semibold",
                 )}
               >
                 {item.status}

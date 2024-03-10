@@ -5,5 +5,5 @@ export type CategoryType = {
   children: string[];
   productType: string;
   products: string[];
-  status: string;
+  status: "SHOW" | "HIDE";
 };
