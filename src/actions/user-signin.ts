@@ -4,6 +4,7 @@ import { cookiesSetup } from "@/utils/cookies-setup";
 import { BACKEND_URL } from "../../site-info";
 import { LocalResponse } from "@/types/response.t";
 import { Role } from "@/types/enums.t";
+import { redirect } from "next/navigation";
 
 interface UserResponseType extends LocalResponse {
   id?: string;
@@ -12,7 +13,7 @@ interface UserResponseType extends LocalResponse {
 
 export async function userSignIn(
   email: string,
-  password: string
+  password: string,
 ): Promise<UserResponseType> {
   try {
     const res = await fetch(`${BACKEND_URL}/api/admin/login`, {
@@ -24,9 +25,9 @@ export async function userSignIn(
       cache: "no-store",
     });
 
-    if (res.status === 200) {
+    if (res.ok) {
       const { _id, name, role } = await res.json();
-      cookiesSetup(_id, role);
+      await cookiesSetup(_id, role);
 
       return {
         id: _id,
