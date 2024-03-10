@@ -1,7 +1,6 @@
 import NonIconDropdownSelect from "@/components/native/NonIconDropdown";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { useState } from "react";
 
 interface Field {
   key: string;
@@ -11,24 +10,26 @@ interface Field {
 export default function AdditionalInformation({
   productTypes,
   brands,
+  selectedType,
+  setSelectedType,
+  selectedBrand,
+  setSelectedBrand,
+  fields,
+  setFields,
 }: {
   productTypes: string[];
   brands: string[];
+  selectedType?: string;
+  setSelectedType: (arg0?: string) => void;
+  selectedBrand?: string;
+  setSelectedBrand: (arg0?: string) => void;
+  fields: Field[];
+  setFields: (arg0: Field[]) => void;
 }) {
-  const [selectedType, setSelectedType] = useState<string>();
-  const [selectedBrand, setSelectedBrand] = useState<string>();
-
-  const [fields, setFields] = useState([
-    {
-      key: "",
-      value: "",
-    },
-  ]);
-
   const handleFieldChange = (
     index: number,
     fieldName: keyof Field,
-    value: string
+    value: string,
   ): void => {
     const updatedFields: Field[] = [...fields];
     updatedFields[index][fieldName] = value;

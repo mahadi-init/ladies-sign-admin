@@ -11,11 +11,8 @@ import { useEffect, useState } from "react";
 import { adminColumn } from "../../../shared/admins/AdminColumn";
 
 export default function Wrapper({ admins }: { admins: AdminType[] }) {
-  const [search, setSearch] = useState("");
   const [status, setStatus] = useState("");
   const [filteredAdmins, setFilteredAdmins] = useState<AdminType[]>(admins);
-
-  console.log(filteredAdmins);
 
   //filter by status
   useEffect(() => {
@@ -26,18 +23,18 @@ export default function Wrapper({ admins }: { admins: AdminType[] }) {
     }
   }, [admins, status]);
 
-  //filter by search
-  useEffect(() => {
+  // filter by search
+  const handleSearchFilter = (search: string): void => {
     setFilteredAdmins(
       admins.filter((item) =>
         Object.values(item).some(
           (value) =>
             typeof value === "string" &&
-            value.toLowerCase().includes(search.toLowerCase())
-        )
-      )
+            value.toLowerCase().includes(search.toLowerCase()),
+        ),
+      ),
     );
-  }, [admins, search]);
+  };
 
   return (
     <div className="mt-4 flex flex-col gap-4 ">
@@ -45,7 +42,7 @@ export default function Wrapper({ admins }: { admins: AdminType[] }) {
         <Input
           className="w-fit"
           placeholder="filter item.."
-          onChange={(e) => setSearch(e.target.value)}
+          onChange={(e) => handleSearchFilter(e.target.value)}
         />
         <div className="flex gap-2">
           <DropdownSelect

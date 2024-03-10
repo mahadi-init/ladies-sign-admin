@@ -11,7 +11,6 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 
 export default function Wrapper({ coupons }: { coupons: CouponType[] }) {
-  const [search, setSearch] = useState("");
   const [status, setStatus] = useState("");
   const [filteredCoupons, setFilteredCoupons] = useState<CouponType[]>(coupons);
 
@@ -24,18 +23,18 @@ export default function Wrapper({ coupons }: { coupons: CouponType[] }) {
     }
   }, [coupons, status]);
 
-  //filter by search
-  useEffect(() => {
+  // filter by search
+  const handleSearchFilter = (search: string): void => {
     setFilteredCoupons(
       coupons.filter((item) =>
         Object.values(item).some(
           (value) =>
             typeof value === "string" &&
-            value.toLowerCase().includes(search.toLowerCase())
-        )
-      )
+            value.toLowerCase().includes(search.toLowerCase()),
+        ),
+      ),
     );
-  }, [coupons, search]);
+  };
 
   return (
     <div className="mt-4 flex flex-col gap-4 ">
@@ -43,7 +42,7 @@ export default function Wrapper({ coupons }: { coupons: CouponType[] }) {
         <Input
           className="w-fit"
           placeholder="filter item.."
-          onChange={(e) => setSearch(e.target.value)}
+          onChange={(e) => handleSearchFilter(e.target.value)}
         />
         <div className="flex gap-2">
           <DropdownSelect

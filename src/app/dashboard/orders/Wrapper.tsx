@@ -9,13 +9,12 @@ import { OrderSummaryType } from "@/shared/Orders/order.t";
 import { useEffect, useState } from "react";
 
 export default function Wrapper({ orders }: { orders: OrderSummaryType[] }) {
-  const [search, setSearch] = useState("");
   const [status, setStatus] = useState("");
   const [filteredOrders, setFilteredOrders] = useState(orders);
 
   //filter by status
   useEffect(() => {
-    if (status === "ALL") {
+    if (status === "ALL" || status === "") {
       setFilteredOrders(orders);
     } else {
       setFilteredOrders(orders.filter((item) => item.status === status));
@@ -23,8 +22,8 @@ export default function Wrapper({ orders }: { orders: OrderSummaryType[] }) {
   }, [orders, status]);
 
   //FIXME: INVOICE SEARCH
-  //filter by search
-  useEffect(() => {
+  // filter by search
+  const handleSearchFilter = (search: string): void => {
     setFilteredOrders(
       orders.filter((item) =>
         Object.values(item).some(
@@ -34,7 +33,7 @@ export default function Wrapper({ orders }: { orders: OrderSummaryType[] }) {
         ),
       ),
     );
-  }, [orders, search]);
+  };
 
   return (
     <div className="mt-4 flex flex-col gap-4 ">
@@ -42,7 +41,7 @@ export default function Wrapper({ orders }: { orders: OrderSummaryType[] }) {
         <Input
           className="w-fit"
           placeholder="filter item.."
-          onChange={(e) => setSearch(e.target.value)}
+          onChange={(e) => handleSearchFilter(e.target.value)}
         />
         <div className="flex gap-2">
           <DropdownSelect

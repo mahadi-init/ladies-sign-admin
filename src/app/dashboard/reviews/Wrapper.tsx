@@ -45,7 +45,6 @@ const statusItems = [
 ] as const;
 
 export default function Wrapper({ reviews }: { reviews: ReviewType[] }) {
-  const [search, setSearch] = useState("");
   const [status, setStatus] = useState("");
   const [filteredReviews, setFilteredReviews] = useState<ReviewType[]>(reviews);
 
@@ -55,23 +54,23 @@ export default function Wrapper({ reviews }: { reviews: ReviewType[] }) {
       setFilteredReviews(reviews);
     } else {
       setFilteredReviews(
-        reviews.filter((item) => item.rating.toString() === status)
+        reviews.filter((item) => item.rating.toString() === status),
       );
     }
   }, [reviews, status]);
 
-  //filter by search
-  useEffect(() => {
+  // filter by search
+  const handleSearchFilter = (search: string): void => {
     setFilteredReviews(
       reviews.filter((item) =>
         Object.values(item).some(
           (value) =>
             typeof value === "string" &&
-            value.toLowerCase().includes(search.toLowerCase())
-        )
-      )
+            value.toLowerCase().includes(search.toLowerCase()),
+        ),
+      ),
     );
-  }, [reviews, search]);
+  };
 
   return (
     <div className="mt-4 flex flex-col gap-4 ">
@@ -79,7 +78,7 @@ export default function Wrapper({ reviews }: { reviews: ReviewType[] }) {
         <Input
           className="w-fit"
           placeholder="filter item.."
-          onChange={(e) => setSearch(e.target.value)}
+          onChange={(e) => handleSearchFilter(e.target.value)}
         />
         <div className="flex gap-2">
           <DropdownSelect

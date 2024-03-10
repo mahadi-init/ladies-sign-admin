@@ -29,7 +29,6 @@ export default function Wrapper({
 }: {
   categories: CategoryType[];
 }) {
-  const [search, setSearch] = useState("");
   const [status, setStatus] = useState("");
   const [filteredCategories, setFilteredCategories] =
     useState<CategoryType[]>(categories);
@@ -40,23 +39,23 @@ export default function Wrapper({
       setFilteredCategories(categories);
     } else {
       setFilteredCategories(
-        categories.filter((item) => item.status === status)
+        categories.filter((item) => item.status === status),
       );
     }
   }, [categories, status]);
 
-  //filter by search
-  useEffect(() => {
+  // filter by search
+  const handleSearchFilter = (search: string): void => {
     setFilteredCategories(
       categories.filter((item) =>
         Object.values(item).some(
           (value) =>
             typeof value === "string" &&
-            value.toLowerCase().includes(search.toLowerCase())
-        )
-      )
+            value.toLowerCase().includes(search.toLowerCase()),
+        ),
+      ),
     );
-  }, [categories, search]);
+  };
 
   return (
     <div className="mt-4 flex flex-col gap-4 ">
@@ -64,7 +63,7 @@ export default function Wrapper({
         <Input
           className="w-fit"
           placeholder="filter item.."
-          onChange={(e) => setSearch(e.target.value)}
+          onChange={(e) => handleSearchFilter(e.target.value)}
         />
         <div className="flex gap-2">
           <DropdownSelect

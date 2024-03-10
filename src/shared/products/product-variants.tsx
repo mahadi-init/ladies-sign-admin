@@ -1,7 +1,6 @@
 import ImageUploader from "@/components/native/ImageUploader";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { useState } from "react";
 
 interface ColorVariant {
   name: string;
@@ -10,15 +9,13 @@ interface ColorVariant {
   image?: string;
 }
 
-export default function ProductVariants() {
-  const [colorVariants, setColorVariants] = useState<ColorVariant[]>([
-    {
-      name: "",
-      code: "",
-      sizes: "",
-    },
-  ]);
-
+export default function ProductVariants({
+  colorVariants,
+  setColorVariants,
+}: {
+  colorVariants: ColorVariant[];
+  setColorVariants: (arg0: ColorVariant[]) => void;
+}) {
   const handleColorVariantChange = (
     index: number,
     fieldName: keyof ColorVariant,
