@@ -16,7 +16,7 @@ export function Breadcrumbs({ props }: { props: BreadcrumbsProps[] }) {
       <ol className="flex items-center space-x-2">
         {props.map((item, index) => (
           <>
-            <li key={index}>
+            <li key={item.title}>
               <Link
                 className="font-medium text-sm flex items-center gap-2 text-slate-500 transition-colors hover:text-slate-900 "
                 href={item.link as Route}

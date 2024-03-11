@@ -16,7 +16,7 @@ export default function ProductVariants({
 
   const handleImageChange = (index: number, image?: string) => {
     const updatedColorVariants = [...colorVariants];
-    updatedColorVariants[index].image = image;
+    updatedColorVariants[index].img = image;
     setColorVariants(updatedColorVariants);
   };
 
@@ -38,7 +38,7 @@ export default function ProductVariants({
         <div key={index}>
           <div className="flex flex-col items-center">
             <ImageUploader
-              image={variant.image}
+              image={variant.img}
               setImage={setImage}
               index={index}
               action={handleImageChange}
@@ -114,10 +114,7 @@ export default function ProductVariants({
           if (
             colorVariants.some(
               (variant) =>
-                !variant.name ||
-                !variant.code ||
-                !variant.sizes ||
-                !variant.image
+                !variant.name || !variant.code || !variant.sizes || !variant.img
             )
           ) {
             toast.error("Some options are empty");

@@ -10,18 +10,26 @@ import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { XIcon } from "@/icons/Xicon";
 import { fetcher } from "@/utils/fetcher";
-import { useState } from "react";
 import useSWR from "swr";
 import { BACKEND_URL } from "../../../site-info";
 import { CategoryType } from "../categories/category.t";
 
-export function ProductCategoryAccordin() {
+export function ProductCategory({
+  parent,
+  setParent,
+  selectedChildrens,
+  setSelectedChildrens,
+}: {
+  parent?: string;
+  setParent: (arg0?: string) => void;
+  selectedChildrens: string[];
+  setSelectedChildrens: (arg0: string[]) => void;
+}) {
   const {
     data: categories,
     error,
     isLoading,
   } = useSWR(`${BACKEND_URL}/api/category/all`, fetcher);
-  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
 
   if (isLoading) {
     return (
@@ -36,20 +44,37 @@ export function ProductCategoryAccordin() {
     );
   }
 
+  if (error) {
+    return (
+      <div className="my-4">
+        <p className="block text-xl font-medium mb-1">Product Category</p>
+        <p className="text-red-600 italic">Something went wrong</p>
+      </div>
+    );
+  }
+
   return (
     <>
       <div className="my-4">
-        <p className="block text-xl font-medium mb-1">Product Category</p>
+        <p className="block text-xl font-medium mb-1">
+          Product Category <span className="text-red-600">*</span>
+        </p>
         <div className="flex flex-wrap gap-2">
-          {selectedCategories.map((category, index) => {
+          {parent && (
+            <Badge variant="secondary" className="flex items-center">
+              {parent}
+              <XIcon className="ml-1" onClick={() => setParent(undefined)} />
+            </Badge>
+          )}
+          {selectedChildrens.map((category, index) => {
             return (
               <Badge
                 key={index}
                 variant="secondary"
                 className="flex items-center"
                 onClick={() => {
-                  setSelectedCategories(
-                    selectedCategories.filter((_, i) => i !== index)
+                  setSelectedChildrens(
+                    selectedChildrens.filter((_, i) => i !== index)
                   );
                 }}
               >
@@ -67,12 +92,7 @@ export function ProductCategoryAccordin() {
               <AccordionItem key={index} value={category.parent}>
                 <AccordionTrigger
                   onClick={() => {
-                    if (!selectedCategories.includes(category.parent)) {
-                      setSelectedCategories([
-                        ...selectedCategories,
-                        category.parent,
-                      ]);
-                    }
+                    setParent(category.parent);
                   }}
                 >
                   {category.parent}
@@ -83,8 +103,8 @@ export function ProductCategoryAccordin() {
                       key={index}
                       className="cursor-pointer"
                       onClick={() => {
-                        if (!selectedCategories.includes(item)) {
-                          setSelectedCategories([...selectedCategories, item]);
+                        if (!selectedChildrens.includes(item)) {
+                          setSelectedChildrens([...selectedChildrens, item]);
                         }
                       }}
                     >

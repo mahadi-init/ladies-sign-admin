@@ -37,6 +37,8 @@ export default async function Products() {
     await getProducts(),
   ]);
 
+  console.log(data[1]);
+
   return (
     <>
       <PageTop title="Products" />
