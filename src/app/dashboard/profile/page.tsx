@@ -27,7 +27,7 @@ export default function Profile() {
   return (
     <>
       <PageTop title="Profile" />
-      <ProfileUI data={data} />
+      <ProfileUI data={data} showBalance={false} />
     </>
   );
 }

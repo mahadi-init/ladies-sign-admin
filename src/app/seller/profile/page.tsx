@@ -20,7 +20,7 @@ export default async function SellerProfile() {
   return (
     <>
       <PageTop title="Seller Profile" />
-      <ProfileUI data={seller} />
+      <ProfileUI data={seller} showBalance={true} />
     </>
   );
 }
