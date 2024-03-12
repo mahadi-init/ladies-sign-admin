@@ -11,10 +11,11 @@ import { UserAccessContext } from "../access-provider";
 
 export default function Profile() {
   const { userId } = useContext(UserAccessContext);
-  const { data, error, isLoading } = useSWR<ProfileType>(
-    `${BACKEND_URL}/api/admin/get/${userId}`,
-    fetcher
-  );
+  const {
+    data: admin,
+    error,
+    isLoading,
+  } = useSWR<ProfileType>(`${BACKEND_URL}/api/admin/get/${userId}`, fetcher);
 
   if (isLoading) {
     return <FullPageLoading />;
@@ -27,7 +28,8 @@ export default function Profile() {
   return (
     <>
       <PageTop title="Profile" />
-      <ProfileUI data={data} showBalance={false} />
+      {/* @ts-expect-error */}
+      <ProfileUI data={admin.data} showBalance={false} />
     </>
   );
 }

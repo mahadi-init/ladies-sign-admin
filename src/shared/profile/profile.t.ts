@@ -1,6 +1,7 @@
 import { Role } from "@/types/enums.t";
 
 export interface ProfileType {
+  _id: string;
   name: string;
   email: string;
   password: string;
