@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import useLogout from "@/hooks/useLogout";
 import { toast } from "sonner";
 
-export default function LogoutButton(): JSX.Element {
+export default function LogoutButton() {
   const { handleLogout } = useLogout();
 
   return (

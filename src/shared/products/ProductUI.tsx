@@ -32,7 +32,6 @@ export default function SharedProductUI({
   const [selectedBrand, setSelectedBrand] = useState<string>();
   const [parent, setParent] = useState<string>();
   const [selectedChildrens, setSelectedChildrens] = useState<string[]>([]);
-  // const [tags, setTags] = useState<string[]>([]);
 
   const [fields, setFields] = useState<Field[]>([
     {
@@ -50,13 +49,13 @@ export default function SharedProductUI({
 
   const handleFormAction = async (formData: FormData) => {
     //general information
-    const title = formData.get("title"); //done r string
-    const description = formData.get("description"); //done r string
-    const price = formData.get("price"); //done r number
-    const sku = formData.get("sku"); //done rn string
-    const quantity = formData.get("quantity"); // done number
-    const discount = formData.get("discount"); //done number
-    const videoId = formData.get("video"); // done string
+    const title = formData.get("title");
+    const description = formData.get("description");
+    const price = formData.get("price");
+    const sku = formData.get("sku");
+    const quantity = formData.get("quantity");
+    const discount = formData.get("discount");
+    const videoId = formData.get("video");
     const tags = formData.get("tags")?.toString().split(",");
     const children = selectedChildrens.toString();
 
@@ -66,8 +65,16 @@ export default function SharedProductUI({
     const brand = selectedBrand;
     const additionalInformation = fields;
 
-    // Variants
-    const images = colorVariants;
+    if (!img) {
+      toast.error("main image can't be empty");
+      return;
+    }
+
+    const images = colorVariants.map((variant) => {
+      {
+        variant.name, variant.code, variant.sizes?.split(","), variant.img;
+      }
+    });
 
     const data = {
       title,

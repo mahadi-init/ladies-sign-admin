@@ -22,7 +22,7 @@ export default function Login() {
   );
 
   // Check if user has access permission
-  // If yes, redirect to dashboard If no, redirect to login
+  // If yes, redirect to dashboard If no, redirect to log in
   useEffect(() => {
     const token = getCookie("access-token");
 

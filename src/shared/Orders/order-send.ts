@@ -10,7 +10,7 @@ import { LocalResponse } from "@/types/response.t";
 import { OrderSummaryType } from "@/shared/Orders/order.t";
 
 export async function sendOrder(
-  order: OrderSummaryType
+  order: OrderSummaryType,
 ): Promise<LocalResponse> {
   try {
     // check courir response
@@ -24,7 +24,7 @@ export async function sendOrder(
         },
         `${BACKEND_URL}/api/order/update-status/${order._id}`,
         "orders",
-        "Order added Successfully"
+        "Order added Successfully",
       );
 
       if (res.status === 200) {
@@ -37,8 +37,6 @@ export async function sendOrder(
 
     throw new Error();
   } catch (err) {
-    console.log(err);
-
     return {
       status: 400,
       message: "Something went wrong",

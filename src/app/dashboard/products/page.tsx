@@ -21,14 +21,12 @@ export interface ProductResponse {
 }
 
 const getProducts = async () => {
-  const data = await getData<ProductResponse[]>(
+  return await getData<ProductResponse[]>(
     `${BACKEND_URL}/api/product/all`,
     true,
     10,
-    ["product", "products"]
+    ["product", "products"],
   );
-
-  return data;
 };
 
 export default async function Products() {
@@ -36,8 +34,6 @@ export default async function Products() {
     await getProductTypes(),
     await getProducts(),
   ]);
-
-  console.log(data[1]);
 
   return (
     <>

@@ -1,6 +1,7 @@
 import ImageUploader from "@/components/native/ImageUploader";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Cross1Icon } from "@radix-ui/react-icons";
 import { useState } from "react";
 import { toast } from "sonner";
 import { ColorVariant } from "./ProductUI";
@@ -18,6 +19,17 @@ export default function ProductVariants({
     const updatedColorVariants = [...colorVariants];
     updatedColorVariants[index].img = image;
     setColorVariants(updatedColorVariants);
+  };
+
+  //FIXME: HAVE ISSUE WITH THIS
+  const removeElement = (index: number): void => {
+    if (colorVariants.length === 1) {
+      return;
+    }
+
+    const updatedVariants: ColorVariant[] = [...colorVariants];
+    updatedVariants.splice(index, 1);
+    setColorVariants(updatedVariants);
   };
 
   const handleColorVariantChange = (
@@ -44,8 +56,8 @@ export default function ProductVariants({
               action={handleImageChange}
             />
           </div>
-          <div className="mt-8 grid grid-cols-3 gap-6 mb-6">
-            <div>
+          <div className="mt-8 grid grid-cols-10 items-center gap-6 mb-6">
+            <div className="col-span-3">
               <label
                 className="block text-sm font-medium mb-1"
                 htmlFor={`color-name-${index}`}
@@ -62,7 +74,7 @@ export default function ProductVariants({
               />
               <p className="text-xs mt-1">Set the Color name of product.</p>
             </div>
-            <div>
+            <div className="col-span-3">
               <label
                 className="block text-sm font-medium mb-1"
                 htmlFor={`color-code-${index}`}
@@ -79,7 +91,7 @@ export default function ProductVariants({
               />
               <p className="text-xs mt-1">Hex code here ex:#3C3C3D</p>
             </div>
-            <div>
+            <div className="col-span-3">
               <label
                 className="block text-sm font-medium mb-1"
                 htmlFor={`sizes-${index}`}
@@ -96,6 +108,16 @@ export default function ProductVariants({
               />
               <p className="text-xs mt-1">enter all sizes (comma separated)</p>
             </div>
+            <Button
+              type="button"
+              className="mt-2.5 rounded-full w-fit col-span-1"
+              variant="destructive"
+              size="sm"
+              onClick={() => removeElement(index)}
+            >
+              {index}
+              <Cross1Icon />
+            </Button>
           </div>
           {colorVariants.length > 1 && (
             <hr className="mb-6 border-spacing-1.5 border-gray-600" />

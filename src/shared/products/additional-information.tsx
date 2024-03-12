@@ -1,6 +1,10 @@
+import { HoverToolkit } from "@/components/native/HoverToolkit";
 import NonIconDropdownSelect from "@/components/native/NonIconDropdown";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Cross1Icon } from "@radix-ui/react-icons";
+import { RefreshCcw } from "lucide-react";
+import { useState } from "react";
 import { toast } from "sonner";
 import { Field } from "./ProductUI";
 
@@ -23,6 +27,8 @@ export default function AdditionalInformation({
   fields: Field[];
   setFields: (arg0: Field[]) => void;
 }) {
+  const [isCreateType, setIsCreateType] = useState(false);
+
   const handleFieldChange = (
     index: number,
     fieldName: keyof Field,
@@ -30,6 +36,17 @@ export default function AdditionalInformation({
   ): void => {
     const updatedFields: Field[] = [...fields];
     updatedFields[index][fieldName] = value;
+    setFields(updatedFields);
+  };
+
+  //FIXME: HAVE ISSUE WITH THIS
+  const removeElement = (index: number): void => {
+    if (fields.length === 1) {
+      return;
+    }
+
+    const updatedFields: Field[] = [...fields];
+    updatedFields.splice(index, 1);
     setFields(updatedFields);
   };
 
@@ -43,13 +60,39 @@ export default function AdditionalInformation({
           >
             ProductType <span className="text-red-500">*</span>
           </label>
-          <NonIconDropdownSelect
-            style="w-full"
-            placeholder="Select..."
-            items={productTypes}
-            selectedItem={selectedType}
-            setSelectedItem={setSelectedType}
-          />
+          <div className="flex gap-2 items-center">
+            {isCreateType ? (
+              <>
+                <Input
+                  placeholder="crate new product type"
+                  onChange={(e) => setSelectedType(e.target.value)}
+                />
+                <HoverToolkit text="Change to select">
+                  <RefreshCcw
+                    className="cursor-pointer"
+                    onClick={() => setIsCreateType(false)}
+                  />
+                </HoverToolkit>
+              </>
+            ) : (
+              <>
+                <NonIconDropdownSelect
+                  style="w-full"
+                  placeholder="Select..."
+                  items={productTypes}
+                  selectedItem={selectedType}
+                  setSelectedItem={setSelectedType}
+                />
+                <HoverToolkit text="Change to create">
+                  <RefreshCcw
+                    className="cursor-pointer"
+                    onClick={() => setIsCreateType(true)}
+                  />
+                </HoverToolkit>
+              </>
+            )}
+          </div>
+
           <p className="mt-2 text-sm text-gray-500">
             Set the product ProductType.
           </p>
@@ -87,8 +130,11 @@ export default function AdditionalInformation({
         </h3>
         {fields.map((item, index) => {
           return (
-            <div key={index} className="grid grid-cols-2 gap-6 mt-4">
-              <div>
+            <div
+              key={index}
+              className="grid grid-cols-9 items-center gap-6 mt-4"
+            >
+              <div className="col-span-4">
                 <label
                   className="block text-sm font-medium text-gray-700"
                   htmlFor={`key${index}`}
@@ -105,7 +151,7 @@ export default function AdditionalInformation({
                   }
                 />
               </div>
-              <div>
+              <div className="col-span-4">
                 <label
                   className="block text-sm font-medium text-gray-700"
                   htmlFor={`value${index}`}
@@ -122,6 +168,16 @@ export default function AdditionalInformation({
                   }
                 />
               </div>
+              <Button
+                type="button"
+                className="mt-5 rounded-full w-fit col-span-1"
+                variant="destructive"
+                size="sm"
+                onClick={() => removeElement(index)}
+              >
+                {index}
+                <Cross1Icon />
+              </Button>
             </div>
           );
         })}

@@ -1,11 +1,6 @@
 import Image from "next/image";
 
-/**
- * Render the Access Denied component.
- *
- * @return {JSX.Element} The Access Denied component
- */
-export default function AccessDenied(): JSX.Element {
+export default function AccessDenied() {
   return (
     <>
       <Image
