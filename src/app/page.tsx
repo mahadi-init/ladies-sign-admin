@@ -18,7 +18,7 @@ enum AccessStatus {
 export default function Login() {
   const router = useRouter();
   const [hasAccess, setHasAccess] = useState<AccessStatus>(
-    AccessStatus.LOADING,
+    AccessStatus.LOADING
   );
 
   // Check if user has access permission

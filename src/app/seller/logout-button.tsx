@@ -21,9 +21,7 @@ export default function LogoutButton() {
         });
       }}
     >
-      <Button variant="destructive" className="w-full mt-2">
-        Logout
-      </Button>
+      <Button variant="destructive">Logout</Button>
     </ConfirmationDialog>
   );
 }

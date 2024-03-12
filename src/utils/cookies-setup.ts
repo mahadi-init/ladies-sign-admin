@@ -15,7 +15,7 @@ export const cookiesSetup = async (id: string, role: string): Promise<void> => {
       token = AccessToken.EDITOR;
       break;
     default:
-      token = AccessToken.EDITOR;
+      token = AccessToken.SELLER;
       break;
   }
 

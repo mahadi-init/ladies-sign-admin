@@ -84,6 +84,12 @@ export default function ImageUploader({
           options={{
             multiple: false,
             maxFiles: 1,
+            sources: ["local", "url", "google_drive", "dropbox", "unsplash"],
+            cropping: true,
+            croppingShowDimensions: true,
+            minImageHeight: 296,
+            minImageWidth: 256,
+            validateMaxWidthHeight: true,
           }}
           onSuccess={(result) => {
             setUploadStatus(UploadStatus.LOADING);

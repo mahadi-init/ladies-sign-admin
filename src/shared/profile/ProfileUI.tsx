@@ -1,5 +1,4 @@
 "use client";
-import BalanceCard from "@/components/native/BalanceCard";
 import ImageUploader from "@/components/native/ImageUploader";
 import SubmitButton from "@/components/native/SubmitButton";
 import {
@@ -28,7 +27,7 @@ export default function ProfileUI({
         <div className="flex flex-col items-center">
           <ImageUploader image={image ?? data?.image} setImage={setImage} />
         </div>
-        <BalanceCard />
+        {/* <BalanceCard /> */}
       </div>
       <div className="grid grid-cols-1 gap-8 w-full">
         <Card className="col-span-1 shadow">
