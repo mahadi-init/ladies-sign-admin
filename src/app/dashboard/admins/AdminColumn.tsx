@@ -6,9 +6,9 @@ import { Button } from "@/components/ui/button";
 import { Status } from "@/types/enums.t";
 import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown, PencilIcon } from "lucide-react";
-import Image from "next/image";
+import { CldImage } from "next-cloudinary";
 import Link from "next/link";
-import { BACKEND_URL } from "../../../site-info";
+import { BACKEND_URL } from "../../../../site-info";
 import { AdminType } from "./admin.t";
 
 export const adminColumn: ColumnDef<AdminType>[] = [
@@ -39,10 +39,11 @@ export const adminColumn: ColumnDef<AdminType>[] = [
     cell: ({ row }) => {
       return row.original.image ? (
         <picture>
-          <Image
+          <CldImage
             className="w-10 rounded-full"
             width={250}
             height={250}
+            crop="fill"
             src={row.original.image}
             alt="cell image"
             loading="lazy"
@@ -54,10 +55,6 @@ export const adminColumn: ColumnDef<AdminType>[] = [
     },
   },
 
-  {
-    accessorKey: "email",
-    header: "EMAIL",
-  },
   {
     accessorKey: "phone",
     header: "PHONE",

@@ -1,14 +1,14 @@
 "use client";
+import { AdminType } from "@/app/dashboard/admins/admin.t";
 import { DataTable } from "@/components/native/DataTable";
 import DropdownSelect from "@/components/native/DropdownSelect";
 import { buttonVariants } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Statuses } from "@/data/statuses.data";
-import { AdminType } from "@/shared/admins/admin.t";
 import { BadgePlus } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { adminColumn } from "../../../shared/admins/AdminColumn";
+import { adminColumn } from "./AdminColumn";
 
 export default function Wrapper({ admins }: { admins: AdminType[] }) {
   const [status, setStatus] = useState("");
@@ -30,14 +30,14 @@ export default function Wrapper({ admins }: { admins: AdminType[] }) {
         Object.values(item).some(
           (value) =>
             typeof value === "string" &&
-            value.toLowerCase().includes(search.toLowerCase()),
-        ),
-      ),
+            value.toLowerCase().includes(search.toLowerCase())
+        )
+      )
     );
   };
 
   return (
-    <div className="mt-4 flex flex-col gap-4 ">
+    <div className="w-full mt-4 flex flex-col gap-4 ">
       <div className="flex items-center justify-between ">
         <Input
           className="w-fit"
@@ -52,7 +52,7 @@ export default function Wrapper({ admins }: { admins: AdminType[] }) {
             setSelectedItem={setStatus}
           />
           <Link
-            href={"/dashboard/admins/add"}
+            href={"/dashboard/admins"}
             className={buttonVariants({ size: "sm", variant: "outline" })}
           >
             <BadgePlus />

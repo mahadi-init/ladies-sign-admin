@@ -1,10 +1,10 @@
 "use client";
+import { cloudinaryUpload } from "@/actions/cloudinary-upload";
 import ButtonGroup from "@/components/native/ButtonGroup";
-import ImageUploader from "@/components/native/ImageUploader";
-import NonIconDropdownSelect from "@/components/native/NonIconDropdown";
+import FormImageUploader from "@/components/native/FormImageUploader";
 import { Input } from "@/components/ui/input";
 import { LocalResponse } from "@/types/response.t";
-import { useState } from "react";
+import showToast from "@/utils/ShowToast";
 import { toast } from "sonner";
 import { AdminType } from "./admin.t";
 
@@ -21,26 +21,30 @@ interface PropTypes extends Partial<AdminType> {
   ) => Promise<LocalResponse>;
 }
 
-export default function AdminUI<T extends PropTypes>(props: T) {
-  const [image, setImage] = useState(props.image);
-  const [adminRole, setAdminRole] = useState(props.role ?? props.adminRoles[0]);
-
+export default function AdminUI(props: PropTypes) {
   const handleFormAction = async (formData: FormData) => {
     const name = formData.get("name");
     const email = formData.get("email");
-    const password = formData.get("password");
+    const password = formData.get("password") as string;
     const phone = formData.get("phone");
     const inactive = formData.get("inactive");
-    //FIXME: ACTIVE INACTIVE ISSUE
+    const role = formData.get("role");
+
+    const cloud = await cloudinaryUpload(formData, "img", "admin");
+
+    if (password.length < 6) {
+      toast.error("password length is too short");
+      return;
+    }
 
     const data = {
       _id: props._id,
       name: name,
       email: email,
-      image: image,
+      image: cloud?.url ?? null,
       password: password,
       phone: phone,
-      role: adminRole,
+      role: role,
       status: inactive === "on" ? "INACTIVE" : "ACTIVE",
     };
 
@@ -50,17 +54,14 @@ export default function AdminUI<T extends PropTypes>(props: T) {
       props.validationTag,
       props.successMessage
     );
-    if (res.status === 200) {
-      toast.success(res.message);
-    } else {
-      toast.error(res.message);
-    }
+
+    showToast(res);
   };
 
   return (
-    <form action={handleFormAction} className="w-full">
+    <form action={handleFormAction} className="w-full xl:w-7/12">
       <div className="flex flex-col justify-center items-center my-8 w-full">
-        <ImageUploader image={image} setImage={setImage} />
+        <FormImageUploader name="img" image={props.image} />
       </div>
 
       <div className="flex flex-col gap-6 p-4">
@@ -77,14 +78,13 @@ export default function AdminUI<T extends PropTypes>(props: T) {
         </label>
 
         <label className="ml-1 font-medium">
-          Email <span className="text-red-600">*</span>
+          Email
           <Input
             type="email"
             name="email"
             placeholder="Enter email"
             defaultValue={props.email}
             className="mt-1 bg-gray-100"
-            required
           />
         </label>
 
@@ -94,9 +94,11 @@ export default function AdminUI<T extends PropTypes>(props: T) {
             type="text"
             name="password"
             defaultValue={props.password}
+            placeholder="Enter password"
             className="mt-1 bg-gray-100"
             required
           />
+          <span className="text-xs mt-0.5">at least 6 characters</span>
         </label>
 
         <label className="ml-1 font-medium">
@@ -106,20 +108,34 @@ export default function AdminUI<T extends PropTypes>(props: T) {
             name="phone"
             defaultValue={props.phone}
             className="mt-1 bg-gray-100"
+            placeholder="Enter phone number"
             required
           />
         </label>
 
-        <label className="ml-1 font-medium">
-          Admin Role
-          <NonIconDropdownSelect
-            placeholder="Select Product Type"
-            style="w-full mt-1 bg-gray-100"
-            items={props.adminRoles}
-            selectedItem={adminRole}
-            setSelectedItem={setAdminRole}
-          />
-        </label>
+        <div>
+          <label
+            className="block text-sm font-medium text-gray-700"
+            htmlFor="role"
+          >
+            Role <span className="text-red-500">*</span>
+          </label>
+          <select
+            name="role"
+            id="role"
+            defaultValue={props.role ?? props.adminRoles[0]}
+            className="mt-0.5 w-full p-2 bg-gray-100 rounded-md"
+          >
+            {props.adminRoles?.map((item) => {
+              return (
+                <option value={item} key={item}>
+                  {item}
+                </option>
+              );
+            })}
+          </select>
+          <p className="mt-2 text-sm text-gray-500">Set the admin Brand.</p>
+        </div>
 
         <label className="ml-1 font-medium flex items-center gap-2">
           <Input
