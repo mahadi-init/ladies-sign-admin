@@ -1,5 +1,5 @@
 import PageTop from "@/components/native/PageTop";
-import getAllUsers from "@/shared/users/get-all-users";
+import getAllUsers from "@/utils/get-all-users";
 import { User } from "@clerk/nextjs/server";
 import Wrapper from "./Wrapper";
 

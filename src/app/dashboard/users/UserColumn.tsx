@@ -1,14 +1,13 @@
 "use client";
-
 import ConfirmationDialog from "@/components/native/ConfirmationDialog";
 import StatusIndicator from "@/components/native/StatusIndicator";
+import { UserType } from "@/types/user.t";
 import { clerkClient } from "@clerk/nextjs";
 import { ColumnDef } from "@tanstack/react-table";
 import { Ban, LogOut, Trash } from "lucide-react";
 import moment from "moment";
 import Image from "next/image";
 import Link from "next/link";
-import { UserType } from "../../types/user.t";
 
 export const userColumn: ColumnDef<UserType>[] = [
   {

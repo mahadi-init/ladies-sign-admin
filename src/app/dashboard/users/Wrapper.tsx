@@ -1,9 +1,9 @@
 "use client";
+import { userColumn } from "@/app/dashboard/users/UserColumn";
 import { DataTable } from "@/components/native/DataTable";
 import DropdownSelect from "@/components/native/DropdownSelect";
 import { Input } from "@/components/ui/input";
 import { Statuses } from "@/data/statuses.data";
-import { userColumn } from "@/shared/users/UserColumn";
 import { UserType } from "@/types/user.t";
 import { useEffect, useState } from "react";
 

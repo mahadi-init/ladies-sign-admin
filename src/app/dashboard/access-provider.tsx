@@ -1,5 +1,4 @@
 "use client";
-
 import { Role } from "@/types/enums.t";
 import { AccessToken } from "@/types/token.t";
 import React, { createContext, useEffect, useState } from "react";
