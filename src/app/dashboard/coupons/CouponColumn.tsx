@@ -1,16 +1,15 @@
 "use client";
-
 import { deleteData } from "@/actions/delete";
 import DeleteItem from "@/components/native/DeleteItem";
 import StatusIndicator from "@/components/native/StatusIndicator";
 import { Button } from "@/components/ui/button";
+import { BACKEND_URL } from "@/site-info";
+import { CouponType } from "@/types/coupon.t";
 import { Status } from "@/types/enums.t";
 import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown, PencilIcon } from "lucide-react";
-import Image from "next/image";
+import { CldImage } from "next-cloudinary";
 import Link from "next/link";
-import { BACKEND_URL } from "../../../site-info";
-import { CouponType } from "./coupon.t";
 
 export const couponColumn: ColumnDef<CouponType>[] = [
   {
@@ -39,16 +38,15 @@ export const couponColumn: ColumnDef<CouponType>[] = [
     header: "LOGO",
     cell: ({ row }) => {
       return row.original.logo ? (
-        <picture>
-          <Image
-            className="w-10"
-            width={250}
-            height={250}
-            src={row.original.logo}
-            alt="cell image"
-            loading="lazy"
-          />
-        </picture>
+        <CldImage
+          className="w-10 rounded-full"
+          width={250}
+          height={250}
+          crop="fill"
+          src={row.original.logo}
+          alt="cell image"
+          loading="lazy"
+        />
       ) : (
         <span className="text-xs">No Image</span>
       );

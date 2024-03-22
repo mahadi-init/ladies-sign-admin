@@ -1,12 +1,12 @@
 "use client";
+import { cloudinaryUpload } from "@/actions/cloudinary-upload";
 import ButtonGroup from "@/components/native/ButtonGroup";
-import ImageUploader from "@/components/native/ImageUploader";
-import NonIconDropdownSelect from "@/components/native/NonIconDropdown";
+import FormImageUploader from "@/components/native/FormImageUploader";
 import { Input } from "@/components/ui/input";
+import { CouponType } from "@/types/coupon.t";
 import { LocalResponse } from "@/types/response.t";
-import { useState } from "react";
+import showToast from "@/utils/ShowToast";
 import { toast } from "sonner";
-import { CouponType } from "./coupon.t";
 
 interface PropTypes extends Partial<CouponType> {
   productTypes: string[];
@@ -17,38 +17,54 @@ interface PropTypes extends Partial<CouponType> {
     data: T,
     queryUrl: string,
     validationTag: string,
-    successMessage: string,
+    successMessage: string
   ) => Promise<LocalResponse>;
 }
 
-export default function CouponUI<T extends PropTypes>(props: T) {
-  const [logo, setLogo] = useState(props.logo);
-  const [productType, setProductType] = useState(
-    props.productType ?? props.productTypes[0],
-  );
+export default function CouponUI(props: PropTypes) {
   const handleFormAction = async (formData: FormData) => {
     const title = formData.get("title");
     const code = formData.get("code");
-    const start = formData.get("start");
-    const end = formData.get("end");
+    const start = formData.get("start") as string;
+    const end = formData.get("end") as string;
     const discountPercentage = formData.get("discount");
     const minimumAmount = formData.get("amount");
     const inactive = formData.get("inactive");
-    //TODO:Test the result
+    const productType = formData.get("product-type");
+    const logo = formData.get("logo") as File;
 
-    if (!logo) {
+    if (logo.size <= 0 && !props.logo) {
       toast.error("select an image");
       return;
     }
 
-    //FIXME: check if endtime less than today
+    if (!start || start === "" || !end || end === "") {
+      toast.error("Date can't be empty");
+      return;
+    }
+
+    let startDate = new Date(start);
+    let endDate = new Date(end);
+
+    if (startDate < new Date()) {
+      toast.error("start time can't be less than today");
+      return;
+    }
+
+    if (endDate <= startDate) {
+      toast.error("end time can't be before start time");
+      return;
+    }
+
+    const cloud = await cloudinaryUpload(formData, "logo", "coupons");
+
     const data = {
       _id: props._id,
       title: title,
-      logo: logo,
+      logo: cloud?.url ?? props.logo ?? undefined,
       couponCode: code,
-      startTime: start,
-      endTime: end,
+      startTime: startDate,
+      endTime: endDate,
       discountPercentage: discountPercentage,
       minimumAmount: minimumAmount,
       productType: productType,
@@ -59,19 +75,16 @@ export default function CouponUI<T extends PropTypes>(props: T) {
       data,
       props.queryUrl,
       props.validationTag,
-      props.successMessage,
+      props.successMessage
     );
-    if (res.status === 200) {
-      toast.success(res.message);
-    } else {
-      toast.error(res.message);
-    }
+
+    showToast(res);
   };
 
   return (
-    <form action={handleFormAction} className="w-full">
+    <form action={handleFormAction} className="w-full xl:w-7/12">
       <div className="flex flex-col justify-center items-center my-8 w-full">
-        <ImageUploader image={logo} setImage={setLogo} />
+        <FormImageUploader name="logo" image={props.logo} />
       </div>
 
       <div className="flex flex-col gap-6 p-4">
@@ -99,9 +112,8 @@ export default function CouponUI<T extends PropTypes>(props: T) {
           />
         </label>
 
-        {/*FIXME:Date issue*/}
         <label className="ml-1 font-medium">
-          Start Time
+          Start Time <span className="text-red-600">*</span>
           <Input
             type="date"
             name="start"
@@ -110,10 +122,10 @@ export default function CouponUI<T extends PropTypes>(props: T) {
               new Date(props.startTime).toISOString().substring(0, 10)
             }
             className="mt-1 bg-gray-100"
+            required
           />
         </label>
 
-        {/*FIXME:Date issue*/}
         <label className="ml-1 font-medium">
           End Time <span className="text-red-600">*</span>
           <Input
@@ -123,8 +135,8 @@ export default function CouponUI<T extends PropTypes>(props: T) {
               props.endTime &&
               new Date(props.endTime).toISOString().substring(0, 10)
             }
-            required
             className="mt-1 bg-gray-100"
+            required
           />
         </label>
 
@@ -152,16 +164,29 @@ export default function CouponUI<T extends PropTypes>(props: T) {
           />
         </label>
 
-        <label className="ml-1 font-medium">
-          Product Type <span className="text-red-600">*</span>
-          <NonIconDropdownSelect
-            placeholder="Select Product Type"
-            style="w-full mt-1 bg-gray-100"
-            items={props.productTypes}
-            selectedItem={productType}
-            setSelectedItem={setProductType}
-          />
-        </label>
+        <div>
+          <label
+            className="block text-sm font-medium text-gray-700"
+            htmlFor="product-type"
+          >
+            Product Type <span className="text-red-500">*</span>
+          </label>
+          <select
+            name="product-type"
+            id="product-type"
+            defaultValue={props.productType ?? props.productTypes[0]}
+            className="mt-0.5 w-full p-2 bg-gray-100 rounded-md"
+          >
+            {props.productTypes?.map((item) => {
+              return (
+                <option value={item} key={item}>
+                  {item}
+                </option>
+              );
+            })}
+          </select>
+          <p className="mt-2 text-sm text-gray-500">Set the Product Type</p>
+        </div>
 
         <label className="ml-1 font-medium flex items-center gap-2">
           <Input

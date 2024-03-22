@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/card";
 import Image from "next/image";
 import Link from "next/link";
-import { BACKEND_URL } from "../../../../site-info";
+import { BACKEND_URL } from "../../../site-info";
 import { ProductResponse } from "./page";
 
 export default function ProductItems({

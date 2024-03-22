@@ -9,11 +9,11 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { OrderType } from "@/shared/Orders/order.t";
+import { BACKEND_URL } from "@/site-info";
+import { OrderType } from "@/types/order.t";
 import clsx from "clsx";
 import { Route } from "next";
 import Link from "next/link";
-import { BACKEND_URL } from "../../../../../../site-info";
 
 export default async function OrderDetails({
   params,
@@ -24,7 +24,7 @@ export default async function OrderDetails({
     `${BACKEND_URL}/api/order/${params.id}`,
     true,
     10,
-    ["details"],
+    ["details"]
   );
 
   return (
@@ -76,7 +76,7 @@ export default async function OrderDetails({
                 className={clsx(
                   item.status === "IN-STOCK"
                     ? "text-green-700 fon-semibold"
-                    : "text-red-700 font-semibold",
+                    : "text-red-700 font-semibold"
                 )}
               >
                 {item.status}

@@ -1,16 +1,15 @@
 import { patchData } from "@/actions/patch";
-
 import {
   BACKEND_URL,
   STEADFAST_API_KEY,
   STEADFAST_BASE_URL,
   STEADFAST_SECRECT_KEY,
-} from "../../../site-info";
+} from "@/site-info";
+import { OrderSummaryType } from "@/types/order.t";
 import { LocalResponse } from "@/types/response.t";
-import { OrderSummaryType } from "@/shared/Orders/order.t";
 
 export async function sendOrder(
-  order: OrderSummaryType,
+  order: OrderSummaryType
 ): Promise<LocalResponse> {
   try {
     // check courir response
@@ -24,7 +23,7 @@ export async function sendOrder(
         },
         `${BACKEND_URL}/api/order/update-status/${order._id}`,
         "orders",
-        "Order added Successfully",
+        "Order added Successfully"
       );
 
       if (res.status === 200) {

@@ -3,11 +3,11 @@ import { DataTable } from "@/components/native/DataTable";
 import DropdownSelect from "@/components/native/DropdownSelect";
 import { buttonVariants } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { categoryColumn } from "@/shared/categories/CategoryColumn";
-import { CategoryType } from "@/shared/categories/category.t";
+import { CategoryType } from "@/types/category.t";
 import { BadgePlus, Eye, EyeOff, LayoutDashboard } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { categoryColumn } from "./CategoryColumn";
 
 const statuses = [
   {
@@ -39,7 +39,7 @@ export default function Wrapper({
       setFilteredCategories(categories);
     } else {
       setFilteredCategories(
-        categories.filter((item) => item.status === status),
+        categories.filter((item) => item.status === status)
       );
     }
   }, [categories, status]);
@@ -51,14 +51,14 @@ export default function Wrapper({
         Object.values(item).some(
           (value) =>
             typeof value === "string" &&
-            value.toLowerCase().includes(search.toLowerCase()),
-        ),
-      ),
+            value.toLowerCase().includes(search.toLowerCase())
+        )
+      )
     );
   };
 
   return (
-    <div className="mt-4 flex flex-col gap-4 ">
+    <div className="w-full mt-4 flex flex-col gap-4 ">
       <div className="flex items-center justify-between ">
         <Input
           className="w-fit"
@@ -73,7 +73,7 @@ export default function Wrapper({
             setSelectedItem={setStatus}
           />
           <Link
-            href={"/dashboard/category/add"}
+            href={"/dashboard/category"}
             className={buttonVariants({ size: "sm", variant: "outline" })}
           >
             <BadgePlus />

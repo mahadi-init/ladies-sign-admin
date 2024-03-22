@@ -1,7 +1,7 @@
 import getData from "@/actions/get";
 import PageTop from "@/components/native/PageTop";
 import { BACKEND_URL } from "@/site-info";
-import { AdminType } from "@/types/admin.t";
+import { BrandType } from "@/types/brand.t";
 import Wrapper from "./Wrapper";
 
 export default async function Layout({
@@ -9,19 +9,19 @@ export default async function Layout({
 }: {
   children: React.ReactNode;
 }) {
-  const admins = await getData<AdminType[]>(
-    `${BACKEND_URL}/api/admin/all`,
+  const brands = await getData<BrandType[]>(
+    `${BACKEND_URL}/api/brand/all`,
     true,
     300,
-    ["admins", "admin"]
+    ["brand", "brands"]
   );
 
   return (
     <>
-      <PageTop title="Admins" />
+      <PageTop title="Brands" />
       <div className="flex flex-col xl:flex-row justify-between gap-4 ">
         {children}
-        <Wrapper admins={admins} />
+        <Wrapper brands={brands} />
       </div>
     </>
   );

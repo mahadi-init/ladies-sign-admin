@@ -4,7 +4,7 @@ import DropdownSelect from "@/components/native/DropdownSelect";
 import { Input } from "@/components/ui/input";
 import { Statuses } from "@/data/statuses.data";
 import { userColumn } from "@/shared/users/UserColumn";
-import { UserType } from "@/shared/users/user.t";
+import { UserType } from "@/types/user.t";
 import { useEffect, useState } from "react";
 
 export default function Wrapper({ users }: { users: UserType[] }) {
@@ -29,9 +29,9 @@ export default function Wrapper({ users }: { users: UserType[] }) {
         Object.values(item).some(
           (value) =>
             typeof value === "string" &&
-            value.toLowerCase().includes(search.toLowerCase()),
-        ),
-      ),
+            value.toLowerCase().includes(search.toLowerCase())
+        )
+      )
     );
   };
 

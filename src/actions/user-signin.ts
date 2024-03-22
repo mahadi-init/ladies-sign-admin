@@ -1,10 +1,9 @@
 "use server";
 
-import { cookiesSetup } from "@/utils/cookies-setup";
-import { BACKEND_URL } from "../../site-info";
-import { LocalResponse } from "@/types/response.t";
 import { Role } from "@/types/enums.t";
-import { redirect } from "next/navigation";
+import { LocalResponse } from "@/types/response.t";
+import { cookiesSetup } from "@/utils/cookies-setup";
+import { BACKEND_URL } from "../site-info";
 
 interface UserResponseType extends LocalResponse {
   id?: string;
@@ -13,7 +12,7 @@ interface UserResponseType extends LocalResponse {
 
 export async function userSignIn(
   email: string,
-  password: string,
+  password: string
 ): Promise<UserResponseType> {
   try {
     const res = await fetch(`${BACKEND_URL}/api/admin/login`, {

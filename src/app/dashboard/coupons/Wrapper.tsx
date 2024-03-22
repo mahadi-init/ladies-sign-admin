@@ -1,11 +1,11 @@
 "use client";
+import { couponColumn } from "@/app/dashboard/coupons/CouponColumn";
 import { DataTable } from "@/components/native/DataTable";
 import DropdownSelect from "@/components/native/DropdownSelect";
 import { buttonVariants } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Statuses } from "@/data/statuses.data";
-import { couponColumn } from "@/shared/coupons/CouponColumn";
-import { CouponType } from "@/shared/coupons/coupon.t";
+import { CouponType } from "@/types/coupon.t";
 import { BadgePlus } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -30,14 +30,14 @@ export default function Wrapper({ coupons }: { coupons: CouponType[] }) {
         Object.values(item).some(
           (value) =>
             typeof value === "string" &&
-            value.toLowerCase().includes(search.toLowerCase()),
-        ),
-      ),
+            value.toLowerCase().includes(search.toLowerCase())
+        )
+      )
     );
   };
 
   return (
-    <div className="mt-4 flex flex-col gap-4 ">
+    <div className="w-full mt-4 flex flex-col gap-4 ">
       <div className="flex items-center justify-between ">
         <Input
           className="w-fit"
@@ -52,7 +52,7 @@ export default function Wrapper({ coupons }: { coupons: CouponType[] }) {
             setSelectedItem={setStatus}
           />
           <Link
-            href={"/dashboard/category/add"}
+            href={"/dashboard/coupons"}
             className={buttonVariants({ size: "sm", variant: "outline" })}
           >
             <BadgePlus />

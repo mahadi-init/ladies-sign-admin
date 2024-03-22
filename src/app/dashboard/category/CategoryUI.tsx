@@ -1,12 +1,12 @@
 "use client";
+import { cloudinaryUpload } from "@/actions/cloudinary-upload";
 import ButtonGroup from "@/components/native/ButtonGroup";
-import ImageUploader from "@/components/native/ImageUploader";
-import NonIconDropdownSelect from "@/components/native/NonIconDropdown";
+import FormImageUploader from "@/components/native/FormImageUploader";
 import { Input } from "@/components/ui/input";
+import { CategoryType } from "@/types/category.t";
 import { LocalResponse } from "@/types/response.t";
-import { useState } from "react";
+import showToast from "@/utils/ShowToast";
 import { toast } from "sonner";
-import { CategoryType } from "./category.t";
 
 interface PropTypes extends Partial<CategoryType> {
   productTypes: string[];
@@ -17,29 +17,28 @@ interface PropTypes extends Partial<CategoryType> {
     data: T,
     queryUrl: string,
     validationTag: string,
-    successMessage: string,
+    successMessage: string
   ) => Promise<LocalResponse>;
 }
 
-export default function CategoryUI<T extends PropTypes>(props: T) {
-  const [img, setImg] = useState(props.img);
-  const [productType, setProductType] = useState(
-    props.productType ?? props.productTypes[0],
-  );
-
+export default function CategoryUI(props: PropTypes) {
   const handleFormAction = async (formData: FormData) => {
     const parent = formData.get("parent");
     const children = formData.get("children") as string;
+    const productType = formData.get("product-type");
     const hide = formData.get("hide");
+    const img = formData.get("img") as File;
 
-    if (!img && !hide) {
+    const cloud = await cloudinaryUpload(formData, "img", "admin");
+
+    if (img.size <= 0 && !hide) {
       toast.error("hide or select an image");
       return;
     }
 
     const data = {
       _id: props._id,
-      img: img,
+      img: cloud?.url ?? undefined,
       parent: parent,
       children: children.split(","),
       productType: productType,
@@ -50,19 +49,16 @@ export default function CategoryUI<T extends PropTypes>(props: T) {
       data,
       props.queryUrl,
       props.validationTag,
-      props.successMessage,
+      props.successMessage
     );
-    if (res.status === 200) {
-      toast.success(res.message);
-    } else {
-      toast.error(res.message);
-    }
+
+    showToast(res);
   };
 
   return (
-    <form action={handleFormAction} className="w-full">
+    <form action={handleFormAction} className="w-full xl:w-7/12">
       <div className="flex flex-col justify-center items-center my-8 w-full">
-        <ImageUploader image={img} setImage={setImg} />
+        <FormImageUploader name="img" image={props.img} />
       </div>
 
       <div className="flex flex-col gap-8 p-4">
@@ -93,16 +89,29 @@ export default function CategoryUI<T extends PropTypes>(props: T) {
           </p>
         </label>
 
-        <label className="ml-1 font-medium">
-          Product Type <span className="text-red-600">*</span>
-          <NonIconDropdownSelect
-            placeholder="Select Product Type"
-            style="w-full mt-1 bg-gray-100"
-            items={props.productTypes}
-            selectedItem={productType}
-            setSelectedItem={setProductType}
-          />
-        </label>
+        <div>
+          <label
+            className="block text-sm font-medium text-gray-700"
+            htmlFor="product-type"
+          >
+            Product Type <span className="text-red-500">*</span>
+          </label>
+          <select
+            name="product-type"
+            id="product-type"
+            defaultValue={props.productType ?? props.productTypes[0]}
+            className="mt-0.5 w-full p-2 bg-gray-100 rounded-md"
+          >
+            {props.productTypes?.map((item) => {
+              return (
+                <option value={item} key={item}>
+                  {item}
+                </option>
+              );
+            })}
+          </select>
+          <p className="mt-2 text-sm text-gray-500">Set the product type</p>
+        </div>
 
         <label className="ml-1 font-medium flex items-center gap-2">
           <Input

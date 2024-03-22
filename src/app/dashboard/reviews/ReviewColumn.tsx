@@ -2,12 +2,12 @@
 import { deleteData } from "@/actions/delete";
 import DeleteItem from "@/components/native/DeleteItem";
 import { Button } from "@/components/ui/button";
+import { BACKEND_URL } from "@/site-info";
+import { ReviewType } from "@/types/review.t";
 import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { BACKEND_URL } from "../../../site-info";
-import { ReviewType } from "./review.t";
 
 export const reviewColumn: ColumnDef<ReviewType>[] = [
   {

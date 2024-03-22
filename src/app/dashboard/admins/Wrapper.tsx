@@ -1,10 +1,10 @@
 "use client";
-import { AdminType } from "@/app/dashboard/admins/admin.t";
 import { DataTable } from "@/components/native/DataTable";
 import DropdownSelect from "@/components/native/DropdownSelect";
 import { buttonVariants } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Statuses } from "@/data/statuses.data";
+import { AdminType } from "@/types/admin.t";
 import { BadgePlus } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";

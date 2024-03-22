@@ -4,11 +4,11 @@ import DropdownSelect from "@/components/native/DropdownSelect";
 import { buttonVariants } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Statuses } from "@/data/statuses.data";
-import { brandColumn } from "@/shared/brands/BrandColumn";
-import { BrandType } from "@/shared/brands/brand.t";
+import { BrandType } from "@/types/brand.t";
 import { BadgePlus } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { brandColumn } from "./BrandColumn";
 
 export default function Wrapper({ brands }: { brands: BrandType[] }) {
   const [status, setStatus] = useState("");
@@ -30,14 +30,14 @@ export default function Wrapper({ brands }: { brands: BrandType[] }) {
         Object.values(item).some(
           (value) =>
             typeof value === "string" &&
-            value.toLowerCase().includes(search.toLowerCase()),
-        ),
-      ),
+            value.toLowerCase().includes(search.toLowerCase())
+        )
+      )
     );
   };
 
   return (
-    <div className="mt-4 flex flex-col gap-4 ">
+    <div className="w-full mt-4 flex flex-col gap-4 ">
       <div className="flex items-center justify-between ">
         <Input
           className="w-fit"
@@ -52,7 +52,7 @@ export default function Wrapper({ brands }: { brands: BrandType[] }) {
             setSelectedItem={setStatus}
           />
           <Link
-            href={"/dashboard/brand/add"}
+            href={"/dashboard/brand"}
             className={buttonVariants({ size: "sm", variant: "outline" })}
           >
             <BadgePlus />

@@ -1,5 +1,5 @@
 "use client";
-import { OrderType } from "@/shared/Orders/order.t";
+import { OrderType } from "@/types/order.t";
 import { forwardRef } from "react";
 import { Card } from "../ui/card";
 

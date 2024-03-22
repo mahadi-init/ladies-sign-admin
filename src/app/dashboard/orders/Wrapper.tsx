@@ -5,7 +5,7 @@ import DropdownSelect from "@/components/native/DropdownSelect";
 import { Input } from "@/components/ui/input";
 import { orderColumn } from "@/shared/Orders/OrderColumn";
 import { statuses } from "@/shared/Orders/order-statuses.data";
-import { OrderSummaryType } from "@/shared/Orders/order.t";
+import { OrderSummaryType } from "@/types/order.t";
 import { useEffect, useState } from "react";
 
 export default function Wrapper({ orders }: { orders: OrderSummaryType[] }) {
@@ -29,9 +29,9 @@ export default function Wrapper({ orders }: { orders: OrderSummaryType[] }) {
         Object.values(item).some(
           (value) =>
             typeof value === "string" &&
-            value.toLowerCase().includes(search.toLowerCase()),
-        ),
-      ),
+            value.toLowerCase().includes(search.toLowerCase())
+        )
+      )
     );
   };
 

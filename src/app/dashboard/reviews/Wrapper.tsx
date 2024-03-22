@@ -1,12 +1,9 @@
 "use client";
 import { DataTable } from "@/components/native/DataTable";
 import DropdownSelect from "@/components/native/DropdownSelect";
-import { buttonVariants } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { reviewColumn } from "@/shared/reviews/ReviewColumn";
-import { ReviewType } from "@/shared/reviews/review.t";
+import { ReviewType } from "@/types/review.t";
 import {
-  BadgePlus,
   LayoutDashboard,
   Tally1,
   Tally2,
@@ -14,8 +11,8 @@ import {
   Tally4,
   Tally5,
 } from "lucide-react";
-import Link from "next/link";
 import { useEffect, useState } from "react";
+import { reviewColumn } from "./ReviewColumn";
 
 const statusItems = [
   {
@@ -54,7 +51,7 @@ export default function Wrapper({ reviews }: { reviews: ReviewType[] }) {
       setFilteredReviews(reviews);
     } else {
       setFilteredReviews(
-        reviews.filter((item) => item.rating.toString() === status),
+        reviews.filter((item) => item.rating.toString() === status)
       );
     }
   }, [reviews, status]);
@@ -66,9 +63,9 @@ export default function Wrapper({ reviews }: { reviews: ReviewType[] }) {
         Object.values(item).some(
           (value) =>
             typeof value === "string" &&
-            value.toLowerCase().includes(search.toLowerCase()),
-        ),
-      ),
+            value.toLowerCase().includes(search.toLowerCase())
+        )
+      )
     );
   };
 
@@ -87,12 +84,6 @@ export default function Wrapper({ reviews }: { reviews: ReviewType[] }) {
             selectedItem={status}
             setSelectedItem={setStatus}
           />
-          <Link
-            href={"/dashboard/category/add"}
-            className={buttonVariants({ size: "sm", variant: "outline" })}
-          >
-            <BadgePlus />
-          </Link>
         </div>
       </div>
       <DataTable columns={reviewColumn} data={filteredReviews} />

@@ -1,5 +1,5 @@
 import getData from "@/actions/get";
-import { BACKEND_URL } from "../../../site-info";
+import { BACKEND_URL } from "@/site-info";
 
 export async function getAllBrandNames() {
   const data = await getData<string[]>(

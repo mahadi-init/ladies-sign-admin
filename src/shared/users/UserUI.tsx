@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 import { LocalResponse } from "@/types/response.t";
 import Image from "next/image";
 import { toast } from "sonner";
-import { UserType } from "./user.t";
+import { UserType } from "../../types/user.t";
 
 interface PropTypes extends Partial<UserType> {
   queryUrl: string;

@@ -1,9 +1,9 @@
 import getData from "@/actions/get";
 import PageTop from "@/components/native/PageTop";
 import ProfileUI from "@/shared/profile/ProfileUI";
-import { ProfileType } from "@/shared/profile/profile.t";
+import { BACKEND_URL } from "@/site-info";
+import { ProfileType } from "@/types/profile.t";
 import { cookies } from "next/headers";
-import { BACKEND_URL } from "../../../../site-info";
 
 const getSellerData = async (userId?: string) => {
   return await getData<ProfileType>(

@@ -1,12 +1,9 @@
+"use client";
 import clsx from "clsx";
 import { Upload } from "lucide-react";
-import { Route } from "next";
-import { CldUploadButton } from "next-cloudinary";
-import Image from "next/image";
-import Link from "next/link";
+import { CldImage } from "next-cloudinary";
 import { useState } from "react";
-import { toast } from "sonner";
-import { CLOUDINARY_UPLOAD_PRESET } from "../../site-info";
+import { Input } from "../ui/input";
 
 enum UploadStatus {
   IDLE,
@@ -14,16 +11,32 @@ enum UploadStatus {
   SUCCESS,
 }
 
-export default function ImageUploader({
+export default function FormImageUploader({
+  name,
   image,
-  setImage,
+  isRequired,
 }: {
+  name?: string;
   image?: string;
-  setImage: (arg0?: string) => void;
+  isRequired?: boolean;
 }): JSX.Element {
   const [uploadStatus, setUploadStatus] = useState<UploadStatus>(
     UploadStatus.IDLE
   );
+  const [img, setImg] = useState<string | undefined>(image);
+
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setUploadStatus(UploadStatus.LOADING);
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImg(reader.result as string);
+        setUploadStatus(UploadStatus.SUCCESS);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
 
   return (
     <>
@@ -49,63 +62,51 @@ export default function ImageUploader({
         </div>
       </div>
       <>
-        <picture>
-          <Image
-            src={image ?? "/logo.png"}
+        {img ? (
+          <CldImage
+            src={img}
             className={clsx(
-              "w-72 rounded-md",
+              "w-72 h-72 rounded-md",
               uploadStatus === UploadStatus.LOADING && "w-0 h-0"
             )}
             height={400}
             width={400}
+            crop="fill"
             alt="beautiful image"
             placeholder="empty"
             onLoad={() => {
               image && setUploadStatus(UploadStatus.SUCCESS);
             }}
           />
-        </picture>
-        {image && (
-          <Link
-            href={image as Route}
-            className="mt-4  font-medium text-blue-500"
-            target="_blank"
-          >
-            Image URL
-          </Link>
+        ) : (
+          <div className="grid place-items-center w-80 h-80 bg-gray-600 rounded-lg">
+            <p className="text-xl font-medium text-white">
+              Image will be shown here
+            </p>
+          </div>
         )}
 
-        <CldUploadButton
-          uploadPreset={CLOUDINARY_UPLOAD_PRESET}
-          options={{
-            multiple: false,
-            maxFiles: 1,
-            sources: ["local", "url", "google_drive", "dropbox", "unsplash"],
-            cropping: true,
-            croppingShowDimensions: true,
-            minImageHeight: 300,
-            minImageWidth: 250,
-          }}
-          onSuccess={(result) => {
-            setUploadStatus(UploadStatus.LOADING);
-            //@ts-expect-error;
-            setImage(result.info.url);
-          }}
-          onError={() => {
-            toast.error("Error uploading");
-          }}
+        <label
+          htmlFor="uploadFile1"
+          className="flex flex-col justify-center items-center mx-auto mt-4 w-80 h-24 text-base text-black bg-white rounded border-2 border-gray-300 border-dashed cursor-pointer font-[sans-serif]"
         >
-          <label
-            htmlFor="uploadFile1"
-            className="flex flex-col justify-center items-center mx-auto mt-4 w-80 h-24 text-base text-black bg-white rounded border-2 border-gray-300 border-dashed cursor-pointer font-[sans-serif]"
-          >
+          <Input
+            id="uploadFile1"
+            type="file"
+            accept="image/*"
+            onChange={handleImageChange}
+            name={name}
+            className="opacity-0"
+            required={isRequired}
+          />
+          <div className="relative bottom-3 flex flex-col items-center">
             <Upload />
             Upload
             <p className="mt-2 text-xs text-gray-400">
               PNG, JPG SVG, WEBP, and GIF are Allowed.
             </p>
-          </label>
-        </CldUploadButton>
+          </div>
+        </label>
       </>
     </>
   );

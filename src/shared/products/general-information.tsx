@@ -1,32 +1,17 @@
-import ImageUploader from "@/components/native/ImageUploader";
+import FormImageUploader from "@/components/native/FormImageUploader";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { ProductCategory } from "./product-category";
 
-export default function GeneralInformation({
-  image,
-  parent,
-  selectedChildrens,
-  setImage,
-  setParent,
-  setSelectedChildrens,
-}: {
-  image?: string;
-  parent?: string;
-  selectedChildrens: string[];
-  setImage: (arg0?: string) => void;
-  setParent: (arg0?: string) => void;
-  setSelectedChildrens: (arg0: string[]) => void;
-}) {
+export default function GeneralInformation() {
   return (
     <div className="p-6 bg-gray-100 rounded-lg shadow">
       <div className="mb-6">
         <h2 className="text-xl font-semibold mb-2">General</h2>
         <div className="flex flex-col  xl:flex-row justify-evenly pb-2 xl:items-center">
           <div className=" flex flex-col items-center">
-            <ImageUploader image={image} setImage={setImage} />
+            <FormImageUploader name="main" />
           </div>
-          <div className="flex flex-col gap-4 xl:w-1/2">
+          {/* <div className="flex flex-col gap-4 xl:w-1/2">
             <ProductCategory
               parent={parent}
               setParent={setParent}
@@ -46,7 +31,7 @@ export default function GeneralInformation({
                 set tags for the product (comma separated)
               </p>
             </label>
-          </div>
+          </div> */}
         </div>
         <div className="grid grid-cols-1 gap-4">
           <div>

@@ -1,11 +1,12 @@
 "use client";
+import { cloudinaryUpload } from "@/actions/cloudinary-upload";
 import ButtonGroup from "@/components/native/ButtonGroup";
-import ImageUploader from "@/components/native/ImageUploader";
+import FormImageUploader from "@/components/native/FormImageUploader";
 import { Input } from "@/components/ui/input";
+import { BrandType } from "@/types/brand.t";
 import { LocalResponse } from "@/types/response.t";
-import { useState } from "react";
+import showToast from "@/utils/ShowToast";
 import { toast } from "sonner";
-import { BrandType } from "./brand.t";
 
 interface PropTypes extends Partial<BrandType> {
   queryUrl: string;
@@ -15,52 +16,50 @@ interface PropTypes extends Partial<BrandType> {
     data: T,
     queryUrl: string,
     validationTag: string,
-    successMessage: string,
+    successMessage: string
   ) => Promise<LocalResponse>;
 }
 
-export default function BrandUI<T extends PropTypes>(props: T) {
-  const [logo, setLogo] = useState(props.logo);
-
+export default function BrandUI(props: PropTypes) {
   const handleFormAction = async (formData: FormData) => {
     const name = formData.get("name");
     const email = formData.get("email");
     const website = formData.get("website");
     const location = formData.get("location");
-    const Inactive = formData.get("inactive");
+    const inactive = formData.get("inactive");
+    const logo = formData.get("logo") as File;
 
-    if (!logo && !Inactive) {
-      toast.error("hide or select an image");
+    if (logo.size <= 0 && !props.logo && !inactive) {
+      toast.error("select inactive or add an image");
       return;
     }
 
+    const cloud = await cloudinaryUpload(formData, "logo", "brand");
+
     const data = {
       _id: props._id,
-      logo: logo,
+      logo: cloud?.url ?? props.logo ?? undefined,
       name: name,
       email: email,
       website: website,
       location: location,
-      status: Inactive === "on" ? "INACTIVE" : "ACTIVE",
+      status: inactive === "on" ? "INACTIVE" : "ACTIVE",
     };
 
     const res = await props.serverAction(
       data,
       props.queryUrl,
       props.validationTag,
-      props.successMessage,
+      props.successMessage
     );
-    if (res.status === 200) {
-      toast.success(res.message);
-    } else {
-      toast.error(res.message);
-    }
+
+    showToast(res);
   };
 
   return (
-    <form action={handleFormAction} className="w-full">
+    <form action={handleFormAction} className="w-full xl:w-7/12">
       <div className="flex flex-col justify-center items-center my-8 w-full">
-        <ImageUploader image={logo} setImage={setLogo} />
+        <FormImageUploader name="logo" image={props.logo} />
       </div>
 
       <div className="flex flex-col gap-6 p-4">

@@ -1,9 +1,9 @@
 import getData from "@/actions/get";
 import { patchData } from "@/actions/patch";
-import CouponUI from "@/shared/coupons/CouponUI";
-import { CouponType } from "@/shared/coupons/coupon.t";
 import { getProductTypes } from "@/shared/products/get-product-types";
-import { BACKEND_URL } from "../../../../../../site-info";
+import { BACKEND_URL } from "@/site-info";
+import { CouponType } from "@/types/coupon.t";
+import CouponUI from "../../CouponUI";
 
 const getCouponData = async (id: string) => {
   const data = await getData<CouponType>(

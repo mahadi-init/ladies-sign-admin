@@ -1,7 +1,7 @@
 import getData from "@/actions/get";
 import PageTop from "@/components/native/PageTop";
 import { BACKEND_URL } from "@/site-info";
-import { AdminType } from "@/types/admin.t";
+import { CategoryType } from "@/types/category.t";
 import Wrapper from "./Wrapper";
 
 export default async function Layout({
@@ -9,19 +9,18 @@ export default async function Layout({
 }: {
   children: React.ReactNode;
 }) {
-  const admins = await getData<AdminType[]>(
-    `${BACKEND_URL}/api/admin/all`,
+  const categories = await getData<CategoryType[]>(
+    `${BACKEND_URL}/api/category/all`,
     true,
     300,
-    ["admins", "admin"]
+    ["category", "categories"]
   );
-
   return (
     <>
-      <PageTop title="Admins" />
-      <div className="flex flex-col xl:flex-row justify-between gap-4 ">
+      <PageTop title="Category" />
+      <div className="flex flex-col xl:flex-row justify-between gap-4">
         {children}
-        <Wrapper admins={admins} />
+        <Wrapper categories={categories} />
       </div>
     </>
   );

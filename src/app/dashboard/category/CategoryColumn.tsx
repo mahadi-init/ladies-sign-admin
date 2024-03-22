@@ -3,13 +3,13 @@ import { deleteData } from "@/actions/delete";
 import DeleteItem from "@/components/native/DeleteItem";
 import StatusIndicator from "@/components/native/StatusIndicator";
 import { Button } from "@/components/ui/button";
+import { BACKEND_URL } from "@/site-info";
+import { CategoryType } from "@/types/category.t";
 import { Status } from "@/types/enums.t";
 import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown, PencilIcon } from "lucide-react";
-import Image from "next/image";
+import { CldImage } from "next-cloudinary";
 import Link from "next/link";
-import { BACKEND_URL } from "../../../site-info";
-import { CategoryType } from "./category.t";
 
 export const categoryColumn: ColumnDef<CategoryType>[] = [
   {
@@ -38,16 +38,15 @@ export const categoryColumn: ColumnDef<CategoryType>[] = [
     header: "IMAGE",
     cell: ({ row }) => {
       return row.original.img ? (
-        <picture>
-          <Image
-            className="max-w-10"
-            width={250}
-            height={250}
-            src={row.original.img}
-            alt="cell image"
-            loading="lazy"
-          />
-        </picture>
+        <CldImage
+          className="w-10 rounded-full"
+          width={250}
+          height={250}
+          crop="fill"
+          src={row.original.img}
+          alt="cell image"
+          loading="lazy"
+        />
       ) : (
         <span className="text-xs">No Image</span>
       );

@@ -1,6 +1,6 @@
 import { patchData } from "@/actions/patch";
+import { BACKEND_URL } from "@/site-info";
 import { toast } from "sonner";
-import { BACKEND_URL } from "../../../site-info";
 
 export const updateOrderStatus = async <T>(id: string, item: T) => {
   const res = await patchData(
@@ -9,7 +9,7 @@ export const updateOrderStatus = async <T>(id: string, item: T) => {
     },
     `${BACKEND_URL}/api/order/update-status/${id}`,
     "orders",
-    "Status updated Successfully",
+    "Status updated Successfully"
   );
 
   if (res.status === 200) {

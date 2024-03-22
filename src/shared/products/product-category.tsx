@@ -11,8 +11,8 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { XIcon } from "@/icons/Xicon";
 import { fetcher } from "@/utils/fetcher";
 import useSWR from "swr";
-import { BACKEND_URL } from "../../../site-info";
-import { CategoryType } from "../categories/category.t";
+import { BACKEND_URL } from "../../site-info";
+import { CategoryType } from "../../types/category.t";
 
 export function ProductCategory({
   parent,

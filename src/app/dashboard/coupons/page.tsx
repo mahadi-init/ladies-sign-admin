@@ -1,21 +1,18 @@
-import getData from "@/actions/get";
-import PageTop from "@/components/native/PageTop";
-import { CouponType } from "@/shared/coupons/coupon.t";
-import { BACKEND_URL } from "../../../../site-info";
-import Wrapper from "./Wrapper";
+import { addData } from "@/actions/post";
+import { getProductTypes } from "@/shared/products/get-product-types";
+import { BACKEND_URL } from "@/site-info";
+import CouponUI from "./CouponUI";
 
-export default async function Coupons() {
-  const coupons: CouponType[] = await getData(
-    `${BACKEND_URL}/api/coupon`,
-    true,
-    300,
-    ["coupon", "coupons"]
-  );
+export default async function AddCoupon() {
+  const productTypes = await getProductTypes();
 
   return (
-    <>
-      <PageTop title="Coupons" />
-      <Wrapper coupons={coupons} />
-    </>
+    <CouponUI
+      productTypes={productTypes}
+      queryUrl={`${BACKEND_URL}/api/coupon/add`}
+      validationTag="coupon"
+      successMessage="Coupon added successfully"
+      serverAction={addData}
+    />
   );
 }

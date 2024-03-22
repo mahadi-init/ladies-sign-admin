@@ -5,13 +5,13 @@ import DeliveryStatus from "@/components/native/DeliveryStatus";
 import { HoverToolkit } from "@/components/native/HoverToolkit";
 import StatusUpdateDropdown from "@/components/native/StatusUpdateDropdown";
 import { Button } from "@/components/ui/button";
+import { BACKEND_URL } from "@/site-info";
+import { OrderSummaryType } from "@/types/order.t";
 import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown, CheckCircle, Send, View } from "lucide-react";
 import Link from "next/link";
 import { toast } from "sonner";
-import { BACKEND_URL } from "../../../site-info";
 import { sendOrder } from "./order-send";
-import { OrderSummaryType } from "./order.t";
 
 export const orderColumn: ColumnDef<OrderSummaryType>[] = [
   {

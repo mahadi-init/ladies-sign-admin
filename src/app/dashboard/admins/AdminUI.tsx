@@ -3,10 +3,10 @@ import { cloudinaryUpload } from "@/actions/cloudinary-upload";
 import ButtonGroup from "@/components/native/ButtonGroup";
 import FormImageUploader from "@/components/native/FormImageUploader";
 import { Input } from "@/components/ui/input";
+import { AdminType } from "@/types/admin.t";
 import { LocalResponse } from "@/types/response.t";
 import showToast from "@/utils/ShowToast";
 import { toast } from "sonner";
-import { AdminType } from "./admin.t";
 
 interface PropTypes extends Partial<AdminType> {
   adminRoles: string[];
@@ -29,19 +29,25 @@ export default function AdminUI(props: PropTypes) {
     const phone = formData.get("phone");
     const inactive = formData.get("inactive");
     const role = formData.get("role");
-
-    const cloud = await cloudinaryUpload(formData, "img", "admin");
+    const img = formData.get("img") as File;
 
     if (password.length < 6) {
       toast.error("password length is too short");
       return;
     }
 
+    if (img.size <= 0 && !props.image && !inactive) {
+      toast.error("select inactive or add an image");
+      return;
+    }
+
+    const cloud = await cloudinaryUpload(formData, "img", "admin");
+
     const data = {
       _id: props._id,
       name: name,
       email: email,
-      image: cloud?.url ?? null,
+      image: cloud?.url ?? props.image ?? undefined,
       password: password,
       phone: phone,
       role: role,
@@ -134,7 +140,7 @@ export default function AdminUI(props: PropTypes) {
               );
             })}
           </select>
-          <p className="mt-2 text-sm text-gray-500">Set the admin Brand.</p>
+          <p className="mt-2 text-sm text-gray-500">Set the admin role</p>
         </div>
 
         <label className="ml-1 font-medium flex items-center gap-2">

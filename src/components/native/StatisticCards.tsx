@@ -4,7 +4,7 @@ import CashIcon from "@/icons/CashIcon";
 import ClipboardListIcon from "@/icons/ClipboardList";
 import ShoppingBagIcon from "@/icons/ShoppingBag";
 import UsersIcon from "@/icons/Users";
-import { DashboardOrderSummaryType } from "@/shared/home/dashboard.t";
+import { DashboardOrderSummaryType } from "@/types/dashboard.t";
 
 export default function StatisticCards(
   props: DashboardOrderSummaryType

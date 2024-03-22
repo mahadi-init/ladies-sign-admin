@@ -1,7 +1,7 @@
 import getData from "@/actions/get";
 import PageTop from "@/components/native/PageTop";
-import { ReviewType } from "@/shared/reviews/review.t";
-import { BACKEND_URL } from "../../../../site-info";
+import { BACKEND_URL } from "@/site-info";
+import { ReviewType } from "@/types/review.t";
 import Wrapper from "./Wrapper";
 
 export default async function Reviews() {

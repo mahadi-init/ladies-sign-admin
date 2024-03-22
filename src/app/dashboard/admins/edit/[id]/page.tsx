@@ -1,8 +1,8 @@
 import getData from "@/actions/get";
 import { patchData } from "@/actions/patch";
 import AdminUI from "@/app/dashboard/admins/AdminUI";
-import { AdminType } from "@/app/dashboard/admins/admin.t";
-import { BACKEND_URL } from "../../../../../../site-info";
+import { BACKEND_URL } from "@/site-info";
+import { AdminType } from "@/types/admin.t";
 
 const getAdminData = async (id: string) => {
   const data = await getData<AdminType>(

@@ -8,7 +8,7 @@ import { Ban, LogOut, Trash } from "lucide-react";
 import moment from "moment";
 import Image from "next/image";
 import Link from "next/link";
-import { UserType } from "./user.t";
+import { UserType } from "../../types/user.t";
 
 export const userColumn: ColumnDef<UserType>[] = [
   {

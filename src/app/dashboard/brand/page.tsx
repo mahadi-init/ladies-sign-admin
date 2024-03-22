@@ -1,21 +1,14 @@
-import getData from "@/actions/get";
-import PageTop from "@/components/native/PageTop";
-import { BrandType } from "@/shared/brands/brand.t";
-import { BACKEND_URL } from "../../../../site-info";
-import Wrapper from "./Wrapper";
+import { addData } from "@/actions/post";
+import { BACKEND_URL } from "@/site-info";
+import BrandUI from "./BrandUI";
 
-export default async function Brand() {
-  const brands = await getData<BrandType[]>(
-    `${BACKEND_URL}/api/brand/all`,
-    true,
-    300,
-    ["brand", "brands"]
-  );
-
+export default async function AddBrand() {
   return (
-    <>
-      <PageTop title="Brands" />
-      <Wrapper brands={brands} />
-    </>
+    <BrandUI
+      queryUrl={`${BACKEND_URL}/api/brand/add`}
+      validationTag="brands"
+      successMessage="Brand created successfully"
+      serverAction={addData}
+    />
   );
 }

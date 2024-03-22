@@ -3,7 +3,7 @@ import {
   STEADFAST_API_KEY,
   STEADFAST_BASE_URL,
   STEADFAST_SECRECT_KEY,
-} from "../../../site-info";
+} from "../../site-info";
 
 export default function DeliveryStatus({
   trackingCode,

@@ -18,6 +18,10 @@ export async function patchData<T>(
       cache: "no-store",
     });
 
+    //FIXME: REMOVE TEST
+    const test = await res.json();
+    console.log(test);
+
     if (res.ok) {
       revalidateTag(validationTag);
 

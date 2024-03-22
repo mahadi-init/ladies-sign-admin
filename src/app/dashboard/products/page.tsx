@@ -1,7 +1,7 @@
 import getData from "@/actions/get";
 import PageTop from "@/components/native/PageTop";
 import { getProductTypes } from "@/shared/products/get-product-types";
-import { BACKEND_URL } from "../../../../site-info";
+import { BACKEND_URL } from "../../../site-info";
 import Wrapper from "./wrapper";
 
 export interface ProductResponse {
@@ -25,7 +25,7 @@ const getProducts = async () => {
     `${BACKEND_URL}/api/product/all`,
     true,
     10,
-    ["product", "products"],
+    ["product", "products"]
   );
 };
 

@@ -2,13 +2,14 @@ import { DataTable } from "@/components/native/DataTable";
 import PageTop from "@/components/native/PageTop";
 import { orderColumn } from "@/shared/Orders/OrderColumn";
 import { getOrders } from "@/shared/Orders/get-orders";
+import { DashboardOrderSummaryType } from "@/types/dashboard.t";
 import {
   getDashboardOrderData,
   getMostSellingCategory,
   getSalesOrdersStatistics,
-} from "@/shared/home/dashboard-data";
-import { DashboardOrderSummaryType } from "@/shared/home/dashboard.t";
-import { getSteadFastBalance } from "@/shared/home/get-steadfast-balance";
+} from "@/utils/dashboard-data";
+import { getSteadFastBalance } from "@/utils/get-steadfast-balance";
+
 import dynamic from "next/dynamic";
 
 const StatisticCards = dynamic(
