@@ -64,8 +64,6 @@ export default async function ProductUI() {
       });
     }
 
-    console.log(images);
-
     const data = {
       title,
       description,
@@ -86,8 +84,6 @@ export default async function ProductUI() {
       additionalInformation,
       images,
     };
-
-    console.log(data);
 
     // const res = await addData(
     //   data,

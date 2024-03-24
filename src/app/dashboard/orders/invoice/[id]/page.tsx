@@ -20,8 +20,8 @@ export default function Invoice({ params }: { params: { id: string } }) {
 
   const handlePrint = useReactToPrint({
     documentTitle: `${value?._id}`,
-    onBeforePrint: () => console.log("before printing..."),
-    onAfterPrint: () => console.log("after printing..."),
+    // onBeforePrint: () => console.log("before printing..."),
+    // onAfterPrint: () => console.log("after printing..."),
     removeAfterPrint: true,
   });
 

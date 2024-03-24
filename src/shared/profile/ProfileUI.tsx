@@ -49,8 +49,6 @@ export default function ProfileUI({
       "Profile updated successfully"
     );
 
-    console.log(res);
-
     if (res.status === 200) {
       toast.success(res.message);
     } else {
@@ -62,8 +60,6 @@ export default function ProfileUI({
     const currentPassword = formData.get("current-password");
     const newPassword = formData.get("new-password");
     const confirmPassword = formData.get("confirm-password");
-
-    console.log(currentPassword, newPassword, confirmPassword);
 
     if (newPassword !== confirmPassword) {
       toast.error("passwords do not match");

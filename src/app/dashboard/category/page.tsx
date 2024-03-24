@@ -5,7 +5,6 @@ import CategoryUI from "./CategoryUI";
 
 export default async function AddCategory() {
   const productTypes = await getProductTypes();
-  console.log(productTypes);
 
   return (
     <CategoryUI
