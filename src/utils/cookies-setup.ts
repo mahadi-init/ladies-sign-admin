@@ -5,7 +5,7 @@ export const cookiesSetup = async (id: string, role: string): Promise<void> => {
   let token = "";
 
   switch (role) {
-    case "SUPER-ADMIN":
+    case "SUPERADMIN":
       token = AccessToken.SUPER_ADMIN;
       break;
     case "ADMIN":
