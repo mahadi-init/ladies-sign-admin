@@ -1,8 +1,8 @@
 import getData from "@/actions/get";
 import { patchData } from "@/actions/patch";
-import { getProductTypes } from "@/shared/products/get-product-types";
 import { BACKEND_URL } from "@/site-info";
 import { CouponType } from "@/types/coupon.t";
+import { getProductTypes } from "@/utils/get-product-types";
 import CouponUI from "../../CouponUI";
 
 const getCouponData = async (id: string) => {
