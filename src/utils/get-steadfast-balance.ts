@@ -2,7 +2,7 @@ import {
   STEADFAST_API_KEY,
   STEADFAST_BASE_URL,
   STEADFAST_SECRECT_KEY,
-} from "@/consts/site-info";
+} from "../site-info";
 
 export const getSteadFastBalance = async (): Promise<{
   current_balance: number;

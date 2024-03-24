@@ -1,30 +1,18 @@
-import getData from "@/actions/get";
-import { couponColumn } from "@/columns/CouponColumn";
-import { DataTable } from "@/components/native/DataTable";
-import PageTop from "@/components/native/PageTop";
-import { BACKEND_URL } from "@/consts/site-info";
-import { CouponType } from "@/types/coupon";
-import React from "react";
+import { addData } from "@/actions/post";
+import { getProductTypes } from "@/shared/products/get-product-types";
+import { BACKEND_URL } from "@/site-info";
+import CouponUI from "./CouponUI";
 
-export default async function Coupons() {
-  const coupons: CouponType[] = await getData(
-    `${BACKEND_URL}/api/coupon`,
-    300,
-    ["coupon", "coupons"],
-  );
-  const searchTargets = ["_id", "title", "couponCode"];
+export default async function AddCoupon() {
+  const productTypes = await getProductTypes();
 
   return (
-    <>
-      <PageTop title="Coupons" />
-      <div className="flex flex-col 2xl:flex-row 2xl:gap-2 2xl:justify-between">
-        <DataTable
-          columns={couponColumn}
-          data={coupons}
-          searchTargets={searchTargets}
-          addItemRoute="/dashboard/coupons/add"
-        />
-      </div>
-    </>
+    <CouponUI
+      productTypes={productTypes}
+      queryUrl={`${BACKEND_URL}/api/coupon/add`}
+      validationTag="coupon"
+      successMessage="Coupon added successfully"
+      serverAction={addData}
+    />
   );
 }

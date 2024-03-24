@@ -1,16 +1,7 @@
-Working:
-  ☐ Delete confirmation
+TODO :
+  ☐ Decide how the product type will be created
 
-
-Todo:
-  ✔ Category edit option @done(24-01-28 22:54)
-
-
-PARTIALLY: 
-  ✔ Authetication (role based) @done(24-02-08 11:07)
-
-
-
-Fixme: 
-  ✔ Category Image upload fails @done(24-01-28 16:55)
-  ☐ Category hide option doesn't work
+DONE : 
+  ✔ Category @done(24-03-21 11:57)
+  ✔ Admin @done(24-03-21 11:57)
+  ✔ Brand @done(24-03-21 11:57)

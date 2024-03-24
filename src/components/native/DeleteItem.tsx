@@ -1,5 +1,5 @@
 "use client";
-import { Response } from "@/types/response";
+import { LocalResponse } from "@/types/response.t";
 import { Trash2 } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "../ui/button";
@@ -13,15 +13,9 @@ interface PropTypes {
     queryUrl: string,
     validationTag: string,
     successMessage: string
-  ) => Promise<Response>;
+  ) => Promise<LocalResponse>;
 }
 
-/**
- * This function handles the form action for deleting an item.
- *
- * @param {PropTypes} props - the properties passed to the component
- * @return {JSX.Element} The JSX element representing the form
- */
 export default function DeleteItem(props: PropTypes): JSX.Element {
   const handleFormAction = async () => {
     const res = await props.serverAction(

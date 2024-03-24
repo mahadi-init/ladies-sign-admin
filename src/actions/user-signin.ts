@@ -1,22 +1,15 @@
 "use server";
 
-import { BACKEND_URL } from "@/consts/site-info";
-import { Response } from "@/types/response";
-import { Role } from "@/types/role";
+import { Role } from "@/types/enums.t";
+import { LocalResponse } from "@/types/response.t";
 import { cookiesSetup } from "@/utils/cookies-setup";
+import { BACKEND_URL } from "../site-info";
 
-interface UserResponseType extends Response {
+interface UserResponseType extends LocalResponse {
   id?: string;
   role?: Role;
 }
 
-/**
- * User sign-in function that sends a POST request to the backend API to log in the user.
- *
- * @param {string} email - The email of the user
- * @param {string} password - The password of the user
- * @return {Promise<UserResponseType>} An object containing the user ID, role, status, and a message
- */
 export async function userSignIn(
   email: string,
   password: string
@@ -31,9 +24,9 @@ export async function userSignIn(
       cache: "no-store",
     });
 
-    if (res.status === 200) {
+    if (res.ok) {
       const { _id, name, role } = await res.json();
-      cookiesSetup(_id, role);
+      await cookiesSetup(_id, role);
 
       return {
         id: _id,

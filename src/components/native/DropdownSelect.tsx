@@ -7,30 +7,31 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-/**
- * Function for rendering a dropdown select component with given options.
- *
- * @param {Object} param0 - Destructured object containing style, name,
- * placeholder, items, selectedItem, and setSelectedItem
- * @return {JSX.Element} The rendered dropdown select component
- */
 export default function DropdownSelect({
   style,
-  name,
   placeholder,
   items,
   selectedItem,
   setSelectedItem,
+  action,
 }: {
   style?: string;
   placeholder?: string;
-  name?: string;
-  items: string[];
+  items: readonly { title: string; icon: JSX.Element }[];
   selectedItem?: string;
   setSelectedItem: (item: string) => void;
+  action?: <T>(value: T) => void;
 }): JSX.Element {
   return (
-    <Select value={selectedItem} onValueChange={setSelectedItem} name={name}>
+    <Select
+      value={selectedItem}
+      onValueChange={(value) => {
+        setSelectedItem(value);
+        if (action) {
+          action(value);
+        }
+      }}
+    >
       <SelectTrigger className={style ?? "w-32"}>
         <SelectValue placeholder={placeholder} />
       </SelectTrigger>
@@ -38,8 +39,11 @@ export default function DropdownSelect({
         <SelectGroup>
           {items.map((item, index) => {
             return (
-              <SelectItem key={index} value={item}>
-                {item}
+              <SelectItem key={index} value={item.title}>
+                <div className="flex gap-2 items-center text-xs font-medium">
+                  {item.icon}
+                  {item.title}
+                </div>
               </SelectItem>
             );
           })}

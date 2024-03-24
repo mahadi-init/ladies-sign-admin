@@ -1,8 +1,7 @@
 "use client";
-
+import { Role } from "@/types/enums.t";
+import { AccessToken } from "@/types/token.t";
 import React, { createContext, useEffect, useState } from "react";
-import { Role } from "@/types/role";
-import { AccessToken } from "@/types/token";
 
 export const UserAccessContext = createContext<{
   userId?: string;
@@ -26,13 +25,13 @@ export default function AccessProvider({
     }
 
     if (accessToken === AccessToken.SUPER_ADMIN) {
-      setUserRole(Role.SuperAdmin);
+      setUserRole("SUPERADMIN");
     } else if (accessToken === AccessToken.ADMIN) {
-      setUserRole(Role.Admin);
+      setUserRole("ADMIN");
     } else if (accessToken === AccessToken.EDITOR) {
-      setUserRole(Role.Editor);
+      setUserRole("EDITOR");
     } else if (accessToken === AccessToken.SELLER) {
-      setUserRole(Role.Seller);
+      setUserRole("SELLER");
     }
   }, [accessToken]);
 

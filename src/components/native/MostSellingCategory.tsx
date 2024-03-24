@@ -1,12 +1,6 @@
 "use client";
 import { ResponsivePie } from "@nivo/pie";
 
-/**
- * Render a pie chart with the given data.
- *
- * @param {Array<{ id: string, value: number }>} data - the data for the pie chart
- * @return {JSX>.Element} a responsive pie chart component
- */
 function PieChart<
   T extends {
     id: string;

@@ -3,7 +3,6 @@ import { userSignIn } from "@/actions/user-signin";
 import RecoverPassword from "@/components/native/RecoverPassword";
 import SubmitButton from "@/components/native/SubmitButton";
 import { Input } from "@/components/ui/input";
-import { Role } from "@/types/role";
 import { hasSiteAccessPermission } from "@/utils/site-access-permission";
 import { getCookie } from "cookies-next";
 import Image from "next/image";
@@ -23,7 +22,7 @@ export default function Login() {
   );
 
   // Check if user has access permission
-  // If yes, redirect to dashboard If no, redirect to login
+  // If yes, redirect to dashboard If no, redirect to log in
   useEffect(() => {
     const token = getCookie("access-token");
 
@@ -53,7 +52,7 @@ export default function Login() {
     if (res.status === 200) {
       toast.success(res.message);
 
-      if (res.role === Role.Seller) {
+      if (res.role === "SELLER") {
         router.replace("/seller/profile");
       } else {
         router.replace("/dashboard");

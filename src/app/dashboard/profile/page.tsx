@@ -1,21 +1,21 @@
 "use client";
 import FullPageLoading from "@/components/native/FullPageLoading";
 import PageTop from "@/components/native/PageTop";
-import { BACKEND_URL } from "@/consts/site-info";
-import { ProfileType } from "@/types/profile";
-import SharedProfileUI from "@/ui/SharedProfileUI";
+import ProfileUI from "@/shared/profile/ProfileUI";
+import { BACKEND_URL } from "@/site-info";
+import { ProfileType } from "@/types/profile.t";
 import { fetcher } from "@/utils/fetcher";
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import useSWR from "swr";
 import { UserAccessContext } from "../access-provider";
 
 export default function Profile() {
   const { userId } = useContext(UserAccessContext);
-  const { data, error, isLoading } = useSWR<ProfileType>(
-    `${BACKEND_URL}/api/admin/get/${userId}`,
-    fetcher
-  );
-  const [image, setImage] = useState<string>();
+  const {
+    data: admin,
+    error,
+    isLoading,
+  } = useSWR<ProfileType>(`${BACKEND_URL}/api/admin/get/${userId}`, fetcher);
 
   if (isLoading) {
     return <FullPageLoading />;
@@ -28,7 +28,8 @@ export default function Profile() {
   return (
     <>
       <PageTop title="Profile" />
-      <SharedProfileUI data={data} />
+      {/* @ts-expect-error */}
+      <ProfileUI data={admin.data} showBalance={false} />
     </>
   );
 }

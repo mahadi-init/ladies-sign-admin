@@ -1,12 +1,15 @@
 import getData from "@/actions/get";
 import { patchData } from "@/actions/patch";
-import { BACKEND_URL } from "@/consts/site-info";
-import { CouponType } from "@/types/coupon";
-import SharedCouponUI from "@/ui/SharedCouponUI";
-import { getProductTypes } from "@/utils/get-product-types";
+import { getProductTypes } from "@/shared/products/get-product-types";
+import { BACKEND_URL } from "@/site-info";
+import { CouponType } from "@/types/coupon.t";
+import CouponUI from "../../CouponUI";
 
 const getCouponData = async (id: string) => {
-  const data = await getData<CouponType>(`${BACKEND_URL}/api/coupon/${id}`, 10);
+  const data = await getData<CouponType>(
+    `${BACKEND_URL}/api/coupon/${id}`,
+    true
+  );
   return data;
 };
 
@@ -21,7 +24,7 @@ export default async function EditCoupon({
   ]);
 
   return (
-    <SharedCouponUI
+    <CouponUI
       {...data[1]}
       productTypes={data[0]}
       queryUrl={`${BACKEND_URL}/api/coupon/${params.id}`}

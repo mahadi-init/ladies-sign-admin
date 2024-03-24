@@ -1,16 +1,14 @@
 import getData from "@/actions/get";
 import { patchData } from "@/actions/patch";
-import { Breadcrumbs } from "@/components/native/Breadcrumbs";
-import PageTop from "@/components/native/PageTop";
-import { BACKEND_URL } from "@/consts/site-info";
-import { CategoryType } from "@/types/category";
-import SharedCategoryUI from "@/ui/SharedCategoryUI";
-import { getProductTypes } from "@/utils/get-product-types";
+import { getProductTypes } from "@/shared/products/get-product-types";
+import { BACKEND_URL } from "@/site-info";
+import { CategoryType } from "@/types/category.t";
+import CategoryUI from "../../CategoryUI";
 
 const getCategoryData = async (id: string) => {
   const data = await getData<CategoryType>(
     `${BACKEND_URL}/api/category/get/${id}`,
-    0
+    true
   );
 
   return data;
@@ -27,22 +25,13 @@ export default async function EditCategory({
   ]);
 
   return (
-    <>
-      <PageTop title="Edit Category" showSubTitle={false} />
-      <Breadcrumbs
-        props={[
-          { title: "Dashboard", link: "/dashboard" },
-          { title: "Category", link: "/dashboard/category" },
-        ]}
-      />
-      <SharedCategoryUI
-        {...data[1]}
-        productTypes={data[0]}
-        queryUrl={`${BACKEND_URL}/api/category/edit/${params.id}`}
-        validationTag="category"
-        successMessage="Category edited successfully"
-        serverAction={patchData}
-      />
-    </>
+    <CategoryUI
+      {...data[1]}
+      productTypes={data[0]}
+      queryUrl={`${BACKEND_URL}/api/category/edit/${params.id}`}
+      validationTag="category"
+      successMessage="Category edited successfully"
+      serverAction={patchData}
+    />
   );
 }

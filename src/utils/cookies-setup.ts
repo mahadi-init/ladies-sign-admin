@@ -1,28 +1,24 @@
-import { AccessToken } from "@/types/token";
+import { AccessToken } from "@/types/token.t";
 import { cookies } from "next/headers";
 
-/**
- * Sets up cookies for user access based on the provided id and role.
- *
- * @param {string} id - The user access id
- * @param {string} role - The role of the user
- * @return {Promise<void>} Promise that resolves when the cookies are set up
- */
 export const cookiesSetup = async (id: string, role: string): Promise<void> => {
-  cookies().set("user-access-id", id);
+  let token = "";
 
   switch (role) {
-    case "Super-Admin":
-      cookies().set("access-token", AccessToken.SUPER_ADMIN);
+    case "SUPER-ADMIN":
+      token = AccessToken.SUPER_ADMIN;
       break;
-    case "Admin":
-      cookies().set("access-token", AccessToken.ADMIN);
+    case "ADMIN":
+      token = AccessToken.ADMIN;
       break;
-    case "Editor":
-      cookies().set("access-token", AccessToken.EDITOR);
+    case "EDITOR":
+      token = AccessToken.EDITOR;
       break;
     default:
-      cookies().set("access-token", AccessToken.SELLER);
+      token = AccessToken.SELLER;
       break;
   }
+
+  cookies().set("access-token", token);
+  cookies().set("user-access-id", id);
 };

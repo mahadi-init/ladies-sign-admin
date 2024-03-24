@@ -1,6 +1,5 @@
 "use client";
-import { Button, buttonVariants } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 import {
   Table,
   TableBody,
@@ -20,36 +19,19 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import Link from "next/link";
 import { useState } from "react";
-import DropdownSelect from "./DropdownSelect";
-import { ArrowUpIcon, BadgePlus } from "lucide-react";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
-  searchTargets: string[];
-  addItemRoute?: string;
 }
 
-/**
- * Renders a data table component with the provided data and columns, and allows filtering and pagination.
- *
- * @param {DataTableProps<TData, TValue>} columns - The columns for the data table
- * @param {DataTableProps<TData, TValue>} data - The data to be displayed in the table
- * @param {DataTableProps<TData, TValue>} searchTargets - The targets for filtering
- * @param {DataTableProps<TData, TValue>} addItemRoute - The route for adding new items
- * @return {JSX.Element} The rendered data table component
- */
 export function DataTable<TData, TValue>({
   columns,
   data,
-  searchTargets,
-  addItemRoute,
 }: DataTableProps<TData, TValue>): JSX.Element {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
-  const [searchTarget, setSearchTarget] = useState<string>(searchTargets[0]);
 
   const table = useReactTable({
     data,
@@ -68,39 +50,6 @@ export function DataTable<TData, TValue>({
 
   return (
     <div className="w-full">
-      <div className="flex justify-between items-center">
-        <div className="flex gap-2 items-center">
-          <div className="flex items-center py-4">
-            <Input
-              placeholder="Filter Item.."
-              value={
-                (table.getColumn(searchTarget)?.getFilterValue() as string) ??
-                ""
-              }
-              onChange={(event) =>
-                table
-                  .getColumn(searchTarget)
-                  ?.setFilterValue(event.target.value)
-              }
-              className="max-w-sm"
-            />
-          </div>
-          <DropdownSelect
-            placeholder={`Filter by ${searchTarget}`}
-            items={searchTargets}
-            selectedItem={searchTarget}
-            setSelectedItem={setSearchTarget}
-          />
-        </div>
-        {addItemRoute && (
-          <Link
-            href={addItemRoute}
-            className={buttonVariants({ size: "sm", variant: "outline" })}
-          >
-            <BadgePlus />
-          </Link>
-        )}
-      </div>
       <div className="rounded-md border">
         <Table>
           <TableHeader>
@@ -113,7 +62,7 @@ export function DataTable<TData, TValue>({
                         ? null
                         : flexRender(
                             header.column.columnDef.header,
-                            header.getContext(),
+                            header.getContext()
                           )}
                     </TableHead>
                   );
@@ -132,7 +81,7 @@ export function DataTable<TData, TValue>({
                     <TableCell key={cell.id}>
                       {flexRender(
                         cell.column.columnDef.cell,
-                        cell.getContext(),
+                        cell.getContext()
                       )}
                     </TableCell>
                   ))}

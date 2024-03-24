@@ -1,7 +1,7 @@
 import getData from "@/actions/get";
 import PageTop from "@/components/native/PageTop";
-import { BACKEND_URL } from "@/consts/site-info";
-import { getProductTypes } from "@/utils/get-product-types";
+import { getProductTypes } from "@/shared/products/get-product-types";
+import { BACKEND_URL } from "../../../site-info";
 import Wrapper from "./wrapper";
 
 export interface ProductResponse {
@@ -21,14 +21,12 @@ export interface ProductResponse {
 }
 
 const getProducts = async () => {
-  const res = await getData<ProductResponse[]>(
+  return await getData<ProductResponse[]>(
     `${BACKEND_URL}/api/product/all`,
+    true,
     10,
     ["product", "products"]
   );
-
-  //@ts-ignore
-  return res.data;
 };
 
 export default async function Products() {

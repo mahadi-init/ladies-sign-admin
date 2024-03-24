@@ -1,15 +1,13 @@
 import getData from "@/actions/get";
 import { patchData } from "@/actions/patch";
-import { Breadcrumbs } from "@/components/native/Breadcrumbs";
-import PageTop from "@/components/native/PageTop";
-import { BACKEND_URL } from "@/consts/site-info";
-import { AdminType } from "@/types/admin";
-import SharedAdminUI from "@/ui/SharedAdminUI";
+import AdminUI from "@/app/dashboard/admins/AdminUI";
+import { BACKEND_URL } from "@/site-info";
+import { AdminType } from "@/types/admin.t";
 
 const getAdminData = async (id: string) => {
   const data = await getData<AdminType>(
     `${BACKEND_URL}/api/admin/get/${id}`,
-    10
+    true
   );
 
   return data;
@@ -20,19 +18,12 @@ export default async function EditAdmin({
 }: {
   params: { id: string };
 }) {
-  const adminRoles = ["Admin", "Editor", "Seller"];
+  const adminRoles = ["SELLER", "EDITOR", "ADMIN", "SUPERADMIN"];
   const data = await Promise.all([adminRoles, await getAdminData(params.id)]);
 
   return (
     <>
-      <PageTop title="Edit Admin" showSubTitle={false} />
-      <Breadcrumbs
-        props={[
-          { title: "Dashboard", link: "/dashboard" },
-          { title: "Admin", link: "/dashboard/admins" },
-        ]}
-      />
-      <SharedAdminUI
+      <AdminUI
         {...data[1]}
         adminRoles={data[0]}
         queryUrl={`${BACKEND_URL}/api/admin/update-stuff/${params.id}`}

@@ -1,31 +1,18 @@
-import getData from "@/actions/get";
-import { categoryColumn } from "@/columns/CategoryColumn";
-import { DataTable } from "@/components/native/DataTable";
-import PageTop from "@/components/native/PageTop";
-import { BACKEND_URL } from "@/consts/site-info";
-import { CategoryType } from "@/types/category";
+import { addData } from "@/actions/post";
+import { getProductTypes } from "@/shared/products/get-product-types";
+import { BACKEND_URL } from "@/site-info";
+import CategoryUI from "./CategoryUI";
 
-export default async function Category() {
-  const categories = await getData<CategoryType[]>(
-    `${BACKEND_URL}/api/category/all`,
-    300,
-    ["category", "categories"]
-  );
-  const searchTargets = ["_id", "parent"];
+export default async function AddCategory() {
+  const productTypes = await getProductTypes();
 
   return (
-    <>
-      <PageTop title="Category" />
-      <div className="flex flex-col 2xl:flex-row 2xl:gap-2 2xl:justify-between">
-        {/* {children} */}
-        <DataTable
-          columns={categoryColumn}
-          //@ts-ignore
-          data={categories.result}
-          searchTargets={searchTargets}
-          addItemRoute="/dashboard/category/add"
-        />
-      </div>
-    </>
+    <CategoryUI
+      productTypes={productTypes}
+      queryUrl={`${BACKEND_URL}/api/category/add`}
+      validationTag="category"
+      successMessage="Category added successfully"
+      serverAction={addData}
+    />
   );
 }

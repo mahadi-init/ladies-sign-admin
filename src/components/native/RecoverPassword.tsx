@@ -2,9 +2,6 @@ import Modal from "@/components/native/Modal";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
-/**
- * Renders a modal for recovering password.
- */
 export default function RecoverPassword() {
   return (
     <Modal

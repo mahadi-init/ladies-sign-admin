@@ -1,10 +1,12 @@
-import { CLOUDINARY_UPLOAD_PRESET } from "@/consts/site-info";
 import clsx from "clsx";
 import { Upload } from "lucide-react";
+import { Route } from "next";
 import { CldUploadButton } from "next-cloudinary";
 import Image from "next/image";
+import Link from "next/link";
 import { useState } from "react";
 import { toast } from "sonner";
+import { CLOUDINARY_UPLOAD_PRESET } from "../../site-info";
 
 enum UploadStatus {
   IDLE,
@@ -12,13 +14,6 @@ enum UploadStatus {
   SUCCESS,
 }
 
-/**
- * Image uploader component for uploading and displaying images.
- *
- * @param {string} image - the image to be displayed
- * @param {function} setImage - the function to set the image
- * @return {JSX.Element} - the rendered component
- */
 export default function ImageUploader({
   image,
   setImage,
@@ -38,7 +33,7 @@ export default function ImageUploader({
       >
         <div
           className={clsx(
-            "flex justify-center items-center w-64 h-48 bg-gray-300 rounded sm:w-96 dark:bg-gray-700",
+            "flex justify-center items-center w-72 h-72 bg-gray-300 rounded sm:w-96 dark:bg-gray-700",
             uploadStatus != UploadStatus.LOADING && "hidden"
           )}
         >
@@ -53,51 +48,65 @@ export default function ImageUploader({
           </svg>
         </div>
       </div>
-      <picture>
-        <Image
-          src={image ?? "/logo.png"}
-          className={clsx(
-            "w-72 rounded-md",
-            uploadStatus === UploadStatus.LOADING && "w-0 h-0"
-          )}
-          height={400}
-          width={400}
-          alt="beautiful image"
-          placeholder="empty"
-          onLoad={() => {
-            image && setUploadStatus(UploadStatus.SUCCESS);
-          }}
-        />
-      </picture>
+      <>
+        <picture>
+          <Image
+            src={image ?? "/logo.png"}
+            className={clsx(
+              "w-72 rounded-md",
+              uploadStatus === UploadStatus.LOADING && "w-0 h-0"
+            )}
+            height={400}
+            width={400}
+            alt="beautiful image"
+            placeholder="empty"
+            onLoad={() => {
+              image && setUploadStatus(UploadStatus.SUCCESS);
+            }}
+          />
+        </picture>
+        {image && (
+          <Link
+            href={image as Route}
+            className="mt-4  font-medium text-blue-500"
+            target="_blank"
+          >
+            Image URL
+          </Link>
+        )}
 
-      <CldUploadButton
-        uploadPreset={CLOUDINARY_UPLOAD_PRESET}
-        options={{
-          multiple: false,
-          maxFiles: 1,
-        }}
-        onSuccess={(result) => {
-          if (result.info) {
+        <CldUploadButton
+          uploadPreset={CLOUDINARY_UPLOAD_PRESET}
+          options={{
+            multiple: false,
+            maxFiles: 1,
+            sources: ["local", "url", "google_drive", "dropbox", "unsplash"],
+            cropping: true,
+            croppingShowDimensions: true,
+            minImageHeight: 300,
+            minImageWidth: 250,
+          }}
+          onSuccess={(result) => {
             setUploadStatus(UploadStatus.LOADING);
-            //@ts-ignore
+            //@ts-expect-error;
             setImage(result.info.url);
-          }
-        }}
-        onError={() => {
-          toast.error("Error uploading");
-        }}
-      >
-        <label
-          htmlFor="uploadFile1"
-          className="flex flex-col justify-center items-center mx-auto mt-4 w-80 h-24 text-base text-black bg-white rounded border-2 border-gray-300 border-dashed cursor-pointer font-[sans-serif]"
+          }}
+          onError={() => {
+            toast.error("Error uploading");
+          }}
         >
-          <Upload />
-          Upload
-          <p className="mt-2 text-xs text-gray-400">
-            PNG, JPG SVG, WEBP, and GIF are Allowed.
-          </p>
-        </label>
-      </CldUploadButton>
+          <label
+            htmlFor="uploadFile1"
+            className="flex flex-col justify-center items-center mx-auto mt-4 w-80 h-24 text-base text-black bg-white rounded border-2 border-gray-300 border-dashed cursor-pointer font-[sans-serif]"
+          >
+            <Upload />
+            Upload
+            <p className="mt-2 text-xs text-gray-400">
+              PNG, JPG SVG, WEBP, and GIF are Allowed.
+            </p>
+          </label>
+        </CldUploadButton>
+      </>
     </>
   );
 }
