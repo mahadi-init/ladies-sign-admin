@@ -1,15 +1,19 @@
-import FormImageUploader from "@/components/native/FormImageUploader";
+"use client";
+import ImageUploader from "@/components/native/ImageUploader";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { useState } from "react";
 
 export default function GeneralInformation() {
+  const [image, setImage] = useState<string>();
+
   return (
     <div className="p-6 bg-gray-100 rounded-lg shadow">
       <div className="mb-6">
         <h2 className="text-xl font-semibold mb-2">General</h2>
         <div className="flex flex-col  xl:flex-row justify-evenly pb-2 xl:items-center">
           <div className=" flex flex-col items-center">
-            <FormImageUploader name="main" />
+            <ImageUploader image={image} setImage={setImage} />
           </div>
           {/* <div className="flex flex-col gap-4 xl:w-1/2">
             <ProductCategory

@@ -1,2 +1,0 @@
-# Get All Brands
-GET http://localhost:7000/api/brand/all
