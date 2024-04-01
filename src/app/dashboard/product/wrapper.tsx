@@ -24,7 +24,7 @@ export default function Wrapper({
       setFilteredProducts(products);
     } else {
       setFilteredProducts(
-        products.filter((item) => item.productType === dropdownFilter),
+        products.filter((item) => item.productType === dropdownFilter)
       );
     }
   }, [dropdownFilter, products]);
@@ -32,8 +32,8 @@ export default function Wrapper({
   const handleSearchFilter = (search: string): void => {
     setFilteredProducts(
       products.filter((item) =>
-        item.title.toLowerCase().includes(search.toLowerCase()),
-      ),
+        item.title.toLowerCase().includes(search.toLowerCase())
+      )
     );
   };
 
@@ -53,7 +53,7 @@ export default function Wrapper({
             setSelectedItem={setDropdownFilter}
           />
           <Link
-            href={`/dashboard/products/add`}
+            href={`/dashboard/product/add`}
             className={buttonVariants({ size: "sm", variant: "outline" })}
           >
             <BadgePlus />

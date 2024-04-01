@@ -1,9 +1,8 @@
 export interface BrandType {
   _id: string;
-  logo: string;
+  image: string;
   name: string;
   email: string;
-  website: string;
   location: string;
-  status: "ACTIVE" | "INACTIVE";
+  status: boolean
 }

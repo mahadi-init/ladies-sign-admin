@@ -80,7 +80,7 @@ export default function Wrapper({
           </Link>
         </div>
       </div>
-      <DataTable columns={categoryColumn} data={filteredCategories} />
+      <DataTable column={categoryColumn} data={filteredCategories} />
     </div>
   );
 }

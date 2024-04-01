@@ -1,32 +1,27 @@
 "use client";
 import { DataTable } from "@/components/native/DataTable";
-import DropdownSelect from "@/components/native/DropdownSelect";
-import { buttonVariants } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Statuses } from "@/data/statuses.data";
-import { BrandType } from "@/types/brand.t";
-import { BadgePlus } from "lucide-react";
-import Link from "next/link";
+import { CouponType } from "@/types/coupon.t";
 import { useEffect, useState } from "react";
-import { brandColumn } from "./BrandColumn";
+import { couponColumn } from "./CouponColumn";
 
-export default function Wrapper({ brands }: { brands: BrandType[] }) {
+export default function Wrapper({ coupons }: { coupons: CouponType[] }) {
   const [status, setStatus] = useState("");
-  const [filteredBrands, setFilteredBrands] = useState<BrandType[]>(brands);
+  const [filteredCoupons, setFilteredCoupons] = useState<CouponType[]>(coupons);
 
   //filter by status
   useEffect(() => {
     if (status === "ALL" || status === "") {
-      setFilteredBrands(brands);
+      setFilteredCoupons(coupons);
     } else {
-      setFilteredBrands(brands.filter((item) => item.status === status));
+      setFilteredCoupons(coupons.filter((item) => item.status === status));
     }
-  }, [brands, status]);
+  }, [coupons, status]);
 
   // filter by search
   const handleSearchFilter = (search: string): void => {
-    setFilteredBrands(
-      brands.filter((item) =>
+    setFilteredCoupons(
+      coupons.filter((item) =>
         Object.values(item).some(
           (value) =>
             typeof value === "string" &&
@@ -45,21 +40,21 @@ export default function Wrapper({ brands }: { brands: BrandType[] }) {
           onChange={(e) => handleSearchFilter(e.target.value)}
         />
         <div className="flex gap-2">
-          <DropdownSelect
+          {/* <DropdownSelect
             placeholder="status"
-            items={Statuses}
+            items={Status}
             selectedItem={status}
             setSelectedItem={setStatus}
           />
           <Link
-            href={"/dashboard/brand"}
+            href={"/dashboard/coupons"}
             className={buttonVariants({ size: "sm", variant: "outline" })}
           >
             <BadgePlus />
-          </Link>
+          </Link> */}
         </div>
       </div>
-      <DataTable columns={brandColumn} data={filteredBrands} />
+      <DataTable column={couponColumn} data={filteredCoupons} />
     </div>
   );
 }

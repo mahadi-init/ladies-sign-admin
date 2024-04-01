@@ -22,14 +22,12 @@ import { toast } from "sonner";
 import { Button } from "../ui/button";
 import ConfirmationDialog from "./ConfirmationDialog";
 
-export default function Sidenav({
-  numOfPendingOrder,
-}: {
-  numOfPendingOrder: number;
-}): JSX.Element {
+export default function Sidenav(): JSX.Element {
   const pathname = usePathname();
   const { handleLogout } = useLogout();
   const [isSideNavOpen, setIsSideNavOpen] = useState(false);
+  //FIXME: change
+  const numOfPendingOrder = 2;
 
   const hideSideNav = async () => {
     setIsSideNavOpen(false);
@@ -104,7 +102,7 @@ export default function Sidenav({
 
               <li className="px-3">
                 <Link
-                  href="/dashboard/products"
+                  href="/dashboard/product"
                   onClick={hideSideNav}
                   className={clsx(
                     "flex items-center gap-3 rounded p-3 text-slate-700 transition-colors hover:bg-rose-50 hover:text-rose-500 focus:bg-rose-50",
@@ -142,7 +140,7 @@ export default function Sidenav({
 
               <li className="px-3">
                 <Link
-                  href="/dashboard/orders"
+                  href="/dashboard/order"
                   onClick={hideSideNav}
                   className={clsx(
                     "flex items-center gap-3 rounded p-3 text-slate-700 transition-colors hover:bg-rose-50 hover:text-rose-500 focus:bg-rose-50",
@@ -187,7 +185,7 @@ export default function Sidenav({
             <ul className="flex flex-col flex-1 gap-1 py-3">
               <li className="px-3">
                 <Link
-                  href="/dashboard/reviews"
+                  href="/dashboard/review"
                   onClick={hideSideNav}
                   className={clsx(
                     "flex items-center gap-3 rounded p-3 text-slate-700 transition-colors hover:bg-rose-50 hover:text-rose-500 focus:bg-rose-50",
@@ -206,7 +204,7 @@ export default function Sidenav({
 
               <li className="px-3">
                 <Link
-                  href="/dashboard/coupons"
+                  href="/dashboard/coupon"
                   onClick={hideSideNav}
                   className={clsx(
                     "flex items-center gap-3 rounded p-3 text-slate-700 transition-colors hover:bg-rose-50 hover:text-rose-500 focus:bg-rose-50",
@@ -225,7 +223,7 @@ export default function Sidenav({
 
               <li className="px-3">
                 <Link
-                  href="/dashboard/admins"
+                  href="/dashboard/admin"
                   onClick={hideSideNav}
                   className={clsx(
                     "flex items-center gap-3 rounded p-3 text-slate-700 transition-colors hover:bg-rose-50 hover:text-rose-500 focus:bg-rose-50",
@@ -244,7 +242,7 @@ export default function Sidenav({
 
               <li className="px-3">
                 <Link
-                  href="/dashboard/users"
+                  href="/dashboard/user"
                   onClick={hideSideNav}
                   className={clsx(
                     "flex items-center gap-3 rounded p-3 text-slate-700 transition-colors hover:bg-rose-50 hover:text-rose-500 focus:bg-rose-50",
@@ -282,7 +280,7 @@ export default function Sidenav({
 
               <li className="px-3">
                 <Link
-                  href="/dashboard/notifications"
+                  href="/dashboard/notification"
                   onClick={hideSideNav}
                   className={clsx(
                     "flex items-center gap-3 rounded p-3 text-slate-700 transition-colors hover:bg-rose-50 hover:text-rose-500 focus:bg-rose-50",

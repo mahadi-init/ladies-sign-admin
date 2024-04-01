@@ -1,11 +1,11 @@
 "use client";
 
-import ImageUploader from "@/components/native/ImageUploader";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useState } from "react";
 import { toast } from "sonner";
+import ProductVariantImgUploader from "./product-variant-img-uploader";
 
 type ValueType = {
   image: string;
@@ -17,7 +17,6 @@ type ValueType = {
 
 export default function ProductVariants() {
   const [values, setValues] = useState<Partial<ValueType>[]>([{}]);
-  console.log(values);
 
   return (
     <div className="p-6 bg-gray-100 rounded-lg shadow-md">
@@ -28,7 +27,7 @@ export default function ProductVariants() {
           <div key={index} className="w-full">
             <div className="w-full grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-4 items-center gap-4 mb-6">
               <div className="flex items-center gap-4">
-                <ImageUploader
+                <ProductVariantImgUploader
                   image={value.image}
                   setImage={(img) => {
                     setValues((prev) => {
@@ -36,7 +35,7 @@ export default function ProductVariants() {
                       return [...prev];
                     });
                   }}
-                  style="w-24 relative top-8"
+                  style="w-24 relative"
                 />
                 <div className="w-full">
                   <Label className="block text-sm font-medium mb-1">

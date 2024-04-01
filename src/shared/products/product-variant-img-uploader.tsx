@@ -1,11 +1,10 @@
 import clsx from "clsx";
-import { Upload } from "lucide-react";
 import { CldUploadButton } from "next-cloudinary";
 import Image from "next/image";
 import { toast } from "sonner";
 import { siteConfig } from "../../site-info";
 
-export default function ImageUploader({
+export default function ProductVariantImgUploader({
   image,
   setImage,
   folder,
@@ -46,7 +45,7 @@ export default function ImageUploader({
           toast.error("Error uploading");
         }}
       >
-        <label
+        {/* <label
           htmlFor="uploadFile1"
           className="flex flex-col justify-center items-center mx-auto mt-4 w-80 h-24 text-base text-black bg-white rounded border-2 border-gray-300 border-dashed cursor-pointer font-[sans-serif]"
         >
@@ -55,7 +54,7 @@ export default function ImageUploader({
           <p className="mt-2 text-xs text-gray-400">
             PNG, JPG SVG, WEBP, and GIF are Allowed.
           </p>
-        </label>
+        </label> */}
       </CldUploadButton>
     </div>
   );

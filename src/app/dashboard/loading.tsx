@@ -1,5 +1,5 @@
-import FullPageLoading from "@/components/native/FullPageLoading";
+import SixSkeleton from "@/components/native/SixSkeleton";
 
 export default function Loading() {
-  return <FullPageLoading />;
+  return <SixSkeleton />;
 }

@@ -1,14 +1,20 @@
-import { addData } from "@/actions/post";
-import { BACKEND_URL } from "@/site-info";
-import BrandUI from "./BrandUI";
+"use client";
+import addRequest from "@/https/add-request";
+import { siteConfig } from "@/site-info";
+import BrandUI from "@/ui/BrandUI";
+import useSWRMutation from "swr/mutation";
 
-export default async function AddBrand() {
+export default function AddBrand() {
+  const { trigger, isMutating } = useSWRMutation(
+    `${siteConfig.BACKEND_URL}/brand/add`,
+    addRequest
+  );
+
   return (
     <BrandUI
-      queryUrl={`${BACKEND_URL}/api/brand/add`}
-      validationTag="brands"
+      trigger={trigger}
+      isMutating={isMutating}
       successMessage="Brand created successfully"
-      serverAction={addData}
     />
   );
 }

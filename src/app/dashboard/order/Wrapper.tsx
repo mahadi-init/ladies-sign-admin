@@ -1,31 +1,31 @@
 "use client";
-import { userColumn } from "@/app/dashboard/users/UserColumn";
+
 import { DataTable } from "@/components/native/DataTable";
 import DropdownSelect from "@/components/native/DropdownSelect";
 import { Input } from "@/components/ui/input";
-import { Statuses } from "@/data/statuses.data";
-import { UserType } from "@/types/user.t";
+import { orderColumn } from "@/shared/Orders/OrderColumn";
+import { statuses } from "@/shared/Orders/order-statuses.data";
+import { OrderSummaryType } from "@/types/order.t";
 import { useEffect, useState } from "react";
 
-export default function Wrapper({ users }: { users: UserType[] }) {
+export default function Wrapper({ orders }: { orders: OrderSummaryType[] }) {
   const [status, setStatus] = useState("");
-  const [filteredUsers, setFilteredUsers] = useState<UserType[]>(users);
+  const [filteredOrders, setFilteredOrders] = useState(orders);
 
-  // filter by status
+  //filter by status
   useEffect(() => {
     if (status === "ALL" || status === "") {
-      setFilteredUsers(users);
-    } else if (status === "Banned") {
-      setFilteredUsers(users.filter((item) => item.banned === true));
+      setFilteredOrders(orders);
     } else {
-      setFilteredUsers(users.filter((item) => item.banned === false));
+      setFilteredOrders(orders.filter((item) => item.status === status));
     }
-  }, [users, status]);
+  }, [orders, status]);
 
+  //FIXME: INVOICE SEARCH
   // filter by search
   const handleSearchFilter = (search: string): void => {
-    setFilteredUsers(
-      users.filter((item) =>
+    setFilteredOrders(
+      orders.filter((item) =>
         Object.values(item).some(
           (value) =>
             typeof value === "string" &&
@@ -45,20 +45,15 @@ export default function Wrapper({ users }: { users: UserType[] }) {
         />
         <div className="flex gap-2">
           <DropdownSelect
-            placeholder="Status"
-            items={Statuses}
+            style="w-36"
+            placeholder="status"
+            items={statuses}
             selectedItem={status}
             setSelectedItem={setStatus}
           />
-          {/* <Link
-            href={"/dashboard/category/add"}
-            className={buttonVariants({ size: "sm", variant: "outline" })}
-          >
-            <BadgePlus />
-          </Link> */}
         </div>
       </div>
-      <DataTable columns={userColumn} data={filteredUsers} />
+      <DataTable column={orderColumn} data={filteredOrders} />
     </div>
   );
 }

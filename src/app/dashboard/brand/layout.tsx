@@ -1,27 +1,15 @@
-import getData from "@/actions/get";
+import { brandColumn } from "@/columns/BrandColumn";
 import PageTop from "@/components/native/PageTop";
-import { BACKEND_URL } from "@/site-info";
 import { BrandType } from "@/types/brand.t";
-import Wrapper from "./Wrapper";
+import TableUIWrapper from "@/ui/TableUIWrapper";
 
-export default async function Layout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
-  const brands = await getData<BrandType[]>(
-    `${BACKEND_URL}/api/brand/all`,
-    true,
-    300,
-    ["brand", "brands"]
-  );
-
+export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <>
       <PageTop title="Brands" />
       <div className="flex flex-col xl:flex-row justify-between gap-4 ">
         {children}
-        <Wrapper brands={brands} />
+        <TableUIWrapper<BrandType> route="brand" columns={brandColumn} />
       </div>
     </>
   );

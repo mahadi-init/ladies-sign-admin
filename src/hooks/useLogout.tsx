@@ -6,7 +6,7 @@ export default function useLogout() {
 
   const handleLogout = async () => {
     try {
-      deleteCookie("access-token");
+      deleteCookie("auth");
       router.replace("/");
     } catch (err) {
       return err;

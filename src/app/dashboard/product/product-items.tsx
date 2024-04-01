@@ -1,4 +1,3 @@
-import { deleteData } from "@/actions/delete";
 import DeleteItem from "@/components/native/DeleteItem";
 import {
   Card,
@@ -8,9 +7,9 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { siteConfig } from "@/site-info";
 import Image from "next/image";
 import Link from "next/link";
-import { BACKEND_URL } from "../../../site-info";
 import { ProductResponse } from "./page";
 
 export default function ProductItems({
@@ -24,14 +23,14 @@ export default function ProductItems({
         <Card key={item.title} className="w-full md:w-64">
           <CardHeader>
             <CardTitle>
-              <Link href={`/dashboard/products/edit/${item._id}`}>
+              <Link href={`/dashboard/product/edit/${item._id}`}>
                 {item.title}
               </Link>
             </CardTitle>
             <CardDescription className="flex gap-2 text-gray-600 text-xs">
               <span className="text-green-700 font-medium">
                 {item.brand.name}
-              </span>{" "}
+              </span>
               |<span className="text-red-600">{item.productType}</span>
             </CardDescription>
           </CardHeader>
@@ -53,8 +52,8 @@ export default function ProductItems({
                 </p>
               </div>
               <DeleteItem
-                serverAction={deleteData}
-                queryUrl={`${BACKEND_URL}/api/product/${item._id}`}
+                // serverAction={deleteData}
+                queryUrl={`${siteConfig.BACKEND_URL}/api/product/${item._id}`}
                 successMessage="Product deleted successfully"
                 validationTag="products"
               />

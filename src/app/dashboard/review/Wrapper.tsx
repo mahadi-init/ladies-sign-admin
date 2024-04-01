@@ -86,7 +86,7 @@ export default function Wrapper({ reviews }: { reviews: ReviewType[] }) {
           />
         </div>
       </div>
-      <DataTable columns={reviewColumn} data={filteredReviews} />
+      <DataTable column={reviewColumn} data={filteredReviews} />
     </div>
   );
 }

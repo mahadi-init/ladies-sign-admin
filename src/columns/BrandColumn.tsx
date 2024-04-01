@@ -1,13 +1,10 @@
 "use client";
-import { deleteData } from "@/actions/delete";
 import DeleteItem from "@/components/native/DeleteItem";
 import StatusIndicator from "@/components/native/StatusIndicator";
-import { Button } from "@/components/ui/button";
-import { BACKEND_URL } from "@/site-info";
+import { siteConfig } from "@/site-info";
 import { BrandType } from "@/types/brand.t";
-import { Status } from "@/types/enums.t";
 import { ColumnDef } from "@tanstack/react-table";
-import { ArrowUpDown, PencilIcon } from "lucide-react";
+import { PencilIcon } from "lucide-react";
 import { CldImage } from "next-cloudinary";
 import Link from "next/link";
 
@@ -21,29 +18,19 @@ export const brandColumn: ColumnDef<BrandType>[] = [
   },
   {
     accessorKey: "name",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          NAME
-          <ArrowUpDown className="ml-2 w-4 h-4" />
-        </Button>
-      );
-    },
+    header: "NAME",
   },
   {
-    accessorKey: "logo",
-    header: "LOGO",
+    accessorKey: "image",
+    header: "IMAGE",
     cell: ({ row }) => {
-      return row.original.logo ? (
+      return row.original.image ? (
         <CldImage
           className="w-10 rounded-full"
           width={250}
           height={250}
           crop="fill"
-          src={row.original.logo}
+          src={row.original.image}
           alt="cell image"
           loading="lazy"
         />
@@ -56,10 +43,7 @@ export const brandColumn: ColumnDef<BrandType>[] = [
     accessorKey: "email",
     header: "EMAIL",
   },
-  {
-    accessorKey: "website",
-    header: "WEBSITE",
-  },
+
   {
     accessorKey: "location",
     header: "LOCATION",
@@ -68,7 +52,7 @@ export const brandColumn: ColumnDef<BrandType>[] = [
     accessorKey: "status",
     header: "STATUS",
     cell: ({ row }) => {
-      return <StatusIndicator status={row.original.status as Status} />;
+      return <StatusIndicator status={row.original.status} />;
     },
   },
   {
@@ -79,10 +63,9 @@ export const brandColumn: ColumnDef<BrandType>[] = [
           <PencilIcon size={16} />
         </Link>
         <DeleteItem
-          queryUrl={`${BACKEND_URL}/api/brand/delete/${row.original._id}`}
-          validationTag="brands"
+          queryUrl={`${siteConfig.BACKEND_URL}/brand/delete/${row.original._id}`}
+          validationTag="/brand"
           successMessage="Brand deleted successfully"
-          serverAction={deleteData}
         />
       </div>
     ),

@@ -1,6 +1,4 @@
 import ButtonGroup from "@/components/native/ButtonGroup";
-import AdditionalInformation from "./additional-information";
-import GeneralInformation from "./general-information";
 import ProductVariants from "./product-variants";
 
 export interface Field {
@@ -101,8 +99,8 @@ export default async function ProductUI() {
 
   return (
     <form action={handleFormAction} className="w-full flex flex-col gap-4 mb-4">
-      <GeneralInformation />
-      <AdditionalInformation />
+      {/* <GeneralInformation /> */}
+      {/* <AdditionalInformation /> */}
       <ProductVariants />
       <ButtonGroup />
     </form>

@@ -1,26 +1,30 @@
-import getData from "@/actions/get";
-import { patchData } from "@/actions/patch";
-import { BACKEND_URL } from "@/site-info";
-import { BrandType } from "../../../../../types/brand.t";
-import BrandUI from "../../BrandUI";
+"use client";
+import FetchErrorMessage from "@/components/native/FetchErrorMessage";
+import updateRequest from "@/https/update-request";
+import { siteConfig } from "@/site-info";
+import { BrandType } from "@/types/brand.t";
+import BrandUI from "@/ui/BrandUI";
+import { fetcher } from "@/utils/fetcher";
+import useSWR from "swr";
+import useSWRMutation from "swr/mutation";
 
-export default async function EditBrand({
-  params,
-}: {
-  params: { id: string };
-}) {
-  const data = await getData<BrandType>(
-    `${BACKEND_URL}/api/brand/get/${params.id}`,
-    true
+export default function EditBrand({ params }: { params: { id: string } }) {
+  const { data, error } = useSWR<BrandType>(`/brand/get/${params.id}`, fetcher);
+  const { trigger, isMutating } = useSWRMutation(
+    `${siteConfig.BACKEND_URL}/brand/edit/${params.id}`,
+    updateRequest
   );
+
+  if (error) {
+    return <FetchErrorMessage error={error} />;
+  }
 
   return (
     <BrandUI
       {...data}
-      queryUrl={`${BACKEND_URL}/api/brand/edit/${params.id}`}
-      validationTag="brands"
+      trigger={trigger}
+      isMutating={isMutating}
       successMessage="Brand edited successfully"
-      serverAction={patchData}
     />
   );
 }

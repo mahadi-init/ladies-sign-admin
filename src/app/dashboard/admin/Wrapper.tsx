@@ -1,12 +1,8 @@
 "use client";
 import { DataTable } from "@/components/native/DataTable";
-import DropdownSelect from "@/components/native/DropdownSelect";
-import { buttonVariants } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Statuses } from "@/data/statuses.data";
+// import { Status } from "@/data/statuses.data";
 import { AdminType } from "@/types/admin.t";
-import { BadgePlus } from "lucide-react";
-import Link from "next/link";
 import { useEffect, useState } from "react";
 import { adminColumn } from "./AdminColumn";
 
@@ -45,21 +41,21 @@ export default function Wrapper({ admins }: { admins: AdminType[] }) {
           onChange={(e) => handleSearchFilter(e.target.value)}
         />
         <div className="flex gap-2">
-          <DropdownSelect
+          {/* <DropdownSelect
             placeholder="status"
-            items={Statuses}
+            items={Status}
             selectedItem={status}
             setSelectedItem={setStatus}
-          />
-          <Link
+          /> */}
+          {/* <Link
             href={"/dashboard/admins"}
             className={buttonVariants({ size: "sm", variant: "outline" })}
           >
             <BadgePlus />
-          </Link>
+          </Link> */}
         </div>
       </div>
-      <DataTable columns={adminColumn} data={filteredAdmins} />
+      <DataTable column={adminColumn} data={filteredAdmins} />
     </div>
   );
 }
