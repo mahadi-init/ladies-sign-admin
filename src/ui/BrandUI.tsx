@@ -2,12 +2,11 @@
 import ButtonGroup from "@/components/native/ButtonGroup";
 import ImageUploader from "@/components/native/ImageUploader";
 import { Input } from "@/components/ui/input";
+import useStatus from "@/hooks/useStatus";
 import { BrandSchema, BrandType } from "@/types/brand.t";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { toast } from "sonner";
-import { useSWRConfig } from "swr";
 
 interface PropTypes extends BrandType {
   trigger: (arg: unknown) => Promise<{ success: boolean; message?: string }>;
@@ -16,8 +15,8 @@ interface PropTypes extends BrandType {
 }
 
 export default function BrandUI(props: PropTypes) {
-  const { mutate } = useSWRConfig();
   const [image, setImage] = useState<string>();
+  const { showStatus } = useStatus();
   const {
     register,
     handleSubmit,
@@ -30,21 +29,11 @@ export default function BrandUI(props: PropTypes) {
     const refinedData: BrandType = {
       ...data,
       img: image,
-      status: data.status ? false : true,
+      status: image ? true : false,
     };
 
-    const result = await props.trigger(refinedData);
-
-    if (result.success === true) {
-      mutate(
-        (key) => typeof key === "string" && key.startsWith("/brand"),
-        undefined,
-        { revalidate: true }
-      );
-      toast.success(props.successMessage);
-    } else {
-      toast.error(result.message);
-    }
+    const res = await props.trigger(refinedData);
+    showStatus("/brand", props.successMessage, res);
   };
 
   return (

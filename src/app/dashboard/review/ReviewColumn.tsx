@@ -1,13 +1,10 @@
 "use client";
-import { deleteData } from "@/actions/delete";
 import DeleteItem from "@/components/native/DeleteItem";
 import { Button } from "@/components/ui/button";
-import { BACKEND_URL } from "@/site-info";
 import { ReviewType } from "@/types/review.t";
 import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown } from "lucide-react";
 import Image from "next/image";
-import Link from "next/link";
 
 export const reviewColumn: ColumnDef<ReviewType>[] = [
   {
@@ -20,16 +17,16 @@ export const reviewColumn: ColumnDef<ReviewType>[] = [
   {
     accessorKey: "product",
     header: "PRODUCT",
-    cell: ({ row }) => {
-      return (
-        <Link
-          href={`/dashboard/products/edit/${row.original.productId}`}
-          className="underline"
-        >
-          {row.original.product}
-        </Link>
-      );
-    },
+    // cell: ({ row }) => {
+    //   return (
+    //     <Link
+    //       href={`/dashboard/products/edit/${row.original.productId}`}
+    //       className="underline"
+    //     >
+    //       {row.original.product}
+    //     </Link>
+    //   );
+    // },
   },
   {
     accessorKey: "productImage",
@@ -54,17 +51,17 @@ export const reviewColumn: ColumnDef<ReviewType>[] = [
   {
     accessorKey: "userId",
     header: "USER",
-    cell: ({ row }) => {
-      //TODO:ADD USER ROUTE
-      return (
-        <Link
-          href={`/dashboard/users/details/${row.original.userId}`}
-          className="underline"
-        >
-          {row.original.userName}
-        </Link>
-      );
-    },
+    // cell: ({ row }) => {
+    //   //TODO:ADD USER ROUTE
+    //   return (
+    //     <Link
+    //       href={`/dashboard/users/details/${row.original.userId}`}
+    //       className="underline"
+    //     >
+    //       {row.original.userName}
+    //     </Link>
+    //   );
+    // },
   },
   {
     accessorKey: "rating",
@@ -99,10 +96,9 @@ export const reviewColumn: ColumnDef<ReviewType>[] = [
     cell: ({ row }) => (
       <div className="flex gap-8 items-center">
         <DeleteItem
-          queryUrl={`${BACKEND_URL}/api/review/delete/${row.original.productId}`}
+          queryUrl={`review/delete/${row.original.productId}`}
           validationTag="reviews"
           successMessage="Review deleted successfully"
-          serverAction={deleteData}
         />
       </div>
     ),

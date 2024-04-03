@@ -1,6 +1,5 @@
 import { brandColumn } from "@/columns/BrandColumn";
 import PageTop from "@/components/native/PageTop";
-import { BrandType } from "@/types/brand.t";
 import TableUIWrapper from "@/ui/TableUIWrapper";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
@@ -9,7 +8,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       <PageTop title="Brands" />
       <div className="flex flex-col xl:flex-row justify-between gap-4 ">
         {children}
-        <TableUIWrapper<BrandType> route="brand" columns={brandColumn} />
+        <TableUIWrapper route="/brand" columns={brandColumn} />
       </div>
     </>
   );

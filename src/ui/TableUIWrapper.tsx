@@ -28,7 +28,7 @@ export default function TableUIWrapper<T extends { status?: boolean }>({
 
   // fetch all data using pagination
   const { data, error, isLoading, mutate } = useSWR<T[]>(
-    `/${route}/page?page=${index}&limit=${limit}`,
+    `${route}/page?page=${index}&limit=${limit}`,
     fetcher
   );
 
@@ -37,7 +37,7 @@ export default function TableUIWrapper<T extends { status?: boolean }>({
     data: totalPages,
     error: totalPagesError,
     isLoading: isTotalPagesLoading,
-  } = useSWR<number>(`/${route}/total-pages`, fetcher);
+  } = useSWR<number>(`${route}/total-pages`, fetcher);
 
   // fetch filtered data
   const { data: filter } = useSWR<T[]>(

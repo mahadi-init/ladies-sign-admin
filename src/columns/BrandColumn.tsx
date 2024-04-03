@@ -23,13 +23,13 @@ export const brandColumn: ColumnDef<BrandType>[] = [
     accessorKey: "image",
     header: "IMAGE",
     cell: ({ row }) => {
-      return row.original.image ? (
+      return row.original.img ? (
         <CldImage
           className="w-10 rounded-full"
           width={250}
           height={250}
           crop="fill"
-          src={row.original.image}
+          src={row.original.img}
           alt="cell image"
           loading="lazy"
         />

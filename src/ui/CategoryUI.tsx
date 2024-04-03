@@ -3,13 +3,13 @@ import { ChipInput } from "@/components/chip-input";
 import ButtonGroup from "@/components/native/ButtonGroup";
 import ImageUploader from "@/components/native/ImageUploader";
 import { Input } from "@/components/ui/input";
+import useStatus from "@/hooks/useStatus";
 import { fetcher } from "@/https/get-request";
 import { CategorySchema, CategoryType } from "@/types/category.t";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { toast } from "sonner";
-import useSWR, { useSWRConfig } from "swr";
+import useSWR from "swr";
 
 interface PropTypes extends CategoryType {
   trigger: (arg: unknown) => Promise<{ success: boolean; message?: string }>;
@@ -18,9 +18,9 @@ interface PropTypes extends CategoryType {
 }
 
 export default function CategoryUI(props: PropTypes) {
-  const { mutate } = useSWRConfig();
   const { data, error } = useSWR<string[]>(`/product/all/types`, fetcher);
   const [image, setImage] = useState<string>();
+  const { showStatus } = useStatus();
   const [children, setChildren] = useState<string[]>([]);
   const {
     register,
@@ -35,20 +35,11 @@ export default function CategoryUI(props: PropTypes) {
       ...data,
       img: image,
       children: children,
+      status: image ? true : false,
     };
 
-    const result = await props.trigger(refinedData);
-
-    if (result.success === true) {
-      mutate(
-        (key) => typeof key === "string" && key.startsWith("/category"),
-        undefined,
-        { revalidate: true }
-      );
-      toast.success(props.successMessage);
-    } else {
-      toast.error(result.message);
-    }
+    const res = await props.trigger(refinedData);
+    showStatus("/category", props.successMessage, res);
   };
 
   return (

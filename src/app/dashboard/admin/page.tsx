@@ -1,19 +1,17 @@
-import { addData } from "@/actions/post";
-import AdminUI from "@/app/dashboard/admins/AdminUI";
-import { BACKEND_URL } from "@/site-info";
+"use client";
 
-export default async function AddAdmin() {
-  const adminRoles = ["SELLER", "EDITOR", "ADMIN", "SUPERADMIN"];
+import addRequest from "@/https/add-request";
+import AdminUI from "@/ui/AdminUI";
+import useSWRMutation from "swr/mutation";
+
+export default function AddAdmin() {
+  const { trigger, isMutating } = useSWRMutation(`/admin/register`, addRequest);
 
   return (
-    <>
-      <AdminUI
-        adminRoles={adminRoles}
-        queryUrl={`${BACKEND_URL}/api/admin/add`}
-        validationTag="admins"
-        successMessage="Admin created successfully"
-        serverAction={addData}
-      />
-    </>
+    <AdminUI
+      trigger={trigger}
+      isMutating={isMutating}
+      successMessage="Admin added successfully"
+    />
   );
 }

@@ -1,11 +1,8 @@
 "use client";
-import { deleteData } from "@/actions/delete";
 import DeleteItem from "@/components/native/DeleteItem";
 import StatusIndicator from "@/components/native/StatusIndicator";
 import { Button } from "@/components/ui/button";
-import { BACKEND_URL } from "@/site-info";
 import { AdminType } from "@/types/admin.t";
-import { Status } from "@/types/enums.t";
 import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown, PencilIcon } from "lucide-react";
 import { CldImage } from "next-cloudinary";
@@ -37,13 +34,13 @@ export const adminColumn: ColumnDef<AdminType>[] = [
     accessorKey: "image",
     header: "IMAGE",
     cell: ({ row }) => {
-      return row.original.image ? (
+      return row.original.img ? (
         <CldImage
           className="w-10 rounded-full"
           width={250}
           height={250}
           crop="fill"
-          src={row.original.image}
+          src={row.original.img}
           alt="cell image"
           loading="lazy"
         />
@@ -65,7 +62,7 @@ export const adminColumn: ColumnDef<AdminType>[] = [
     accessorKey: "status",
     header: "STATUS",
     cell: ({ row }) => {
-      return <StatusIndicator status={row.original.status as Status} />;
+      return <StatusIndicator status={row.original.status} />;
     },
   },
 
@@ -73,14 +70,13 @@ export const adminColumn: ColumnDef<AdminType>[] = [
     id: "actions",
     cell: ({ row }) => (
       <div className="flex gap-8 items-center">
-        <Link href={`/dashboard/admins/edit/${row.original._id}`}>
+        <Link href={`/dashboard/admin/edit/${row.original._id}`}>
           <PencilIcon size={16} />
         </Link>
         <DeleteItem
-          queryUrl={`${BACKEND_URL}/api/admin/${row.original._id}`}
-          validationTag="admins"
+          queryUrl={`/admin/delete/${row.original._id}`}
+          validationTag="/admin"
           successMessage="Admin deleted successfully"
-          serverAction={deleteData}
         />
       </div>
     ),
