@@ -1,5 +1,5 @@
 import ButtonGroup from "@/components/native/ButtonGroup";
-import ProductVariants from "./product-variants";
+import ProductVariants from "../shared/products/product-variants";
 
 export interface Field {
   key?: string;

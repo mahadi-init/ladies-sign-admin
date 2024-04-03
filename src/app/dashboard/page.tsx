@@ -1,12 +1,7 @@
 "use client";
 import PageTop from "@/components/native/PageTop";
-import UseAdmin from "@/hooks/useAdmin";
 
 export default function Dashboard() {
-  const { id, role } = UseAdmin();
-
-  console.log(id);
-
   // const data = await Promise.all([
   //   await getSteadFastBalance(),
   //   await getDashboardOrderData(),
@@ -23,7 +18,6 @@ export default function Dashboard() {
   return (
     <>
       <PageTop title="Dashboard" />
-      <p>Hello, {id}</p>
       {/* <StatisticCards {...statisticData} /> */}
       <div className="grid grid-cols-1 gap-4 items-center xl:grid-cols-2">
         {/* <SalesStatistics data={data[2]} />

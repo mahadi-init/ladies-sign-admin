@@ -3,7 +3,7 @@ import { Upload } from "lucide-react";
 import { CldUploadButton } from "next-cloudinary";
 import Image from "next/image";
 import { toast } from "sonner";
-import { siteConfig } from "../../site-info";
+import { site } from "../../site-config";
 
 export default function ImageUploader({
   image,
@@ -27,7 +27,7 @@ export default function ImageUploader({
       />
 
       <CldUploadButton
-        uploadPreset={siteConfig.CLOUDINARY_UPLOAD_PRESET}
+        uploadPreset={site.CLOUDINARY_UPLOAD_PRESET}
         options={{
           multiple: false,
           maxFiles: 1,

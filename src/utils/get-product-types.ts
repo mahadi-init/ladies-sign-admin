@@ -1,13 +1,6 @@
-import getData from "@/actions/get";
-import { BACKEND_URL } from "../site-info";
+import { fetcher } from "@/https/get-request";
 
-export const getProductTypes = async (): Promise<string[]> => {
-  const res = await getData<string[]>(
-    `${BACKEND_URL}/api/product/all/product-types`,
-    true,
-    10,
-    ["types", "type"]
-  );
-
+export const getAllProductTypes = async (): Promise<string[]> => {
+  const res = await fetcher<string[]>(`/all/types`);
   return res;
 };

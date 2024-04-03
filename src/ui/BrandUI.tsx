@@ -2,13 +2,14 @@
 import ButtonGroup from "@/components/native/ButtonGroup";
 import ImageUploader from "@/components/native/ImageUploader";
 import { Input } from "@/components/ui/input";
-import { BrandType } from "@/types/brand.t";
+import { BrandSchema, BrandType } from "@/types/brand.t";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { useSWRConfig } from "swr";
 
-interface PropTypes extends Partial<BrandType> {
+interface PropTypes extends BrandType {
   trigger: (arg: unknown) => Promise<{ success: boolean; message?: string }>;
   isMutating: boolean;
   successMessage: string;
@@ -21,18 +22,14 @@ export default function BrandUI(props: PropTypes) {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<BrandType>();
+  } = useForm<BrandType>({
+    resolver: zodResolver(BrandSchema),
+  });
 
   const onSubmit: SubmitHandler<BrandType> = async (data) => {
-    if (!data.status && !image) {
-      toast.error("Select Inactive or enter an image");
-      return;
-    }
-
-    const refinedData = {
+    const refinedData: BrandType = {
       ...data,
-      image: image,
-      // false if inactive
+      img: image,
       status: data.status ? false : true,
     };
 
@@ -65,6 +62,9 @@ export default function BrandUI(props: PropTypes) {
             required
             {...register("name")}
           />
+          {errors.name && (
+            <span className="text-xs text-red-700">{errors.name.message}</span>
+          )}
         </label>
 
         <label className="ml-1 font-medium">
@@ -76,6 +76,9 @@ export default function BrandUI(props: PropTypes) {
             className="mt-1 bg-gray-100"
             {...register("email")}
           />
+          {errors.email && (
+            <span className="text-xs text-red-700">{errors.email.message}</span>
+          )}
         </label>
 
         <label className="ml-1 font-medium">
@@ -87,19 +90,12 @@ export default function BrandUI(props: PropTypes) {
             className="mt-1 bg-gray-100"
             {...register("location")}
           />
+          {errors.location && (
+            <span className="text-xs text-red-700">
+              {errors.location.message}
+            </span>
+          )}
         </label>
-
-        <label className="ml-1 font-medium flex items-center gap-2">
-          <Input
-            type="checkbox"
-            className="bg-gray-100 w-fit"
-            defaultChecked={props.status ?? false}
-            {...register("status")}
-          />
-          Inactive
-          <span className="text-xs text-red-600">(default active)</span>
-        </label>
-
         <ButtonGroup isMutating={props.isMutating} />
       </div>
     </form>

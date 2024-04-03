@@ -1,21 +1,17 @@
-import {
-  STEADFAST_API_KEY,
-  STEADFAST_BASE_URL,
-  STEADFAST_SECRECT_KEY,
-} from "../site-info";
+import { site } from "@/site-config";
 
 export const getSteadFastBalance = async (): Promise<{
   current_balance: number;
 }> => {
-  const res = await fetch(`${STEADFAST_BASE_URL}/api/v1/get_balance`, {
+  const res = await fetch(`${site.STEADFAST_BASE_URL}/api/v1/get_balance`, {
     next: {
       revalidate: 10,
       tags: ["orders", "order"],
     },
     headers: {
       "Content-Type": "application/json",
-      "Api-Key": STEADFAST_API_KEY,
-      "Secret-Key": STEADFAST_SECRECT_KEY,
+      "Api-Key": site.STEADFAST_API_KEY,
+      "Secret-Key": site.STEADFAST_SECRECT_KEY,
     },
   });
 

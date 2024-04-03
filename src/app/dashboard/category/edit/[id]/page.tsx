@@ -1,37 +1,35 @@
-import getData from "@/actions/get";
-import { patchData } from "@/actions/patch";
-import { BACKEND_URL } from "@/site-info";
+"use client";
+import FetchErrorMessage from "@/components/native/FetchErrorMessage";
+import { fetcher } from "@/https/get-request";
+import updateRequest from "@/https/update-request";
 import { CategoryType } from "@/types/category.t";
-import { getProductTypes } from "@/utils/get-product-types";
-import CategoryUI from "../../CategoryUI";
+import CategoryUI from "@/ui/CategoryUI";
+import useSWR from "swr";
+import useSWRMutation from "swr/mutation";
 
-const getCategoryData = async (id: string) => {
-  const data = await getData<CategoryType>(
-    `${BACKEND_URL}/api/category/get/${id}`,
-    true
+export default function EditCategory({ params }: { params: { id: string } }) {
+  // fetch category data
+  const { data, error } = useSWR<CategoryType>(
+    `/category/get/${params.id}`,
+    fetcher
   );
 
-  return data;
-};
+  // update request
+  const { trigger, isMutating } = useSWRMutation(
+    `/category/edit/${params.id}`,
+    updateRequest
+  );
 
-export default async function EditCategory({
-  params,
-}: {
-  params: { id: string };
-}) {
-  const data = await Promise.all([
-    await getProductTypes(),
-    await getCategoryData(params.id),
-  ]);
+  if (error) {
+    return <FetchErrorMessage error={error} />;
+  }
 
   return (
     <CategoryUI
-      {...data[1]}
-      productTypes={data[0]}
-      queryUrl={`${BACKEND_URL}/api/category/edit/${params.id}`}
-      validationTag="category"
-      successMessage="Category edited successfully"
-      serverAction={patchData}
+      {...data}
+      trigger={trigger}
+      isMutating={isMutating}
+      successMessage="Category updated successfully"
     />
   );
 }

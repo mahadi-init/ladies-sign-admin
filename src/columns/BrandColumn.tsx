@@ -1,7 +1,6 @@
 "use client";
 import DeleteItem from "@/components/native/DeleteItem";
 import StatusIndicator from "@/components/native/StatusIndicator";
-import { siteConfig } from "@/site-info";
 import { BrandType } from "@/types/brand.t";
 import { ColumnDef } from "@tanstack/react-table";
 import { PencilIcon } from "lucide-react";
@@ -63,7 +62,7 @@ export const brandColumn: ColumnDef<BrandType>[] = [
           <PencilIcon size={16} />
         </Link>
         <DeleteItem
-          queryUrl={`${siteConfig.BACKEND_URL}/brand/delete/${row.original._id}`}
+          queryUrl={`/brand/delete/${row.original._id}`}
           validationTag="/brand"
           successMessage="Brand deleted successfully"
         />

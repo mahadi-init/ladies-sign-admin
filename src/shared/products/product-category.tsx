@@ -9,9 +9,9 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { XIcon } from "@/icons/Xicon";
+import { site } from "@/site-config";
 import { fetcher } from "@/utils/fetcher";
 import useSWR from "swr";
-import { BACKEND_URL } from "../../site-info";
 import { CategoryType } from "../../types/category.t";
 
 export function ProductCategory({
@@ -29,7 +29,7 @@ export function ProductCategory({
     data: categories,
     error,
     isLoading,
-  } = useSWR(`${BACKEND_URL}/api/category/all`, fetcher);
+  } = useSWR(`${site.BACKEND_URL}/api/category/all`, fetcher);
 
   if (isLoading) {
     return (
@@ -89,13 +89,13 @@ export function ProductCategory({
           {/* @ts-ignore */}
           {categories?.data?.map((category: CategoryType, index) => {
             return (
-              <AccordionItem key={index} value={category.parent}>
+              <AccordionItem key={index} value={category.name}>
                 <AccordionTrigger
                   onClick={() => {
-                    setParent(category.parent);
+                    setParent(category.name);
                   }}
                 >
-                  {category.parent}
+                  {category.name}
                 </AccordionTrigger>
                 {category.children.map((item, index) => {
                   return (

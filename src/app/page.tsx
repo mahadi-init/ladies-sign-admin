@@ -4,7 +4,7 @@ import SubmitButton from "@/components/native/SubmitButton";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import addRequest from "@/https/add-request";
-import { siteConfig } from "@/site-info";
+import { site } from "@/site-config";
 import { AdminSchema, AdminType } from "@/types/admin.t";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { getCookie } from "cookies-next";
@@ -27,14 +27,18 @@ export default function Login() {
     handleSubmit,
     formState: { errors },
   } = useForm<AdminType>({
-    resolver: zodResolver(AdminSchema.partial()),
+    resolver: zodResolver(AdminSchema),
   });
+
+  // admin login mutation
   const { trigger: adminLogin, isMutating: isAdminMutating } = useSWRMutation(
-    `${siteConfig.BACKEND_URL}/admin/login`,
+    `${site.BACKEND_URL}/admin/login`,
     addRequest
   );
+
+  // seller login mutation
   const { trigger: sellerLogin, isMutating: isSellerMutating } = useSWRMutation(
-    `${siteConfig.BACKEND_URL}/seller/login`,
+    `${site.BACKEND_URL}/seller/login`,
     addRequest
   );
 
@@ -42,12 +46,12 @@ export default function Login() {
     const auth = getCookie("auth") as string;
 
     try {
-      const decoded = jwt.verify(auth, siteConfig.JWT_SECRET);
+      const payload = jwt.verify(auth, site.JWT_SECRET);
 
       //@ts-expect-error
-      if (decoded && decoded.status) {
+      if (payload && payload.status) {
         //@ts-expect-error
-        if (decoded.role === "SELLER") {
+        if (payload.role === "SELLER") {
           router.replace("/seller/profile");
         } else {
           router.replace("/dashboard");
@@ -59,7 +63,7 @@ export default function Login() {
     }
   }, [router]);
 
-  //  Render loading state
+  // loading state
   if (isLoading) {
     return (
       <div className="w-screen h-screen flex flex-col justify-center items-center">

@@ -1,10 +1,6 @@
 "use client";
 
-import { DataTable } from "@/components/native/DataTable";
-import DropdownSelect from "@/components/native/DropdownSelect";
 import { Input } from "@/components/ui/input";
-import { orderColumn } from "@/shared/Orders/OrderColumn";
-import { statuses } from "@/shared/Orders/order-statuses.data";
 import { OrderSummaryType } from "@/types/order.t";
 import { useEffect, useState } from "react";
 
@@ -43,7 +39,7 @@ export default function Wrapper({ orders }: { orders: OrderSummaryType[] }) {
           placeholder="filter item.."
           onChange={(e) => handleSearchFilter(e.target.value)}
         />
-        <div className="flex gap-2">
+        {/* <div className="flex gap-2">
           <DropdownSelect
             style="w-36"
             placeholder="status"
@@ -51,9 +47,9 @@ export default function Wrapper({ orders }: { orders: OrderSummaryType[] }) {
             selectedItem={status}
             setSelectedItem={setStatus}
           />
-        </div>
+        </div> */}
       </div>
-      <DataTable column={orderColumn} data={filteredOrders} />
+      {/* <DataTable column={orderColumn} data={filteredOrders} /> */}
     </div>
   );
 }

@@ -2,7 +2,7 @@ import getData from "@/actions/get";
 import { patchData } from "@/actions/patch";
 import { BACKEND_URL } from "@/site-info";
 import { CouponType } from "@/types/coupon.t";
-import { getProductTypes } from "@/utils/get-product-types";
+import { getAllProductTypes } from "@/utils/get-product-types";
 import CouponUI from "../../CouponUI";
 
 const getCouponData = async (id: string) => {
@@ -19,7 +19,7 @@ export default async function EditCoupon({
   params: { id: string };
 }) {
   const data = await Promise.all([
-    await getProductTypes(),
+    await getAllProductTypes(),
     await getCouponData(params.id),
   ]);
 

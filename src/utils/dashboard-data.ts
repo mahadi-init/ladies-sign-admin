@@ -1,10 +1,10 @@
 import getData from "@/actions/get";
-import { BACKEND_URL } from "../site-info";
+import { site } from "@/site-config";
 import { DashboardOrderSummaryType } from "../types/dashboard.t";
 
 export const getDashboardOrderData = async () => {
   const data = await getData<DashboardOrderSummaryType[]>(
-    `${BACKEND_URL}/api/user-order/dashboard-amount`,
+    `${site.BACKEND_URL}/api/user-order/dashboard-amount`,
     false,
     300,
     ["dashboard"]
@@ -15,7 +15,7 @@ export const getDashboardOrderData = async () => {
 
 export const getSalesOrdersStatistics = async () => {
   const data = await getData(
-    `${BACKEND_URL}/api/user-order/sales-report`,
+    `${site.BACKEND_URL}/api/user-order/sales-report`,
     false,
     3600
   );

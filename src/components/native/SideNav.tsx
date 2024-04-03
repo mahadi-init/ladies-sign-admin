@@ -1,6 +1,6 @@
 "use client";
-import useLogout from "@/hooks/useLogout";
 import clsx from "clsx";
+import { deleteCookie } from "cookies-next";
 import {
   BellRing,
   Component,
@@ -16,7 +16,7 @@ import {
   Users,
 } from "lucide-react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
 import { Button } from "../ui/button";
@@ -24,13 +24,18 @@ import ConfirmationDialog from "./ConfirmationDialog";
 
 export default function Sidenav(): JSX.Element {
   const pathname = usePathname();
-  const { handleLogout } = useLogout();
+  const router = useRouter();
   const [isSideNavOpen, setIsSideNavOpen] = useState(false);
   //FIXME: change
   const numOfPendingOrder = 2;
 
   const hideSideNav = async () => {
     setIsSideNavOpen(false);
+  };
+
+  const handleLogout = async () => {
+    deleteCookie("auth");
+    router.replace("/");
   };
 
   return (

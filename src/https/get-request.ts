@@ -1,12 +1,11 @@
-
-import { siteConfig } from "@/site-info";
+import { site } from "@/site-config";
 
 export async function fetcher<T>(
   ...args: [RequestInfo, RequestInit?]
 ): Promise<T> {
   try {
     const res = await fetch(
-      `${siteConfig.BACKEND_URL}${args[0]}`,
+      `${site.BACKEND_URL}${args[0]}`,
       {
         method: "GET",
         credentials: "include",

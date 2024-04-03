@@ -1,5 +1,5 @@
 "use client";
-import { patchData } from "@/actions/patch";
+// import { patchData } from "@/actions/patch";
 import BalanceCard from "@/components/native/BalanceCard";
 import ButtonGroup from "@/components/native/ButtonGroup";
 import ImageUploader from "@/components/native/ImageUploader";
@@ -14,8 +14,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useState } from "react";
 import { toast } from "sonner";
-import { BACKEND_URL } from "../../site-info";
-import { ProfileType } from "../../types/profile.t";
+import { ProfileType } from "../types/profile.t";
 
 export default function ProfileUI({
   data,
@@ -42,18 +41,18 @@ export default function ProfileUI({
       image: image,
       role: data?.role,
     };
-    const res = await patchData(
-      fData,
-      `${BACKEND_URL}/api/admin/update-stuff/${data?._id}`,
-      "admins",
-      "Profile updated successfully"
-    );
+    // const res = await patchData(
+    //   fData,
+    //   `${siteConfig.BACKEND_URL}/api/admin/update-stuff/${data?._id}`,
+    //   "admins",
+    //   "Profile updated successfully"
+    // );
 
-    if (res.status === 200) {
-      toast.success(res.message);
-    } else {
-      toast.error(res.message);
-    }
+    // if (res.status === 200) {
+    //   toast.success(res.message);
+    // } else {
+    //   toast.error(res.message);
+    // }
   };
 
   const handleFormUpdatePassword = async (formData: FormData) => {
@@ -72,17 +71,17 @@ export default function ProfileUI({
       newPass: newPassword,
     };
 
-    const res = await patchData(
-      fData,
-      `${BACKEND_URL}/api/admin/change-password`,
-      "admins",
-      "Password updated successfully"
-    );
-    if (res.status === 200) {
-      toast.success(res.message);
-    } else {
-      toast.error(res.message);
-    }
+    // const res = await patchData(
+    //   fData,
+    //   `${siteConfig.BACKEND_URL}/api/admin/change-password`,
+    //   "admins",
+    //   "Password updated successfully"
+    // );
+    // if (res.status === 200) {
+    //   toast.success(res.message);
+    // } else {
+    //   toast.error(res.message);
+    // }
   };
 
   return (

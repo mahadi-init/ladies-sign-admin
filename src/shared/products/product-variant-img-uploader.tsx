@@ -2,7 +2,7 @@ import clsx from "clsx";
 import { CldUploadButton } from "next-cloudinary";
 import Image from "next/image";
 import { toast } from "sonner";
-import { siteConfig } from "../../site-info";
+import { site } from "../../site-config";
 
 export default function ProductVariantImgUploader({
   image,
@@ -26,7 +26,7 @@ export default function ProductVariantImgUploader({
       />
 
       <CldUploadButton
-        uploadPreset={siteConfig.CLOUDINARY_UPLOAD_PRESET}
+        uploadPreset={site.CLOUDINARY_UPLOAD_PRESET}
         options={{
           multiple: false,
           maxFiles: 1,

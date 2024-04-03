@@ -3,7 +3,7 @@ import SubmitButton from "@/components/native/SubmitButton";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import addRequest from "@/https/add-request";
-import { siteConfig } from "@/site-info";
+import { site } from "@/site-config";
 import { SellerSchema, SellerType } from "@/types/seller.t";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Route } from "next";
@@ -23,14 +23,12 @@ export default function Signup() {
     handleSubmit,
     formState: { errors },
   } = useForm<SellerType>({
-    resolver: zodResolver(SellerSchema.partial()),
+    resolver: zodResolver(SellerSchema),
   });
   const { trigger, isMutating } = useSWRMutation(
-    `${siteConfig.BACKEND_URL}/seller/register`,
+    `${site.BACKEND_URL}/seller/register`,
     addRequest
   );
-
-  console.log(isConditionOk);
 
   const onSubmit: SubmitHandler<SellerType> = async (data) => {
     if (!isConditionOk) {

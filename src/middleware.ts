@@ -1,15 +1,20 @@
-import { cookies } from "next/headers";
 import { NextResponse, type NextRequest } from "next/server";
+import { getAuthInfo } from "./utils/get-auth-info";
 
+export async function middleware(request: NextRequest) {
+  try {
+    const payload = await getAuthInfo()
 
-export function middleware(request: NextRequest) {
-  const auth = cookies().get("auth")
-
-  if (!auth) {
+    if (!payload || !payload.status || !payload.role) {
+      if (request.nextUrl.pathname.startsWith('/dashboard')) {
+        throw new Error()
+      }
+    }
+  } catch (err: any) {
     return NextResponse.redirect(new URL("/", request.url))
   }
 }
 
 export const config = {
-  matcher: "/dashboard/:path*",
+  matcher: ["/dashboard/:path*", "/seller/:path*"],
 };

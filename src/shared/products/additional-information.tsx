@@ -5,7 +5,7 @@ import { fetcher } from "@/utils/fetcher";
 import { RefreshCcw } from "lucide-react";
 import { useState } from "react";
 import useSWR from "swr";
-import { BACKEND_URL } from "../../site-info";
+import { BACKEND_URL } from "../../site-config";
 import AdditionalKeyValue from "./additional-key-value";
 
 export default function AdditionalInformation() {

@@ -1,13 +1,9 @@
 "use client";
-import { deleteData } from "@/actions/delete";
 import DeleteItem from "@/components/native/DeleteItem";
 import StatusIndicator from "@/components/native/StatusIndicator";
-import { Button } from "@/components/ui/button";
-import { BACKEND_URL } from "@/site-info";
 import { CategoryType } from "@/types/category.t";
-import { Status } from "@/types/enums.t";
 import { ColumnDef } from "@tanstack/react-table";
-import { ArrowUpDown, PencilIcon } from "lucide-react";
+import { PencilIcon } from "lucide-react";
 import { CldImage } from "next-cloudinary";
 import Link from "next/link";
 
@@ -20,18 +16,8 @@ export const categoryColumn: ColumnDef<CategoryType>[] = [
     },
   },
   {
-    accessorKey: "parent",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          PARENT
-          <ArrowUpDown className="ml-2 w-4 h-4" />
-        </Button>
-      );
-    },
+    accessorKey: "name",
+    header: "NAME",
   },
   {
     accessorKey: "img",
@@ -67,7 +53,7 @@ export const categoryColumn: ColumnDef<CategoryType>[] = [
     accessorKey: "status",
     header: "STATUS",
     cell: ({ row }) => {
-      return <StatusIndicator status={row.original.status as Status} />;
+      return <StatusIndicator status={row.original.status} />;
     },
   },
   {
@@ -78,10 +64,9 @@ export const categoryColumn: ColumnDef<CategoryType>[] = [
           <PencilIcon size={16} />
         </Link>
         <DeleteItem
-          queryUrl={`${BACKEND_URL}/api/category/delete/${row.original._id}`}
-          validationTag="category"
+          queryUrl={`/category/delete/${row.original._id}`}
+          validationTag="/category"
           successMessage="Category deleted successfully"
-          serverAction={deleteData}
         />
       </div>
     ),

@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import React, { Suspense } from "react";
 import { Toaster } from "sonner";
-import AuthProvider from "./auth-provider";
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -15,7 +14,7 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
@@ -23,9 +22,7 @@ export default function RootLayout({
   return (
     <html>
       <body className={inter.className}>
-        <Suspense>
-          <AuthProvider>{children}</AuthProvider>
-        </Suspense>
+        <Suspense>{children}</Suspense>
         <Toaster position="top-right" richColors />
       </body>
     </html>

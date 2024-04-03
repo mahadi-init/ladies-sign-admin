@@ -1,3 +1,4 @@
+import { site } from "@/site-config";
 
 async function updateRequest(
   url: string,
@@ -7,12 +8,13 @@ async function updateRequest(
     value === '' ? undefined : value
   ));
 
-  const res = await fetch(url, {
+  const res = await fetch(`${site.BACKEND_URL}${url}`, {
     method: "PATCH",
     body: JSON.stringify(body),
     headers: {
       "Content-Type": "application/json",
     },
+    credentials: "include"
   });
 
   const data = await res.json()
