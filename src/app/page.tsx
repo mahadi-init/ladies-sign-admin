@@ -32,13 +32,13 @@ export default function Login() {
 
   // admin login mutation
   const { trigger: adminLogin, isMutating: isAdminMutating } = useSWRMutation(
-    `${site.BACKEND_URL}/admin/login`,
+    `/admin/login`,
     addRequest
   );
 
   // seller login mutation
   const { trigger: sellerLogin, isMutating: isSellerMutating } = useSWRMutation(
-    `${site.BACKEND_URL}/seller/login`,
+    `/seller/login`,
     addRequest
   );
 
@@ -51,7 +51,7 @@ export default function Login() {
       //@ts-expect-error
       if (payload && payload.status) {
         //@ts-expect-error
-        if (payload.role === "SELLER") {
+        if (!payload.role) {
           router.replace("/seller/profile");
         } else {
           router.replace("/dashboard");

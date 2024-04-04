@@ -33,7 +33,7 @@ export default function DeleteItem(props: PropTypes): JSX.Element {
 
       toast.success(props.successMessage);
     } else {
-      toast.error(res.message);
+      toast.error(res?.message);
     }
   };
 

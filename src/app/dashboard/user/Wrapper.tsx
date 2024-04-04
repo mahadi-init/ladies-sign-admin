@@ -1,9 +1,5 @@
 "use client";
-import { userColumn } from "@/app/dashboard/users/UserColumn";
-import { DataTable } from "@/components/native/DataTable";
-import DropdownSelect from "@/components/native/DropdownSelect";
 import { Input } from "@/components/ui/input";
-import { Status } from "@/data/statuses.data";
 import { UserType } from "@/types/user.t";
 import { useEffect, useState } from "react";
 
@@ -44,12 +40,12 @@ export default function Wrapper({ users }: { users: UserType[] }) {
           onChange={(e) => handleSearchFilter(e.target.value)}
         />
         <div className="flex gap-2">
-          <DropdownSelect
+          {/* <DropdownSelect
             placeholder="Status"
             items={Status}
             selectedItem={status}
             setSelectedItem={setStatus}
-          />
+          /> */}
           {/* <Link
             href={"/dashboard/category/add"}
             className={buttonVariants({ size: "sm", variant: "outline" })}
@@ -58,7 +54,7 @@ export default function Wrapper({ users }: { users: UserType[] }) {
           </Link> */}
         </div>
       </div>
-      <DataTable column={userColumn} data={filteredUsers} />
+      {/* <DataTable column={userColumn} data={filteredUsers} /> */}
     </div>
   );
 }

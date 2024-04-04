@@ -5,24 +5,21 @@ async function updateRequest(url: string, { arg }: { arg: unknown }) {
     JSON.stringify(arg, (_, value) => (value === "" ? undefined : value))
   );
 
-  console.log(body);
+  try {
+    const res = await fetch(`${site.BACKEND_URL}${url}`, {
+      method: "PATCH",
+      body: JSON.stringify(body),
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+    });
 
-  const res = await fetch(`${site.BACKEND_URL}${url}`, {
-    method: "PATCH",
-    body: JSON.stringify(body),
-    headers: {
-      "Content-Type": "application/json",
-    },
-    credentials: "include",
-  });
-
-  console.log(res);
-
-  const data = await res.json();
-
-  console.log(data);
-
-  return data;
+    const data = await res.json();
+    return data;
+  } catch (err) {
+    return err;
+  }
 }
 
 export default updateRequest;

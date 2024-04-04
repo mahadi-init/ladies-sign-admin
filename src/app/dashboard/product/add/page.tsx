@@ -1,6 +1,6 @@
 import { Breadcrumbs } from "@/components/native/Breadcrumbs";
 import PageTop from "@/components/native/PageTop";
-import ProductUI from "@/shared/products/ProductUI";
+import ProductUI from "@/ui/ProductUI";
 
 export default async function AddProduct() {
   return (

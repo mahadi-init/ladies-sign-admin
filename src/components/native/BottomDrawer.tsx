@@ -13,11 +13,6 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 
-/**
- * WithdrawBottomDrawer component that renders a withdraw form in a bottom drawer.
- *
- * @return {JSX.Element} The JSX for the withdraw form in a bottom drawer
- */
 export default function WithdrawBottomDrawer(): JSX.Element {
   return (
     <Drawer>

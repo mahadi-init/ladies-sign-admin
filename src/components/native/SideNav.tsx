@@ -2,7 +2,9 @@
 import clsx from "clsx";
 import { deleteCookie } from "cookies-next";
 import {
+  BadgeDollarSign,
   BellRing,
+  CheckCheck,
   Component,
   Dice6,
   LayoutDashboard,
@@ -111,7 +113,7 @@ export default function Sidenav(): JSX.Element {
                   onClick={hideSideNav}
                   className={clsx(
                     "flex items-center gap-3 rounded p-3 text-slate-700 transition-colors hover:bg-rose-50 hover:text-rose-500 focus:bg-rose-50",
-                    pathname.includes("products") &&
+                    pathname.includes("product") &&
                       "bg-purple-50 text-purple-600"
                   )}
                 >
@@ -149,7 +151,7 @@ export default function Sidenav(): JSX.Element {
                   onClick={hideSideNav}
                   className={clsx(
                     "flex items-center gap-3 rounded p-3 text-slate-700 transition-colors hover:bg-rose-50 hover:text-rose-500 focus:bg-rose-50",
-                    pathname.includes("orders") &&
+                    pathname.includes("order") &&
                       "bg-purple-100 text-purple-800"
                   )}
                 >
@@ -184,17 +186,13 @@ export default function Sidenav(): JSX.Element {
                   </div>
                 </Link>
               </li>
-            </ul>
-          </div>
-          <div>
-            <ul className="flex flex-col flex-1 gap-1 py-3">
               <li className="px-3">
                 <Link
                   href="/dashboard/review"
                   onClick={hideSideNav}
                   className={clsx(
                     "flex items-center gap-3 rounded p-3 text-slate-700 transition-colors hover:bg-rose-50 hover:text-rose-500 focus:bg-rose-50",
-                    pathname.includes("reviews") &&
+                    pathname.includes("review") &&
                       "bg-purple-100 text-purple-800 "
                   )}
                 >
@@ -225,14 +223,17 @@ export default function Sidenav(): JSX.Element {
                   </div>
                 </Link>
               </li>
-
+            </ul>
+          </div>
+          <div>
+            <ul className="flex flex-col flex-1 gap-1 py-3">
               <li className="px-3">
                 <Link
                   href="/dashboard/admin"
                   onClick={hideSideNav}
                   className={clsx(
                     "flex items-center gap-3 rounded p-3 text-slate-700 transition-colors hover:bg-rose-50 hover:text-rose-500 focus:bg-rose-50",
-                    pathname.includes("admins") &&
+                    pathname.includes("admin") &&
                       "bg-purple-100 text-purple-800"
                   )}
                 >
@@ -247,12 +248,30 @@ export default function Sidenav(): JSX.Element {
 
               <li className="px-3">
                 <Link
+                  href="/dashboard/seller"
+                  onClick={hideSideNav}
+                  className={clsx(
+                    "flex items-center gap-3 rounded p-3 text-slate-700 transition-colors hover:bg-rose-50 hover:text-rose-500 focus:bg-rose-50",
+                    pathname.includes("seller") &&
+                      "bg-purple-100 text-purple-800"
+                  )}
+                >
+                  <div className="flex items-center self-center">
+                    <BadgeDollarSign size={18} />
+                  </div>
+                  <div className="flex overflow-hidden flex-col flex-1 gap-0 justify-center items-start w-full text-sm truncate">
+                    Sellers
+                  </div>
+                </Link>
+              </li>
+
+              <li className="px-3">
+                <Link
                   href="/dashboard/user"
                   onClick={hideSideNav}
                   className={clsx(
                     "flex items-center gap-3 rounded p-3 text-slate-700 transition-colors hover:bg-rose-50 hover:text-rose-500 focus:bg-rose-50",
-                    pathname.includes("users") &&
-                      "bg-purple-100 text-purple-800"
+                    pathname.includes("user") && "bg-purple-100 text-purple-800"
                   )}
                 >
                   <div className="flex items-center self-center">
@@ -260,6 +279,25 @@ export default function Sidenav(): JSX.Element {
                   </div>
                   <div className="flex overflow-hidden flex-col flex-1 gap-0 justify-center items-start w-full text-sm truncate">
                     Users
+                  </div>
+                </Link>
+              </li>
+
+              <li className="px-3">
+                <Link
+                  href="/dashboard/extra"
+                  onClick={hideSideNav}
+                  className={clsx(
+                    "flex items-center gap-3 rounded p-3 text-slate-700 transition-colors hover:bg-rose-50 hover:text-rose-500 focus:bg-rose-50",
+                    pathname.includes("extra") &&
+                      "bg-purple-100 text-purple-800"
+                  )}
+                >
+                  <div className="flex items-center self-center">
+                    <CheckCheck size={18} />
+                  </div>
+                  <div className="flex overflow-hidden flex-col flex-1 gap-0 justify-center items-start w-full text-sm truncate">
+                    Extra
                   </div>
                 </Link>
               </li>
@@ -289,7 +327,7 @@ export default function Sidenav(): JSX.Element {
                   onClick={hideSideNav}
                   className={clsx(
                     "flex items-center gap-3 rounded p-3 text-slate-700 transition-colors hover:bg-rose-50 hover:text-rose-500 focus:bg-rose-50",
-                    pathname.includes("notifications") &&
+                    pathname.includes("notification") &&
                       "bg-purple-100 text-purple-800"
                   )}
                 >

@@ -11,6 +11,8 @@ export const CategorySchema = z
     //FIXME: Change this with the actual products
     products: z.array(z.any()),
     status: z.boolean(),
+    createdAt: z.string().datetime(),
+    updatedAt: z.string().datetime(),
   })
   .partial();
 

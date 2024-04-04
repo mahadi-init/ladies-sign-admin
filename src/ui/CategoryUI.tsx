@@ -1,6 +1,6 @@
 "use client";
-import { ChipInput } from "@/components/chip-input";
 import ButtonGroup from "@/components/native/ButtonGroup";
+import { ChipInput } from "@/components/native/ChipInput";
 import ImageUploader from "@/components/native/ImageUploader";
 import { Input } from "@/components/ui/input";
 import useStatus from "@/hooks/useStatus";
@@ -18,7 +18,7 @@ interface PropTypes extends CategoryType {
 }
 
 export default function CategoryUI(props: PropTypes) {
-  const { data, error } = useSWR<string[]>(`/product/all/types`, fetcher);
+  const { data, error } = useSWR<string[]>(`/extra/all/product-types`, fetcher);
   const [image, setImage] = useState<string>();
   const { showStatus } = useStatus();
   const [children, setChildren] = useState<string[]>([]);

@@ -1,11 +1,7 @@
 "use client";
-import { deleteData } from "@/actions/delete";
 import DeleteItem from "@/components/native/DeleteItem";
-import StatusIndicator from "@/components/native/StatusIndicator";
 import { Button } from "@/components/ui/button";
-import { BACKEND_URL } from "@/site-info";
 import { CouponType } from "@/types/coupon.t";
-import { Status } from "@/types/enums.t";
 import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown, PencilIcon } from "lucide-react";
 import { CldImage } from "next-cloudinary";
@@ -63,9 +59,9 @@ export const couponColumn: ColumnDef<CouponType>[] = [
   {
     accessorKey: "status",
     header: "STATUS",
-    cell: ({ row }) => {
-      return <StatusIndicator status={row.original.status as Status} />;
-    },
+    // cell: ({ row }) => {
+    //   return <StatusIndicator status={row.original.status as Status} />;
+    // },
   },
   {
     accessorKey: "startTime",
@@ -101,14 +97,13 @@ export const couponColumn: ColumnDef<CouponType>[] = [
     id: "actions",
     cell: ({ row }) => (
       <div className="flex gap-8 items-center">
-        <Link href={`/dashboard/coupons/edit/${row.original._id}`}>
+        <Link href={`/dashboard/coupon/edit/${row.original._id}`}>
           <PencilIcon size={16} />
         </Link>
         <DeleteItem
-          queryUrl={`${BACKEND_URL}/api/coupon/${row.original._id}`}
+          queryUrl={`/coupon/delete/${row.original._id}`}
           validationTag="coupons"
           successMessage="Coupon deleted successfull"
-          serverAction={deleteData}
         />
       </div>
     ),

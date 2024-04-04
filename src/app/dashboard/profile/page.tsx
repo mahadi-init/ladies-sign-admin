@@ -1,5 +1,4 @@
 "use client";
-import FullPageLoading from "@/components/native/FullPageLoading";
 import PageTop from "@/components/native/PageTop";
 import ProfileUI from "@/shared/profile/ProfileUI";
 import { BACKEND_URL } from "@/site-info";
@@ -16,10 +15,6 @@ export default function Profile() {
     error,
     isLoading,
   } = useSWR<ProfileType>(`${BACKEND_URL}/api/admin/get/${userId}`, fetcher);
-
-  if (isLoading) {
-    return <FullPageLoading />;
-  }
 
   if (error) {
     return new error();

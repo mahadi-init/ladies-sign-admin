@@ -1,10 +1,7 @@
 "use client";
-import FullPageLoading from "@/components/native/FullPageLoading";
 import InvoiceGenerator from "@/components/native/InvoiceGenerator";
 import { Button } from "@/components/ui/button";
-import { BACKEND_URL } from "@/site-info";
 import { OrderType } from "@/types/order.t";
-import { fetcher } from "@/utils/fetcher";
 import { Printer } from "lucide-react";
 import { useRef } from "react";
 import { useReactToPrint } from "react-to-print";
@@ -24,10 +21,6 @@ export default function Invoice({ params }: { params: { id: string } }) {
     // onAfterPrint: () => console.log("after printing..."),
     removeAfterPrint: true,
   });
-
-  if (isLoading) {
-    return <FullPageLoading />;
-  }
 
   if (error) {
     return (

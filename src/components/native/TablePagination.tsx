@@ -34,22 +34,6 @@ export default function TablePagination({
               <PaginationPrevious />
             </Button>
           </PaginationItem>
-
-          {/* FIXME:IMPLEMENT PAGINATION */}
-          {/* <PaginationItem>
-            <PaginationLink isActive={index === 1} onClick={() => setIndex(1)}>
-              1
-            </PaginationLink>
-          </PaginationItem>
-          <PaginationItem>
-            <PaginationLink onClick={() => setIndex(index + 1)}>
-              {index + 1}
-            </PaginationLink>
-          </PaginationItem>
-          <PaginationItem>
-            <PaginationLink>{index + 2}</PaginationLink>
-          </PaginationItem> */}
-
           <PaginationItem>
             <Button
               disabled={disableNext}

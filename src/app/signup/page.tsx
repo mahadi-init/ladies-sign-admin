@@ -3,7 +3,6 @@ import SubmitButton from "@/components/native/SubmitButton";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import addRequest from "@/https/add-request";
-import { site } from "@/site-config";
 import { SellerSchema, SellerType } from "@/types/seller.t";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Route } from "next";
@@ -26,7 +25,7 @@ export default function Signup() {
     resolver: zodResolver(SellerSchema),
   });
   const { trigger, isMutating } = useSWRMutation(
-    `${site.BACKEND_URL}/seller/register`,
+    `/seller/register`,
     addRequest
   );
 
@@ -42,7 +41,7 @@ export default function Signup() {
       toast.success("Signup successfull");
       router.push("/");
     } else {
-      toast.error(res.message);
+      toast.error(res?.message);
     }
   };
 

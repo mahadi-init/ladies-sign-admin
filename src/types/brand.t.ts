@@ -10,6 +10,8 @@ export const BrandSchema = z
     status: z.boolean(),
     //FIXME: Change this with the actual products
     products: z.array(z.any()),
+    createdAt: z.string().datetime(),
+    updatedAt: z.string().datetime(),
   })
   .partial();
 

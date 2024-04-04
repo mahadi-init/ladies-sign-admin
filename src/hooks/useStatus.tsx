@@ -17,7 +17,7 @@ export default function useStatus() {
       );
       toast.success(successMessage);
     } else {
-      toast.error(res.message);
+      toast.error(res?.message);
     }
   };
 

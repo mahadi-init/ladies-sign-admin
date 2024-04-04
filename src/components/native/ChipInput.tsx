@@ -1,6 +1,6 @@
 import { XIcon } from "@/icons/Xicon";
 import { useState } from "react";
-import { Textarea } from "./ui/textarea";
+import { Textarea } from "../ui/textarea";
 
 export function ChipInput({
   items,
