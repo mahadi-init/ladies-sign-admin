@@ -16,7 +16,7 @@ export const couponColumn: ColumnDef<CouponType>[] = [
     },
   },
   {
-    accessorKey: "name",
+    accessorKey: "title",
     header: "NAME",
   },
   {
@@ -92,7 +92,7 @@ export const couponColumn: ColumnDef<CouponType>[] = [
         </Link>
         <DeleteItem
           queryUrl={`/coupon/delete/${row.original._id}`}
-          validationTag="/coupons"
+          validationTag="/coupon"
           successMessage="Coupon deleted successfully"
         />
       </div>

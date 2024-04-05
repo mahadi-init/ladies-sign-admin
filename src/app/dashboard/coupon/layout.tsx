@@ -7,11 +7,13 @@ export default async function Layout({
 }: {
   children: React.ReactNode;
 }) {
-  <>
-    <PageTop title="Brands" />
-    <div className="flex flex-col xl:flex-row justify-between gap-4 ">
-      {children}
-      <TableUIWrapper route="/coupon" columns={couponColumn} />
-    </div>
-  </>;
+  return (
+    <>
+      <PageTop title="Coupon" />
+      <div className="flex flex-col xl:flex-row justify-between gap-4">
+        {children}
+        <TableUIWrapper route="/coupon" columns={couponColumn} />
+      </div>
+    </>
+  );
 }

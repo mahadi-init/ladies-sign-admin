@@ -211,7 +211,7 @@ export default function Sidenav(): JSX.Element {
                   onClick={hideSideNav}
                   className={clsx(
                     "flex items-center gap-3 rounded p-3 text-slate-700 transition-colors hover:bg-rose-50 hover:text-rose-500 focus:bg-rose-50",
-                    pathname.includes("coupons") &&
+                    pathname.includes("coupon") &&
                       "bg-purple-100 text-purple-800"
                   )}
                 >

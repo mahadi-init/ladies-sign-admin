@@ -127,7 +127,11 @@ export default function AdminUI(props: PropTypes) {
             </option>
             {roles.map((item) => {
               return (
-                <option value={item} key={item}>
+                <option
+                  hidden={item.toLowerCase() === props.role?.toLowerCase()}
+                  value={item}
+                  key={item}
+                >
                   {item}
                 </option>
               );

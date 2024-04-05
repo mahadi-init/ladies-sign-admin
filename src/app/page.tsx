@@ -67,7 +67,13 @@ export default function Login() {
   if (isLoading) {
     return (
       <div className="w-screen h-screen flex flex-col justify-center items-center">
-        <Image src="/authenticating.gif" height={300} width={300} alt="auth" />
+        <Image
+          src="/authenticating.gif"
+          height={300}
+          width={300}
+          alt="auth"
+          unoptimized
+        />
         <p className="font-medium">Authenticating...</p>
       </div>
     );

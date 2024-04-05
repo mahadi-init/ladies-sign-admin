@@ -6,8 +6,9 @@ import useStatus from "@/hooks/useStatus";
 import { fetcher } from "@/https/get-request";
 import { CouponSchema, CouponType } from "@/types/coupon.t";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { toast } from "sonner";
 import useSWR from "swr";
 
 interface PropTypes extends CouponType {
@@ -17,22 +18,37 @@ interface PropTypes extends CouponType {
 }
 
 export default function CouponUI(props: PropTypes) {
-  const { data, error } = useSWR<string[]>(`/extra/all/product-types`, fetcher);
+  const { data } = useSWR<string[]>(`/extra/all/product-types`, fetcher);
   const [image, setImage] = useState<string>();
   const { showStatus } = useStatus();
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm<CouponType>({
     resolver: zodResolver(CouponSchema),
   });
 
+  useEffect(() => {
+    reset({
+      title: props.title,
+      couponCode: props.couponCode,
+      discountPercentage: props.discountPercentage,
+      minimumAmount: props.minimumAmount,
+      productType: props.productType,
+    });
+  }, [reset, props]);
+
   const onSubmit: SubmitHandler<CouponType> = async (data) => {
+    if (data.startTime!! > data.endTime!!) {
+      toast.error("Start time cannot be greater than end time");
+      return;
+    }
+
     const refinedData: CouponType = {
       ...data,
       img: image,
-      status: image ? true : false,
     };
 
     const res = await props.trigger(refinedData);
@@ -49,12 +65,11 @@ export default function CouponUI(props: PropTypes) {
           <Input
             type="text"
             placeholder="Enter title"
-            defaultValue={props.name}
             className="mt-1 bg-gray-100"
-            {...register("name")}
+            {...register("title", { required: true })}
           />
-          {errors.name && (
-            <span className="text-xs text-red-700">{errors.name.message}</span>
+          {errors.title && (
+            <span className="text-xs text-red-700">{errors.title.message}</span>
           )}
         </label>
 
@@ -63,10 +78,8 @@ export default function CouponUI(props: PropTypes) {
           <Input
             type="text"
             placeholder="Enter coupon code"
-            defaultValue={props.couponCode}
             className="mt-1 bg-gray-100"
-            required
-            {...register("couponCode")}
+            {...register("couponCode", { required: true })}
           />
           {errors.couponCode && (
             <span className="text-xs text-red-700">
@@ -80,12 +93,12 @@ export default function CouponUI(props: PropTypes) {
           <Input
             type="date"
             defaultValue={
-              props.startTime &&
-              new Date(props.startTime).toISOString().substring(0, 10)
+              props.startTime
+                ? props.startTime?.toString().split("T")[0]
+                : new Date().toISOString().split("T")[0]
             }
             className="mt-1 bg-gray-100"
-            required
-            {...register("startTime")}
+            {...register("startTime", { required: true })}
           />
           {errors.startTime && (
             <span className="text-xs text-red-700">
@@ -99,12 +112,12 @@ export default function CouponUI(props: PropTypes) {
           <Input
             type="date"
             defaultValue={
-              props.endTime &&
-              new Date(props.endTime).toISOString().substring(0, 10)
+              props.endTime
+                ? props.endTime?.toString().split("T")[0]
+                : new Date().toISOString().split("T")[0]
             }
             className="mt-1 bg-gray-100"
-            required
-            {...register("endTime")}
+            {...register("endTime", { required: true })}
           />
           {errors.endTime && (
             <span className="text-xs text-red-700">
@@ -118,10 +131,8 @@ export default function CouponUI(props: PropTypes) {
           <Input
             type="number"
             placeholder="10"
-            defaultValue={props.discountPercentage}
             className="mt-1 bg-gray-100"
-            required
-            {...register("discountPercentage")}
+            {...register("discountPercentage", { required: true })}
           />
           {errors.discountPercentage && (
             <span className="text-xs text-red-700">
@@ -135,10 +146,8 @@ export default function CouponUI(props: PropTypes) {
           <Input
             type="number"
             placeholder="300"
-            defaultValue={props.minimumAmount}
             className="mt-1 bg-gray-100"
-            required
-            {...register("minimumAmount")}
+            {...register("minimumAmount", { required: true })}
           />
           {errors.minimumAmount && (
             <span className="text-xs text-red-700">
@@ -146,30 +155,32 @@ export default function CouponUI(props: PropTypes) {
             </span>
           )}
         </label>
-        <div>
-          <label
-            className="block text-sm font-medium text-gray-700"
-            htmlFor="product-type"
-          >
-            Product Type <span className="text-red-500">*</span>
-          </label>
+        <label className="ml-1 font-medium" htmlFor="product-type">
+          Product Type <span className="text-red-500">*</span>
           <select
             id="product-type"
-            defaultValue={props.productType ?? !error ? data?.[0] : undefined}
             className="mt-0.5 w-full p-2.5 bg-gray-100 rounded-md"
-            required
-            {...register("productType")}
+            {...register("productType", { required: true })}
           >
+            <option value={props.productType} selected disabled hidden>
+              {props.productType ?? data?.[0]}
+            </option>
             {data?.map((item) => {
               return (
-                <option value={item} key={item}>
+                <option
+                  hidden={
+                    item.toLowerCase() === props.productType?.toLowerCase()
+                  }
+                  value={item}
+                  key={item}
+                >
                   {item}
                 </option>
               );
             })}
           </select>
-          <p className="mt-2 text-sm text-gray-500">Set the product type</p>
-        </div>
+          {/* <p className="mt-2 text-sm text-gray-500">Set the product type</p> */}
+        </label>
         <ButtonGroup isMutating={props.isMutating} />
       </div>
     </form>
