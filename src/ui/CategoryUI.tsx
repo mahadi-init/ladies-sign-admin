@@ -7,7 +7,7 @@ import useStatus from "@/hooks/useStatus";
 import { fetcher } from "@/https/get-request";
 import { CategorySchema, CategoryType } from "@/types/category.t";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import useSWR from "swr";
 
@@ -21,21 +21,27 @@ export default function CategoryUI(props: PropTypes) {
   const { data, error } = useSWR<string[]>(`/extra/all/product-types`, fetcher);
   const [image, setImage] = useState<string>();
   const { showStatus } = useStatus();
-  const [children, setChildren] = useState<string[]>([]);
+  const [children, setChildren] = useState<string[]>(props.children ?? []);
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm<CategoryType>({
     resolver: zodResolver(CategorySchema),
   });
+
+  // reset & set form
+  useEffect(() => {
+    reset(props);
+    setChildren(props.children ?? []);
+  }, [reset, props, data]);
 
   const onSubmit: SubmitHandler<CategoryType> = async (data) => {
     const refinedData: CategoryType = {
       ...data,
       img: image,
       children: children,
-      status: image ? true : false,
     };
 
     const res = await props.trigger(refinedData);
@@ -52,10 +58,8 @@ export default function CategoryUI(props: PropTypes) {
           <Input
             type="text"
             placeholder="Headphones"
-            defaultValue={props.name}
             className="mt-1 bg-gray-100"
-            required
-            {...register("name")}
+            {...register("name", { required: true })}
           />
           {errors.name && (
             <span className="text-xs text-red-700">{errors.name.message}</span>
@@ -71,13 +75,21 @@ export default function CategoryUI(props: PropTypes) {
           </label>
           <select
             id="product-type"
-            defaultValue={props.productType ?? !error ? data?.[0] : undefined}
             className="mt-0.5 w-full p-2.5 bg-gray-100 rounded-md"
-            {...register("productType")}
+            {...register("productType", { required: true })}
           >
+            <option value={props.productType} selected disabled hidden>
+              {props.productType ?? data?.[0]}
+            </option>
             {data?.map((item) => {
               return (
-                <option value={item} key={item}>
+                <option
+                  hidden={
+                    item.toLowerCase() === props.productType?.toLowerCase()
+                  }
+                  value={item}
+                  key={item}
+                >
                   {item}
                 </option>
               );

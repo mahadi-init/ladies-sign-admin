@@ -3,8 +3,11 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { fetcher } from "@/https/get-request";
+import { ExtraType } from "@/types/extra.t";
 import { useState } from "react";
 import { toast } from "sonner";
+import useSWR from "swr";
 import ProductVariantImgUploader from "./product-variant-img-uploader";
 
 type ValueType = {
@@ -16,6 +19,7 @@ type ValueType = {
 };
 
 export default function ProductVariants() {
+  const { data } = useSWR<ExtraType>("/extra/all", fetcher);
   const [values, setValues] = useState<Partial<ValueType>[]>([{}]);
 
   return (
@@ -69,8 +73,11 @@ export default function ProductVariants() {
                     });
                   }}
                 >
-                  <option value="xl">XL</option>
-                  <option value="2xl">2XL</option>
+                  {/* <option value="xl">XL</option>
+                  <option value="2xl">2XL</option> */}
+                  {/* {
+                    
+                  } */}
                 </select>
                 <p className="text-xs mt-1">enter size.ex:XL</p>
               </div>

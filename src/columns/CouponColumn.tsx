@@ -1,9 +1,9 @@
 "use client";
 import DeleteItem from "@/components/native/DeleteItem";
-import { Button } from "@/components/ui/button";
+import StatusIndicator from "@/components/native/StatusIndicator";
 import { CouponType } from "@/types/coupon.t";
 import { ColumnDef } from "@tanstack/react-table";
-import { ArrowUpDown, PencilIcon } from "lucide-react";
+import { PencilIcon } from "lucide-react";
 import { CldImage } from "next-cloudinary";
 import Link from "next/link";
 
@@ -16,30 +16,20 @@ export const couponColumn: ColumnDef<CouponType>[] = [
     },
   },
   {
-    accessorKey: "title",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          TITLE
-          <ArrowUpDown className="ml-2 w-4 h-4" />
-        </Button>
-      );
-    },
+    accessorKey: "name",
+    header: "NAME",
   },
   {
-    accessorKey: "logo",
+    accessorKey: "img",
     header: "LOGO",
     cell: ({ row }) => {
-      return row.original.logo ? (
+      return row.original.img ? (
         <CldImage
           className="w-10 rounded-full"
           width={250}
           height={250}
           crop="fill"
-          src={row.original.logo}
+          src={row.original.img}
           alt="cell image"
           loading="lazy"
         />
@@ -59,9 +49,9 @@ export const couponColumn: ColumnDef<CouponType>[] = [
   {
     accessorKey: "status",
     header: "STATUS",
-    // cell: ({ row }) => {
-    //   return <StatusIndicator status={row.original.status as Status} />;
-    // },
+    cell: ({ row }) => {
+      return <StatusIndicator status={row.original.status} />;
+    },
   },
   {
     accessorKey: "startTime",
@@ -102,8 +92,8 @@ export const couponColumn: ColumnDef<CouponType>[] = [
         </Link>
         <DeleteItem
           queryUrl={`/coupon/delete/${row.original._id}`}
-          validationTag="coupons"
-          successMessage="Coupon deleted successfull"
+          validationTag="/coupons"
+          successMessage="Coupon deleted successfully"
         />
       </div>
     ),

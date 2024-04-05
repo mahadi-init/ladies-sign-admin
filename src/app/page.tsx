@@ -118,8 +118,7 @@ export default function Login() {
               type="email"
               placeholder="Enter email"
               className="mt-2.5"
-              required
-              {...register("email")}
+              {...register("email", { required: true })}
             />
             {errors.email && (
               <span className="text-xs text-red-700">
@@ -139,8 +138,7 @@ export default function Login() {
                 type="password"
                 placeholder="Enter strong password"
                 className="mt-2.5"
-                required
-                {...register("password")}
+                {...register("password", { required: true })}
               />
               {errors.password && (
                 <span className="text-xs text-red-700">

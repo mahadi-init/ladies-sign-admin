@@ -8,7 +8,6 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { ProductType } from "@/types/product.t";
-import Image from "next/image";
 import Link from "next/link";
 
 export default function ProductItems({
@@ -34,13 +33,13 @@ export default function ProductItems({
             </CardDescription>
           </CardHeader>
           <CardContent className="">
-            <Image
+            {/* <Image
               src={item.img ?? ""}
               alt={item.title ?? "product image"}
               width={200}
               height={200}
               className="w-8/12 mx-auto"
-            />
+            /> */}
           </CardContent>
           <CardFooter>
             <div className="w-full flex justify-between items-center">

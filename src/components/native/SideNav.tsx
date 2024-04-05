@@ -223,6 +223,24 @@ export default function Sidenav(): JSX.Element {
                   </div>
                 </Link>
               </li>
+              <li className="px-3">
+                <Link
+                  href="/dashboard/extra"
+                  onClick={hideSideNav}
+                  className={clsx(
+                    "flex items-center gap-3 rounded p-3 text-slate-700 transition-colors hover:bg-rose-50 hover:text-rose-500 focus:bg-rose-50",
+                    pathname.includes("extra") &&
+                      "bg-purple-100 text-purple-800"
+                  )}
+                >
+                  <div className="flex items-center self-center">
+                    <CheckCheck size={18} />
+                  </div>
+                  <div className="flex overflow-hidden flex-col flex-1 gap-0 justify-center items-start w-full text-sm truncate">
+                    Extra
+                  </div>
+                </Link>
+              </li>
             </ul>
           </div>
           <div>
@@ -279,25 +297,6 @@ export default function Sidenav(): JSX.Element {
                   </div>
                   <div className="flex overflow-hidden flex-col flex-1 gap-0 justify-center items-start w-full text-sm truncate">
                     Users
-                  </div>
-                </Link>
-              </li>
-
-              <li className="px-3">
-                <Link
-                  href="/dashboard/extra"
-                  onClick={hideSideNav}
-                  className={clsx(
-                    "flex items-center gap-3 rounded p-3 text-slate-700 transition-colors hover:bg-rose-50 hover:text-rose-500 focus:bg-rose-50",
-                    pathname.includes("extra") &&
-                      "bg-purple-100 text-purple-800"
-                  )}
-                >
-                  <div className="flex items-center self-center">
-                    <CheckCheck size={18} />
-                  </div>
-                  <div className="flex overflow-hidden flex-col flex-1 gap-0 justify-center items-start w-full text-sm truncate">
-                    Extra
                   </div>
                 </Link>
               </li>

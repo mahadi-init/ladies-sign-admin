@@ -41,7 +41,7 @@ export default function TableUIWrapper<T extends { status?: boolean }>({
 
   // fetch filtered data
   const { data: filter } = useSWR<T[]>(
-    search && `/${route}/search?q=${search}`,
+    search && `${route}/search?q=${search}`,
     fetcher
   );
 

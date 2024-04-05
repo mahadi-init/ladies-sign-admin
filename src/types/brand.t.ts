@@ -5,8 +5,8 @@ export const BrandSchema = z
     _id: z.string(),
     name: z.string().min(3, "Name is too short"),
     img: z.string().url(),
-    email: z.string().email(),
-    location: z.string().min(3, "Location is too short"),
+    email: z.union([z.string().email().nullish(), z.literal("")]),
+    location: z.union([z.string().nullish(), z.literal("")]),
     status: z.boolean(),
     //FIXME: Change this with the actual products
     products: z.array(z.any()),

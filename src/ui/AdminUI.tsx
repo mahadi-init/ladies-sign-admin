@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 import useStatus from "@/hooks/useStatus";
 import { AdminSchema, AdminType } from "@/types/admin.t";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
 interface PropTypes extends AdminType {
@@ -21,16 +21,20 @@ export default function AdminUI(props: PropTypes) {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm<AdminType>({
     resolver: zodResolver(AdminSchema),
   });
 
+  useEffect(() => {
+    reset(props);
+  }, [reset, props]);
+
   const onSubmit: SubmitHandler<AdminType> = async (data) => {
     const refinedData: AdminType = {
       ...data,
       img: image,
-      status: data.status ? false : true,
     };
 
     const res = await props.trigger(refinedData);
@@ -47,10 +51,8 @@ export default function AdminUI(props: PropTypes) {
           <Input
             type="text"
             placeholder="Jhon Doe"
-            defaultValue={props.name}
             className="mt-1 bg-gray-100"
-            required
-            {...register("name")}
+            {...register("name", { required: true })}
           />
           {errors.name && (
             <span className="text-xs text-red-700">{errors.name.message}</span>
@@ -62,10 +64,8 @@ export default function AdminUI(props: PropTypes) {
           <Input
             type="email"
             placeholder="Enter email"
-            defaultValue={props.email}
             className="mt-1 bg-gray-100"
-            required
-            {...register("email")}
+            {...register("email", { required: true })}
           />
           {errors.email && (
             <span className="text-xs text-red-700">{errors.email.message}</span>
@@ -76,11 +76,9 @@ export default function AdminUI(props: PropTypes) {
           Password <span className="text-red-600">*</span>
           <Input
             type="text"
-            defaultValue={props.password}
             placeholder="Enter password"
             className="mt-1 bg-gray-100"
-            required
-            {...register("password")}
+            {...register("password", { required: true })}
           />
           {errors.password && (
             <span className="text-xs text-red-700">
@@ -93,11 +91,9 @@ export default function AdminUI(props: PropTypes) {
           Phone <span className="text-red-600">*</span>
           <Input
             type="tel"
-            defaultValue={props.phone}
             className="mt-1 bg-gray-100"
             placeholder="Enter phone number"
-            required
-            {...register("phone")}
+            {...register("phone", { required: true })}
           />
           {errors.phone && (
             <span className="text-xs text-red-700">{errors.phone.message}</span>
@@ -108,7 +104,6 @@ export default function AdminUI(props: PropTypes) {
           Address
           <Input
             type="text"
-            defaultValue={props.address}
             className="mt-1 bg-gray-100"
             placeholder="Enter address"
             {...register("address")}
@@ -120,19 +115,16 @@ export default function AdminUI(props: PropTypes) {
           )}
         </label>
 
-        <div>
-          <label
-            className="block text-sm font-medium text-gray-700"
-            htmlFor="role"
-          >
-            Role <span className="text-red-500">*</span>
-          </label>
+        <label className="ml-1 font-medium" htmlFor="role">
+          Role <span className="text-red-500">*</span>
           <select
             id="role"
-            defaultValue={props.role}
             className="mt-0.5 w-full p-3 bg-gray-100 rounded-md"
             {...register("role")}
           >
+            <option value={props.role} selected disabled hidden>
+              {props.role ?? roles[0]}
+            </option>
             {roles.map((item) => {
               return (
                 <option value={item} key={item}>
@@ -141,7 +133,7 @@ export default function AdminUI(props: PropTypes) {
               );
             })}
           </select>
-        </div>
+        </label>
 
         <ButtonGroup isMutating={props.isMutating} />
       </div>

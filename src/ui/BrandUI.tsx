@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 import useStatus from "@/hooks/useStatus";
 import { BrandSchema, BrandType } from "@/types/brand.t";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
 interface PropTypes extends BrandType {
@@ -20,16 +20,21 @@ export default function BrandUI(props: PropTypes) {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm<BrandType>({
     resolver: zodResolver(BrandSchema),
   });
 
+  // reset & set form
+  useEffect(() => {
+    reset(props);
+  }, [reset, props]);
+
   const onSubmit: SubmitHandler<BrandType> = async (data) => {
     const refinedData: BrandType = {
       ...data,
       img: image,
-      status: image ? true : false,
     };
 
     const res = await props.trigger(refinedData);
@@ -46,10 +51,8 @@ export default function BrandUI(props: PropTypes) {
           <Input
             type="text"
             placeholder="sony"
-            defaultValue={props.name}
             className="mt-1 bg-gray-100"
-            required
-            {...register("name")}
+            {...register("name", { required: true })}
           />
           {errors.name && (
             <span className="text-xs text-red-700">{errors.name.message}</span>
@@ -61,7 +64,6 @@ export default function BrandUI(props: PropTypes) {
           <Input
             type="email"
             placeholder="sony@gmail.com"
-            defaultValue={props.email}
             className="mt-1 bg-gray-100"
             {...register("email")}
           />
@@ -75,7 +77,6 @@ export default function BrandUI(props: PropTypes) {
           <Input
             type="text"
             placeholder="USA"
-            defaultValue={props.location}
             className="mt-1 bg-gray-100"
             {...register("location")}
           />

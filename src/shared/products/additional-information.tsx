@@ -1,25 +1,14 @@
 "use client";
-import { HoverToolkit } from "@/components/native/HoverToolkit";
 import { Input } from "@/components/ui/input";
-import { fetcher } from "@/utils/fetcher";
-import { RefreshCcw } from "lucide-react";
-import { useState } from "react";
+import { fetcher } from "@/https/get-request";
 import useSWR from "swr";
-import { BACKEND_URL } from "../../site-config";
-import AdditionalKeyValue from "./additional-key-value";
 
 export default function AdditionalInformation() {
-  const [createProductType, setCreateProductType] = useState(false);
-
-  const { data: productTypes } = useSWR<{ data: string[] }>(
-    `${BACKEND_URL}/api/product/all/product-types`,
+  const { data: productTypes } = useSWR<string[]>(
+    "/extra/all/product-types",
     fetcher
   );
-
-  const { data: brands } = useSWR<{ data: string[] }>(
-    `${BACKEND_URL}/api/brand/all-names`,
-    fetcher
-  );
+  const { data: brands } = useSWR<string[]>("/brand/all-names", fetcher);
 
   return (
     <div className="w-full p-6 bg-gray-100 rounded-lg shadow">
@@ -31,37 +20,15 @@ export default function AdditionalInformation() {
           >
             ProductType <span className="text-red-500">*</span>
           </label>
-          <div className="flex gap-3 items-center">
-            {createProductType ? (
-              <Input placeholder="Create product type" name="product-type" />
-            ) : (
-              <select
-                name="product-type"
-                id="prodcut-type"
-                className="mt-0.5 w-full p-2 bg-white rounded-md"
-              >
-                {productTypes?.data.map((item) => {
-                  return (
-                    <option value={item} key={item}>
-                      {item}
-                    </option>
-                  );
-                })}
-              </select>
-            )}
-
-            <HoverToolkit
-              text={
-                createProductType
-                  ? "choose product type"
-                  : "create product type"
-              }
-            >
-              <a onClick={() => setCreateProductType(!createProductType)}>
-                <RefreshCcw />
-              </a>
-            </HoverToolkit>
-          </div>
+          <select className="mt-0.5 w-full p-2 bg-white rounded-md">
+            {productTypes?.map((item) => {
+              return (
+                <option value={item} key={item}>
+                  {item}
+                </option>
+              );
+            })}
+          </select>
 
           <p className="mt-2 text-sm text-gray-500">
             Set the product ProductType.
@@ -79,7 +46,7 @@ export default function AdditionalInformation() {
             id="brand"
             className="mt-0.5 w-full p-2 bg-white rounded-md"
           >
-            {brands?.data.map((item) => {
+            {brands?.map((item) => {
               return (
                 <option value={item} key={item}>
                   {item}
@@ -100,7 +67,7 @@ export default function AdditionalInformation() {
           <p className="mt-2 text-sm text-gray-500">Set the unit of product.</p>
         </div>
       </div>
-      <AdditionalKeyValue />
+      {/* <AdditionalKeyValue /> */}
     </div>
   );
 }

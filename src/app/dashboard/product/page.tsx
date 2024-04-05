@@ -10,6 +10,7 @@ import { BadgePlus } from "lucide-react";
 import Link from "next/link";
 import useSWR from "swr";
 
+//FIXME: DO IT 4/04
 export default function Products() {
   const { data: products } = useSWR<ProductType[]>("/product/all", fetcher);
   const { data: productTypes } = useSWR<string[]>(

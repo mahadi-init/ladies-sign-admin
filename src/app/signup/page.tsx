@@ -66,8 +66,7 @@ export default function Signup() {
               type="text"
               id="name"
               placeholder="Jhon Doe"
-              required
-              {...register("name")}
+              {...register("name", { required: true })}
             />
             {errors.name && (
               <span className="text-xs text-red-700">
@@ -83,8 +82,7 @@ export default function Signup() {
               type="email"
               id="email"
               placeholder="xyz@gmail.com"
-              required
-              {...register("email")}
+              {...register("email", { required: true })}
             />
             {errors.email && (
               <span className="text-xs text-red-700">
@@ -100,8 +98,7 @@ export default function Signup() {
               type="password"
               id="password"
               placeholder="624234"
-              required
-              {...register("password")}
+              {...register("password", { required: true })}
             />
             {errors.password && (
               <span className="text-xs text-red-700">
@@ -117,8 +114,7 @@ export default function Signup() {
               id="address"
               type="text"
               placeholder="Dhanmondi 32, Dhaka"
-              required
-              {...register("address")}
+              {...register("address", { required: true })}
             />
             {errors.address && (
               <span className="text-xs text-red-700">
@@ -134,8 +130,7 @@ export default function Signup() {
               id="phone"
               type="tel"
               placeholder="012367283822"
-              required
-              {...register("phone")}
+              {...register("phone", { required: true })}
             />
             {errors.phone && (
               <span className="text-xs text-red-700">
@@ -151,8 +146,7 @@ export default function Signup() {
               id="nid"
               type="number"
               placeholder="4762819292"
-              required
-              {...register("nidNumber")}
+              {...register("nidNumber", { required: true })}
             />
             {errors.nidNumber && (
               <span className="text-xs text-red-700">

@@ -1,21 +1,27 @@
-import getData from "@/actions/get";
+"use client";
 import PageTop from "@/components/native/PageTop";
-import { BACKEND_URL } from "@/site-info";
+import { Input } from "@/components/ui/input";
+import { fetcher } from "@/https/get-request";
 import { ReviewType } from "@/types/review.t";
-import Wrapper from "./Wrapper";
+import useSWR from "swr";
 
-export default async function Reviews() {
-  const reviews: ReviewType[] = await getData(
-    `${BACKEND_URL}/api/review/all`,
-    true,
-    300,
-    ["review", "reviews"]
-  );
+export default function Reviews() {
+  const { data } = useSWR<ReviewType[]>("/review/all", fetcher);
 
   return (
     <>
       <PageTop title="Reviews" />
-      <Wrapper reviews={reviews} />
+      <div className="mt-4 flex flex-col gap-4 ">
+        <div className="flex items-center justify-between ">
+          <Input
+            className="w-fit"
+            placeholder="filter item.."
+            // onChange={(e) => handleSearchFilter(e.target.value)}
+          />
+          <div className="flex gap-2"></div>
+        </div>
+        {/* <DataTable column={reviewColumn} data={filteredReviews} /> */}
+      </div>
     </>
   );
 }
