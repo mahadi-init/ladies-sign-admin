@@ -40,7 +40,7 @@ export default function DropdownSelect({
           {items.map((item, index) => {
             return (
               <SelectItem key={index} value={item.title}>
-                <div className="flex gap-2 items-center text-xs font-medium">
+                <div className="flex items-center gap-2 text-xs font-medium">
                   {item.icon}
                   {item.title}
                 </div>

@@ -19,7 +19,7 @@ export function Breadcrumbs({ props }: { props: BreadcrumbsProps[] }) {
           <React.Fragment key={index}>
             <li>
               <Link
-                className="font-medium text-sm flex items-center gap-2 text-slate-500 transition-colors hover:text-slate-900 "
+                className="flex items-center gap-2 text-sm font-medium transition-colors text-slate-500 hover:text-slate-900 "
                 href={item.link as Route}
               >
                 {item.title}

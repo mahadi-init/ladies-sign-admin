@@ -1,32 +1,28 @@
 "use client";
-import { patchData } from "@/actions/patch";
 import ConfirmationDialog from "@/components/native/ConfirmationDialog";
 import DeliveryStatus from "@/components/native/DeliveryStatus";
 import { HoverToolkit } from "@/components/native/HoverToolkit";
-import StatusUpdateDropdown from "@/components/native/StatusUpdateDropdown";
 import { Button } from "@/components/ui/button";
-import { BACKEND_URL } from "@/site-info";
 import { OrderSummaryType } from "@/types/order.t";
 import { ColumnDef } from "@tanstack/react-table";
-import { ArrowUpDown, CheckCircle, Send, View } from "lucide-react";
-import Link from "next/link";
+import { ArrowUpDown, CheckCircle, Send } from "lucide-react";
 import { toast } from "sonner";
-import { sendOrder } from "./order-send";
+import { sendOrder } from "../utils/order-send";
 
 export const orderColumn: ColumnDef<OrderSummaryType>[] = [
   {
     accessorKey: "invoice",
     header: "INVOICE",
-    cell: ({ row }) => {
-      return (
-        <Link
-          href={`/dashboard/orders/details/${row.original._id}`}
-          className="font-medium underline"
-        >
-          # {row.original.invoice}
-        </Link>
-      );
-    },
+    // cell: ({ row }) => {
+    //   return (
+    //     <Link
+    //       href={`/dashboard/orders/details/${row.original._id}`}
+    //       className="font-medium underline"
+    //     >
+    //       # {row.original.invoice}
+    //     </Link>
+    //   );
+    // },
   },
   {
     accessorKey: "name",
@@ -37,7 +33,7 @@ export const orderColumn: ColumnDef<OrderSummaryType>[] = [
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           NAME
-          <ArrowUpDown className="ml-2 w-4 h-4" />
+          <ArrowUpDown className="w-4 h-4 ml-2" />
         </Button>
       );
     },
@@ -51,7 +47,7 @@ export const orderColumn: ColumnDef<OrderSummaryType>[] = [
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           ADDRESS
-          <ArrowUpDown className="ml-2 w-4 h-4" />
+          <ArrowUpDown className="w-4 h-4 ml-2" />
         </Button>
       );
     },
@@ -76,31 +72,31 @@ export const orderColumn: ColumnDef<OrderSummaryType>[] = [
   {
     accessorKey: "status",
     header: "STATUS",
-    cell: ({ row }) => {
-      return (
-        <StatusUpdateDropdown
-          options={["PENDING", "PROCESSING", "DELIVERED", "CANCELLED"]}
-          status={row.original.status}
-          action={async <T,>(item: T) => {
-            //update status
-            const res = await patchData(
-              {
-                status: item,
-              },
-              `${BACKEND_URL}/api/order/update-status/${row.original._id}`,
-              "orders",
-              "Status updated Successfully"
-            );
+    // cell: ({ row }) => {
+    //   return (
+    //     <StatusUpdateDropdown
+    //       options={["PENDING", "PROCESSING", "DELIVERED", "CANCELLED"]}
+    //       status={row.original.status}
+    //       action={async <T,>(item: T) => {
+    //         //update status
+    //         const res = await patchData(
+    //           {
+    //             status: item,
+    //           },
+    //           `${BACKEND_URL}/api/order/update-status/${row.original._id}`,
+    //           "orders",
+    //           "Status updated Successfully"
+    //         );
 
-            if (res.status === 200) {
-              toast.success(res.message);
-            } else {
-              toast.error(res.message);
-            }
-          }}
-        />
-      );
-    },
+    //         if (res.status === 200) {
+    //           toast.success(res.message);
+    //         } else {
+    //           toast.error(res.message);
+    //         }
+    //       }}
+    //     />
+    //   );
+    // },
   },
   {
     accessorKey: "createdAt",
@@ -116,7 +112,7 @@ export const orderColumn: ColumnDef<OrderSummaryType>[] = [
   {
     id: "actions",
     cell: ({ row }) => (
-      <div className="flex gap-8 items-center">
+      <div className="flex items-center gap-8">
         {row.original.status === "PENDING" ? (
           <ConfirmationDialog
             alertText="This will send order to courier"
@@ -137,11 +133,11 @@ export const orderColumn: ColumnDef<OrderSummaryType>[] = [
             <CheckCircle size={22} />
           </HoverToolkit>
         )}
-        <HoverToolkit text="Invoice">
+        {/* <HoverToolkit text="Invoice">
           <Link href={`/dashboard/orders/invoice/${row.original._id}`}>
             <View size={20} />
           </Link>
-        </HoverToolkit>
+        </HoverToolkit> */}
       </div>
     ),
   },

@@ -27,11 +27,11 @@ export function ChipInput({
         Children
       </label>
       {items.length !== 0 && (
-        <div className="flex flex-wrap items-center p-2 border border-slate-200 rounded-md dark:border-slate-800">
+        <div className="flex flex-wrap items-center p-2 border rounded-md border-slate-200 dark:border-slate-800">
           {items.map((item) => (
             <div
               key={item}
-              className="flex items-center space-x-2 bg-blue-100 rounded px-2 py-1 text-sm mr-2"
+              className="flex items-center px-2 py-1 mr-2 space-x-2 text-sm bg-blue-100 rounded"
             >
               <span>{item}</span>
               <button
@@ -47,7 +47,7 @@ export function ChipInput({
       )}
 
       <Textarea
-        className="flex-1 border-none ring-1 ring-slate-200 bg-gray-100 text-sm"
+        className="flex-1 text-sm bg-gray-100 border-none ring-1 ring-slate-200"
         id="children"
         placeholder={items.length === 0 ? "Enter children" : undefined}
         value={input}

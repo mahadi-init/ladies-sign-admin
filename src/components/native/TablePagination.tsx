@@ -17,7 +17,7 @@ export default function TablePagination({
   disableNext?: boolean;
 }) {
   return (
-    <div className="flex justify-end items-center py-4 space-x-2">
+    <div className="flex items-center justify-end py-4 space-x-2">
       <Pagination>
         <PaginationContent>
           <PaginationItem>

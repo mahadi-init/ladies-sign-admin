@@ -1,6 +1,5 @@
 import PageTop from "@/components/native/PageTop";
-import { getOrders } from "@/shared/Orders/get-orders";
-import Wrapper from "./Wrapper";
+import { getOrders } from "@/utils/get-orders";
 
 export default async function Orders() {
   const orders = await getOrders();
@@ -9,7 +8,7 @@ export default async function Orders() {
   return (
     <>
       <PageTop title="Orders" />
-      <Wrapper orders={orders} />
+      {/* <Wrapper orders={orders} /> */}
     </>
   );
 }

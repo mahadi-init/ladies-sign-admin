@@ -1,13 +1,11 @@
 "use client";
 import ConfirmationDialog from "@/components/native/ConfirmationDialog";
-import StatusIndicator from "@/components/native/StatusIndicator";
 import { UserType } from "@/types/user.t";
 import { clerkClient } from "@clerk/nextjs";
 import { ColumnDef } from "@tanstack/react-table";
 import { Ban, LogOut, Trash } from "lucide-react";
 import moment from "moment";
 import Image from "next/image";
-import Link from "next/link";
 
 export const userColumn: ColumnDef<UserType>[] = [
   {
@@ -20,16 +18,16 @@ export const userColumn: ColumnDef<UserType>[] = [
   {
     accessorKey: "name",
     header: "NAME",
-    cell: ({ row }) => {
-      return (
-        <Link
-          href={`/dashboard/users/details/${row.original.id}`}
-          className="truncate text-medium underline"
-        >
-          {row.original.name ?? "--"}
-        </Link>
-      );
-    },
+    // cell: ({ row }) => {
+    //   return (
+    //     <Link
+    //       href={`/dashboard/users/details/${row.original.id}`}
+    //       className="underline truncate text-medium"
+    //     >
+    //       {row.original.name ?? "--"}
+    //     </Link>
+    //   );
+    // },
   },
   {
     accessorKey: "image",
@@ -67,16 +65,16 @@ export const userColumn: ColumnDef<UserType>[] = [
   {
     accessorKey: "status",
     header: "STATUS",
-    cell: ({ row }) => {
-      return (
-        <StatusIndicator status={row.original.banned ? "INACTIVE" : "ACTIVE"} />
-      );
-    },
+    // cell: ({ row }) => {
+    //   return (
+    //     <StatusIndicator status={row.original.banned ? "INACTIVE" : "ACTIVE"} />
+    //   );
+    // },
   },
   {
     id: "actions",
     cell: ({ row }) => (
-      <div className="flex gap-8 items-center">
+      <div className="flex items-center gap-8">
         <ConfirmationDialog
           alertText="This will logout user"
           action={async () =>

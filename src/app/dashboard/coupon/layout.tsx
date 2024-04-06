@@ -10,7 +10,7 @@ export default async function Layout({
   return (
     <>
       <PageTop title="Coupon" />
-      <div className="flex flex-col xl:flex-row justify-between gap-4">
+      <div className="flex flex-col justify-between gap-4 xl:flex-row">
         {children}
         <TableUIWrapper route="/coupon" columns={couponColumn} />
       </div>

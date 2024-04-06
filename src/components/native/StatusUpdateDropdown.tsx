@@ -16,7 +16,7 @@ export default function StatusUpdateDropdown({
   return (
     <div>
       {showOptions ? (
-        <div className="flex gap-2 items-center">
+        <div className="flex items-center gap-2">
           {/* <NonIconDropdownSelect
             items={options}
             selectedItem={option}

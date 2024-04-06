@@ -21,7 +21,7 @@ export default function Products() {
   return (
     <>
       <PageTop title="Products" />
-      <div className="my-8 flex justify-between items-center">
+      <div className="flex items-center justify-between my-8">
         <Input placeholder="search for product" className="w-5/12" />
         <div className="flex items-center gap-2">
           {productTypes && (

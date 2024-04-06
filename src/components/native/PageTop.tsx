@@ -15,7 +15,7 @@ export default function PageTop({
         {title}
       </h4>
       {showSubTitle && (
-        <p className="w-full text-sm text-slate-700 truncate">
+        <p className="w-full text-sm truncate text-slate-700">
           Welcome to {lowercaseFirstLetter(title)}
         </p>
       )}

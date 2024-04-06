@@ -11,7 +11,7 @@ export default function Reviews() {
   return (
     <>
       <PageTop title="Reviews" />
-      <div className="mt-4 flex flex-col gap-4 ">
+      <div className="flex flex-col gap-4 mt-4 ">
         <div className="flex items-center justify-between ">
           <Input
             className="w-fit"

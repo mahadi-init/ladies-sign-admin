@@ -25,7 +25,7 @@ export const adminColumn: ColumnDef<AdminType>[] = [
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           NAME
-          <ArrowUpDown className="ml-2 w-4 h-4" />
+          <ArrowUpDown className="w-4 h-4 ml-2" />
         </Button>
       );
     },
@@ -69,7 +69,7 @@ export const adminColumn: ColumnDef<AdminType>[] = [
   {
     id: "actions",
     cell: ({ row }) => (
-      <div className="flex gap-8 items-center">
+      <div className="flex items-center gap-8">
         <Link href={`/dashboard/admin/edit/${row.original._id}`}>
           <PencilIcon size={16} />
         </Link>

@@ -10,9 +10,9 @@ export default function GeneralInformation() {
   return (
     <div className="p-6 bg-gray-100 rounded-lg shadow">
       <div className="mb-6">
-        <h2 className="text-xl font-semibold mb-2">General</h2>
-        <div className="flex flex-col  xl:flex-row justify-evenly pb-2 xl:items-center">
-          <div className=" flex flex-col items-center">
+        <h2 className="mb-2 text-xl font-semibold">General</h2>
+        <div className="flex flex-col pb-2 xl:flex-row justify-evenly xl:items-center">
+          <div className="flex flex-col items-center ">
             <ImageUploader image={image} setImage={setImage} />
           </div>
           {/* <div className="flex flex-col gap-4 xl:w-1/2">
@@ -22,7 +22,7 @@ export default function GeneralInformation() {
               selectedChildrens={selectedChildrens}
               setSelectedChildrens={setSelectedChildrens}
             />
-            <label htmlFor="tags" className="block text-sm font-medium mb-1">
+            <label htmlFor="tags" className="block mb-1 text-sm font-medium">
               Tags
               <Input
                 id="tags"
@@ -31,7 +31,7 @@ export default function GeneralInformation() {
                 className="mt-1.5"
                 type="text"
               />
-              <p className="text-xs text-gray-500 mt-1">
+              <p className="mt-1 text-xs text-gray-500">
                 set tags for the product (comma separated)
               </p>
             </label>
@@ -39,7 +39,7 @@ export default function GeneralInformation() {
         </div>
         <div className="grid grid-cols-1 gap-4">
           <div>
-            <label className="block text-sm font-medium mb-1" htmlFor="title">
+            <label className="block mb-1 text-sm font-medium" htmlFor="title">
               Title <span className="text-red-500">*</span>
             </label>
             <Input
@@ -52,7 +52,7 @@ export default function GeneralInformation() {
           </div>
           <div>
             <label
-              className="block text-sm font-medium mb-1"
+              className="block mb-1 text-sm font-medium"
               htmlFor="description"
             >
               Description <span className="text-red-500">*</span>
@@ -69,7 +69,7 @@ export default function GeneralInformation() {
       <div className="mb-6">
         <div className="grid grid-cols-2 gap-4">
           <div>
-            <label className="block text-sm font-medium mb-1" htmlFor="price">
+            <label className="block mb-1 text-sm font-medium" htmlFor="price">
               Price <span className="text-red-500">*</span>
             </label>
             <Input
@@ -79,20 +79,20 @@ export default function GeneralInformation() {
               name="price"
               required
             />
-            <p className="text-xs text-gray-500 mt-1">
+            <p className="mt-1 text-xs text-gray-500">
               Set the base price of product.
             </p>
           </div>
           <div>
-            <label className="block text-sm font-medium mb-1" htmlFor="sku">
+            <label className="block mb-1 text-sm font-medium" htmlFor="sku">
               SKU
             </label>
             <Input type="text" id="sku" placeholder="SKU" name="sku" />
-            <p className="text-xs text-gray-500 mt-1">Enter the product SKU.</p>
+            <p className="mt-1 text-xs text-gray-500">Enter the product SKU.</p>
           </div>
           <div>
             <label
-              className="block text-sm font-medium mb-1"
+              className="block mb-1 text-sm font-medium"
               htmlFor="quantity"
             >
               Quantity <span className="text-red-500">*</span>
@@ -104,13 +104,13 @@ export default function GeneralInformation() {
               name="quantity"
               required
             />
-            <p className="text-xs text-gray-500 mt-1">
+            <p className="mt-1 text-xs text-gray-500">
               Enter the product quantity.
             </p>
           </div>
           <div>
             <label
-              className="block text-sm font-medium mb-1"
+              className="block mb-1 text-sm font-medium"
               htmlFor="discount"
             >
               Discount Percentage <span className="text-red-500">*</span>
@@ -122,7 +122,7 @@ export default function GeneralInformation() {
               name="discount"
               required
             />
-            <p className="text-xs text-gray-500 mt-1">
+            <p className="mt-1 text-xs text-gray-500">
               Set the customer Discount.
             </p>
           </div>
@@ -131,7 +131,7 @@ export default function GeneralInformation() {
       <div className="grid grid-cols-2 gap-4">
         <div>
           <label
-            className="block text-sm font-medium mb-1"
+            className="block mb-1 text-sm font-medium"
             htmlFor="seller-discount"
           >
             Seller Percentage <span className="text-red-500">*</span>
@@ -143,20 +143,20 @@ export default function GeneralInformation() {
             name="seller-discount"
             required
           />
-          <p className="text-xs text-gray-500 mt-1">Set the seller Discount.</p>
+          <p className="mt-1 text-xs text-gray-500">Set the seller Discount.</p>
         </div>
         <div>
-          <label className="block text-sm font-medium mb-1" htmlFor="video-id">
+          <label className="block mb-1 text-sm font-medium" htmlFor="video-id">
             Youtube Video Id
           </label>
           <Input type="url" id="video-id" placeholder="video id" name="video" />
-          <p className="text-xs text-gray-500 mt-1">
+          <p className="mt-1 text-xs text-gray-500">
             Set the video id of product.
           </p>
         </div>
         {/* <div>
             <label
-              className="block text-sm font-medium mb-1"
+              className="block mb-1 text-sm font-medium"
               htmlFor="start-end-date"
             >
               Start And End Date
@@ -166,7 +166,7 @@ export default function GeneralInformation() {
               id="start-end-date"
               placeholder="YYYY-MM-DD ~ YYYY-MM-DD"
             />
-            <p className="text-xs text-gray-500 mt-1">
+            <p className="mt-1 text-xs text-gray-500">
               set the product offer and end date
             </p>
           </div> */}

@@ -96,7 +96,7 @@ export default function SalesStatistics({
     <div className="p-4 bg-white rounded-lg shadow">
       <h2 className="mb-4 text-xl font-semibold">Sales Statistics</h2>
       <Tabs defaultValue="sales">
-        <TabsList className="grid grid-cols-2 w-full rounded-lg">
+        <TabsList className="grid w-full grid-cols-2 rounded-lg">
           <TabsTrigger value="sales">Sales</TabsTrigger>
           <TabsTrigger value="report">Orders</TabsTrigger>
         </TabsList>

@@ -6,7 +6,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <>
       <PageTop title="Brands" />
-      <div className="flex flex-col xl:flex-row justify-between gap-4 ">
+      <div className="flex flex-col justify-between gap-4 xl:flex-row ">
         {children}
         <TableUIWrapper route="/brand" columns={brandColumn} />
       </div>

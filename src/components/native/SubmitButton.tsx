@@ -17,7 +17,7 @@ export default function SubmitButton({
     <Button type="submit" disabled={isMutating} className={style}>
       {isMutating ? (
         <>
-          <ReloadIcon className="mr-2 w-4 h-4 animate-spin" />
+          <ReloadIcon className="w-4 h-4 mr-2 animate-spin" />
           <span>Please wait</span>
         </>
       ) : (

@@ -25,8 +25,8 @@ export default function ProductItems({
                 {item.title}
               </Link>
             </CardTitle>
-            <CardDescription className="flex gap-2 text-gray-600 text-xs">
-              <span className="text-green-700 font-medium">
+            <CardDescription className="flex gap-2 text-xs text-gray-600">
+              <span className="font-medium text-green-700">
                 {item.brand?.name}
               </span>
               |<span className="text-red-600">{item.productType}</span>
@@ -42,10 +42,10 @@ export default function ProductItems({
             /> */}
           </CardContent>
           <CardFooter>
-            <div className="w-full flex justify-between items-center">
+            <div className="flex items-center justify-between w-full">
               <div>
                 <p className="font-semibold">$ {item.price}</p>
-                <p className="text-gray-500 text-sm">
+                <p className="text-sm text-gray-500">
                   {item.status} ({item.quantity})
                 </p>
               </div>

@@ -5,7 +5,7 @@ import { Card } from "../ui/card";
 
 function InvoiceGenerator({ data }: { data?: OrderType }) {
   return (
-    <div className="w-full mx-auto my-10 p-6 bg-white shadow-md">
+    <div className="w-full p-6 mx-auto my-10 bg-white shadow-md">
       <div className="mb-6 text-center">
         <h1 className="text-3xl font-bold">Ladies Sign</h1>
         <p className="text-gray-600">
@@ -13,7 +13,7 @@ function InvoiceGenerator({ data }: { data?: OrderType }) {
         </p>
         <p className="text-gray-600">0123456789</p>
       </div>
-      <Card className="mb-6 p-4 border">
+      <Card className="p-4 mb-6 border">
         <div className="grid grid-cols-3 gap-4 mb-4">
           <h2 className="col-span-1 text-sm font-bold">PRODUCT</h2>
           <h2 className="col-span-1 text-sm font-bold">QUANTITY</h2>
@@ -31,8 +31,8 @@ function InvoiceGenerator({ data }: { data?: OrderType }) {
           })}
         </div>
       </Card>
-      <Card className="mb-6 p-4 border">
-        <h2 className="text-lg font-bold mb-4">Order Price</h2>
+      <Card className="p-4 mb-6 border">
+        <h2 className="mb-4 text-lg font-bold">Order Price</h2>
         <div className="grid grid-cols-2 gap-4 mb-2">
           <p className="text-sm">Subtotal</p>
           <p className="text-sm">৳{data?.subTotal}</p>
@@ -46,7 +46,7 @@ function InvoiceGenerator({ data }: { data?: OrderType }) {
           <p className="text-sm font-bold">${data?.totalAmount}</p>
         </div>
       </Card>
-      <Card className="mb-6 p-4 border">
+      <Card className="p-4 mb-6 border">
         <div className="grid grid-cols-2 gap-4 mb-2">
           <p className="text-sm font-bold">Payment Method</p>
           <p className="text-sm">{data?.paymentMethod}</p>

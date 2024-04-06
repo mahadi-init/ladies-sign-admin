@@ -24,12 +24,12 @@ export default function ProductVariants() {
 
   return (
     <div className="p-6 bg-gray-100 rounded-lg shadow-md">
-      <h1 className="text-2xl font-bold mb-4">Product Variations</h1>
+      <h1 className="mb-4 text-2xl font-bold">Product Variations</h1>
       <hr className="mb-6" />
       {values.map((value, index) => {
         return (
           <div key={index} className="w-full">
-            <div className="w-full grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-4 items-center gap-4 mb-6">
+            <div className="grid items-center w-full grid-cols-1 gap-4 mb-6 lg:grid-cols-2 xl:grid-cols-4">
               <div className="flex items-center gap-4">
                 <ProductVariantImgUploader
                   image={value.image}
@@ -42,7 +42,7 @@ export default function ProductVariants() {
                   style="w-24 relative"
                 />
                 <div className="w-full">
-                  <Label className="block text-sm font-medium mb-1">
+                  <Label className="block mb-1 text-sm font-medium">
                     Color Name <span className="text-red-600">*</span>
                   </Label>
                   <select
@@ -57,11 +57,11 @@ export default function ProductVariants() {
                     <option value="green">Green</option>
                     <option value="red">Red</option>
                   </select>
-                  <p className="text-xs mt-1">enter color name. ex:green</p>
+                  <p className="mt-1 text-xs">enter color name. ex:green</p>
                 </div>
               </div>
               <div>
-                <label className="block text-sm font-medium mb-1">
+                <label className="block mb-1 text-sm font-medium">
                   Sizes <span className="text-red-600">*</span>
                 </label>
                 <select
@@ -73,16 +73,18 @@ export default function ProductVariants() {
                     });
                   }}
                 >
-                  {/* <option value="xl">XL</option>
-                  <option value="2xl">2XL</option> */}
-                  {/* {
-                    
-                  } */}
+                  {data?.sizes?.map((size) => {
+                    return (
+                      <option key={size} value={size}>
+                        {size}
+                      </option>
+                    );
+                  })}
                 </select>
-                <p className="text-xs mt-1">enter size.ex:XL</p>
+                <p className="mt-1 text-xs">enter size.ex:XL</p>
               </div>
               <div>
-                <label className="block text-sm font-medium mb-1">
+                <label className="block mb-1 text-sm font-medium ">
                   Quantity <span className="text-red-600">*</span>
                 </label>
                 <Input
@@ -95,10 +97,10 @@ export default function ProductVariants() {
                     });
                   }}
                 />
-                <p className="text-xs mt-1">Quantity with that color</p>
+                <p className="mt-1 text-xs">Quantity with that color</p>
               </div>
               <div>
-                <label className="block text-sm font-medium mb-1">
+                <label className="block mb-1 text-sm font-medium">
                   Price <span className="text-red-600">*</span>
                 </label>
                 <Input
@@ -111,13 +113,13 @@ export default function ProductVariants() {
                     });
                   }}
                 />
-                <p className="text-xs mt-1">Quantity with that color</p>
+                <p className="mt-1 text-xs">Quantity with that color</p>
               </div>
             </div>
           </div>
         );
       })}
-      <div className="mt-4 flex gap-2 w-full justify-end">
+      <div className="flex justify-end w-full gap-2 mt-4">
         <Button
           type="button"
           variant="destructive"

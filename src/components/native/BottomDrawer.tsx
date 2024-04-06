@@ -20,7 +20,7 @@ export default function WithdrawBottomDrawer(): JSX.Element {
         Withdraw
       </DrawerTrigger>
       <DrawerContent>
-        <form className="mx-auto w-full max-w-sm">
+        <form className="w-full max-w-sm mx-auto">
           <DrawerHeader>
             <DrawerTitle>Are you absolutely sure?</DrawerTitle>
             <DrawerDescription>

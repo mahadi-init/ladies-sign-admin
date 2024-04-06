@@ -57,7 +57,7 @@ export const brandColumn: ColumnDef<BrandType>[] = [
   {
     id: "actions",
     cell: ({ row }) => (
-      <div className="flex gap-8 items-center">
+      <div className="flex items-center gap-8">
         <Link href={`/dashboard/brand/edit/${row.original._id}`}>
           <PencilIcon size={16} />
         </Link>

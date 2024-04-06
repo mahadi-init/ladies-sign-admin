@@ -1,7 +1,6 @@
 import PageTop from "@/components/native/PageTop";
 import getAllUsers from "@/utils/get-all-users";
 import { User } from "@clerk/nextjs/server";
-import Wrapper from "./Wrapper";
 
 const formattedUser = (users: User[]) => {
   const data = users.map((user) => {
@@ -25,7 +24,7 @@ export default async function Users() {
   return (
     <>
       <PageTop title="Users" />
-      <Wrapper users={formattedUsers} />
+      {/* <Wrapper users={formattedUsers} /> */}
     </>
   );
 }

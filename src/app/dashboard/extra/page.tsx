@@ -41,14 +41,14 @@ export default function Settings() {
   return (
     <form action={handleSubmit}>
       <PageTop title="Extra" />
-      <p className="text-2xl mt-4 font-semibold text-center mb-4 font-mono">
+      <p className="mt-4 mb-4 font-mono text-2xl font-semibold text-center">
         Configuration
       </p>
 
       {isLoading ? (
         <SixSkeleton />
       ) : (
-        <div className="w-full mt-4 grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4">
+        <div className="grid w-full grid-cols-1 gap-4 mt-4 lg:grid-cols-2 xl:grid-cols-3">
           <Card className="w-full p-2">
             <p className="text-lg font-medium text-center mb-2.5">
               Product Types
@@ -67,7 +67,7 @@ export default function Settings() {
             <p className="text-lg font-medium text-center mb-2.5">Colors</p>
             <SimpleTable heads={["name", "code"]} data={data?.colors} />
             <hr />
-            <div className="flex gap-2 items-center">
+            <div className="flex items-center gap-2">
               <Input
                 className="mt-2.5 bg-gray-100"
                 placeholder="Add color name"

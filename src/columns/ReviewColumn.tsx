@@ -72,7 +72,7 @@ export const reviewColumn: ColumnDef<ReviewType>[] = [
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           RATING
-          <ArrowUpDown className="ml-2 w-4 h-4" />
+          <ArrowUpDown className="w-4 h-4 ml-2" />
         </Button>
       );
     },
@@ -86,7 +86,7 @@ export const reviewColumn: ColumnDef<ReviewType>[] = [
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           COMMENT
-          <ArrowUpDown className="ml-2 w-4 h-4" />
+          <ArrowUpDown className="w-4 h-4 ml-2" />
         </Button>
       );
     },
@@ -94,7 +94,7 @@ export const reviewColumn: ColumnDef<ReviewType>[] = [
   {
     id: "actions",
     cell: ({ row }) => (
-      <div className="flex gap-8 items-center">
+      <div className="flex items-center gap-8">
         <DeleteItem
           queryUrl={`review/delete/${row.original.productId}`}
           validationTag="reviews"

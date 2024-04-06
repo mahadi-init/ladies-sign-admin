@@ -2,6 +2,7 @@
 import { Input } from "@/components/ui/input";
 import { fetcher } from "@/https/get-request";
 import useSWR from "swr";
+import AdditionalKeyValue from "./additional-key-value";
 
 export default function AdditionalInformation() {
   const { data: productTypes } = useSWR<string[]>(
@@ -67,10 +68,7 @@ export default function AdditionalInformation() {
           <p className="mt-2 text-sm text-gray-500">Set the unit of product.</p>
         </div>
       </div>
-      {/* <AdditionalKeyValue /> */}
+      <AdditionalKeyValue />
     </div>
   );
-}
-function useSwr<T>(arg0: string, arg1: boolean) {
-  throw new Error("Function not implemented.");
 }

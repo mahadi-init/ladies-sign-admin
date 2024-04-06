@@ -1,18 +1,12 @@
 "use client";
 import LoadingSkeleton from "@/components/native/LoadingSkeleton";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
+import { Accordion } from "@/components/ui/accordion";
 import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { fetcher } from "@/https/get-request";
 import { XIcon } from "@/icons/Xicon";
 import { site } from "@/site-config";
-import { fetcher } from "@/utils/fetcher";
 import useSWR from "swr";
-import { CategoryType } from "../../types/category.t";
 
 export function ProductCategory({
   parent,
@@ -34,7 +28,7 @@ export function ProductCategory({
   if (isLoading) {
     return (
       <div className="my-4">
-        <p className="block text-xl font-medium mb-1">Product Category</p>
+        <p className="block mb-1 text-xl font-medium">Product Category</p>
         <div className="flex flex-col gap-2">
           <LoadingSkeleton />
           <LoadingSkeleton />
@@ -47,8 +41,8 @@ export function ProductCategory({
   if (error) {
     return (
       <div className="my-4">
-        <p className="block text-xl font-medium mb-1">Product Category</p>
-        <p className="text-red-600 italic">Something went wrong</p>
+        <p className="block mb-1 text-xl font-medium">Product Category</p>
+        <p className="italic text-red-600">Something went wrong</p>
       </div>
     );
   }
@@ -56,7 +50,7 @@ export function ProductCategory({
   return (
     <>
       <div className="my-4">
-        <p className="block text-xl font-medium mb-1">
+        <p className="block mb-1 text-xl font-medium">
           Product Category <span className="text-red-600">*</span>
         </p>
         <div className="flex flex-wrap gap-2">
@@ -84,10 +78,10 @@ export function ProductCategory({
           })}
         </div>
       </div>
-      <ScrollArea className="h-72 w-full rounded-md border border-slate-200 bg-white dark:border-slate-800">
+      <ScrollArea className="w-full bg-white border rounded-md h-72 border-slate-200 dark:border-slate-800">
         <Accordion type="multiple" className="w-full px-2">
           {/* @ts-ignore */}
-          {categories?.data?.map((category: CategoryType, index) => {
+          {/* {categories?.data?.map((category: CategoryType, index) => {
             return (
               <AccordionItem key={index} value={category.name}>
                 <AccordionTrigger
@@ -114,7 +108,7 @@ export function ProductCategory({
                 })}
               </AccordionItem>
             );
-          })}
+          })} */}
         </Accordion>
       </ScrollArea>
     </>
