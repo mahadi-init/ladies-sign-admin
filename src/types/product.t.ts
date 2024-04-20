@@ -1,11 +1,11 @@
 import { z } from "zod";
+import { ProductStatusSchema } from "./product-status.t";
 
 export const ProductSchema = z
   .object({
     _id: z.string(),
     name: z.string().min(3, "Name is too short"),
     img: z.string().url(),
-    title: z.string().min(3, "Title is too short"),
     slug: z.string(),
     unit: z.string(),
     images: z.array(
@@ -31,7 +31,7 @@ export const ProductSchema = z
       name: z.string(),
       id: z.string(),
     }),
-    status: z.string(),
+    status: ProductStatusSchema,
     reviews: z.array(z.string()),
     additionalInformation: z.array(z.any()),
     tags: z.array(z.string()),

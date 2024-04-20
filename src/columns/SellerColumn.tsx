@@ -2,18 +2,18 @@
 import DeleteItem from "@/components/native/DeleteItem";
 import StatusIndicator from "@/components/native/StatusIndicator";
 import { Button } from "@/components/ui/button";
-import { AdminType } from "@/types/admin.t";
+import { SellerType } from "@/types/seller.t";
 import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown, PencilIcon } from "lucide-react";
 import { CldImage } from "next-cloudinary";
 import Link from "next/link";
 
-export const adminColumn: ColumnDef<AdminType>[] = [
+export const sellerColumn: ColumnDef<SellerType>[] = [
   {
-    accessorKey: "index",
-    header: "INDEX",
+    accessorKey: "cid",
+    header: "ID",
     cell: ({ row }) => {
-      return <p># {row.index + 1}</p>;
+      return <p className="font-semibold"># {row.original.cid}</p>;
     },
   },
   {
@@ -49,14 +49,20 @@ export const adminColumn: ColumnDef<AdminType>[] = [
       );
     },
   },
-
   {
     accessorKey: "phone",
     header: "PHONE",
   },
   {
-    accessorKey: "role",
-    header: "ROLE",
+    accessorKey: "balance",
+    header: "BALANCE",
+  },
+  {
+    accessorKey: "orders",
+    header: "ORDERS",
+    cell: ({ row }) => {
+      return <p className="font-medium">{row.original.orders?.length}</p>;
+    },
   },
   {
     accessorKey: "status",
@@ -65,18 +71,17 @@ export const adminColumn: ColumnDef<AdminType>[] = [
       return <StatusIndicator status={row.original.status} />;
     },
   },
-
   {
     id: "actions",
     cell: ({ row }) => (
       <div className="flex items-center gap-8">
-        <Link href={`/dashboard/admin/edit/${row.original._id}`}>
+        <Link href={`/dashboard/seller/edit/${row.original._id}`}>
           <PencilIcon size={16} />
         </Link>
         <DeleteItem
-          queryUrl={`/admin/delete/${row.original._id}`}
-          validationTag="/admin"
-          successMessage="Admin deleted successfully"
+          queryUrl={`/seller/delete/${row.original._id}`}
+          validationTag="/seller"
+          successMessage="Seller deleted successfully"
         />
       </div>
     ),

@@ -1,4 +1,4 @@
-import { OrderStatusType } from "@/types/enums.t";
+import { OrderStatusType } from "./order-status.t";
 
 export interface OrderSummaryType {
   _id: string;

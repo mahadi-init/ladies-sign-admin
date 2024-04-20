@@ -1,4 +1,3 @@
-"use client";
 import LoadingSkeleton from "@/components/native/LoadingSkeleton";
 import { Accordion } from "@/components/ui/accordion";
 import { Badge } from "@/components/ui/badge";
@@ -68,7 +67,7 @@ export function ProductCategory({
                 className="flex items-center"
                 onClick={() => {
                   setSelectedChildrens(
-                    selectedChildrens.filter((_, i) => i !== index)
+                    selectedChildrens.filter((_, i) => i !== index),
                   );
                 }}
               >

@@ -1,5 +1,4 @@
 "use client";
-// import { patchData } from "@/actions/patch";
 import BalanceCard from "@/components/native/BalanceCard";
 import ButtonGroup from "@/components/native/ButtonGroup";
 import ImageUploader from "@/components/native/ImageUploader";
@@ -13,7 +12,6 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useState } from "react";
-import { toast } from "sonner";
 import { ProfileType } from "../types/profile.t";
 
 export default function ProfileUI({
@@ -25,65 +23,6 @@ export default function ProfileUI({
 }): JSX.Element {
   const [image, setImage] = useState<string>();
 
-  const handleFormInfoUpdate = async (formData: FormData) => {
-    const name = formData.get("name");
-    const email = formData.get("email");
-    const phone = formData.get("phone");
-    const city = formData.get("city");
-    const address = formData.get("address");
-
-    const fData = {
-      name,
-      email,
-      phone,
-      city,
-      address,
-      image: image,
-      role: data?.role,
-    };
-    // const res = await patchData(
-    //   fData,
-    //   `${siteConfig.BACKEND_URL}/api/admin/update-stuff/${data?._id}`,
-    //   "admins",
-    //   "Profile updated successfully"
-    // );
-
-    // if (res.status === 200) {
-    //   toast.success(res.message);
-    // } else {
-    //   toast.error(res.message);
-    // }
-  };
-
-  const handleFormUpdatePassword = async (formData: FormData) => {
-    const currentPassword = formData.get("current-password");
-    const newPassword = formData.get("new-password");
-    const confirmPassword = formData.get("confirm-password");
-
-    if (newPassword !== confirmPassword) {
-      toast.error("passwords do not match");
-      return;
-    }
-
-    const fData = {
-      email: data?.email,
-      oldPass: currentPassword,
-      newPass: newPassword,
-    };
-
-    // const res = await patchData(
-    //   fData,
-    //   `${siteConfig.BACKEND_URL}/api/admin/change-password`,
-    //   "admins",
-    //   "Password updated successfully"
-    // );
-    // if (res.status === 200) {
-    //   toast.success(res.message);
-    // } else {
-    //   toast.error(res.message);
-    // }
-  };
-
   return (
     <>
       <div className="flex flex-col gap-8 my-8 xl:flex-row justify-center">
@@ -94,7 +33,7 @@ export default function ProfileUI({
       </div>
       <div className="grid grid-cols-1 gap-8 w-full">
         <Card className="col-span-1 shadow">
-          <form action={handleFormInfoUpdate}>
+          <form>
             <CardHeader>
               <CardTitle>Basic Information</CardTitle>
             </CardHeader>
@@ -183,7 +122,7 @@ export default function ProfileUI({
           </form>
         </Card>
         <Card className="col-span-1 shadow">
-          <form action={handleFormUpdatePassword}>
+          <form>
             <CardHeader>
               <CardTitle>Security</CardTitle>
             </CardHeader>

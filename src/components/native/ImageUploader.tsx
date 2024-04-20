@@ -24,6 +24,7 @@ export default function ImageUploader({
         height={400}
         width={400}
         alt="beautiful image"
+        priority
       />
 
       <CldUploadButton

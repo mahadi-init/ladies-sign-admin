@@ -14,6 +14,9 @@ const nextConfig = {
       {
         hostname: "scontent.fdac24-2.fna.fbcdn.net",
       },
+      {
+        hostname: "images.unsplash.com",
+      },
     ],
   },
   logging: {
@@ -21,9 +24,9 @@ const nextConfig = {
       fullUrl: false,
     },
   },
-  experimental: {
-    typedRoutes: true,
-  },
+  // experimental: {
+  //   typedRoutes: true,
+  // },
 };
 
 module.exports = nextConfig;

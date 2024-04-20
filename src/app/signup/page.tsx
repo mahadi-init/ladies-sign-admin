@@ -26,7 +26,7 @@ export default function Signup() {
   });
   const { trigger, isMutating } = useSWRMutation(
     `/seller/register`,
-    addRequest
+    addRequest,
   );
 
   const onSubmit: SubmitHandler<SellerType> = async (data) => {
@@ -75,18 +75,18 @@ export default function Signup() {
             )}
           </div>
           <div className="space-y-2">
-            <Label htmlFor="email">
-              Email <span className="text-red-600">*</span>
+            <Label htmlFor="phone">
+              Phone <span className="text-red-600">*</span>
             </Label>
             <Input
-              type="email"
-              id="email"
-              placeholder="xyz@gmail.com"
-              {...register("email", { required: true })}
+              id="phone"
+              type="tel"
+              placeholder="012367283822"
+              {...register("phone", { required: true })}
             />
-            {errors.email && (
+            {errors.phone && (
               <span className="text-xs text-red-700">
-                {errors.email.message}
+                {errors.phone.message}
               </span>
             )}
           </div>
@@ -119,22 +119,6 @@ export default function Signup() {
             {errors.address && (
               <span className="text-xs text-red-700">
                 {errors.address.message}
-              </span>
-            )}
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="phone">
-              Phone <span className="text-red-600">*</span>
-            </Label>
-            <Input
-              id="phone"
-              type="tel"
-              placeholder="012367283822"
-              {...register("phone", { required: true })}
-            />
-            {errors.phone && (
-              <span className="text-xs text-red-700">
-                {errors.phone.message}
               </span>
             )}
           </div>

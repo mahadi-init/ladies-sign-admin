@@ -27,8 +27,6 @@ export default function Settings() {
     size: "",
   });
 
-  console.log(input);
-
   if (error) {
     return <FetchErrorMessage error={error} />;
   }
@@ -109,9 +107,7 @@ export default function Settings() {
           </Card>
         </div>
       )}
-      {!isLoading && (
-        <SubmitButton isMutating={isMutating} style="mt-8 w-full" />
-      )}
+      <SubmitButton isMutating={isMutating} style="mt-8 w-full hidden" />
     </form>
   );
 }

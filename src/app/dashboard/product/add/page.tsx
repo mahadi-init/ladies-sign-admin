@@ -2,9 +2,9 @@
 import { Breadcrumbs } from "@/components/native/Breadcrumbs";
 import ButtonGroup from "@/components/native/ButtonGroup";
 import PageTop from "@/components/native/PageTop";
-import AdditionalInformation from "@/shared/products/additional-information";
-import GeneralInformation from "@/shared/products/general-information";
-import ProductVariants from "@/shared/products/product-variants";
+import AdditionalInformation from "../_components/additional-information";
+import GeneralInformation from "../_components/general-information";
+import ProductVariants from "../_components/product-variants";
 
 export default function AddProduct() {
   return (

@@ -117,18 +117,18 @@ export default function Login() {
         </div>
 
         <form onSubmit={handleSubmit(onSubmit)} className="mt-6 space-y-5">
-          <label htmlFor="email" className="ml-1 font-medium">
-            Email <span className="text-red-600">*</span>
+          <label htmlFor="phone" className="ml-1 font-medium">
+            Phone Number <span className="text-red-600">*</span>
             <Input
-              id="email"
-              type="email"
-              placeholder="Enter email"
+              id="tel"
+              type="phone"
+              placeholder="Enter Phone"
               className="mt-2.5"
-              {...register("email", { required: true })}
+              {...register("phone", { required: true })}
             />
-            {errors.email && (
+            {errors.phone && (
               <span className="text-xs text-red-700">
-                {errors.email.message}
+                {errors.phone.message}
               </span>
             )}
           </label>

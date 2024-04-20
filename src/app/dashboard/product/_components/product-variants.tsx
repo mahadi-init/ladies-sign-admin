@@ -8,7 +8,7 @@ import { ExtraType } from "@/types/extra.t";
 import { useState } from "react";
 import { toast } from "sonner";
 import useSWR from "swr";
-import ProductVariantImgUploader from "./product-variant-img-uploader";
+import MiniImageUploader from "./mini-img-uploader";
 
 type ValueType = {
   image: string;
@@ -31,7 +31,7 @@ export default function ProductVariants() {
           <div key={index} className="w-full">
             <div className="grid items-center w-full grid-cols-1 gap-4 mb-6 lg:grid-cols-2 xl:grid-cols-4">
               <div className="flex items-center gap-4">
-                <ProductVariantImgUploader
+                <MiniImageUploader
                   image={value.image}
                   setImage={(img) => {
                     setValues((prev) => {
