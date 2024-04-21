@@ -18,7 +18,7 @@ interface PropTypes extends CategoryType {
 }
 
 export default function CategoryUI(props: PropTypes) {
-  const { data, error } = useSWR<string[]>(`/extra/all/product-types`, fetcher);
+  const { data } = useSWR<string[]>(`/extra/all/product-types`, fetcher);
   const [image, setImage] = useState<string>();
   const { showStatus } = useStatus();
   const [children, setChildren] = useState<string[]>(props.children ?? []);
@@ -75,10 +75,11 @@ export default function CategoryUI(props: PropTypes) {
           </label>
           <select
             id="product-type"
+            defaultValue={props.productType}
             className="mt-0.5 w-full p-2.5 bg-gray-100 rounded-md"
             {...register("productType", { required: true })}
           >
-            <option value={props.productType} selected disabled hidden>
+            <option value={props.productType} selected disabled>
               {props.productType ?? data?.[0]}
             </option>
             {data?.map((item) => {

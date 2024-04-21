@@ -8,10 +8,10 @@ import Link from "next/link";
 
 export const productColumn: ColumnDef<ProductType>[] = [
   {
-    accessorKey: "index",
-    header: "INDEX",
+    accessorKey: "id",
+    header: "ID",
     cell: ({ row }) => {
-      return <p># {row.index + 1}</p>;
+      return <p className="font-semibold"># {row.original.cid}</p>;
     },
   },
   {

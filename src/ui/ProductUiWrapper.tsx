@@ -3,11 +3,11 @@ import { DataTable } from "@/components/native/DataTable";
 import FetchErrorMessage from "@/components/native/FetchErrorMessage";
 import SixSkeleton from "@/components/native/SixSkeleton";
 import TablePagination from "@/components/native/TablePagination";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { fetcher } from "@/https/get-request";
 import { ColumnDef } from "@tanstack/react-table";
-import { RefreshCcw } from "lucide-react";
+import { BadgePlus } from "lucide-react";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import useSWR from "swr";
 
@@ -16,7 +16,7 @@ interface TableUIWrapperProps<T> {
   columns: ColumnDef<T, unknown>[];
 }
 
-export default function ProductUiWrapper<T>({
+export default function ProductUiWrapper<T extends { status?: string }>({
   route,
   columns,
 }: TableUIWrapperProps<T>) {
@@ -27,7 +27,7 @@ export default function ProductUiWrapper<T>({
   const [filteredItems, setFilteredItems] = useState<T[]>();
 
   // fetch all data using pagination
-  const { data, error, isLoading, mutate } = useSWR<T[]>(
+  const { data, error, isLoading } = useSWR<T[]>(
     `${route}/page?page=${index}&limit=${limit}`,
     fetcher
   );
@@ -72,14 +72,13 @@ export default function ProductUiWrapper<T>({
   }
 
   // filter by dropdown
-  // const handleDropdown = (status: string) => {
-  //   if (status === "ALL") {
-  //     setFilteredItems(data);
-  //   } else {
-  //     const temp = status === "ACTIVE" ? true : false;
-  //     setFilteredItems(data?.filter((item) => item.status === temp));
-  //   }
-  // };
+  const handleDropdown = (status: string) => {
+    if (status === "ALL") {
+      setFilteredItems(data);
+    } else {
+      setFilteredItems(data?.filter((item) => item.status === status));
+    }
+  };
 
   return (
     <div className="w-full mt-4 flex flex-col gap-4 ">
@@ -90,22 +89,27 @@ export default function ProductUiWrapper<T>({
           onChange={(e) => setTemp(e.target.value)}
         />
         <div className="flex gap-2">
-          {/* <select
+          <select
             onChange={(e) => handleDropdown(e.target.value)}
             className="mt-0.5 p-2 bg-gray-100 rounded-md"
           >
             <option value="ALL">ALL</option>
-            <option value="ACTIVE">ACTIVE</option>
-            <option value="INACTIVE">INACTIVE</option>
-          </select> */}
-          <Button
-            variant="outline"
-            onClick={() => {
-              mutate();
-            }}
+            <option className="text-green-600" value="IN-STOCK">
+              IN STOCK
+            </option>
+            <option className="text-red-500" value="OUT-OF-STOCK">
+              OUT OF STOCK
+            </option>
+            <option className="text-yellow-600" value="DISCONTINUED">
+              DISCONTINUED
+            </option>
+          </select>
+          <Link
+            href="/dashboard/product/add"
+            className="flex items-center justify-center p-2 bg-gray-100 rounded-md"
           >
-            <RefreshCcw />
-          </Button>
+            <BadgePlus />
+          </Link>
         </div>
       </div>
 

@@ -95,8 +95,12 @@ export default function TableUIWrapper<T extends { status?: boolean }>({
             className="mt-0.5 p-2 bg-gray-100 rounded-md"
           >
             <option value="ALL">ALL</option>
-            <option value="ACTIVE">ACTIVE</option>
-            <option value="INACTIVE">INACTIVE</option>
+            <option className="text-green-600" value="ACTIVE">
+              ACTIVE
+            </option>
+            <option className="text-red-500" value="INACTIVE">
+              INACTIVE
+            </option>
           </select>
           <Button
             variant="outline"
