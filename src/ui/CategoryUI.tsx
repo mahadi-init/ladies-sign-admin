@@ -79,7 +79,7 @@ export default function CategoryUI(props: PropTypes) {
             className="mt-0.5 w-full p-2.5 bg-gray-100 rounded-md"
             {...register("productType", { required: true })}
           >
-            <option value={props.productType} selected disabled>
+            <option value={props.productType} selected disabled hidden>
               {props.productType ?? data?.[0]}
             </option>
             {data?.map((item) => {

@@ -7,19 +7,23 @@ export const ProductSchema = z
     cid: z.coerce.number(),
     name: z.string().min(3, "Name is too short"),
     img: z.string().url(),
+    sku: z.string().min(3, "SKU is too short"),
     slug: z.string(),
     unit: z.string(),
-    images: z.array(
+    variants: z.array(
       z.object({
         color: z.string(),
         code: z.string(),
         img: z.string().url(),
         size: z.array(z.string()),
+        quantity: z.number().min(0),
+        price: z.number().min(0),
       })
     ),
     children: z.string(),
     price: z.number().min(0),
     discount: z.number().min(0),
+    sellerPrice: z.number().min(0),
     quantity: z.number().min(0),
     productType: z.string(),
     description: z.string(),

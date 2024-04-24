@@ -3,6 +3,7 @@ import DeleteItem from "@/components/native/DeleteItem";
 import { ImagepopOver } from "@/components/native/ImagePopOver";
 import { ProductType } from "@/types/product.t";
 import { ColumnDef } from "@tanstack/react-table";
+import clsx from "clsx";
 import { PencilIcon } from "lucide-react";
 import Link from "next/link";
 
@@ -58,7 +59,18 @@ export const productColumn: ColumnDef<ProductType>[] = [
     accessorKey: "status",
     header: "STATUS",
     cell: ({ row }) => {
-      return <p>{row.original.status}</p>;
+      return (
+        <p
+          className={clsx(
+            row.original.status === "IN-STOCK"
+              ? "text-green-500"
+              : "text-red-500",
+            "font-medium"
+          )}
+        >
+          {row.original.status}
+        </p>
+      );
     },
   },
 

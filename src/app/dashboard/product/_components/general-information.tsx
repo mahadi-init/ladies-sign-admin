@@ -2,9 +2,12 @@
 import ImageUploader from "@/components/native/ImageUploader";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { ProductType } from "@/types/product.t";
 import { useState } from "react";
+import { useFormContext } from "react-hook-form";
 
 export default function GeneralInformation() {
+  const { register } = useFormContext<ProductType>();
   const [image, setImage] = useState<string>();
 
   return (
@@ -40,14 +43,13 @@ export default function GeneralInformation() {
         <div className="grid grid-cols-1 gap-4">
           <div>
             <label className="block mb-1 text-sm font-medium" htmlFor="title">
-              Title <span className="text-red-500">*</span>
+              Name <span className="text-red-500">*</span>
             </label>
             <Input
               type="text"
               id="title"
               placeholder="Product Title"
-              name="title"
-              required
+              {...register("name", { required: true })}
             />
           </div>
           <div>
@@ -60,8 +62,7 @@ export default function GeneralInformation() {
             <Textarea
               id="description"
               placeholder="Your Description"
-              name="description"
-              required
+              {...register("description", { required: true })}
             />
           </div>
         </div>
@@ -76,19 +77,28 @@ export default function GeneralInformation() {
               type="number"
               id="price"
               placeholder="Product price"
-              name="price"
-              required
+              {...register("price", { required: true })}
             />
             <p className="mt-1 text-xs text-gray-500">
               Set the base price of product.
             </p>
           </div>
           <div>
-            <label className="block mb-1 text-sm font-medium" htmlFor="sku">
-              SKU
+            <label
+              className="block mb-1 text-sm font-medium"
+              htmlFor="seller-discount"
+            >
+              Seller Price<span className="text-red-500">*</span>
             </label>
-            <Input type="text" id="sku" placeholder="SKU" name="sku" />
-            <p className="mt-1 text-xs text-gray-500">Enter the product SKU.</p>
+            <Input
+              type="number"
+              id="seller-discount"
+              placeholder="Seller Discount"
+              {...register("sellerPrice", { required: true })}
+            />
+            <p className="mt-1 text-xs text-gray-500">
+              Set the seller Discount.
+            </p>
           </div>
           <div>
             <label
@@ -101,8 +111,7 @@ export default function GeneralInformation() {
               type="number"
               id="quantity"
               placeholder="Quantity"
-              name="quantity"
-              required
+              {...register("quantity", { required: true })}
             />
             <p className="mt-1 text-xs text-gray-500">
               Enter the product quantity.
@@ -113,14 +122,13 @@ export default function GeneralInformation() {
               className="block mb-1 text-sm font-medium"
               htmlFor="discount"
             >
-              Discount Percentage <span className="text-red-500">*</span>
+              Discount <span className="text-red-500">*</span>
             </label>
             <Input
               type="number"
               id="discount"
               placeholder="Discount"
-              name="discount"
-              required
+              {...register("discount", { required: true })}
             />
             <p className="mt-1 text-xs text-gray-500">
               Set the customer Discount.
@@ -130,46 +138,47 @@ export default function GeneralInformation() {
       </div>
       <div className="grid grid-cols-2 gap-4">
         <div>
-          <label
-            className="block mb-1 text-sm font-medium"
-            htmlFor="seller-discount"
-          >
-            Seller Percentage <span className="text-red-500">*</span>
+          <label className="block mb-1 text-sm font-medium" htmlFor="sku">
+            SKU
           </label>
           <Input
-            type="number"
-            id="seller-discount"
-            placeholder="Seller Discount"
-            name="seller-discount"
-            required
+            type="text"
+            id="sku"
+            placeholder="SKU"
+            {...register("sku", { required: false })}
           />
-          <p className="mt-1 text-xs text-gray-500">Set the seller Discount.</p>
+          <p className="mt-1 text-xs text-gray-500">Enter the product SKU.</p>
         </div>
         <div>
           <label className="block mb-1 text-sm font-medium" htmlFor="video-id">
             Youtube Video Id
           </label>
-          <Input type="url" id="video-id" placeholder="video id" name="video" />
+          <Input
+            type="url"
+            id="video-id"
+            placeholder="video id"
+            {...register("videoId", { required: false })}
+          />
           <p className="mt-1 text-xs text-gray-500">
             Set the video id of product.
           </p>
         </div>
         {/* <div>
-            <label
-              className="block mb-1 text-sm font-medium"
-              htmlFor="start-end-date"
-            >
-              Start And End Date
-            </label>
-            <Input
-              type="date"
-              id="start-end-date"
-              placeholder="YYYY-MM-DD ~ YYYY-MM-DD"
-            />
-            <p className="mt-1 text-xs text-gray-500">
-              set the product offer and end date
-            </p>
-          </div> */}
+          <label
+            className="block mb-1 text-sm font-medium"
+            htmlFor="start-end-date"
+          >
+            Start And End Date
+          </label>
+          <Input
+            type="date"
+            id="start-end-date"
+            placeholder="YYYY-MM-DD ~ YYYY-MM-DD"
+          />
+          <p className="mt-1 text-xs text-gray-500">
+            set the product offer and end date
+          </p>
+        </div> */}
       </div>
     </div>
   );

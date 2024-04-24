@@ -159,6 +159,7 @@ export default function CouponUI(props: PropTypes) {
           Product Type <span className="text-red-500">*</span>
           <select
             id="product-type"
+            defaultValue={props.productType}
             className="mt-0.5 w-full p-2.5 bg-gray-100 rounded-md"
             {...register("productType", { required: true })}
           >
@@ -179,7 +180,6 @@ export default function CouponUI(props: PropTypes) {
               );
             })}
           </select>
-          {/* <p className="mt-2 text-sm text-gray-500">Set the product type</p> */}
         </label>
         <ButtonGroup isMutating={props.isMutating} />
       </div>
