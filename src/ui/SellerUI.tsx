@@ -105,12 +105,10 @@ export default function SellerUI(props: PropTypes) {
             type="number"
             className="mt-1 bg-gray-100"
             placeholder="012345678"
-            {...register("nidNumber", { required: true })}
+            {...register("nid", { required: true })}
           />
-          {errors.nidNumber && (
-            <span className="text-xs text-red-700">
-              {errors.nidNumber.message}
-            </span>
+          {errors.nid && (
+            <span className="text-xs text-red-700">{errors.nid.message}</span>
           )}
         </label>
 

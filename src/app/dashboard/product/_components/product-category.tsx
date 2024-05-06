@@ -1,28 +1,38 @@
+import { ChipInput } from "@/components/native/ChipInput";
 import LoadingSkeleton from "@/components/native/LoadingSkeleton";
-import { Accordion } from "@/components/ui/accordion";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { fetcher } from "@/https/get-request";
 import { XIcon } from "@/icons/Xicon";
-import { site } from "@/site-config";
+import { CategoryType } from "@/types/category.t";
 import useSWR from "swr";
 
 export function ProductCategory({
-  parent,
-  setParent,
-  selectedChildrens,
+  category,
+  setCategory,
+  childrens,
   setSelectedChildrens,
+  tags,
+  setTags,
 }: {
-  parent?: string;
-  setParent: (arg0?: string) => void;
-  selectedChildrens: string[];
+  category?: string;
+  setCategory: (arg0?: string) => void;
+  childrens: string[];
   setSelectedChildrens: (arg0: string[]) => void;
+  tags: string[];
+  setTags: (arg0: string[]) => void;
 }) {
   const {
     data: categories,
     error,
     isLoading,
-  } = useSWR(`${site.BACKEND_URL}/api/category/all`, fetcher);
+  } = useSWR<CategoryType[]>(`/category/all`, fetcher);
 
   if (isLoading) {
     return (
@@ -52,23 +62,25 @@ export function ProductCategory({
         <p className="block mb-1 text-xl font-medium">
           Product Category <span className="text-red-600">*</span>
         </p>
+
         <div className="flex flex-wrap gap-2">
-          {parent && (
-            <Badge variant="secondary" className="flex items-center">
-              {parent}
-              <XIcon className="ml-1" onClick={() => setParent(undefined)} />
+          {category && (
+            <Badge
+              variant="secondary"
+              className="flex items-center"
+              onClick={() => setCategory(undefined)}
+            >
+              {category} <XIcon className="ml-1" />
             </Badge>
           )}
-          {selectedChildrens.map((category, index) => {
+          {childrens.map((category, index) => {
             return (
               <Badge
                 key={index}
                 variant="secondary"
                 className="flex items-center"
                 onClick={() => {
-                  setSelectedChildrens(
-                    selectedChildrens.filter((_, i) => i !== index),
-                  );
+                  setSelectedChildrens(childrens.filter((_, i) => i !== index));
                 }}
               >
                 {category} <XIcon className="ml-1" />
@@ -77,27 +89,25 @@ export function ProductCategory({
           })}
         </div>
       </div>
+
       <ScrollArea className="w-full bg-white border rounded-md h-72 border-slate-200 dark:border-slate-800">
         <Accordion type="multiple" className="w-full px-2">
-          {/* @ts-ignore */}
-          {/* {categories?.data?.map((category: CategoryType, index) => {
+          {categories?.map((category, index) => {
             return (
-              <AccordionItem key={index} value={category.name}>
+              <AccordionItem key={index} value={category.name as string}>
                 <AccordionTrigger
-                  onClick={() => {
-                    setParent(category.name);
-                  }}
+                  onClick={() => setCategory(category.name as string)}
                 >
                   {category.name}
                 </AccordionTrigger>
-                {category.children.map((item, index) => {
+                {category?.children?.map((item, index) => {
                   return (
                     <AccordionContent
                       key={index}
                       className="cursor-pointer"
                       onClick={() => {
-                        if (!selectedChildrens.includes(item)) {
-                          setSelectedChildrens([...selectedChildrens, item]);
+                        if (!childrens.includes(item)) {
+                          setSelectedChildrens([...childrens, item]);
                         }
                       }}
                     >
@@ -107,9 +117,16 @@ export function ProductCategory({
                 })}
               </AccordionItem>
             );
-          })} */}
+          })}
         </Accordion>
       </ScrollArea>
+
+      <ChipInput
+        label="Tags"
+        items={tags}
+        setItems={setTags}
+        style="bg-white"
+      />
     </>
   );
 }

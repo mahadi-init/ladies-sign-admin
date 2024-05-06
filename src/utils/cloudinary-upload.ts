@@ -11,7 +11,7 @@ cloudinary.config({
 export async function cloudinaryUpload(
   formData: FormData,
   imageName: string,
-  folder?: string
+  folder?: string,
 ): Promise<UploadApiResponse | undefined> {
   const file = formData.get(imageName) as File;
 
@@ -35,10 +35,10 @@ export async function cloudinaryUpload(
               return;
             }
             resolve(res);
-          }
+          },
         )
         .end(buffer);
-    }
+    },
   );
 
   return cloud;

@@ -29,7 +29,7 @@ export default function TableUIWrapper<T extends { status?: boolean }>({
   // fetch all data using pagination
   const { data, error, isLoading, mutate } = useSWR<T[]>(
     `${route}/page?page=${index}&limit=${limit}`,
-    fetcher
+    fetcher,
   );
 
   // fetch total number of pages
@@ -42,7 +42,7 @@ export default function TableUIWrapper<T extends { status?: boolean }>({
   // fetch filtered data
   const { data: filter } = useSWR<T[]>(
     search && `${route}/search?q=${search}`,
-    fetcher
+    fetcher,
   );
 
   // filter by search

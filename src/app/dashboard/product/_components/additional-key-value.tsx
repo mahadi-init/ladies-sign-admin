@@ -22,7 +22,7 @@ export default function AdditionalKeyValue() {
           type="button"
           className={clsx(
             buttonVariants({ variant: "default" }),
-            "ml-auto cursor-pointer"
+            "ml-auto cursor-pointer",
           )}
           onClick={() => append({ key: "", value: "" })}
         >
@@ -46,6 +46,7 @@ export default function AdditionalKeyValue() {
                 {...register(`infos.${index}.key`, { required: true })}
               />
             </div>
+
             <div className="w-6/12  lg:w-7/12 2xl:w-8/12">
               <label className="block text-sm font-medium text-gray-700">
                 Value <span className="text-red-600">*</span>
@@ -56,6 +57,7 @@ export default function AdditionalKeyValue() {
                 {...register(`infos.${index}.value`, { required: true })}
               />
             </div>
+
             <div className="flex justify-end gap-2 mt-4">
               <Button
                 type="button"

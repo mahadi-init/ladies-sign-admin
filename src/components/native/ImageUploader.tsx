@@ -6,7 +6,7 @@ import { toast } from "sonner";
 import { site } from "../../site-config";
 
 export default function ImageUploader({
-  image,
+  image = "/logo.png",
   setImage,
   folder,
   style,
@@ -19,7 +19,7 @@ export default function ImageUploader({
   return (
     <div className={clsx(style, "flex flex-col items-center")}>
       <Image
-        src={image ?? "/logo.png"}
+        src={image}
         className={clsx("w-72 rounded-md")}
         height={400}
         width={400}

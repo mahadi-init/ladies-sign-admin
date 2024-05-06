@@ -18,7 +18,7 @@ export const ProductSchema = z
         size: z.array(z.string()),
         quantity: z.number().min(0),
         price: z.number().min(0),
-      })
+      }),
     ),
     children: z.string(),
     price: z.number().min(0),

@@ -10,7 +10,7 @@ export default function AdditionalInformation() {
   const { register } = useFormContext<ProductType>();
   const { data: productTypes } = useSWR<string[]>(
     "/extra/all/product-types",
-    fetcher
+    fetcher,
   );
   const { data: brands } = useSWR<string[]>("/brand/all-names", fetcher);
 
@@ -31,9 +31,6 @@ export default function AdditionalInformation() {
             className="mt-0.5 w-full p-2 bg-white rounded-md"
             {...register("productType", { required: true })}
           >
-            <option value={productTypes?.[0]} selected disabled hidden>
-              {productTypes?.[0]}
-            </option>
             {productTypes?.map((item) => {
               return (
                 <option value={item} key={item}>
@@ -47,6 +44,7 @@ export default function AdditionalInformation() {
             Set the product ProductType.
           </p>
         </div>
+
         <div>
           <label
             className="block text-sm font-medium text-gray-700"
@@ -60,9 +58,6 @@ export default function AdditionalInformation() {
             className="mt-0.5 w-full p-2 bg-white rounded-md"
             {...register("brand.name", { required: true })}
           >
-            <option value={brands?.[0]} selected disabled hidden>
-              {brands?.[0]}
-            </option>
             {brands?.map((item) => {
               return (
                 <option value={item} key={item}>
@@ -73,6 +68,7 @@ export default function AdditionalInformation() {
           </select>
           <p className="mt-2 text-sm text-gray-500">Set the product Brand.</p>
         </div>
+
         <div>
           <label
             className="block text-sm font-medium text-gray-700"

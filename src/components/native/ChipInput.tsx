@@ -1,13 +1,18 @@
 import { XIcon } from "@/icons/Xicon";
 import { useState } from "react";
 import { Textarea } from "../ui/textarea";
+import clsx from "clsx";
 
 export function ChipInput({
+  label,
   items,
   setItems,
+  style,
 }: {
+  label?: string;
   items: string[];
   setItems: (arg0: string[]) => void;
+  style?: string;
 }) {
   const [input, setInput] = useState("");
 
@@ -24,7 +29,7 @@ export function ChipInput({
   return (
     <div className="flex flex-col space-y-2">
       <label className="text-sm font-medium leading-none" htmlFor="children">
-        Children
+        {label}
       </label>
       {items.length !== 0 && (
         <div className="flex flex-wrap items-center p-2 border rounded-md border-slate-200 dark:border-slate-800">
@@ -47,14 +52,19 @@ export function ChipInput({
       )}
 
       <Textarea
-        className="flex-1 text-sm bg-gray-100 border-none ring-1 ring-slate-200"
+        className={clsx(
+          "flex-1 text-sm bg-gray-100 border-none ring-1 ring-slate-200",
+          style,
+        )}
         id="children"
-        placeholder={items.length === 0 ? "Enter children" : undefined}
+        placeholder={items.length === 0 ? `Enter ${label}` : undefined}
         value={input}
         onChange={(e) => setInput(e.target.value)}
         onKeyDown={handleEnter}
       />
-      <p className="text-xs text-gray-500">press enter to add new children</p>
+      <p className="text-xs text-gray-500">
+        press enter to add new {label?.toLowerCase()}
+      </p>
     </div>
   );
 }

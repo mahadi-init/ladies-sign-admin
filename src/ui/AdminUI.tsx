@@ -106,12 +106,10 @@ export default function AdminUI(props: PropTypes) {
           Role <span className="text-red-500">*</span>
           <select
             id="role"
+            defaultValue={props.role ?? roles[0]}
             className="mt-0.5 w-full p-3 bg-gray-100 rounded-md"
             {...register("role")}
           >
-            <option value={props.role} selected disabled hidden>
-              {props.role ?? roles[0]}
-            </option>
             {roles.map((item) => {
               return (
                 <option

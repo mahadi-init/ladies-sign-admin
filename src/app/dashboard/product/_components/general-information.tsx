@@ -1,45 +1,21 @@
 "use client";
-import ImageUploader from "@/components/native/ImageUploader";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { ProductType } from "@/types/product.t";
-import { useState } from "react";
 import { useFormContext } from "react-hook-form";
 
-export default function GeneralInformation() {
+export default function GeneralInformation({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   const { register } = useFormContext<ProductType>();
-  const [image, setImage] = useState<string>();
 
   return (
     <div className="p-6 bg-gray-100 rounded-lg shadow">
       <div className="mb-6">
         <h2 className="mb-2 text-xl font-semibold">General</h2>
-        <div className="flex flex-col pb-2 xl:flex-row justify-evenly xl:items-center">
-          <div className="flex flex-col items-center ">
-            <ImageUploader image={image} setImage={setImage} />
-          </div>
-          {/* <div className="flex flex-col gap-4 xl:w-1/2">
-            <ProductCategory
-              parent={parent}
-              setParent={setParent}
-              selectedChildrens={selectedChildrens}
-              setSelectedChildrens={setSelectedChildrens}
-            />
-            <label htmlFor="tags" className="block mb-1 text-sm font-medium">
-              Tags
-              <Input
-                id="tags"
-                placeholder="Enter tags"
-                name="tags"
-                className="mt-1.5"
-                type="text"
-              />
-              <p className="mt-1 text-xs text-gray-500">
-                set tags for the product (comma separated)
-              </p>
-            </label>
-          </div> */}
-        </div>
+        {children}
         <div className="grid grid-cols-1 gap-4">
           <div>
             <label className="block mb-1 text-sm font-medium" htmlFor="title">
@@ -52,6 +28,7 @@ export default function GeneralInformation() {
               {...register("name", { required: true })}
             />
           </div>
+
           <div>
             <label
               className="block mb-1 text-sm font-medium"
@@ -67,6 +44,7 @@ export default function GeneralInformation() {
           </div>
         </div>
       </div>
+
       <div className="mb-6">
         <div className="grid grid-cols-2 gap-4">
           <div>
@@ -83,6 +61,7 @@ export default function GeneralInformation() {
               Set the base price of product.
             </p>
           </div>
+
           <div>
             <label
               className="block mb-1 text-sm font-medium"
@@ -100,6 +79,7 @@ export default function GeneralInformation() {
               Set the seller Discount.
             </p>
           </div>
+
           <div>
             <label
               className="block mb-1 text-sm font-medium"
@@ -117,6 +97,7 @@ export default function GeneralInformation() {
               Enter the product quantity.
             </p>
           </div>
+
           <div>
             <label
               className="block mb-1 text-sm font-medium"
@@ -149,6 +130,7 @@ export default function GeneralInformation() {
           />
           <p className="mt-1 text-xs text-gray-500">Enter the product SKU.</p>
         </div>
+
         <div>
           <label className="block mb-1 text-sm font-medium" htmlFor="video-id">
             Youtube Video Id
@@ -163,6 +145,7 @@ export default function GeneralInformation() {
             Set the video id of product.
           </p>
         </div>
+
         {/* <div>
           <label
             className="block mb-1 text-sm font-medium"

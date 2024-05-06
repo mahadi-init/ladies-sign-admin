@@ -1,55 +1,32 @@
-import { OrderStatusType } from "./order-status.t";
+import { z } from "zod";
+import { OrderStatusSchema } from "./order-status.t";
+import { UserSchema } from "./user.t";
+import { SellerSchema } from "./seller.t";
+import { ProductSchema } from "./product.t";
 
-export interface OrderSummaryType {
-  _id: string;
-  invoice: string;
-  name: string;
-  address: string;
-  city: string;
-  totalAmount: number;
-  shippingCost: number;
-  subTotal: string;
-  status: OrderStatusType;
-  trackingCode?: string;
-  trackingLink?: string;
-  contact: string;
-  note: string;
-  createdAt: Date;
-}
+const OrderSchema = z
+  .object({
+    _id: z.string(),
+    user: UserSchema,
+    seller: SellerSchema,
+    invoice: z.number(),
+    cart: z.array(ProductSchema),
+    phone: z.string().min(11, "minium 11 characters required"),
+    address: z.string(),
+    city: z.string(),
+    total: z.number(),
+    subTotal: z.number(),
+    shippingCost: z.number(),
+    discount: z.number(),
+    shippingOption: z.string(),
+    paymentMethod: z.string(),
+    paymentDetails: z.object({}),
+    trackingCode: z.string(),
+    trackingLink: z.string(),
+    status: OrderStatusSchema,
+    createdAt: z.string().datetime(),
+    updatedAt: z.string().datetime(),
+  })
+  .partial();
 
-export interface OrderType extends Partial<OrderSummaryType> {
-  email: string;
-  country: string;
-  zipCode: number;
-  discount: number;
-  paymentMethod: string;
-  cart: {
-    brand: {
-      name: string;
-    };
-    category: {
-      name: string;
-    };
-    _id: string;
-    sku: string;
-    img: string;
-    title: string;
-    slug: string;
-    unit: string;
-    imageUrls: {
-      color: {
-        name: string;
-        clrCode: string;
-      };
-      img: string;
-    }[];
-    parent: string;
-    children: string;
-    price: number;
-    discount: number;
-    quantity: number;
-    status: string;
-    productType: string;
-    orderQuantity: number;
-  }[];
-}
+export type OrderType = z.infer<typeof OrderSchema>;

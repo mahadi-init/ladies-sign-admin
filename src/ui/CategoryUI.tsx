@@ -65,7 +65,7 @@ export default function CategoryUI(props: PropTypes) {
             <span className="text-xs text-red-700">{errors.name.message}</span>
           )}
         </label>
-        <ChipInput items={children} setItems={setChildren} />
+        <ChipInput label="Children" items={children} setItems={setChildren} />
         <div>
           <label
             className="block text-sm font-medium text-gray-700"
@@ -79,9 +79,6 @@ export default function CategoryUI(props: PropTypes) {
             className="mt-0.5 w-full p-2.5 bg-gray-100 rounded-md"
             {...register("productType", { required: true })}
           >
-            <option value={props.productType} selected disabled hidden>
-              {props.productType ?? data?.[0]}
-            </option>
             {data?.map((item) => {
               return (
                 <option

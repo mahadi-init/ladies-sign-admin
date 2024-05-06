@@ -1,26 +1,25 @@
 "use client";
+import { reviewColumn } from "@/columns/ReviewColumn";
+import { DataTable } from "@/components/native/DataTable";
+import FetchErrorMessage from "@/components/native/FetchErrorMessage";
 import PageTop from "@/components/native/PageTop";
-import { Input } from "@/components/ui/input";
 import { fetcher } from "@/https/get-request";
 import { ReviewType } from "@/types/review.t";
 import useSWR from "swr";
 
 export default function Reviews() {
-  const { data } = useSWR<ReviewType[]>("/review/all", fetcher);
+  const { data, error } = useSWR<ReviewType[]>("/review/all", fetcher);
+  console.log(data);
+
+  if (error) {
+    return <FetchErrorMessage error={error} />;
+  }
 
   return (
     <>
       <PageTop title="Reviews" />
-      <div className="flex flex-col gap-4 mt-4 ">
-        <div className="flex items-center justify-between ">
-          <Input
-            className="w-fit"
-            placeholder="filter item.."
-            // onChange={(e) => handleSearchFilter(e.target.value)}
-          />
-          <div className="flex gap-2"></div>
-        </div>
-        {/* <DataTable column={reviewColumn} data={filteredReviews} /> */}
+      <div className="mt-4">
+        {data && <DataTable columns={reviewColumn} data={data} />}
       </div>
     </>
   );

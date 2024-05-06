@@ -31,15 +31,15 @@ export const productColumn: ColumnDef<ProductType>[] = [
     },
   },
   {
-    accessorKey: "brand",
-    header: "BRAND",
+    accessorKey: "type",
+    header: "Type",
     cell: ({ row }) => {
-      return <p>{row.original.brand?.name}</p>;
+      return <p>{row.original.productType}</p>;
     },
   },
   {
-    accessorKey: "cartegory",
-    header: "CATEGORY",
+    accessorKey: "category",
+    header: "Category",
     cell: ({ row }) => {
       return <p>{row.original.category?.name}</p>;
     },
@@ -65,7 +65,7 @@ export const productColumn: ColumnDef<ProductType>[] = [
             row.original.status === "IN-STOCK"
               ? "text-green-500"
               : "text-red-500",
-            "font-medium"
+            "font-medium",
           )}
         >
           {row.original.status}

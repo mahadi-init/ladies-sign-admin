@@ -21,7 +21,7 @@ import useSWRMutation from "swr/mutation";
 export default function Login() {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(true);
-  const [isSeller, setIsSeller] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
   const {
     register,
     handleSubmit,
@@ -33,13 +33,13 @@ export default function Login() {
   // admin login mutation
   const { trigger: adminLogin, isMutating: isAdminMutating } = useSWRMutation(
     `/admin/login`,
-    addRequest
+    addRequest,
   );
 
   // seller login mutation
   const { trigger: sellerLogin, isMutating: isSellerMutating } = useSWRMutation(
     `/seller/login`,
-    addRequest
+    addRequest,
   );
 
   useEffect(() => {
@@ -52,7 +52,7 @@ export default function Login() {
       if (payload && payload.status) {
         //@ts-expect-error
         if (!payload.role) {
-          router.replace("/seller/profile");
+          router.replace("/seller");
         } else {
           router.replace("/dashboard");
         }
@@ -80,22 +80,22 @@ export default function Login() {
   }
 
   const onSubmit: SubmitHandler<AdminType> = async (data) => {
-    const res = await adminLogin(data);
+    if (isAdmin) {
+      const res = await adminLogin(data);
 
-    if (isSeller) {
+      if (res.success === true) {
+        toast.success(
+          `${res.data.name} Successfully Logged in as ${res.data.role}`,
+        );
+        router.replace("/dashboard");
+        return;
+      }
+    } else {
       const res = await sellerLogin(data);
 
       if (res.success === true) {
         toast.success(`${res.data.name} Successfully Logged in as Seller`);
-        router.replace("/seller/profile");
-        return;
-      }
-    } else {
-      if (res.success === true) {
-        toast.success(
-          `${res.data.name} Successfully Logged in as ${res.data.role}`
-        );
-        router.replace("/dashboard");
+        router.replace("/seller");
         return;
       }
     }
@@ -155,18 +155,15 @@ export default function Login() {
 
             <div className="flex items-center justify-between">
               <Label className="flex items-center gap-2">
-                <input
-                  type="checkbox"
-                  onChange={() => setIsSeller(!isSeller)}
-                />
-                <p className="text-nowrap -mt-1">Signin as a seller</p>
+                <input type="checkbox" onChange={() => setIsAdmin(!isAdmin)} />
+                <p className="text-nowrap -mt-1">Signin as an admin</p>
               </Label>
               <RecoverPassword />
             </div>
           </div>
 
           <SubmitButton
-            isMutating={isSeller ? isSellerMutating : isAdminMutating}
+            isMutating={isAdmin ? isAdminMutating : isSellerMutating}
             style="w-full"
           />
         </form>

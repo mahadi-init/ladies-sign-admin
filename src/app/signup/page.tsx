@@ -16,7 +16,6 @@ import useSWRMutation from "swr/mutation";
 
 export default function Signup() {
   const router = useRouter();
-  const [isConditionOk, setIsConditionOk] = useState(false);
   const {
     register,
     handleSubmit,
@@ -30,11 +29,6 @@ export default function Signup() {
   );
 
   const onSubmit: SubmitHandler<SellerType> = async (data) => {
-    if (!isConditionOk) {
-      toast.error("Please accept our terms and conditions");
-      return;
-    }
-
     const res = await trigger(data);
 
     if (res.success) {
@@ -65,7 +59,7 @@ export default function Signup() {
             <Input
               type="text"
               id="name"
-              placeholder="Jhon Doe"
+              placeholder="নাম লিখুন"
               {...register("name", { required: true })}
             />
             {errors.name && (
@@ -81,12 +75,28 @@ export default function Signup() {
             <Input
               id="phone"
               type="tel"
-              placeholder="012367283822"
+              placeholder="ফোন নাম্বার লিখুন"
               {...register("phone", { required: true })}
             />
             {errors.phone && (
               <span className="text-xs text-red-700">
                 {errors.phone.message}
+              </span>
+            )}
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="whatsapp">
+              Whatsapp <span className="text-red-600">*</span>
+            </Label>
+            <Input
+              id="whatsapp"
+              type="tel"
+              placeholder="হোয়াটস্যাপ নাম্বার দিন"
+              {...register("whatspp", { required: true })}
+            />
+            {errors.whatspp && (
+              <span className="text-xs text-red-700">
+                {errors.whatspp.message}
               </span>
             )}
           </div>
@@ -97,7 +107,7 @@ export default function Signup() {
             <Input
               type="password"
               id="password"
-              placeholder="624234"
+              placeholder="পাসওয়ার্ড দিন"
               {...register("password", { required: true })}
             />
             {errors.password && (
@@ -113,7 +123,7 @@ export default function Signup() {
             <Input
               id="address"
               type="text"
-              placeholder="Dhanmondi 32, Dhaka"
+              placeholder="ঠিকানা দিন (জেলা, থানা, গ্রাম)"
               {...register("address", { required: true })}
             />
             {errors.address && (
@@ -123,37 +133,36 @@ export default function Signup() {
             )}
           </div>
           <div className="space-y-2">
-            <Label htmlFor="nid">
-              NID Number <span className="text-red-600">*</span>
+            <Label htmlFor="facebookProfile">
+              Facebook Profile Link <span className="text-red-600">*</span>
             </Label>
             <Input
-              id="nid"
-              type="number"
-              placeholder="4762819292"
-              {...register("nidNumber", { required: true })}
+              type="text"
+              id="facebookProfile"
+              placeholder="ফেইসবুক প্রোফাইল লিংক"
+              {...register("facebookAccount", { required: true })}
             />
-            {errors.nidNumber && (
+            {errors.facebookAccount && (
               <span className="text-xs text-red-700">
-                {errors.nidNumber.message}
+                {errors.facebookAccount.message}
               </span>
             )}
           </div>
-          <div className="flex items-center space-x-2">
-            <input
-              id="terms"
-              type="checkbox"
-              onChange={() => setIsConditionOk(!isConditionOk)}
+          <div className="space-y-2">
+            <Label htmlFor="facebookPage">Facebook Page Link</Label>
+            <Input
+              type="text"
+              id="facebookPage"
+              placeholder="ফেইসবুক পেজ লিংক"
+              {...register("facebookPage")}
             />
-            <Label className="text-sm leading-none" htmlFor="terms">
-              I agree to the{" "}
-              <Link
-                className="underline underline-offset-2"
-                href={"/terms-conditions" as Route}
-              >
-                Terms & Conditions
-              </Link>
-            </Label>
+            {errors.facebookPage && (
+              <span className="text-xs text-red-700">
+                {errors.facebookPage.message}
+              </span>
+            )}
           </div>
+
           <SubmitButton isMutating={isMutating} />
         </form>
       </div>
