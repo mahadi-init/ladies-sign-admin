@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { AdminType } from "@/types/admin.t";
 import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown, PencilIcon } from "lucide-react";
-import { CldImage } from "next-cloudinary";
+import Image from "next/image";
 import Link from "next/link";
 
 export const adminColumn: ColumnDef<AdminType>[] = [
@@ -35,11 +35,10 @@ export const adminColumn: ColumnDef<AdminType>[] = [
     header: "IMAGE",
     cell: ({ row }) => {
       return row.original.img ? (
-        <CldImage
+        <Image
           className="w-10 rounded-full"
           width={250}
           height={250}
-          crop="fill"
           src={row.original.img}
           alt="cell image"
           loading="lazy"

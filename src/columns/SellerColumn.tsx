@@ -5,7 +5,6 @@ import { Button } from "@/components/ui/button";
 import { SellerType } from "@/types/seller.t";
 import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown, PencilIcon } from "lucide-react";
-import { CldImage } from "next-cloudinary";
 import Image from "next/image";
 import Link from "next/link";
 
