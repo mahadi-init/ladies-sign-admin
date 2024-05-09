@@ -3,18 +3,16 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { CldImage } from "next-cloudinary";
 import Image from "next/image";
 
 export function ImagepopOver({ img }: { img: string }) {
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <CldImage
-          className="w-10 rounded-full"
-          width={250}
-          height={250}
-          crop="fill"
+        <Image
+          className="w-12 rounded-md"
+          width={500}
+          height={500}
           src={img}
           alt="cell image"
           loading="lazy"

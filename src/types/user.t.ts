@@ -9,8 +9,8 @@ export const UserSchema = z
     address: z.string(),
     status: z.boolean(),
     // FIX: add require field
-    createdAt: z.string().date(),
-    updatedAt: z.string().date(),
+    createdAt: z.string().datetime(),
+    updatedAt: z.string().datetime(),
   })
   .partial();
 

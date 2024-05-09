@@ -1,9 +1,7 @@
-import { OrderSummaryType } from "@/types/order.t";
+import { OrderType } from "@/types/order.t";
 import { LocalResponse } from "@/types/response.t";
 
-export async function sendOrder(
-  order: OrderSummaryType
-): Promise<LocalResponse> {
+export async function sendOrder(order: OrderType): Promise<LocalResponse> {
   try {
     // check courir response
     // const courirSentResult = await sendOrderToCourir(order);

@@ -1,12 +1,13 @@
 "use client";
 import ButtonGroup from "@/components/native/ButtonGroup";
-import ImageUploader from "@/components/native/ImageUploader";
+import { ImageUploader } from "@/components/native/ImageUploader";
 import { Input } from "@/components/ui/input";
 import useStatus from "@/hooks/useStatus";
 import { AdminSchema, AdminType } from "@/types/admin.t";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { toast } from "sonner";
 
 interface PropTypes extends AdminType {
   trigger: (arg: unknown) => Promise<{ success: boolean; message?: string }>;
@@ -16,7 +17,8 @@ interface PropTypes extends AdminType {
 
 export default function AdminUI(props: PropTypes) {
   const roles = ["EDITOR", "ADMIN", "SUPERADMIN"];
-  const [image, setImage] = useState<string>();
+  const [imgUrl, setImgUrl] = useState<string>();
+  const [isLoading, setIsLoading] = useState(false);
   const { showStatus } = useStatus();
   const {
     register,
@@ -32,9 +34,14 @@ export default function AdminUI(props: PropTypes) {
   }, [reset, props]);
 
   const onSubmit: SubmitHandler<AdminType> = async (data) => {
+    if (isLoading) {
+      toast.error("Please wait for image upload to complete");
+      return;
+    }
+
     const refinedData: AdminType = {
       ...data,
-      img: image,
+      img: imgUrl,
     };
 
     const res = await props.trigger(refinedData);
@@ -43,7 +50,11 @@ export default function AdminUI(props: PropTypes) {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="w-full xl:w-7/12">
-      <ImageUploader image={image} setImage={setImage} folder="admin" />
+      <ImageUploader
+        setIsLoading={setIsLoading}
+        setImgUrl={setImgUrl}
+        endpoint="admin"
+      />
 
       <div className="flex flex-col gap-6 p-4">
         <label className="ml-1 font-medium">

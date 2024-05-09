@@ -10,7 +10,7 @@ export default async function Orders() {
     <>
       <PageTop title="Orders" />
       {/* FIXME: Implement this NOTE: Use sellerId and backend */}
-      <TableUIWrapper route="/seller" columns={orderColumn} />
+      {/*     <TableUIWrapper route="/seller" columns={orderColumn} /> */}
     </>
   );
 }

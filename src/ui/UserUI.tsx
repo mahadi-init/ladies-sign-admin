@@ -15,7 +15,7 @@ interface PropTypes extends Partial<UserType> {
     data: T,
     queryUrl: string,
     validationTag: string,
-    successMessage: string
+    successMessage: string,
   ) => Promise<LocalResponse>;
 }
 
@@ -33,7 +33,7 @@ export default function UserUI<T extends PropTypes>(props: T) {
     const bio = formData.get("bio");
 
     const data = {
-      _id: props.id,
+      _id: props._id,
       name: name,
       email: email,
       password: password,
@@ -48,7 +48,7 @@ export default function UserUI<T extends PropTypes>(props: T) {
       data,
       props.queryUrl,
       props.validationTag,
-      props.successMessage
+      props.successMessage,
     );
     if (res.status === 200) {
       toast.success(res.message);
@@ -71,18 +71,6 @@ export default function UserUI<T extends PropTypes>(props: T) {
             name="name"
             placeholder="Jhon Doe"
             defaultValue={props.name}
-            className="mt-1 bg-gray-100"
-            required
-          />
-        </label>
-
-        <label className="ml-1 font-medium">
-          Email <span className="text-red-600">*</span>
-          <Input
-            type="email"
-            name="email"
-            placeholder="xyz@gmail.com"
-            defaultValue={props.email}
             className="mt-1 bg-gray-100"
             required
           />

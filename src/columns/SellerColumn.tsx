@@ -6,6 +6,7 @@ import { SellerType } from "@/types/seller.t";
 import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown, PencilIcon } from "lucide-react";
 import { CldImage } from "next-cloudinary";
+import Image from "next/image";
 import Link from "next/link";
 
 export const sellerColumn: ColumnDef<SellerType>[] = [
@@ -35,14 +36,12 @@ export const sellerColumn: ColumnDef<SellerType>[] = [
     header: "IMAGE",
     cell: ({ row }) => {
       return row.original.img ? (
-        <CldImage
-          className="w-10 rounded-full"
+        <Image
+          className="w-12 rounded-md"
           width={250}
           height={250}
-          crop="fill"
           src={row.original.img}
           alt="cell image"
-          loading="lazy"
         />
       ) : (
         <span className="text-xs">No Image</span>

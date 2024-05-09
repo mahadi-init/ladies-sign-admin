@@ -3,13 +3,13 @@ import ConfirmationDialog from "@/components/native/ConfirmationDialog";
 import DeliveryStatus from "@/components/native/DeliveryStatus";
 import { HoverToolkit } from "@/components/native/HoverToolkit";
 import { Button } from "@/components/ui/button";
-import { OrderSummaryType } from "@/types/order.t";
+import { OrderType } from "@/types/order.t";
 import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown, CheckCircle, Send } from "lucide-react";
 import { toast } from "sonner";
 import { sendOrder } from "../utils/order-send";
 
-export const orderColumn: ColumnDef<OrderSummaryType>[] = [
+export const orderColumn: ColumnDef<OrderType>[] = [
   {
     accessorKey: "invoice",
     header: "INVOICE",
@@ -104,7 +104,7 @@ export const orderColumn: ColumnDef<OrderSummaryType>[] = [
     cell: ({ row }) => {
       return (
         <p className="font-medium">
-          {new Date(row.original.createdAt).toDateString().substring(0, 10)}
+          {/* {new Date(row.original.createdAt).toDateString().substring(0, 10)} */}
         </p>
       );
     },

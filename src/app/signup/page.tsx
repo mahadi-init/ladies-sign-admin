@@ -5,11 +5,9 @@ import { Label } from "@/components/ui/label";
 import addRequest from "@/https/add-request";
 import { SellerSchema, SellerType } from "@/types/seller.t";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Route } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import useSWRMutation from "swr/mutation";
@@ -92,11 +90,11 @@ export default function Signup() {
               id="whatsapp"
               type="tel"
               placeholder="হোয়াটস্যাপ নাম্বার দিন"
-              {...register("whatspp", { required: true })}
+              {...register("whatsapp", { required: true })}
             />
-            {errors.whatspp && (
+            {errors.whatsapp && (
               <span className="text-xs text-red-700">
-                {errors.whatspp.message}
+                {errors.whatsapp.message}
               </span>
             )}
           </div>
@@ -140,11 +138,11 @@ export default function Signup() {
               type="text"
               id="facebookProfile"
               placeholder="ফেইসবুক প্রোফাইল লিংক"
-              {...register("facebookAccount", { required: true })}
+              {...register("facebookProfile", { required: true })}
             />
-            {errors.facebookAccount && (
+            {errors.facebookProfile && (
               <span className="text-xs text-red-700">
-                {errors.facebookAccount.message}
+                {errors.facebookProfile.message}
               </span>
             )}
           </div>

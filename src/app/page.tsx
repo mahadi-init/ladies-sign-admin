@@ -6,8 +6,10 @@ import { Label } from "@/components/ui/label";
 import addRequest from "@/https/add-request";
 import { site } from "@/site-config";
 import { AdminSchema, AdminType } from "@/types/admin.t";
+import { SellerType } from "@/types/seller.t";
+import { generateToken } from "@/utils/generate-token";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { getCookie } from "cookies-next";
+import { getCookie, setCookie } from "cookies-next";
 import jwt from "jsonwebtoken";
 import { Route } from "next";
 import Image from "next/image";
@@ -42,6 +44,7 @@ export default function Login() {
     addRequest,
   );
 
+  // check if already logged in
   useEffect(() => {
     const auth = getCookie("auth") as string;
 
@@ -58,7 +61,7 @@ export default function Login() {
         }
       }
       setIsLoading(false);
-    } catch (err) {
+    } catch (err: any) {
       setIsLoading(false);
     }
   }, [router]);
@@ -79,25 +82,50 @@ export default function Login() {
     );
   }
 
-  const onSubmit: SubmitHandler<AdminType> = async (data) => {
-    if (isAdmin) {
-      const res = await adminLogin(data);
+  const onSubmit: SubmitHandler<any> = async (data) => {
+    if (isAdmin) adminLoginHandler(data);
+    else sellerLoginHandler(data);
+  };
 
-      if (res.success === true) {
-        toast.success(
-          `${res.data.name} Successfully Logged in as ${res.data.role}`,
-        );
-        router.replace("/dashboard");
-        return;
-      }
-    } else {
-      const res = await sellerLogin(data);
+  const adminLoginHandler = async (data: AdminType) => {
+    const res: { success: boolean; data: AdminType } = await adminLogin(data);
 
-      if (res.success === true) {
-        toast.success(`${res.data.name} Successfully Logged in as Seller`);
-        router.replace("/seller");
-        return;
-      }
+    if (res.success === true) {
+      setCookie(
+        "auth",
+        generateToken({
+          id: res.data._id,
+          name: res.data.name,
+          role: res.data.role,
+          status: res.data.status,
+        }),
+      );
+
+      toast.success(
+        `${res.data.name} Successfully Logged in as ${res.data.role}`,
+      );
+      router.replace("/dashboard");
+      return;
+    }
+
+    toast.error("Login failed");
+  };
+
+  const sellerLoginHandler = async (data: SellerType) => {
+    const res: { success: boolean; data: SellerType } = await sellerLogin(data);
+
+    if (res.success === true) {
+      setCookie(
+        "auth",
+        generateToken({
+          id: res.data._id,
+          name: res.data.name,
+          status: res.data.status,
+        }),
+      );
+      toast.success(`${res.data.name} Successfully Logged in as Seller`);
+      router.replace("/seller");
+      return;
     }
 
     toast.error("Login failed");

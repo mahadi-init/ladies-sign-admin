@@ -7,6 +7,7 @@ import { ExtraType } from "@/types/extra.t";
 import { ProductType } from "@/types/product.t";
 import clsx from "clsx";
 import { EyeIcon, EyeOffIcon, Upload } from "lucide-react";
+import Image from "next/image";
 import { useState } from "react";
 import { useFieldArray, useFormContext } from "react-hook-form";
 import useSWR from "swr";
@@ -58,7 +59,7 @@ export default function ProductVariants() {
           <div key={field.id} className="w-full mt-4">
             {!hideImages && (
               <div className="w-full flex flex-col mb-6 items-center">
-                <img
+                <Image
                   src={
                     (watch(`variants.${index}.img`) &&
                       watch(`variants.${index}.img`)[0] &&
@@ -93,7 +94,7 @@ export default function ProductVariants() {
 
             <div className="grid items-center w-full grid-cols-1 gap-4 mb-6 lg:grid-cols-2 xl:grid-cols-5">
               <div className="flex items-center gap-4">
-                <img
+                <Image
                   src={
                     (watch(`variants.${index}.img`) &&
                       watch(`variants.${index}.img`)[0] &&

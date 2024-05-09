@@ -1,7 +1,7 @@
 "use client";
+import { ImageUploader } from "@/components/native/ImageUploader";
 import ButtonGroup from "@/components/native/ButtonGroup";
 import { ChipInput } from "@/components/native/ChipInput";
-import ImageUploader from "@/components/native/ImageUploader";
 import { Input } from "@/components/ui/input";
 import useStatus from "@/hooks/useStatus";
 import { fetcher } from "@/https/get-request";
@@ -10,6 +10,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import useSWR from "swr";
+import { toast } from "sonner";
 
 interface PropTypes extends CategoryType {
   trigger: (arg: unknown) => Promise<{ success: boolean; message?: string }>;
@@ -19,7 +20,8 @@ interface PropTypes extends CategoryType {
 
 export default function CategoryUI(props: PropTypes) {
   const { data } = useSWR<string[]>(`/extra/all/product-types`, fetcher);
-  const [image, setImage] = useState<string>();
+  const [imgUrl, setImgUrl] = useState<string>();
+  const [isLoading, setIsLoading] = useState(false);
   const { showStatus } = useStatus();
   const [children, setChildren] = useState<string[]>(props.children ?? []);
   const {
@@ -38,9 +40,14 @@ export default function CategoryUI(props: PropTypes) {
   }, [reset, props, data]);
 
   const onSubmit: SubmitHandler<CategoryType> = async (data) => {
+    if (isLoading) {
+      toast.error("Please wait for image upload to complete");
+      return;
+    }
+
     const refinedData: CategoryType = {
       ...data,
-      img: image,
+      img: imgUrl,
       children: children,
     };
 
@@ -49,8 +56,12 @@ export default function CategoryUI(props: PropTypes) {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="w-full xl:w-7/12">
-      <ImageUploader image={image} setImage={setImage} folder="category" />
+    <form onSubmit={handleSubmit(onSubmit)} className="mt-4 w-full xl:w-7/12">
+      <ImageUploader
+        setIsLoading={setIsLoading}
+        setImgUrl={setImgUrl}
+        endpoint="category"
+      />
 
       <div className="flex flex-col gap-8 p-4">
         <label className="ml-1 font-medium">

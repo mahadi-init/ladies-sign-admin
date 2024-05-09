@@ -1,6 +1,6 @@
 "use client";
 import ButtonGroup from "@/components/native/ButtonGroup";
-import ImageUploader from "@/components/native/ImageUploader";
+import { ImageUploader } from "@/components/native/ImageUploader";
 import { Input } from "@/components/ui/input";
 import useStatus from "@/hooks/useStatus";
 import { fetcher } from "@/https/get-request";
@@ -19,7 +19,8 @@ interface PropTypes extends CouponType {
 
 export default function CouponUI(props: PropTypes) {
   const { data } = useSWR<string[]>(`/extra/all/product-types`, fetcher);
-  const [image, setImage] = useState<string>();
+  const [imgUrl, setImgUrl] = useState<string>();
+  const [isLoading, setIsLoading] = useState(false);
   const { showStatus } = useStatus();
   const {
     register,
@@ -41,6 +42,11 @@ export default function CouponUI(props: PropTypes) {
   }, [reset, props]);
 
   const onSubmit: SubmitHandler<CouponType> = async (data) => {
+    if (isLoading) {
+      toast.error("Please wait for image upload to complete");
+      return;
+    }
+
     if (data.startTime!! > data.endTime!!) {
       toast.error("Start time cannot be greater than end time");
       return;
@@ -48,7 +54,7 @@ export default function CouponUI(props: PropTypes) {
 
     const refinedData: CouponType = {
       ...data,
-      img: image,
+      img: imgUrl,
     };
 
     const res = await props.trigger(refinedData);
@@ -57,7 +63,11 @@ export default function CouponUI(props: PropTypes) {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="w-full xl:w-7/12">
-      <ImageUploader image={image} setImage={setImage} folder="coupon" />
+      <ImageUploader
+        setIsLoading={setIsLoading}
+        setImgUrl={setImgUrl}
+        endpoint="coupon"
+      />
 
       <div className="flex flex-col gap-6 p-4">
         <label className="ml-1 font-medium">

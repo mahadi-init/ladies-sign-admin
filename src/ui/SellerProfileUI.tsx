@@ -1,7 +1,7 @@
 "use client";
 import BalanceCard from "@/components/native/BalanceCard";
 import ButtonGroup from "@/components/native/ButtonGroup";
-import ImageUploader from "@/components/native/ImageUploader";
+import { ImageUploader } from "@/components/native/ImageUploader";
 import {
   Card,
   CardContent,
@@ -309,15 +309,17 @@ function SellerSecurity({ password, id }: { password?: string; id?: string }) {
 export default function SellerProfileUI({ id }: { id: string }): JSX.Element {
   const { data } = useSWR<SellerType>(`/seller/get/${id}`, fetcher);
   const [image, setImage] = useState<string>();
+  const [isLoading, setIsLoading] = useState(false);
 
   return (
     <>
       <div className="flex flex-col gap-8 my-8 xl:flex-row justify-center">
         <div className="flex flex-col items-center">
           <ImageUploader
-            image={data?.img ?? image ?? "/man.png"}
-            setImage={setImage}
-            folder="seller"
+            setIsLoading={setIsLoading}
+            imgUrl={image}
+            setImgUrl={setImage}
+            endpoint="seller"
           />
         </div>
         <BalanceCard profile={data} />

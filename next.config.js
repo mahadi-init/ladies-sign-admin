@@ -3,19 +3,8 @@ const nextConfig = {
   images: {
     remotePatterns: [
       {
-        hostname: "i.ibb.co",
-      },
-      {
-        hostname: "res.cloudinary.com",
-      },
-      {
-        hostname: "img.clerk.com",
-      },
-      {
-        hostname: "scontent.fdac24-2.fna.fbcdn.net",
-      },
-      {
-        hostname: "images.unsplash.com",
+        protocol: "https",
+        hostname: "utfs.io",
       },
     ],
   },

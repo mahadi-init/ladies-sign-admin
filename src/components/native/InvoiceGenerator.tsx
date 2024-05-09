@@ -20,7 +20,7 @@ function InvoiceGenerator({ data }: { data?: OrderType }) {
           <h2 className="col-span-1 text-sm font-bold">TOTAL</h2>
         </div>
         <div className="grid grid-cols-3 gap-4">
-          {data?.cart.map((item) => {
+          {/*  {data?.cart.map((item) => {
             return (
               <>
                 <p className="col-span-1 text-sm">{item.title}</p>
@@ -28,7 +28,7 @@ function InvoiceGenerator({ data }: { data?: OrderType }) {
                 <p className="col-span-1 text-sm">৳{item.price}</p>
               </>
             );
-          })}
+          })} */}
         </div>
       </Card>
       <Card className="p-4 mb-6 border">
@@ -43,7 +43,7 @@ function InvoiceGenerator({ data }: { data?: OrderType }) {
         </div>
         <div className="grid grid-cols-2 gap-4">
           <p className="text-sm font-bold">Grand total:</p>
-          <p className="text-sm font-bold">${data?.totalAmount}</p>
+          {/* <p className="text-sm font-bold">${data?.totalAmount}</p> */}
         </div>
       </Card>
       <Card className="p-4 mb-6 border">
@@ -57,7 +57,7 @@ function InvoiceGenerator({ data }: { data?: OrderType }) {
         </div>
         <div className="grid grid-cols-2 gap-4 mb-2">
           <p className="text-sm font-bold">No of items:</p>
-          <p className="text-sm">{data?.cart.length}</p>
+          {/*  <p className="text-sm">{data?.cart.length}</p> */}
         </div>
         <div className="grid grid-cols-2 gap-4">
           <p className="text-sm font-bold">Date:</p>

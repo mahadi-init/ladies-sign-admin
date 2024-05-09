@@ -1,10 +1,10 @@
 "use client";
 import DeleteItem from "@/components/native/DeleteItem";
+import { ImagepopOver } from "@/components/native/ImagePopOver";
 import StatusIndicator from "@/components/native/StatusIndicator";
 import { BrandType } from "@/types/brand.t";
 import { ColumnDef } from "@tanstack/react-table";
 import { PencilIcon } from "lucide-react";
-import { CldImage } from "next-cloudinary";
 import Link from "next/link";
 
 export const brandColumn: ColumnDef<BrandType>[] = [
@@ -24,15 +24,7 @@ export const brandColumn: ColumnDef<BrandType>[] = [
     header: "IMAGE",
     cell: ({ row }) => {
       return row.original.img ? (
-        <CldImage
-          className="w-10 rounded-full"
-          width={250}
-          height={250}
-          crop="fill"
-          src={row.original.img}
-          alt="cell image"
-          loading="lazy"
-        />
+        <ImagepopOver img={row.original.img} />
       ) : (
         <span className="text-xs">No Image</span>
       );
