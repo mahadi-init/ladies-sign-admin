@@ -2,11 +2,17 @@
 
 import ConfirmationDialog from "@/components/native/ConfirmationDialog";
 import { Button } from "@/components/ui/button";
-import useLogout from "@/hooks/useLogout";
+import { deleteCookie } from "cookies-next";
+import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
 export default function LogoutButton() {
-  const { handleLogout } = useLogout();
+  const router = useRouter();
+
+  const handleLogout = async () => {
+    deleteCookie("auth");
+    router.replace("/");
+  };
 
   return (
     <ConfirmationDialog

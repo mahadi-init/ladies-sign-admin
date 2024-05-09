@@ -1,8 +1,10 @@
 "use client";
-import useLogout from "@/hooks/useLogout";
 import clsx from "clsx";
+import { deleteCookie } from "cookies-next";
 import {
+  BadgeDollarSign,
   BellRing,
+  CheckCheck,
   Component,
   Dice6,
   LayoutDashboard,
@@ -16,23 +18,26 @@ import {
   Users,
 } from "lucide-react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
 import { Button } from "../ui/button";
 import ConfirmationDialog from "./ConfirmationDialog";
 
-export default function Sidenav({
-  numOfPendingOrder,
-}: {
-  numOfPendingOrder: number;
-}): JSX.Element {
+export default function Sidenav(): JSX.Element {
   const pathname = usePathname();
-  const { handleLogout } = useLogout();
+  const router = useRouter();
   const [isSideNavOpen, setIsSideNavOpen] = useState(false);
+  //FIXME: change
+  const numOfPendingOrder = 2;
 
   const hideSideNav = async () => {
     setIsSideNavOpen(false);
+  };
+
+  const handleLogout = async () => {
+    deleteCookie("auth");
+    router.replace("/");
   };
 
   return (
@@ -53,7 +58,7 @@ export default function Sidenav({
         aria-controls="nav-menu-4"
         onClick={() => setIsSideNavOpen(!isSideNavOpen)}
       >
-        <div className="absolute top-1/2 left-1/2 w-6 transform -translate-x-1/2 -translate-y-1/2">
+        <div className="absolute w-6 transform -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2">
           <span
             aria-hidden="true"
             className="block absolute w-9/12 h-0.5 rounded-full transition-all duration-300 transform -translate-y-2 bg-slate-700"
@@ -79,7 +84,7 @@ export default function Sidenav({
       >
         <nav
           aria-label="side navigation"
-          className="overflow-auto flex-1 divide-y divide-slate-100"
+          className="flex-1 overflow-auto divide-y divide-slate-100"
         >
           <div>
             <ul className="flex flex-col flex-1 gap-1 py-3">
@@ -96,7 +101,7 @@ export default function Sidenav({
                   <div className="flex items-center self-center">
                     <LayoutDashboard size={18} />
                   </div>
-                  <div className="flex overflow-hidden flex-col flex-1 gap-0 justify-center items-start w-full text-sm truncate">
+                  <div className="flex flex-col items-start justify-center flex-1 w-full gap-0 overflow-hidden text-sm truncate">
                     Dashboard
                   </div>
                 </Link>
@@ -104,18 +109,18 @@ export default function Sidenav({
 
               <li className="px-3">
                 <Link
-                  href="/dashboard/products"
+                  href="/dashboard/product"
                   onClick={hideSideNav}
                   className={clsx(
                     "flex items-center gap-3 rounded p-3 text-slate-700 transition-colors hover:bg-rose-50 hover:text-rose-500 focus:bg-rose-50",
-                    pathname.includes("products") &&
+                    pathname.includes("product") &&
                       "bg-purple-50 text-purple-600"
                   )}
                 >
                   <div className="flex items-center self-center">
                     <ShoppingBasket size={18} />
                   </div>
-                  <div className="flex overflow-hidden flex-col flex-1 gap-0 justify-center items-start w-full text-sm truncate">
+                  <div className="flex flex-col items-start justify-center flex-1 w-full gap-0 overflow-hidden text-sm truncate">
                     Products
                   </div>
                 </Link>
@@ -134,7 +139,7 @@ export default function Sidenav({
                   <div className="flex items-center self-center">
                     <Ratio size={18} />
                   </div>
-                  <div className="flex overflow-hidden flex-col flex-1 gap-0 justify-center items-start w-full text-sm truncate">
+                  <div className="flex flex-col items-start justify-center flex-1 w-full gap-0 overflow-hidden text-sm truncate">
                     Category
                   </div>
                 </Link>
@@ -142,21 +147,21 @@ export default function Sidenav({
 
               <li className="px-3">
                 <Link
-                  href="/dashboard/orders"
+                  href="/dashboard/order"
                   onClick={hideSideNav}
                   className={clsx(
                     "flex items-center gap-3 rounded p-3 text-slate-700 transition-colors hover:bg-rose-50 hover:text-rose-500 focus:bg-rose-50",
-                    pathname.includes("orders") &&
+                    pathname.includes("order") &&
                       "bg-purple-100 text-purple-800"
                   )}
                 >
                   <div className="flex items-center self-center">
                     <ListOrdered size={18} />
                   </div>
-                  <div className="flex overflow-hidden flex-col flex-1 gap-0 justify-center items-start w-full text-sm truncate">
+                  <div className="flex flex-col items-start justify-center flex-1 w-full gap-0 overflow-hidden text-sm truncate">
                     Orders
                   </div>
-                  <span className="inline-flex justify-center items-center px-2 text-xs text-pink-500 bg-pink-100 rounded-full">
+                  <span className="inline-flex items-center justify-center px-2 text-xs text-pink-500 bg-pink-100 rounded-full">
                     {numOfPendingOrder}
                     <span className="sr-only"> new orders</span>
                   </span>
@@ -176,8 +181,63 @@ export default function Sidenav({
                   <div className="flex items-center self-center">
                     <Dice6 size={18} />
                   </div>
-                  <div className="flex overflow-hidden flex-col flex-1 gap-0 justify-center items-start w-full text-sm truncate">
+                  <div className="flex flex-col items-start justify-center flex-1 w-full gap-0 overflow-hidden text-sm truncate">
                     Brand
+                  </div>
+                </Link>
+              </li>
+              <li className="px-3">
+                <Link
+                  href="/dashboard/review"
+                  onClick={hideSideNav}
+                  className={clsx(
+                    "flex items-center gap-3 rounded p-3 text-slate-700 transition-colors hover:bg-rose-50 hover:text-rose-500 focus:bg-rose-50",
+                    pathname.includes("review") &&
+                      "bg-purple-100 text-purple-800 "
+                  )}
+                >
+                  <div className="flex items-center self-center">
+                    <Star size={18} />
+                  </div>
+                  <div className="flex flex-col items-start justify-center flex-1 w-full gap-0 overflow-hidden text-sm truncate">
+                    Reviews
+                  </div>
+                </Link>
+              </li>
+
+              <li className="px-3">
+                <Link
+                  href="/dashboard/coupon"
+                  onClick={hideSideNav}
+                  className={clsx(
+                    "flex items-center gap-3 rounded p-3 text-slate-700 transition-colors hover:bg-rose-50 hover:text-rose-500 focus:bg-rose-50",
+                    pathname.includes("coupon") &&
+                      "bg-purple-100 text-purple-800"
+                  )}
+                >
+                  <div className="flex items-center self-center">
+                    <Component size={18} />
+                  </div>
+                  <div className="flex flex-col items-start justify-center flex-1 w-full gap-0 overflow-hidden text-sm truncate">
+                    Coupons
+                  </div>
+                </Link>
+              </li>
+              <li className="px-3">
+                <Link
+                  href="/dashboard/extra"
+                  onClick={hideSideNav}
+                  className={clsx(
+                    "flex items-center gap-3 rounded p-3 text-slate-700 transition-colors hover:bg-rose-50 hover:text-rose-500 focus:bg-rose-50",
+                    pathname.includes("extra") &&
+                      "bg-purple-100 text-purple-800"
+                  )}
+                >
+                  <div className="flex items-center self-center">
+                    <CheckCheck size={18} />
+                  </div>
+                  <div className="flex flex-col items-start justify-center flex-1 w-full gap-0 overflow-hidden text-sm truncate">
+                    Extra
                   </div>
                 </Link>
               </li>
@@ -187,56 +247,18 @@ export default function Sidenav({
             <ul className="flex flex-col flex-1 gap-1 py-3">
               <li className="px-3">
                 <Link
-                  href="/dashboard/reviews"
+                  href="/dashboard/admin"
                   onClick={hideSideNav}
                   className={clsx(
                     "flex items-center gap-3 rounded p-3 text-slate-700 transition-colors hover:bg-rose-50 hover:text-rose-500 focus:bg-rose-50",
-                    pathname.includes("reviews") &&
-                      "bg-purple-100 text-purple-800 "
-                  )}
-                >
-                  <div className="flex items-center self-center">
-                    <Star size={18} />
-                  </div>
-                  <div className="flex overflow-hidden flex-col flex-1 gap-0 justify-center items-start w-full text-sm truncate">
-                    Reviews
-                  </div>
-                </Link>
-              </li>
-
-              <li className="px-3">
-                <Link
-                  href="/dashboard/coupons"
-                  onClick={hideSideNav}
-                  className={clsx(
-                    "flex items-center gap-3 rounded p-3 text-slate-700 transition-colors hover:bg-rose-50 hover:text-rose-500 focus:bg-rose-50",
-                    pathname.includes("coupons") &&
-                      "bg-purple-100 text-purple-800"
-                  )}
-                >
-                  <div className="flex items-center self-center">
-                    <Component size={18} />
-                  </div>
-                  <div className="flex overflow-hidden flex-col flex-1 gap-0 justify-center items-start w-full text-sm truncate">
-                    Coupons
-                  </div>
-                </Link>
-              </li>
-
-              <li className="px-3">
-                <Link
-                  href="/dashboard/admins"
-                  onClick={hideSideNav}
-                  className={clsx(
-                    "flex items-center gap-3 rounded p-3 text-slate-700 transition-colors hover:bg-rose-50 hover:text-rose-500 focus:bg-rose-50",
-                    pathname.includes("admins") &&
+                    pathname.includes("admin") &&
                       "bg-purple-100 text-purple-800"
                   )}
                 >
                   <div className="flex items-center self-center">
                     <ShieldHalf size={18} />
                   </div>
-                  <div className="flex overflow-hidden flex-col flex-1 gap-0 justify-center items-start w-full text-sm truncate">
+                  <div className="flex flex-col items-start justify-center flex-1 w-full gap-0 overflow-hidden text-sm truncate">
                     Admins
                   </div>
                 </Link>
@@ -244,18 +266,36 @@ export default function Sidenav({
 
               <li className="px-3">
                 <Link
-                  href="/dashboard/users"
+                  href="/dashboard/seller"
                   onClick={hideSideNav}
                   className={clsx(
                     "flex items-center gap-3 rounded p-3 text-slate-700 transition-colors hover:bg-rose-50 hover:text-rose-500 focus:bg-rose-50",
-                    pathname.includes("users") &&
+                    pathname.includes("seller") &&
                       "bg-purple-100 text-purple-800"
+                  )}
+                >
+                  <div className="flex items-center self-center">
+                    <BadgeDollarSign size={18} />
+                  </div>
+                  <div className="flex flex-col items-start justify-center flex-1 w-full gap-0 overflow-hidden text-sm truncate">
+                    Sellers
+                  </div>
+                </Link>
+              </li>
+
+              <li className="px-3">
+                <Link
+                  href="/dashboard/user"
+                  onClick={hideSideNav}
+                  className={clsx(
+                    "flex items-center gap-3 rounded p-3 text-slate-700 transition-colors hover:bg-rose-50 hover:text-rose-500 focus:bg-rose-50",
+                    pathname.includes("user") && "bg-purple-100 text-purple-800"
                   )}
                 >
                   <div className="flex items-center self-center">
                     <Users size={18} />
                   </div>
-                  <div className="flex overflow-hidden flex-col flex-1 gap-0 justify-center items-start w-full text-sm truncate">
+                  <div className="flex flex-col items-start justify-center flex-1 w-full gap-0 overflow-hidden text-sm truncate">
                     Users
                   </div>
                 </Link>
@@ -274,7 +314,7 @@ export default function Sidenav({
                   <div className="flex items-center self-center">
                     <User size={18} />
                   </div>
-                  <div className="flex overflow-hidden flex-col flex-1 gap-0 justify-center items-start w-full text-sm truncate">
+                  <div className="flex flex-col items-start justify-center flex-1 w-full gap-0 overflow-hidden text-sm truncate">
                     Profile
                   </div>
                 </Link>
@@ -282,21 +322,21 @@ export default function Sidenav({
 
               <li className="px-3">
                 <Link
-                  href="/dashboard/notifications"
+                  href="/dashboard/notification"
                   onClick={hideSideNav}
                   className={clsx(
                     "flex items-center gap-3 rounded p-3 text-slate-700 transition-colors hover:bg-rose-50 hover:text-rose-500 focus:bg-rose-50",
-                    pathname.includes("notifications") &&
+                    pathname.includes("notification") &&
                       "bg-purple-100 text-purple-800"
                   )}
                 >
                   <div className="flex items-center self-center">
                     <BellRing size={18} />
                   </div>
-                  <div className="flex overflow-hidden flex-col flex-1 gap-0 justify-center items-start w-full text-sm truncate">
+                  <div className="flex flex-col items-start justify-center flex-1 w-full gap-0 overflow-hidden text-sm truncate">
                     Notifications
                   </div>
-                  <span className="inline-flex justify-center items-center px-2 text-xs text-pink-500 bg-pink-100 rounded-full">
+                  <span className="inline-flex items-center justify-center px-2 text-xs text-pink-500 bg-pink-100 rounded-full">
                     2<span className="sr-only"> new notifications</span>
                   </span>
                 </Link>
@@ -318,11 +358,11 @@ export default function Sidenav({
               });
             }}
           >
-            <button className="flex gap-3 items-center p-3 rounded transition-colors hover:text-rose-500 text-slate-900">
+            <button className="flex items-center gap-3 p-3 transition-colors rounded hover:text-rose-500 text-slate-900">
               <div className="flex items-center self-center">
                 <LogOut size={18} />
               </div>
-              <div className="flex overflow-hidden flex-col flex-1 gap-0 justify-center items-start w-full text-sm font-medium truncate">
+              <div className="flex flex-col items-start justify-center flex-1 w-full gap-0 overflow-hidden text-sm font-medium truncate">
                 Logout
               </div>
             </button>

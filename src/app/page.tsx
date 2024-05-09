@@ -1,112 +1,200 @@
 "use client";
-import { userSignIn } from "@/actions/user-signin";
 import RecoverPassword from "@/components/native/RecoverPassword";
 import SubmitButton from "@/components/native/SubmitButton";
 import { Input } from "@/components/ui/input";
-import { hasSiteAccessPermission } from "@/utils/site-access-permission";
-import { getCookie } from "cookies-next";
+import { Label } from "@/components/ui/label";
+import addRequest from "@/https/add-request";
+import { site } from "@/site-config";
+import { AdminSchema, AdminType } from "@/types/admin.t";
+import { SellerType } from "@/types/seller.t";
+import { generateToken } from "@/utils/generate-token";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { getCookie, setCookie } from "cookies-next";
+import jwt from "jsonwebtoken";
+import { Route } from "next";
 import Image from "next/image";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "sonner";
-
-enum AccessStatus {
-  LOADING,
-  ERROR,
-}
+import useSWRMutation from "swr/mutation";
 
 export default function Login() {
   const router = useRouter();
-  const [hasAccess, setHasAccess] = useState<AccessStatus>(
-    AccessStatus.LOADING
+  const [isLoading, setIsLoading] = useState(true);
+  const [isAdmin, setIsAdmin] = useState(false);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<AdminType>({
+    resolver: zodResolver(AdminSchema),
+  });
+
+  // admin login mutation
+  const { trigger: adminLogin, isMutating: isAdminMutating } = useSWRMutation(
+    `/admin/login`,
+    addRequest,
   );
 
-  // Check if user has access permission
-  // If yes, redirect to dashboard If no, redirect to log in
+  // seller login mutation
+  const { trigger: sellerLogin, isMutating: isSellerMutating } = useSWRMutation(
+    `/seller/login`,
+    addRequest,
+  );
+
+  // check if already logged in
   useEffect(() => {
-    const token = getCookie("access-token");
+    const auth = getCookie("auth") as string;
 
-    if (hasSiteAccessPermission(token)) {
-      router.replace("/dashboard");
+    try {
+      const payload = jwt.verify(auth, site.JWT_SECRET);
+
+      //@ts-expect-error
+      if (payload && payload.status) {
+        //@ts-expect-error
+        if (!payload.role) {
+          router.replace("/seller");
+        } else {
+          router.replace("/dashboard");
+        }
+      }
+      setIsLoading(false);
+    } catch (err: any) {
+      setIsLoading(false);
     }
-
-    setHasAccess(AccessStatus.ERROR);
   }, [router]);
 
-  // Render loading state
-  if (hasAccess === AccessStatus.LOADING) {
+  // loading state
+  if (isLoading) {
     return (
       <div className="w-screen h-screen flex flex-col justify-center items-center">
-        <Image src="/authenticating.gif" height={300} width={300} alt="auth" />
+        <Image
+          src="/authenticating.gif"
+          height={300}
+          width={300}
+          alt="auth"
+          unoptimized
+        />
         <p className="font-medium">Authenticating...</p>
       </div>
     );
   }
 
-  const handleFormAction = async (formData: FormData) => {
-    const email = formData.get("email") as string;
-    const password = formData.get("password") as string;
+  const onSubmit: SubmitHandler<any> = async (data) => {
+    if (isAdmin) adminLoginHandler(data);
+    else sellerLoginHandler(data);
+  };
 
-    const res = await userSignIn(email, password);
+  const adminLoginHandler = async (data: AdminType) => {
+    const res: { success: boolean; data: AdminType } = await adminLogin(data);
 
-    if (res.status === 200) {
-      toast.success(res.message);
+    if (res.success === true) {
+      setCookie(
+        "auth",
+        generateToken({
+          id: res.data._id,
+          name: res.data.name,
+          role: res.data.role,
+          status: res.data.status,
+        }),
+      );
 
-      if (res.role === "SELLER") {
-        router.replace("/seller/profile");
-      } else {
-        router.replace("/dashboard");
-      }
-    } else {
-      toast.error(res.message);
+      toast.success(
+        `${res.data.name} Successfully Logged in as ${res.data.role}`,
+      );
+      router.replace("/dashboard");
+      return;
     }
+
+    toast.error("Login failed");
+  };
+
+  const sellerLoginHandler = async (data: SellerType) => {
+    const res: { success: boolean; data: SellerType } = await sellerLogin(data);
+
+    if (res.success === true) {
+      setCookie(
+        "auth",
+        generateToken({
+          id: res.data._id,
+          name: res.data.name,
+          status: res.data.status,
+        }),
+      );
+      toast.success(`${res.data.name} Successfully Logged in as Seller`);
+      router.replace("/seller");
+      return;
+    }
+
+    toast.error("Login failed");
   };
 
   return (
-    <div className="flex justify-evenly items-center w-screen h-screen">
-      <div className="flex justify-center items-center py-10 px-4 bg-white sm:py-16 sm:px-6 lg:py-24 lg:px-8">
-        <div className="xl:mx-auto xl:w-full xl:max-w-sm 2xl:max-w-md">
-          <h2 className="text-3xl font-bold leading-tight text-black sm:text-4xl">
-            Continue Sign in to Ladies Sign
-          </h2>
-
-          <form action={handleFormAction} className="mt-6">
-            <div className="space-y-5">
-              <label htmlFor="email" className="ml-1 font-medium">
-                Email <span className="text-red-600">*</span>
-                <Input
-                  id="email"
-                  type="email"
-                  name="email"
-                  placeholder="Enter email"
-                  className="mt-2.5"
-                  required
-                />
-              </label>
-
-              <div>
-                <div className="flex justify-between items-center">
-                  <label
-                    htmlFor="password"
-                    className="text-base font-medium text-gray-900"
-                  >
-                    Password <span className="text-red-600">*</span>
-                  </label>
-                  <RecoverPassword />
-                </div>
-                <Input
-                  id="password"
-                  type="password"
-                  name="password"
-                  placeholder="123456"
-                  className="mt-2.5"
-                  required
-                />
-              </div>
-              <SubmitButton style="w-full" />
-            </div>
-          </form>
+    <div className="p-4 flex justify-evenly items-center w-screen h-screen">
+      <div className="w-full max-w-md">
+        <div className="space-y-2">
+          <h1 className="text-3xl font-bold">Sign in to your account</h1>
+          <p className="text-gray-500 dark:text-gray-400">
+            Create seller account?
+            <Link className="underline" href={"/signup" as Route}>
+              Sign up
+            </Link>
+          </p>
         </div>
+
+        <form onSubmit={handleSubmit(onSubmit)} className="mt-6 space-y-5">
+          <label htmlFor="phone" className="ml-1 font-medium">
+            Phone Number <span className="text-red-600">*</span>
+            <Input
+              id="tel"
+              type="phone"
+              placeholder="Enter Phone"
+              className="mt-2.5"
+              {...register("phone", { required: true })}
+            />
+            {errors.phone && (
+              <span className="text-xs text-red-700">
+                {errors.phone.message}
+              </span>
+            )}
+          </label>
+
+          <div className="space-y-5">
+            <label
+              htmlFor="password"
+              className="text-base font-medium text-gray-900"
+            >
+              Password <span className="text-red-600">*</span>
+              <Input
+                id="password"
+                type="password"
+                placeholder="Enter strong password"
+                className="mt-2.5"
+                {...register("password", { required: true })}
+              />
+              {errors.password && (
+                <span className="text-xs text-red-700">
+                  {errors.password.message}
+                </span>
+              )}
+            </label>
+
+            <div className="flex items-center justify-between">
+              <Label className="flex items-center gap-2">
+                <input type="checkbox" onChange={() => setIsAdmin(!isAdmin)} />
+                <p className="text-nowrap -mt-1">Signin as an admin</p>
+              </Label>
+              <RecoverPassword />
+            </div>
+          </div>
+
+          <SubmitButton
+            isMutating={isAdmin ? isAdminMutating : isSellerMutating}
+            style="w-full"
+          />
+        </form>
       </div>
 
       <div className="hidden justify-center items-center py-10 px-4 sm:py-16 sm:px-6 lg:flex lg:py-24 lg:px-8">

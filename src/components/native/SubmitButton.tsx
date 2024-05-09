@@ -1,22 +1,23 @@
 "use client";
 import { ReloadIcon } from "@radix-ui/react-icons";
-import { useFormStatus } from "react-dom";
 import { Button } from "../ui/button";
 
+interface SubmitButtonProps {
+  text: string;
+  style: string;
+  isMutating: boolean;
+}
+
 export default function SubmitButton({
+  isMutating,
   text,
   style,
-}: {
-  text?: string;
-  style?: string;
-}): JSX.Element {
-  const { pending } = useFormStatus();
-
+}: Partial<SubmitButtonProps>): JSX.Element {
   return (
-    <Button type="submit" disabled={pending} className={style}>
-      {pending ? (
+    <Button type="submit" disabled={isMutating} className={style}>
+      {isMutating ? (
         <>
-          <ReloadIcon className="mr-2 w-4 h-4 animate-spin" />
+          <ReloadIcon className="w-4 h-4 mr-2 animate-spin" />
           <span>Please wait</span>
         </>
       ) : (

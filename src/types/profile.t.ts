@@ -1,5 +1,3 @@
-import { Role } from "@/types/enums.t";
-
 export interface ProfileType {
   _id: string;
   name: string;
@@ -12,6 +10,6 @@ export interface ProfileType {
   referralCode: string;
   phone: string;
   status: "ACTIVE" | "INACTIVE";
-  role: Role;
+  // role: Role;
   joiningDate: Date;
 }

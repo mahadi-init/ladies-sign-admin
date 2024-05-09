@@ -1,18 +1,16 @@
-import { addData } from "@/actions/post";
-import { BACKEND_URL } from "@/site-info";
-import { getProductTypes } from "@/utils/get-product-types";
-import CategoryUI from "./CategoryUI";
+"use client";
+import addRequest from "@/https/add-request";
+import CategoryUI from "@/ui/CategoryUI";
+import useSWRMutation from "swr/mutation";
 
-export default async function AddCategory() {
-  const productTypes = await getProductTypes();
+export default function AddCategory() {
+  const { trigger, isMutating } = useSWRMutation(`/category/add`, addRequest);
 
   return (
     <CategoryUI
-      productTypes={productTypes}
-      queryUrl={`${BACKEND_URL}/api/category/add`}
-      validationTag="category"
+      trigger={trigger}
+      isMutating={isMutating}
       successMessage="Category added successfully"
-      serverAction={addData}
     />
   );
 }

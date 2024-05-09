@@ -1,13 +1,20 @@
-export interface CouponType {
-  _id: string;
-  title: string;
-  logo: string;
-  couponCode: string;
-  startTime: Date;
-  endTime: Date;
-  discountPercentage: number;
-  minimumAmount: number;
-  productType: string;
-  status: "ACTIVE" | "INACTIVE";
-  createdAt: Date;
-}
+import { z } from "zod";
+
+export const CouponSchema = z
+  .object({
+    _id: z.string(),
+    title: z.string().min(3, "Name is too short"),
+    img: z.string().url(),
+    couponCode: z.string().min(3, "Code is too short"),
+    startTime: z.coerce.date().min(new Date()),
+    endTime: z.coerce.date().min(new Date()),
+    discountPercentage: z.coerce.number().min(0).max(100),
+    minimumAmount: z.coerce.number().min(0),
+    productType: z.string(),
+    status: z.boolean(),
+    createdAt: z.string().datetime(),
+    updatedAt: z.string().datetime(),
+  })
+  .partial();
+
+export type CouponType = z.infer<typeof CouponSchema>;
