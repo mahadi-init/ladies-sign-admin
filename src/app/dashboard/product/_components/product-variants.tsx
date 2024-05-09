@@ -1,23 +1,55 @@
-"use client";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { fetcher } from "@/https/get-request";
 import { ExtraType } from "@/types/extra.t";
 import { ProductType } from "@/types/product.t";
+import { useUploadThing } from "@/utils/uploadthing";
 import clsx from "clsx";
 import { EyeIcon, EyeOffIcon, Upload } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
 import { useFieldArray, useFormContext } from "react-hook-form";
+import { toast } from "sonner";
 import useSWR from "swr";
 
-export default function ProductVariants() {
+export default function ProductVariants({
+  setImages,
+  setIsLoading,
+}: {
+  setImages: (arg0?: string[]) => void;
+  setIsLoading: (arg0: boolean) => void;
+}) {
   const { data } = useSWR<ExtraType>("/extra/all", fetcher);
   const { register, watch } = useFormContext<ProductType>();
   const [hideImages, setHideImages] = useState(false);
   const { fields, append, remove } = useFieldArray({
     name: "variants",
+  });
+
+  const { startUpload } = useUploadThing("product", {
+    onClientUploadComplete: (res) => {
+      toast.dismiss();
+      toast.success("Image variants uploaded successfully");
+
+      setImages(
+        res.map((r) => {
+          return r.url;
+        }),
+      );
+
+      setIsLoading(false);
+    },
+    onUploadError: () => {
+      toast.dismiss();
+      toast.error("Image variants upload failed");
+      setIsLoading(false);
+    },
+    onUploadBegin: () => {
+      toast.dismiss();
+      toast.loading("Image variants uploading...");
+      setIsLoading(true);
+    },
   });
 
   return (
@@ -26,22 +58,6 @@ export default function ProductVariants() {
         <h3 className="text-lg font-medium text-gray-900">Product Variants</h3>
 
         <div className="space-x-3 flex items-center">
-          <a
-            type="button"
-            className={clsx(
-              buttonVariants({ variant: "outline" }),
-              "ml-auto cursor-pointer",
-            )}
-            onClick={() => setHideImages(!hideImages)}
-          >
-            {!hideImages ? (
-              <EyeOffIcon className="w-5 h-5" />
-            ) : (
-              <EyeIcon className="w-5 h-5" />
-            )}{" "}
-            <span className="ml-1">Images</span>
-          </a>
-
           <a
             type="button"
             className={clsx(
@@ -54,6 +70,7 @@ export default function ProductVariants() {
           </a>
         </div>
       </div>
+
       {fields.map((field, index) => {
         return (
           <div key={field.id} className="w-full mt-4">
@@ -206,6 +223,41 @@ export default function ProductVariants() {
           </div>
         );
       })}
+      {fields.length > 0 && (
+        <div className="flex justify-end">
+          <div className="flex gap-8 items-center">
+            <a
+              type="button"
+              className={clsx(
+                buttonVariants({ variant: "outline" }),
+                "ml-auto cursor-pointer ",
+              )}
+              onClick={() => setHideImages(!hideImages)}
+            >
+              {!hideImages ? (
+                <EyeOffIcon className="w-5 h-5" />
+              ) : (
+                <EyeIcon className="w-5 h-5" />
+              )}
+              <span className="ml-1">Images</span>
+            </a>
+            <a
+              type="button"
+              className={clsx(
+                buttonVariants({ variant: "default" }),
+                "ml-auto cursor-pointer",
+              )}
+              onClick={() =>
+                startUpload(
+                  watch("variants")?.map((variant) => variant.img[0]) as [],
+                )
+              }
+            >
+              Upload All Images
+            </a>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

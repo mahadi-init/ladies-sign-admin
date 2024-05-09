@@ -4,7 +4,6 @@ import StatusIndicator from "@/components/native/StatusIndicator";
 import { CouponType } from "@/types/coupon.t";
 import { ColumnDef } from "@tanstack/react-table";
 import { PencilIcon } from "lucide-react";
-import { CldImage } from "next-cloudinary";
 import Image from "next/image";
 import Link from "next/link";
 
