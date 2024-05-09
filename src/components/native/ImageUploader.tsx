@@ -42,6 +42,7 @@ export function ImageUploader({
       toast.error("Image upload failed");
     },
     onUploadBegin: () => {
+      toast.dismiss();
       setIsLoading(true);
       toast.loading("Image uploading...");
     },
@@ -75,6 +76,7 @@ export function ImageUploader({
         width={300}
         height={300}
         className="rounded-md"
+        priority
       />
       <label
         htmlFor="uploadFile1"

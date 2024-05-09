@@ -14,7 +14,6 @@ import AdditionalInformation from "../_components/additional-information";
 import GeneralInformation from "../_components/general-information";
 import { ProductCategory } from "../_components/product-category";
 import ProductVariants from "../_components/product-variants";
-import { useUploadThing } from "@/utils/uploadthing";
 
 export default function AddProduct() {
   const methods = useForm();
@@ -27,49 +26,27 @@ export default function AddProduct() {
   const { trigger, isMutating } = useSWRMutation("/product/add", addRequest);
   const { showStatus } = useStatus();
 
-  const { startUpload } = useUploadThing("product", {
-    onClientUploadComplete: (res) => {
-      toast.dismiss();
-      toast.success("Image variants uploaded successfully");
-      setIsLoading(false);
-
-      setImages(
-        res.map((r) => {
-          return r.url;
-        }),
-      );
-    },
-    onUploadError: () => {
-      toast.dismiss();
-      toast.error("Image variants upload failed");
-      setIsLoading(false);
-    },
-    onUploadBegin: () => {
-      toast.dismiss();
-      toast.loading("Image variants uploading...");
-      setIsLoading(true);
-    },
-  });
-
   const onSubmit = async (formData: ProductType) => {
-    const variants = formData.variants;
-    startUpload(
-      variants?.map((variant) => {
-        return variant.img[0];
-      }) as [],
-    );
-
-    const refinedVariants = variants?.map((variant) => {
-      return {
-        ...variant,
-        img: images,
-      };
-    });
-
-    if (isLoading) {
-      toast.error("Please wait for image upload to complete");
+    if (!imgUrl) {
+      toast.error("Please select an image for the product");
       return;
     }
+
+    if (images?.length !== formData.variants?.length) {
+      toast.error("Upload images for variants properly");
+      return;
+    }
+
+    if (isLoading) {
+      return;
+    }
+
+    const refinedVariants = formData.variants?.map((variant, index) => {
+      return {
+        ...variant,
+        img: images?.[index],
+      };
+    });
 
     const data = {
       ...formData,
@@ -79,8 +56,10 @@ export default function AddProduct() {
       },
       children: children,
       variants: refinedVariants,
+      tags: tags,
     };
 
+    console.log(data);
     const res = await trigger(data);
     showStatus("/product", "Product added sucessfully", res);
   };
@@ -123,7 +102,7 @@ export default function AddProduct() {
             </div>
           </GeneralInformation>
           <AdditionalInformation />
-          <ProductVariants />
+          <ProductVariants setIsLoading={setIsLoading} setImages={setImages} />
           <ButtonGroup isMutating={isMutating} />
         </form>
       </FormProvider>
