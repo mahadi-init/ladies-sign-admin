@@ -4,16 +4,16 @@ export const SellerSchema = z
   .object({
     _id: z.string(),
     cid: z.coerce.number(),
-    name: z.string().min(3, "Name is too short"),
-    phone: z.string().min(11, "Phone number must be 11 characters"),
-    whatsapp: z.string().min(11, "Whatsapp number must be 11 characters"),
-    password: z.string().min(6, "Password must be at least 6 characters"),
+    name: z.string().min(3, "name is too short"),
+    phone: z.string().min(11, "phone number must be 11 characters"),
+    whatsapp: z.string().min(11, "whatsapp number must be 11 characters"),
+    password: z.string().min(6, "password must be at least 6 characters"),
     img: z.string().url(),
-    address: z.string().min(8, "Address is too short"),
+    address: z.string().min(8, "address is too short"),
     facebookProfile: z.string(),
     facebookPage: z.string(),
     license: z.string(),
-    nid: z.number(),
+    nid: z.string().min(8, "minimum 8 characters required"),
     balance: z.number(),
     transactions: z.array(
       z.object({

@@ -68,6 +68,7 @@ export default function SellerUI(props: PropTypes) {
             <span className="text-xs text-red-700">{errors.name.message}</span>
           )}
         </label>
+
         <label className="ml-1 font-medium">
           Phone <span className="text-red-600">*</span>
           <Input
@@ -78,6 +79,21 @@ export default function SellerUI(props: PropTypes) {
           />
           {errors.phone && (
             <span className="text-xs text-red-700">{errors.phone.message}</span>
+          )}
+        </label>
+
+        <label className="ml-1 font-medium">
+          Whatsapp <span className="text-red-600">*</span>
+          <Input
+            type="text"
+            placeholder="01712345678"
+            className="mt-1 bg-gray-100"
+            {...register("whatsapp", { required: true })}
+          />
+          {errors.whatsapp && (
+            <span className="text-xs text-red-700">
+              {errors.whatsapp.message}
+            </span>
           )}
         </label>
 
@@ -110,16 +126,34 @@ export default function SellerUI(props: PropTypes) {
             </span>
           )}
         </label>
+
         <label className="ml-1 font-medium">
-          NID Number <span className="text-red-600">*</span>
+          Facebook Profile<span className="text-red-600">*</span>
           <Input
-            type="number"
+            type="text"
+            placeholder="http://facebook.com/profile"
             className="mt-1 bg-gray-100"
-            placeholder="012345678"
-            {...register("nid", { required: true })}
+            {...register("facebookProfile", { required: true })}
           />
-          {errors.nid && (
-            <span className="text-xs text-red-700">{errors.nid.message}</span>
+          {errors.facebookProfile && (
+            <span className="text-xs text-red-700">
+              {errors.facebookProfile.message}
+            </span>
+          )}
+        </label>
+
+        <label className="ml-1 font-medium">
+          Facebook Page
+          <Input
+            type="text"
+            placeholder="http://facebook.com/page"
+            className="mt-1 bg-gray-100"
+            {...register("facebookPage")}
+          />
+          {errors.facebookPage && (
+            <span className="text-xs text-red-700">
+              {errors.facebookPage.message}
+            </span>
           )}
         </label>
 
