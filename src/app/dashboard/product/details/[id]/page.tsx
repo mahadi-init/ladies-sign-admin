@@ -28,8 +28,8 @@ export default function EditProduct({ params }: { params: { id: string } }) {
       <div className="mt-8">
         <p className="text-lg font-medium underline">Product variants</p>
 
-        {product?.variants?.map((variant) => (
-          <div className="flex gap-8">
+        {product?.variants?.map((variant, index) => (
+          <div key={index} className="flex gap-8">
             <Image
               className="rounded-md mt-2"
               src={variant?.img}
