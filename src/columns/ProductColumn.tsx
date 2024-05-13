@@ -12,12 +12,22 @@ export const productColumn: ColumnDef<ProductType>[] = [
     accessorKey: "id",
     header: "ID",
     cell: ({ row }) => {
-      return <p className="font-semibold"># {row.original.cid}</p>;
+      return <p className="font-medium"># {row.original.cid}</p>;
     },
   },
   {
     accessorKey: "name",
     header: "NAME",
+    cell: ({ row }) => {
+      return (
+        <Link
+          className="underline text-lg"
+          href={`/dashboard/product/details/${row.original._id}`}
+        >
+          {row.original.name}
+        </Link>
+      );
+    },
   },
   {
     accessorKey: "img",

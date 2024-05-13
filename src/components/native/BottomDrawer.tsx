@@ -12,15 +12,20 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import SubmitButton from "./SubmitButton";
 
 export default function BottomDrawer({
   requestType,
   btnVariants = "default",
   bkashNumber,
+  onSubmit,
+  isMutating,
 }: {
   requestType: "Deposit" | "Withdraw";
-  btnVariants?: "default" | "destructive";
+  btnVariants: "default" | "destructive";
   bkashNumber?: string;
+  onSubmit: () => void;
+  isMutating?: boolean;
 }) {
   return (
     <Drawer>
@@ -28,13 +33,14 @@ export default function BottomDrawer({
         {requestType}
       </DrawerTrigger>
       <DrawerContent>
-        <form className="w-full max-w-sm mx-auto">
+        <form action={onSubmit} className="w-full max-w-sm mx-auto">
           <DrawerHeader>
             <DrawerTitle>Are you absolutely sure?</DrawerTitle>
             <DrawerDescription>
               You sending a {requestType.toLowerCase()} request
             </DrawerDescription>
           </DrawerHeader>
+
           <div className="flex flex-col gap-4 p-4 pb-0">
             <Label htmlFor="amount">
               Amount
@@ -47,37 +53,54 @@ export default function BottomDrawer({
                 required
               />
             </Label>
+
+            {/* {requestType === "Deposit" && ( */}
+            {/*   <Label htmlFor="ref"> */}
+            {/*     Reference */}
+            {/*     <Input */}
+            {/*       id="ref" */}
+            {/*       type="text" */}
+            {/*       placeholder="01312345678" */}
+            {/*       className="mt-2" */}
+            {/*       defaultValue={bkashNumber} */}
+            {/*       required */}
+            {/*     /> */}
+            {/*   </Label> */}
+            {/* )} */}
+
             {requestType === "Withdraw" && (
-              <Label htmlFor="amount">
-                Bkash
-                <Input
+              <Label htmlFor="message">
+                Message
+                <Textarea
                   id="amount"
-                  type="tel"
-                  placeholder="01312345678"
+                  name="amount"
+                  defaultValue={`Hello sir, i am sending you withdraw request`}
+                  rows={3}
                   className="mt-2"
+                  disabled
                   required
                 />
               </Label>
             )}
 
-            <Label htmlFor="message">
-              Message
-              <Textarea
-                id="amount"
-                name="amount"
-                defaultValue={
-                  requestType === "Deposit"
-                    ? "Hello sir, i am sending you deposit request. Transation ID : #{123456789}"
-                    : `Hello sir, i am sending you withdraw request`
-                }
-                rows={3}
-                className="mt-2"
-                required
-              />
-            </Label>
+            {requestType === "Withdraw" && (
+              <Label htmlFor="message">
+                Message
+                <Textarea
+                  id="amount"
+                  name="amount"
+                  defaultValue={`Hello sir, i am sending you withdraw request`}
+                  rows={3}
+                  className="mt-2"
+                  disabled
+                  required
+                />
+              </Label>
+            )}
           </div>
+
           <DrawerFooter>
-            <Button type="submit">Submit</Button>
+            <SubmitButton isMutating={isMutating} text="Submit" />
             <DrawerClose>
               <Button className="w-full" variant="outline">
                 Cancel

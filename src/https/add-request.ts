@@ -2,7 +2,7 @@ import { site } from "@/site-config";
 
 async function addRequest(url: string, { arg }: { arg: unknown }) {
   const body = JSON.parse(
-    JSON.stringify(arg, (_, value) => (value === "" ? undefined : value))
+    JSON.stringify(arg, (_, value) => (value === "" ? undefined : value)),
   );
 
   try {

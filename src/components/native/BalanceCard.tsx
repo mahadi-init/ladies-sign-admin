@@ -9,24 +9,40 @@ import {
 } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { fetcher } from "@/https/get-request";
-import { ArrowDownIcon } from "@/icons/ArrowDownIcon";
 import { ArrowUpIcon } from "@/icons/ArrowUpIcon";
 import { SellerType } from "@/types/seller.t";
+import { getClientAuthInfo } from "@/utils/client-auth";
+import { ArrowDownIcon } from "lucide-react";
+import { useEffect, useState } from "react";
 import useSWR from "swr";
 import BottomDrawer from "./BottomDrawer";
+import DepositDrawer from "./DepositDrawer";
 
-type TransactionType = {
-  deposit: number;
-  withdraw: number;
-};
+interface Transaction {
+  amount: number;
+  createdAt: Date;
+  isSeller: boolean;
+  merchantInvoiceNumber: string;
+  paymentID: string;
+  person: string;
+  transactionStatus: string;
+  updatedAt: Date;
+}
 
 export default function BalanceCard({
   profile,
 }: {
   profile?: SellerType;
 }): JSX.Element {
-  const { data: transaction } = useSWR<Partial<TransactionType>>(
-    `/transaction/last/${profile?._id}`,
+  const [sellerStatus, setSellerStatus] = useState<boolean>(true);
+
+  const { data: deposit } = useSWR<Transaction>(
+    `/seller/transaction/last/${profile?._id}`,
+    fetcher,
+  );
+
+  const { data: withdraw } = useSWR(
+    `/seller/withdraw/${profile?._id}`,
     fetcher,
   );
 
@@ -35,6 +51,7 @@ export default function BalanceCard({
       <CardHeader className="flex flex-row items-center space-y-0">
         <CardTitle>Account balance</CardTitle>
       </CardHeader>
+
       <CardContent className="flex items-center space-x-4">
         <div className="flex items-center space-x-4">
           <Avatar className="w-12 h-12">
@@ -53,11 +70,13 @@ export default function BalanceCard({
           <h3 className="text-2xl font-semibold leading-none">
             ৳ {profile?.balance}
           </h3>
-          <p className="text-sm font-medium text-gray-500 dark:text-gray-400">
-            Available balance
+          <p className="text-xs">
+            {/* @ts-ignore */}
+            Since: {new Date(profile?.createdAt).toLocaleDateString()}
           </p>
         </div>
       </CardContent>
+
       <CardContent>
         <Table>
           <TableBody>
@@ -66,13 +85,19 @@ export default function BalanceCard({
                 <ArrowUpIcon className="w-4 h-4 text-green-600" />
               </TableCell>
               <TableCell className="font-medium">Deposit</TableCell>
-              <TableCell className="text-sm text-gray-500 dark:text-gray-400">
-                2 days ago
+              <TableCell className="font-medium">
+                {deposit?.paymentID}
               </TableCell>
-              <TableCell className="text-right">
-                {transaction?.deposit ?? (
-                  <span className="text-red-600 line-through">৳0.00</span>
-                )}
+              <TableCell className="font-medium">
+                {/*@ts-ignore  */}
+                {new Date(deposit?.createdAt).toDateString()}
+              </TableCell>
+              <TableCell className="font-medium">
+                {/*@ts-ignore  */}
+                {new Date(deposit?.createdAt).toLocaleTimeString()}
+              </TableCell>
+              <TableCell className="text-right font-medium">
+                ৳{deposit?.amount}
               </TableCell>
             </TableRow>
             <TableRow>
@@ -80,23 +105,32 @@ export default function BalanceCard({
                 <ArrowDownIcon className="w-4 h-4 text-red-600" />
               </TableCell>
               <TableCell className="font-medium">Withdraw</TableCell>
-              <TableCell className="text-sm text-gray-500 dark:text-gray-400">
-                1 day ago
+              <TableCell className="font-medium">
+                {deposit?.paymentID}
               </TableCell>
-              <TableCell className="text-right">
-                {transaction?.withdraw ?? (
-                  <span className="text-red-600 line-through">৳0.00</span>
-                )}
+              <TableCell className="font-medium">
+                {/*@ts-ignore  */}
+                {new Date(deposit?.createdAt).toDateString()}
+              </TableCell>
+              <TableCell className="font-medium">
+                {/*@ts-ignore  */}
+                {new Date(deposit?.createdAt).toLocaleTimeString()}
+              </TableCell>
+              <TableCell className="text-right font-medium">
+                ৳{deposit?.amount}
               </TableCell>
             </TableRow>
           </TableBody>
         </Table>
       </CardContent>
-      <CardFooter className="justify-end mt-4 gap-4">
-        {/* TODO: ADD REAL NUMBER */}
 
-        <BottomDrawer requestType="Deposit" />
-        <BottomDrawer requestType="Withdraw" btnVariants="destructive" />
+      <CardFooter className="justify-end mt-4 gap-4">
+        <DepositDrawer profile={profile} />
+        <BottomDrawer
+          onSubmit={() => {}}
+          requestType="Withdraw"
+          btnVariants="destructive"
+        />
       </CardFooter>
     </Card>
   );

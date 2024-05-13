@@ -2,6 +2,7 @@
 import BalanceCard from "@/components/native/BalanceCard";
 import ButtonGroup from "@/components/native/ButtonGroup";
 import { ImageUploader } from "@/components/native/ImageUploader";
+import LoadingSkeleton from "@/components/native/LoadingSkeleton";
 import {
   Card,
   CardContent,
@@ -22,7 +23,15 @@ import { toast } from "sonner";
 import useSWR from "swr";
 import useSWRMutation from "swr/mutation";
 
-function SellerInfo({ data, image }: { data?: SellerType; image?: string }) {
+function SellerInfo({
+  data,
+  image,
+  isLoading,
+}: {
+  data?: SellerType;
+  image?: string;
+  isLoading: boolean;
+}) {
   const { trigger, isMutating } = useSWRMutation(
     `/seller/edit/${data?._id}`,
     updateRequest,
@@ -58,6 +67,7 @@ function SellerInfo({ data, image }: { data?: SellerType; image?: string }) {
         <CardHeader>
           <CardTitle>Basic Information</CardTitle>
         </CardHeader>
+
         <CardContent>
           <div className="grid gap-4">
             <Label htmlFor="name">
@@ -205,9 +215,11 @@ function SellerInfo({ data, image }: { data?: SellerType; image?: string }) {
           </div>
         </CardContent>
 
-        <CardFooter className="justify-end">
-          <ButtonGroup isMutating={isMutating} />
-        </CardFooter>
+        {!isLoading && (
+          <CardFooter className="justify-end">
+            <ButtonGroup isMutating={isMutating} />
+          </CardFooter>
+        )}
       </form>
     </Card>
   );
@@ -308,25 +320,26 @@ function SellerSecurity({ password, id }: { password?: string; id?: string }) {
 
 export default function SellerProfileUI({ id }: { id: string }): JSX.Element {
   const { data } = useSWR<SellerType>(`/seller/get/${id}`, fetcher);
+  //FIXME: IMAGE NOT UPLOADING ISSUE
   const [image, setImage] = useState<string>();
   const [isLoading, setIsLoading] = useState(false);
 
   return (
     <>
       <div className="flex flex-col gap-8 my-8 xl:flex-row justify-center">
-        <div className="flex flex-col items-center">
-          <ImageUploader
-            setIsLoading={setIsLoading}
-            imgUrl={image}
-            setImgUrl={setImage}
-            endpoint="seller"
-          />
-        </div>
-        <BalanceCard profile={data} />
+        {/* <div className="flex flex-col items-center"> */}
+        {/*   <ImageUploader */}
+        {/*     setIsLoading={setIsLoading} */}
+        {/*     imgUrl={image} */}
+        {/*     setImgUrl={setImage} */}
+        {/*     endpoint="seller" */}
+        {/*   /> */}
+        {/* </div> */}
+        {data ? <BalanceCard profile={data} /> : <LoadingSkeleton />}
       </div>
 
       <div className="grid grid-cols-1 gap-8 w-full">
-        <SellerInfo data={data} image={image} />
+        <SellerInfo isLoading={isLoading} data={data} image={image} />
         <SellerSecurity password={data?.password} id={data?._id} />
       </div>
     </>

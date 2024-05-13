@@ -7,13 +7,13 @@ export default function useStatus() {
   const showStatus = (
     mutationTag: string,
     successMessage: string,
-    res: { success: boolean; message?: string }
+    res: { success: boolean; message?: string },
   ) => {
     if (res.success) {
       mutate(
         (key) => typeof key === "string" && key.startsWith(mutationTag),
         undefined,
-        { revalidate: true }
+        { revalidate: true },
       );
       toast.success(successMessage);
     } else {

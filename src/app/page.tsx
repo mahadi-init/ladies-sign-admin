@@ -4,13 +4,14 @@ import SubmitButton from "@/components/native/SubmitButton";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import addRequest from "@/https/add-request";
-import { site } from "@/site-config";
 import { AdminSchema, AdminType } from "@/types/admin.t";
 import { SellerType } from "@/types/seller.t";
-import { generateToken } from "@/utils/generate-token";
+import {
+  dbUpdatedAuthStatus,
+  getClientAuthInfo,
+  setClientAuthInfo,
+} from "@/utils/client-auth";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { getCookie, setCookie } from "cookies-next";
-import jwt from "jsonwebtoken";
 import { Route } from "next";
 import Image from "next/image";
 import Link from "next/link";
@@ -46,24 +47,28 @@ export default function Login() {
 
   // check if already logged in
   useEffect(() => {
-    const auth = getCookie("auth") as string;
+    const autoLoginImpl = async () => {
+      const authInfo = getClientAuthInfo();
+      console.log(authInfo);
 
-    try {
-      const payload = jwt.verify(auth, site.JWT_SECRET);
+      if (authInfo) {
+        // check database stored status
+        const dbAuthCheck = await dbUpdatedAuthStatus(authInfo);
+        console.log(dbAuthCheck);
 
-      //@ts-expect-error
-      if (payload && payload.status) {
-        //@ts-expect-error
-        if (!payload.role) {
-          router.replace("/seller");
-        } else {
-          router.replace("/dashboard");
+        if (dbAuthCheck) {
+          if (!authInfo.role) {
+            router.replace("/seller");
+          } else {
+            router.replace("/dashboard");
+          }
         }
       }
+
       setIsLoading(false);
-    } catch (err: any) {
-      setIsLoading(false);
-    }
+    };
+
+    autoLoginImpl();
   }, [router]);
 
   // loading state
@@ -91,15 +96,19 @@ export default function Login() {
     const res: { success: boolean; data: AdminType } = await adminLogin(data);
 
     if (res.success === true) {
-      setCookie(
-        "auth",
-        generateToken({
-          id: res.data._id,
-          name: res.data.name,
-          role: res.data.role,
-          status: res.data.status,
-        }),
-      );
+      const data = res.data;
+
+      if (!data.status) {
+        toast.error("Inactive Account");
+        return;
+      }
+
+      setClientAuthInfo({
+        name: data.name,
+        id: data._id,
+        role: data.role,
+        status: data.status,
+      });
 
       toast.success(
         `${res.data.name} Successfully Logged in as ${res.data.role}`,
@@ -115,14 +124,19 @@ export default function Login() {
     const res: { success: boolean; data: SellerType } = await sellerLogin(data);
 
     if (res.success === true) {
-      setCookie(
-        "auth",
-        generateToken({
-          id: res.data._id,
-          name: res.data.name,
-          status: res.data.status,
-        }),
-      );
+      const data = res.data;
+
+      if (!data.status) {
+        toast.error("Inactive Account");
+        return;
+      }
+
+      setClientAuthInfo({
+        name: data.name,
+        id: data._id,
+        status: data.status,
+      });
+
       toast.success(`${res.data.name} Successfully Logged in as Seller`);
       router.replace("/seller");
       return;

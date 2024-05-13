@@ -1,14 +1,14 @@
 import { site } from "@/site-config";
 import jwt from "jsonwebtoken";
 
-interface User {
-  id?: string;
-  name?: string;
-  role?: string;
-  status?: boolean;
+interface PayloadAuth {
+  id: string;
+  name: string;
+  role: string;
+  status: boolean;
 }
 
-export const generateToken = (user: User) => {
+export const generateToken = (user: Partial<PayloadAuth>) => {
   const payload = {
     id: user.id,
     name: user.name,

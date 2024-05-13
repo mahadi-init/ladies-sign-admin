@@ -137,7 +137,7 @@ export default function ProductVariants({
                     key={field.id}
                     defaultValue={data?.colors?.[0].name}
                     className="mt-0.5 w-full p-2 bg-white rounded-md"
-                    {...register(`variants.${index}.code`, { required: true })}
+                    {...register(`variants.${index}.color`, { required: true })}
                   >
                     {data?.colors?.map((color, index) => {
                       return (

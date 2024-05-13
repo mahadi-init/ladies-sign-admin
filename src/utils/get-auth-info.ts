@@ -28,3 +28,8 @@ export const getAuthRole = async () => {
   const payload = await getAuthInfo();
   return payload.role;
 };
+
+export const getAuthStatus = async () => {
+  const payload = await getAuthInfo();
+  return payload.status;
+};

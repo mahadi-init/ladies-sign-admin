@@ -28,8 +28,10 @@ export default function DeleteItem(props: PropTypes): JSX.Element {
       mutate(
         (key) => typeof key === "string" && key.startsWith(props.validationTag),
         undefined,
-        { revalidate: true }
+        { revalidate: true },
       );
+
+      console.log(res);
 
       toast.success(props.successMessage);
     } else {

@@ -6,15 +6,22 @@ interface SubmitButtonProps {
   text: string;
   style: string;
   isMutating: boolean;
+  variant: "default" | "destructive" | "ghost" | "link";
 }
 
 export default function SubmitButton({
   isMutating,
   text,
   style,
+  variant = "default",
 }: Partial<SubmitButtonProps>): JSX.Element {
   return (
-    <Button type="submit" disabled={isMutating} className={style}>
+    <Button
+      variant={variant}
+      type="submit"
+      disabled={isMutating}
+      className={style}
+    >
       {isMutating ? (
         <>
           <ReloadIcon className="w-4 h-4 mr-2 animate-spin" />
