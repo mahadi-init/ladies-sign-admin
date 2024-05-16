@@ -9,7 +9,7 @@ export default function SellerNavbar() {
 
   return (
     <div className="bg-sky-700 mb-4 py-4 px-2 text-white font-semibold flex items-center justify-between text-lg">
-      <div className="flex gap-8 mt-1.5">
+      <div className="flex gap-6 mt-1.5">
         <Link
           href="/seller"
           className={clsx({
@@ -18,6 +18,16 @@ export default function SellerNavbar() {
         >
           Profile
         </Link>
+
+        <Link
+          href="/seller/records"
+          className={clsx({
+            "text-yellow-300": pathname === "/seller/records",
+          })}
+        >
+          Records
+        </Link>
+
         <Link
           href="/seller/orders"
           className={clsx({ "text-yellow-300": pathname === "/seller/orders" })}

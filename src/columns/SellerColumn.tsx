@@ -66,7 +66,13 @@ export const sellerColumn: ColumnDef<SellerType>[] = [
     accessorKey: "status",
     header: "STATUS",
     cell: ({ row }) => {
-      return <StatusIndicator status={row.original.status} />;
+      return (
+        <StatusIndicator
+          status={row.original.status}
+          updateStatusUrl={`/seller/update-status/${row.original._id}`}
+          mutationTag="/seller"
+        />
+      );
     },
   },
   {

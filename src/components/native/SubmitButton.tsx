@@ -6,7 +6,7 @@ interface SubmitButtonProps {
   text: string;
   style: string;
   isMutating: boolean;
-  variant: "default" | "destructive" | "ghost" | "link";
+  variant: "default" | "destructive" | "ghost" | "link" | "outline";
 }
 
 export default function SubmitButton({

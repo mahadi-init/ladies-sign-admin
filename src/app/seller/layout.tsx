@@ -1,5 +1,5 @@
 import React from "react";
-import SellerNavbar from "./navbar";
+import SellerNavbar from "../../components/seller/navbar";
 
 export default async function Layout({
   children,

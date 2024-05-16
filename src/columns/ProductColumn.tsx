@@ -21,7 +21,7 @@ export const productColumn: ColumnDef<ProductType>[] = [
     cell: ({ row }) => {
       return (
         <Link
-          className="underline text-lg"
+          className="underline"
           href={`/dashboard/product/details/${row.original._id}`}
         >
           {row.original.name}

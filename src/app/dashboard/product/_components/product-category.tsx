@@ -7,10 +7,14 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { Badge } from "@/components/ui/badge";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { fetcher } from "@/https/get-request";
 import { XIcon } from "@/icons/Xicon";
 import { CategoryType } from "@/types/category.t";
+import { ProductType } from "@/types/product.t";
+import { useFormContext } from "react-hook-form";
 import useSWR from "swr";
 
 export function ProductCategory({
@@ -33,6 +37,7 @@ export function ProductCategory({
     error,
     isLoading,
   } = useSWR<CategoryType[]>(`/category/all`, fetcher);
+  const { register } = useFormContext<ProductType>();
 
   if (isLoading) {
     return (
@@ -127,6 +132,15 @@ export function ProductCategory({
         setItems={setTags}
         style="bg-white"
       />
+
+      <div>
+        <Label className="w-fit flex items-center gap-5">
+          <span className="block mb-1 text-sm font-medium mt-1">
+            Set as Featured
+          </span>
+          <Input className="w-5" type="checkbox" {...register("featured")} />
+        </Label>
+      </div>
     </>
   );
 }

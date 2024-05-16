@@ -8,7 +8,7 @@ import { useFieldArray, useFormContext } from "react-hook-form";
 export default function AdditionalKeyValue() {
   const { register } = useFormContext();
   const { fields, append, remove } = useFieldArray({
-    name: "infos",
+    name: "additionalInformation",
   });
 
   return (
@@ -43,7 +43,9 @@ export default function AdditionalKeyValue() {
               <Input
                 key={field.id}
                 placeholder="Enter key"
-                {...register(`infos.${index}.key`, { required: true })}
+                {...register(`additionalInformation.${index}.key`, {
+                  required: true,
+                })}
               />
             </div>
 
@@ -54,7 +56,9 @@ export default function AdditionalKeyValue() {
               <Input
                 key={field.id}
                 placeholder="Enter value"
-                {...register(`infos.${index}.value`, { required: true })}
+                {...register(`additionalInformation.${index}.value`, {
+                  required: true,
+                })}
               />
             </div>
 

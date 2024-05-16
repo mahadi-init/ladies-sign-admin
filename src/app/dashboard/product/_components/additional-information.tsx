@@ -16,7 +16,7 @@ export default function AdditionalInformation() {
 
   return (
     <div className="w-full p-6 bg-gray-100 rounded-lg shadow">
-      <div className="grid grid-cols-1 gap-6 mb-6 md:grid-cols-2 lg:grid-cols-3">
+      <div className="grid grid-cols-1 gap-6 mb-6 md:grid-cols-2 lg:grid-cols-3 items-center">
         <div>
           <label
             htmlFor="product-type"

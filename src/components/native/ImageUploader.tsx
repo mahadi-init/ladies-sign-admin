@@ -43,13 +43,13 @@ export function ImageUploader({
     },
     onUploadBegin: () => {
       toast.dismiss();
-      setIsLoading(true);
       toast.loading("Image uploading...");
     },
   });
 
   useEffect(() => {
     if (files.length > 0) {
+      setIsLoading(true);
       startUpload(files);
     }
   }, [files, startUpload]);

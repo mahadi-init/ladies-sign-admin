@@ -11,54 +11,42 @@ import {
 } from "@/components/ui/drawer";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import SubmitButton from "./SubmitButton";
+import { Textarea } from "@/components/ui/textarea";
+import { fetcher } from "@/https/get-request";
+import { SellerType } from "@/types/seller.t";
+import { SubmitHandler, useForm } from "react-hook-form";
+import useSWR from "swr";
 import useSWRMutation from "swr/mutation";
 import addRequest from "@/https/add-request";
-import { site } from "@/site-config";
-import { useRouter } from "next/navigation";
-import { useForm, SubmitHandler } from "react-hook-form";
-import { SellerType } from "@/types/seller.t";
-import { BkashPayment } from "@/types/bkash.t";
-import { toast } from "sonner";
+import useStatus from "@/hooks/useStatus";
+import SubmitButton from "../native/SubmitButton";
 
-export default function DepositDrawer({ profile }: { profile?: SellerType }) {
-  const router = useRouter();
+export default function WithdrawDrawer({ profile }: { profile?: SellerType }) {
   const { register, handleSubmit } = useForm<{
     amount: string;
-    reference: string;
+    bkash: string;
   }>();
-  const { trigger, isMutating } = useSWRMutation(
-    `/bkash/create-payment`,
-    addRequest,
-  );
+  const { trigger, isMutating } = useSWRMutation(`/withdraw/add`, addRequest);
+  const { showStatus } = useStatus();
 
-  const onSubmit: SubmitHandler<{ amount: string; reference: string }> = async (
-    data,
-  ) => {
-    const customData = {
-      mode: "0011",
-      payerReference: data.reference,
-      callbackURL: `${site.BACKEND_URL}/bkash/execute-payment/seller/${profile?._id}`,
-      amount: data.amount.toString(),
-      currency: "BDT",
-      intent: "sale",
-      merchantInvoiceNumber: profile?.cid?.toString(),
+  const onSubmit: SubmitHandler<{
+    amount: string;
+    bkash: string;
+  }> = async (data) => {
+    const refinedData = {
+      ...data,
+      message: "Hello sir, i am sending you withdraw request",
+      seller: profile?._id,
     };
-    const res: { success: boolean; data: BkashPayment } =
-      await trigger(customData);
 
-    if (!res.success) {
-      toast.error("Something went wrong");
-      return;
-    }
-
-    router.push(res.data.bkashURL);
+    const res = await trigger(refinedData);
+    showStatus("/withdraw", "Withdraw request sent successfully", res);
   };
 
   return (
     <Drawer>
-      <DrawerTrigger className={buttonVariants({ variant: "default" })}>
-        Deposit
+      <DrawerTrigger className={buttonVariants({ variant: "destructive" })}>
+        Withdraw
       </DrawerTrigger>
       <DrawerContent>
         <form
@@ -68,7 +56,7 @@ export default function DepositDrawer({ profile }: { profile?: SellerType }) {
           <DrawerHeader>
             <DrawerTitle>Are you absolutely sure?</DrawerTitle>
             <DrawerDescription>
-              You sending a Deposite request
+              You sending a withdraw request
             </DrawerDescription>
           </DrawerHeader>
 
@@ -84,14 +72,27 @@ export default function DepositDrawer({ profile }: { profile?: SellerType }) {
               />
             </Label>
 
-            <Label htmlFor="ref">
-              Reference
+            <Label htmlFor="bkash">
+              Bkash Number
               <Input
-                id="ref"
+                id="bkash"
                 type="text"
                 placeholder="01312345678"
+                defaultValue={profile?.phone}
                 className="mt-2"
-                {...register("reference", { required: true })}
+                {...register("bkash", { required: true })}
+              />
+            </Label>
+
+            <Label htmlFor="message">
+              Message
+              <Textarea
+                id="amount"
+                name="amount"
+                defaultValue={`Hello sir, i am sending you withdraw request`}
+                rows={3}
+                className="mt-2"
+                disabled
               />
             </Label>
           </div>
