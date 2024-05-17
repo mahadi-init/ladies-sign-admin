@@ -54,7 +54,7 @@ export default function BalanceCard({
         </div>
         <div className="ml-auto space-y-2 text-right">
           <h3 className="text-2xl font-semibold leading-none">
-            ৳ {profile?.balance}
+            ৳ {profile?.balance ?? 0}
           </h3>
           <p className="text-xs">
             {/* @ts-ignore */}
