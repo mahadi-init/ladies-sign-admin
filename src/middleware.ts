@@ -3,15 +3,15 @@ import { getAuthInfo } from "./utils/get-auth-info";
 
 export async function middleware(request: NextRequest) {
   try {
-    const payload = await getAuthInfo()
+    const payload = await getAuthInfo();
 
     if (!payload || !payload.status || !payload.role) {
-      if (request.nextUrl.pathname.startsWith('/dashboard')) {
-        throw new Error()
+      if (request.nextUrl.pathname.startsWith("/dashboard")) {
+        throw new Error();
       }
     }
   } catch (err: any) {
-    return NextResponse.redirect(new URL("/", request.url))
+    return NextResponse.redirect(new URL("/", request.url));
   }
 }
 

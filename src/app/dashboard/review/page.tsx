@@ -9,7 +9,6 @@ import useSWR from "swr";
 
 export default function Reviews() {
   const { data, error } = useSWR<ReviewType[]>("/review/all", fetcher);
-  console.log(data);
 
   if (error) {
     return <FetchErrorMessage error={error} />;

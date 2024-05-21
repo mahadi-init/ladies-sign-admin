@@ -31,8 +31,6 @@ export default function DeleteItem(props: PropTypes): JSX.Element {
         { revalidate: true },
       );
 
-      console.log(res);
-
       toast.success(props.successMessage);
     } else {
       toast.error(res?.message);

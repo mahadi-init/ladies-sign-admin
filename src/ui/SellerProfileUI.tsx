@@ -338,7 +338,6 @@ export default function SellerProfileUI({ id }: { id: string }): JSX.Element {
     }
 
     const res = await trigger({ img: image });
-    console.log(res);
 
     showStatus("/seller", "Profile image successfully updated", res);
   };

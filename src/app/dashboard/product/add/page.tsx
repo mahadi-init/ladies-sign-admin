@@ -59,9 +59,6 @@ export default function AddProduct() {
       tags: tags,
     };
 
-    console.log(data);
-
-    console.log(data);
     const res = await trigger(data);
     showStatus("/product", "Product added sucessfully", res);
   };

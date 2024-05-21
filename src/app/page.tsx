@@ -49,12 +49,10 @@ export default function Login() {
   useEffect(() => {
     const autoLoginImpl = async () => {
       const authInfo = getClientAuthInfo();
-      console.log(authInfo);
 
       if (authInfo) {
         // check database stored status
         const dbAuthCheck = await dbUpdatedAuthStatus(authInfo);
-        console.log(dbAuthCheck);
 
         if (dbAuthCheck) {
           if (!authInfo.role) {
@@ -150,7 +148,7 @@ export default function Login() {
       <div className="w-full max-w-md">
         <div className="space-y-2">
           <h1 className="text-3xl font-bold">Sign in to your account</h1>
-          <p className="text-gray-500 dark:text-gray-400">
+          <p className="text-gray-500">
             Create seller account?
             <Link className="underline" href={"/signup" as Route}>
               Sign up

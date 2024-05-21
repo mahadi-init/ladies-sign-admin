@@ -30,20 +30,9 @@ export const getClientAuthInfo = ():
 };
 
 export const setClientAuthInfo = (data: Partial<PayloadType>) => {
-  setCookie("auth", generateToken(data));
+  setCookie("auth", generateToken(data), { sameSite: "none", secure: true });
 };
 
-/**
- * dbUpdateAuthStatus
- * @param {Partial<PayloadType>} data
- * @description Update auth status in database
- * @returns {boolean}
- * @author Mahadi Hassan
- * @since 1.0.0
- * @version 1.0.0
- * @example
- * dbUpdateAuthStatus()
- */
 export const dbUpdatedAuthStatus = async (data: Partial<PayloadType>) => {
   try {
     let res: { status: boolean };
