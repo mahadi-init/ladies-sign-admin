@@ -2,7 +2,6 @@
 import InvoiceGenerator from "@/components/native/InvoiceGenerator";
 import { Button } from "@/components/ui/button";
 import { fetcher } from "@/https/get-request";
-import { site } from "@/site-config";
 import { OrderType } from "@/types/order.t";
 import { Printer } from "lucide-react";
 import { useRef } from "react";
@@ -15,7 +14,7 @@ export default function Invoice({ params }: { params: { id: string } }) {
     data: value,
     error,
     isLoading,
-  } = useSWR<OrderType>(`${site.BACKEND_URL}/api/order/${params.id}`, fetcher);
+  } = useSWR<OrderType>(`/order/get/${params.id}`, fetcher);
 
   const handlePrint = useReactToPrint({
     documentTitle: `${value?._id}`,
@@ -35,8 +34,7 @@ export default function Invoice({ params }: { params: { id: string } }) {
   return (
     <>
       <div ref={ref}>
-        {/* @ts-expect-error */}
-        <InvoiceGenerator data={value.data} />
+        <InvoiceGenerator data={value} />
       </div>
 
       <Button

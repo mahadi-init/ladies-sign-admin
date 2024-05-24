@@ -4,9 +4,8 @@ import StatusIndicator from "@/components/native/StatusIndicator";
 import { CategoryType } from "@/types/category.t";
 import { ColumnDef } from "@tanstack/react-table";
 import { PencilIcon } from "lucide-react";
-import { CldImage } from "next-cloudinary";
 import Link from "next/link";
-import Image from "next/image";
+import { ImagepopOver } from "@/components/native/ImagePopOver";
 
 export const categoryColumn: ColumnDef<CategoryType>[] = [
   {
@@ -25,13 +24,7 @@ export const categoryColumn: ColumnDef<CategoryType>[] = [
     header: "IMAGE",
     cell: ({ row }) => {
       return row.original.img ? (
-        <Image
-          className="w-12 rounded-md"
-          width={250}
-          height={250}
-          src={row.original.img}
-          alt="cell image"
-        />
+        <ImagepopOver img={row.original.img} />
       ) : (
         <span className="text-xs">No Image</span>
       );

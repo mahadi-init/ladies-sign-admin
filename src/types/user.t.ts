@@ -8,7 +8,6 @@ export const UserSchema = z
     phone: z.string().min(11, "minium 11 characters required"),
     address: z.string(),
     status: z.boolean(),
-    // FIX: add require field
     createdAt: z.string().datetime(),
     updatedAt: z.string().datetime(),
   })

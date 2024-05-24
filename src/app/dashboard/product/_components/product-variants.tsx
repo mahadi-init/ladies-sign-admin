@@ -135,7 +135,7 @@ export default function ProductVariants({
                   <select
                     id="colorName"
                     key={field.id}
-                    defaultValue={data?.colors?.[0].name}
+                    defaultValue={data?.colors?.[0]?.name}
                     className="mt-0.5 w-full p-2 bg-white rounded-md"
                     {...register(`variants.${index}.color`, { required: true })}
                   >

@@ -194,12 +194,12 @@ function SellerInfo({ data }: { data?: SellerType }) {
               <Input
                 id="text"
                 type="text"
-                defaultValue={data?.phone}
+                defaultValue={data?.cid}
                 placeholder="রেফারেল লিখুন"
                 className="mt-2 bg-gray-100"
                 disabled
               />
-              <p className="text-xs text-gray-500 mt-1">same as phone number</p>
+              <p className="text-xs text-gray-500 mt-1">same as id</p>
             </Label>
           </div>
         </CardContent>

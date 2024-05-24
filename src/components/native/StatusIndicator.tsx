@@ -1,6 +1,5 @@
 import useSWRMutation from "swr/mutation";
 import { Badge } from "../ui/badge";
-import { fetcher } from "@/https/get-request";
 import updateRequest from "@/https/update-request";
 import useStatus from "@/hooks/useStatus";
 

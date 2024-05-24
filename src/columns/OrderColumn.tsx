@@ -2,59 +2,64 @@
 import ConfirmationDialog from "@/components/native/ConfirmationDialog";
 import DeliveryStatus from "@/components/native/DeliveryStatus";
 import { HoverToolkit } from "@/components/native/HoverToolkit";
-import { Button } from "@/components/ui/button";
 import { OrderType } from "@/types/order.t";
 import { ColumnDef } from "@tanstack/react-table";
-import { ArrowUpDown, CheckCircle, Send } from "lucide-react";
+import { CheckCircle, Send, View } from "lucide-react";
 import { toast } from "sonner";
 import { sendOrder } from "../utils/order-send";
+import Link from "next/link";
+import { getDaysAgo } from "@/utils/get-days-ago";
 
 export const orderColumn: ColumnDef<OrderType>[] = [
   {
     accessorKey: "invoice",
     header: "INVOICE",
-    // cell: ({ row }) => {
-    //   return (
-    //     <Link
-    //       href={`/dashboard/orders/details/${row.original._id}`}
-    //       className="font-medium underline"
-    //     >
-    //       # {row.original.invoice}
-    //     </Link>
-    //   );
-    // },
+    cell: ({ row }) => {
+      return (
+        <Link
+          href={`/dashboard/orders/details/${row.original._id}`}
+          className="font-medium cursor-pointer"
+        >
+          # {row.original.invoice}
+        </Link>
+      );
+    },
   },
   {
     accessorKey: "name",
-    header: ({ column }) => {
+    header: "CUSTOMER",
+    cell: ({ row }) => {
       return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        <Link
+          href={
+            row.original.isSeller
+              ? `/dashboard/seller/edit/${row.original.personId}`
+              : `/dashboard/user/edit/${row.original.personId}`
+          }
+          className="font-medium cursor-pointer"
         >
-          NAME
-          <ArrowUpDown className="w-4 h-4 ml-2" />
-        </Button>
+          {row.original.name}
+        </Link>
       );
+    },
+  },
+  {
+    accessorKey: "isSeller",
+    header: "TYPE",
+    cell: ({ row }) => {
+      return <p>{row.original.isSeller ? "SELLER" : "USER"}</p>;
     },
   },
   {
     accessorKey: "address",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          ADDRESS
-          <ArrowUpDown className="w-4 h-4 ml-2" />
-        </Button>
-      );
-    },
+    header: "ADDRESS",
   },
   {
-    accessorKey: "totalAmount",
+    accessorKey: "total",
     header: "TOTAL",
+    cell: ({ row }) => {
+      return <p className="font-medium">৳ {row.original.total}</p>;
+    },
   },
   {
     accessorKey: "delivery",
@@ -62,8 +67,10 @@ export const orderColumn: ColumnDef<OrderType>[] = [
     cell: ({ row }) => {
       return (
         <>
-          {row.original.status === "PROCESSING" && (
+          {row.original.status === "PROCESSING" ? (
             <DeliveryStatus trackingCode={row.original.trackingCode} />
+          ) : (
+            <p className="text-red-300 font-bold">---------</p>
           )}
         </>
       );
@@ -72,31 +79,10 @@ export const orderColumn: ColumnDef<OrderType>[] = [
   {
     accessorKey: "status",
     header: "STATUS",
-    // cell: ({ row }) => {
-    //   return (
-    //     <StatusUpdateDropdown
-    //       options={["PENDING", "PROCESSING", "DELIVERED", "CANCELLED"]}
-    //       status={row.original.status}
-    //       action={async <T,>(item: T) => {
-    //         //update status
-    //         const res = await patchData(
-    //           {
-    //             status: item,
-    //           },
-    //           `${BACKEND_URL}/api/order/update-status/${row.original._id}`,
-    //           "orders",
-    //           "Status updated Successfully"
-    //         );
-
-    //         if (res.status === 200) {
-    //           toast.success(res.message);
-    //         } else {
-    //           toast.error(res.message);
-    //         }
-    //       }}
-    //     />
-    //   );
-    // },
+  },
+  {
+    accessorKey: "paymentMethod",
+    header: "PAYMENT",
   },
   {
     accessorKey: "createdAt",
@@ -104,7 +90,12 @@ export const orderColumn: ColumnDef<OrderType>[] = [
     cell: ({ row }) => {
       return (
         <p className="font-medium">
-          {/* {new Date(row.original.createdAt).toDateString().substring(0, 10)} */}
+          {/* @ts-ignore */}
+          {getDaysAgo(row.original.createdAt) <= 0 ? (
+            <p>Today</p>
+          ) : (
+            <p>{getDaysAgo(row.original.createdAt!!)} days ago</p>
+          )}
         </p>
       );
     },
@@ -116,6 +107,7 @@ export const orderColumn: ColumnDef<OrderType>[] = [
         {row.original.status === "PENDING" ? (
           <ConfirmationDialog
             alertText="This will send order to courier"
+            // TODO: IMPLEMENT THIS FROM BACKEND SITE
             action={async () => {
               const res = await sendOrder(row.original);
 
@@ -133,11 +125,11 @@ export const orderColumn: ColumnDef<OrderType>[] = [
             <CheckCircle size={22} />
           </HoverToolkit>
         )}
-        {/* <HoverToolkit text="Invoice">
-          <Link href={`/dashboard/orders/invoice/${row.original._id}`}>
+        <HoverToolkit text="Invoice">
+          <Link href={`/dashboard/order/invoice/${row.original._id}`}>
             <View size={20} />
           </Link>
-        </HoverToolkit> */}
+        </HoverToolkit>
       </div>
     ),
   },

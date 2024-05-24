@@ -69,7 +69,7 @@ export const sellerColumn: ColumnDef<SellerType>[] = [
       return (
         <StatusIndicator
           status={row.original.status}
-          updateStatusUrl={`/seller/update-status/${row.original._id}`}
+          updateStatusUrl={`/seller/change-status/${row.original._id}`}
           mutationTag="/seller"
         />
       );

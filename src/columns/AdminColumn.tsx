@@ -1,5 +1,6 @@
 "use client";
 import DeleteItem from "@/components/native/DeleteItem";
+import { ImagepopOver } from "@/components/native/ImagePopOver";
 import StatusIndicator from "@/components/native/StatusIndicator";
 import { Button } from "@/components/ui/button";
 import { AdminType } from "@/types/admin.t";
@@ -35,14 +36,7 @@ export const adminColumn: ColumnDef<AdminType>[] = [
     header: "IMAGE",
     cell: ({ row }) => {
       return row.original.img ? (
-        <Image
-          className="w-10 rounded-full"
-          width={250}
-          height={250}
-          src={row.original.img}
-          alt="cell image"
-          loading="lazy"
-        />
+        <ImagepopOver img={row.original.img} />
       ) : (
         <span className="text-xs">No Image</span>
       );

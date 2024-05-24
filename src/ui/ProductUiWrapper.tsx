@@ -29,7 +29,7 @@ export default function ProductUiWrapper<T extends { status?: string }>({
   // fetch all data using pagination
   const { data, error, isLoading } = useSWR<T[]>(
     `${route}/page?page=${index}&limit=${limit}`,
-    fetcher
+    fetcher,
   );
 
   // fetch total number of pages
@@ -42,7 +42,7 @@ export default function ProductUiWrapper<T extends { status?: string }>({
   // fetch filtered data
   const { data: filter } = useSWR<T[]>(
     search && `${route}/search?q=${search}`,
-    fetcher
+    fetcher,
   );
 
   // filter by search
@@ -116,18 +116,20 @@ export default function ProductUiWrapper<T extends { status?: string }>({
       <div className="h-screen">
         {filteredItems && <DataTable columns={columns} data={filteredItems} />}
 
-        <div className="flex items-center justify-between">
+        <div className="mt-8 flex items-center justify-between">
           <div className="-mt-6 text-gray-700 font-medium text-sm flex justify-center gap-4">
             <p>Total pages : </p>
             <p>{isTotalPagesLoading ? "Loading..." : totalPages}</p>
             <p className="text-red-700">{totalPagesError && "Failed"}</p>
           </div>
 
-          <TablePagination
-            index={index}
-            setIndex={setIndex}
-            disableNext={isTotalPagesLoading || index === totalPages}
-          />
+          {index > 1 && (
+            <TablePagination
+              index={index}
+              setIndex={setIndex}
+              disableNext={isTotalPagesLoading || index === totalPages}
+            />
+          )}
         </div>
       </div>
     </div>

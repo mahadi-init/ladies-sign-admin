@@ -16,7 +16,7 @@ interface TableUIWrapperProps<T> {
   columns: ColumnDef<T, unknown>[];
 }
 
-export default function TableUIWrapper<T extends { status?: boolean }>({
+export default function OrderUIWrapper<T extends { status?: string }>({
   route,
   columns,
 }: TableUIWrapperProps<T>) {
@@ -76,8 +76,7 @@ export default function TableUIWrapper<T extends { status?: boolean }>({
     if (status === "ALL") {
       setFilteredItems(data);
     } else {
-      const temp = status === "ACTIVE" ? true : false;
-      setFilteredItems(data?.filter((item) => item.status === temp));
+      setFilteredItems(data?.filter((item) => item.status === status));
     }
   };
 
@@ -95,11 +94,17 @@ export default function TableUIWrapper<T extends { status?: boolean }>({
             className="mt-0.5 p-2 bg-gray-100 rounded-md"
           >
             <option value="ALL">ALL</option>
-            <option className="text-green-600" value="ACTIVE">
-              ACTIVE
+            <option className="text-sky-600" value="PENDING">
+              PENDING
             </option>
-            <option className="text-red-500" value="INACTIVE">
-              INACTIVE
+            <option className="text-yellow-700" value="PROCESSING">
+              PROCESSING
+            </option>
+            <option className="text-green-600" value="DELIVERED">
+              DELIVERED
+            </option>
+            <option className="text-red-600" value="CANCELLED">
+              CANCELLED
             </option>
           </select>
           <Button

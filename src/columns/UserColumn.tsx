@@ -1,5 +1,7 @@
 "use client";
+import StatusIndicator from "@/components/native/StatusIndicator";
 import { UserType } from "@/types/user.t";
+import { getDaysAgo } from "@/utils/get-days-ago";
 import { ColumnDef } from "@tanstack/react-table";
 
 export const userColumn: ColumnDef<UserType>[] = [
@@ -25,10 +27,6 @@ export const userColumn: ColumnDef<UserType>[] = [
     // },
   },
   {
-    accessorKey: "image",
-    header: "IMAGE",
-  },
-  {
     accessorKey: "phone",
     header: "PHONE",
     cell: ({ row }) => {
@@ -36,20 +34,29 @@ export const userColumn: ColumnDef<UserType>[] = [
     },
   },
   {
-    accessorKey: "lastSignInAt",
-    header: "LAST LOGIN",
+    accessorKey: "address",
+    header: "ADDRESS",
+    cell: ({ row }) => {
+      return <p>{row.original.address ?? "-----------"}</p>;
+    },
+  },
+  {
+    accessorKey: "createdAt",
+    header: "SINCE",
+    cell: ({ row }) => {
+      return (
+        <p className="font-medium">
+          {/* @ts-expect-error */}
+          {new Date(row.original.createdAt).toDateString()}
+        </p>
+      );
+    },
   },
   {
     accessorKey: "status",
     header: "STATUS",
-    // cell: ({ row }) => {
-    //   return (
-    //     <StatusIndicator status={row.original.banned ? "INACTIVE" : "ACTIVE"} />
-    //   );
-    // },
-  },
-  {
-    id: "actions",
-    cell: ({ row }) => <div className="flex items-center gap-8"></div>,
+    cell: ({ row }) => {
+      return <StatusIndicator status={row.original.status} />;
+    },
   },
 ];
