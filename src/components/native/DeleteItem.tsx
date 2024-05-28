@@ -38,20 +38,18 @@ export default function DeleteItem(props: PropTypes): JSX.Element {
   };
 
   return (
-    <form>
-      <ConfirmationDialog
-        alertText="The action will perform a delete operation"
-        action={handleFormAction}
+    <ConfirmationDialog
+      alertText="The action will perform a delete operation"
+      action={handleFormAction}
+    >
+      <Button
+        type="button"
+        size="icon"
+        className="w-6 h-6"
+        variant="destructive"
       >
-        <Button
-          type="button"
-          size="icon"
-          className="w-6 h-6"
-          variant="destructive"
-        >
-          <Trash2 size={16} />
-        </Button>
-      </ConfirmationDialog>
-    </form>
+        <Trash2 size={16} />
+      </Button>
+    </ConfirmationDialog>
   );
 }

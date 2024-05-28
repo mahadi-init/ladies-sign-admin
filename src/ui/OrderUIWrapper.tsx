@@ -128,13 +128,11 @@ export default function OrderUIWrapper<T extends { status?: string }>({
             <p className="text-red-700">{totalPagesError && "Failed"}</p>
           </div>
 
-          {index > 1 && (
-            <TablePagination
-              index={index}
-              setIndex={setIndex}
-              disableNext={isTotalPagesLoading || index === totalPages}
-            />
-          )}
+          <TablePagination
+            index={index}
+            setIndex={setIndex}
+            disableNext={isTotalPagesLoading || index === totalPages}
+          />
         </div>
       </div>
     </div>

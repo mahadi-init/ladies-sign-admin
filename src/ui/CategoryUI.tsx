@@ -92,13 +92,7 @@ export default function CategoryUI(props: PropTypes) {
           >
             {data?.map((item) => {
               return (
-                <option
-                  hidden={
-                    item.toLowerCase() === props.productType?.toLowerCase()
-                  }
-                  value={item}
-                  key={item}
-                >
+                <option value={item} key={item}>
                   {item}
                 </option>
               );

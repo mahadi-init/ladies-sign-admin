@@ -1,3 +1,4 @@
+import DeleteItem from "@/components/native/DeleteItem";
 import {
   Table,
   TableBody,
@@ -6,11 +7,10 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import DeleteItem from "./DeleteItem";
 
 type SimpleTableProps = {
   heads: string[];
-  data?: { name: string; code: string }[];
+  data?: string[];
   tag: string;
 };
 
@@ -34,19 +34,12 @@ export function SimpleTable({ heads, data, tag }: SimpleTableProps) {
           data.map((datum, index) => (
             <TableRow key={index}>
               <TableCell className="font-medium">{index + 1}</TableCell>
-              <TableCell>{datum.name}</TableCell>
-              <TableCell
-                style={{
-                  background: datum.code,
-                }}
-              >
-                {datum.code}
-              </TableCell>
+              <TableCell>{datum}</TableCell>
               <TableCell className="font-medium">
                 <DeleteItem
                   successMessage="Deleted Successfully"
                   validationTag="/extra"
-                  queryUrl={`/extra/delete?${tag}=${datum.name}`}
+                  queryUrl={`/extra/delete?${tag}=${datum}`}
                 />
               </TableCell>
             </TableRow>

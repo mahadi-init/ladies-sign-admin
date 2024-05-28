@@ -123,13 +123,11 @@ export default function TableUIWrapper<T extends { status?: boolean }>({
             <p className="text-red-700">{totalPagesError && "Failed"}</p>
           </div>
 
-          {index > 1 && (
-            <TablePagination
-              index={index}
-              setIndex={setIndex}
-              disableNext={isTotalPagesLoading || index === totalPages}
-            />
-          )}
+          <TablePagination
+            index={index}
+            setIndex={setIndex}
+            disableNext={isTotalPagesLoading || index === totalPages}
+          />
         </div>
       </div>
     </div>

@@ -9,8 +9,8 @@ export default function StatusIndicator({
   mutationTag,
 }: {
   status?: boolean;
-  updateStatusUrl?: string;
-  mutationTag?: string;
+  updateStatusUrl: string;
+  mutationTag: string;
 }): JSX.Element {
   const { showStatus } = useStatus();
   const { trigger, isMutating } = useSWRMutation(

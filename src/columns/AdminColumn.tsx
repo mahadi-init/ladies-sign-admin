@@ -6,7 +6,6 @@ import { Button } from "@/components/ui/button";
 import { AdminType } from "@/types/admin.t";
 import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown, PencilIcon } from "lucide-react";
-import Image from "next/image";
 import Link from "next/link";
 
 export const adminColumn: ColumnDef<AdminType>[] = [

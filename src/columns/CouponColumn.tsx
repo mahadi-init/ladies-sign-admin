@@ -1,5 +1,6 @@
 "use client";
 import DeleteItem from "@/components/native/DeleteItem";
+import { ImagepopOver } from "@/components/native/ImagePopOver";
 import StatusIndicator from "@/components/native/StatusIndicator";
 import { CouponType } from "@/types/coupon.t";
 import { ColumnDef } from "@tanstack/react-table";
@@ -24,14 +25,7 @@ export const couponColumn: ColumnDef<CouponType>[] = [
     header: "LOGO",
     cell: ({ row }) => {
       return row.original.img ? (
-        <Image
-          className="w-12 rounded-md"
-          width={250}
-          height={250}
-          src={row.original.img}
-          alt="cell image"
-          loading="lazy"
-        />
+        <ImagepopOver img={row.original.img} />
       ) : (
         <span className="text-xs">No Image</span>
       );
@@ -49,7 +43,13 @@ export const couponColumn: ColumnDef<CouponType>[] = [
     accessorKey: "status",
     header: "STATUS",
     cell: ({ row }) => {
-      return <StatusIndicator status={row.original.status} />;
+      return (
+        <StatusIndicator
+          status={row.original.status}
+          updateStatusUrl={`/coupon/change-status/${row.original._id}`}
+          mutationTag="/coupon"
+        />
+      );
     },
   },
   {

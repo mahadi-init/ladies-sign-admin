@@ -43,7 +43,13 @@ export const brandColumn: ColumnDef<BrandType>[] = [
     accessorKey: "status",
     header: "STATUS",
     cell: ({ row }) => {
-      return <StatusIndicator status={row.original.status} />;
+      return (
+        <StatusIndicator
+          status={row.original.status}
+          updateStatusUrl={`/brand/change-status/${row.original._id}`}
+          mutationTag="/brand"
+        />
+      );
     },
   },
   {

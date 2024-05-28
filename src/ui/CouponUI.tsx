@@ -10,6 +10,7 @@ import { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import useSWR from "swr";
+import { log } from "util";
 
 interface PropTypes extends CouponType {
   trigger: (arg: unknown) => Promise<{ success: boolean; message?: string }>;
@@ -51,6 +52,8 @@ export default function CouponUI(props: PropTypes) {
       toast.error("Start time cannot be greater than end time");
       return;
     }
+
+    console.log(data);
 
     const refinedData: CouponType = {
       ...data,
@@ -142,6 +145,7 @@ export default function CouponUI(props: PropTypes) {
             type="number"
             placeholder="10"
             className="mt-1 bg-gray-100"
+            defaultValue={0}
             {...register("discountPercentage", { required: true })}
           />
           {errors.discountPercentage && (
@@ -152,12 +156,12 @@ export default function CouponUI(props: PropTypes) {
         </label>
 
         <label className="ml-1 font-medium">
-          Minimum amount <span className="text-red-600">*</span>
+          Minimum amount
           <Input
             type="number"
             placeholder="300"
             className="mt-1 bg-gray-100"
-            {...register("minimumAmount", { required: true })}
+            {...register("minimumAmount")}
           />
           {errors.minimumAmount && (
             <span className="text-xs text-red-700">
@@ -173,18 +177,9 @@ export default function CouponUI(props: PropTypes) {
             className="mt-0.5 w-full p-2.5 bg-gray-100 rounded-md"
             {...register("productType", { required: true })}
           >
-            <option value={props.productType} selected disabled hidden>
-              {props.productType ?? data?.[0]}
-            </option>
             {data?.map((item) => {
               return (
-                <option
-                  hidden={
-                    item.toLowerCase() === props.productType?.toLowerCase()
-                  }
-                  value={item}
-                  key={item}
-                >
+                <option value={item} key={item}>
                   {item}
                 </option>
               );

@@ -11,6 +11,7 @@ const ExtraSchema = z
       })
       .array(),
     sizes: z.string().array(),
+    _id: z.string(),
   })
   .partial();
 
