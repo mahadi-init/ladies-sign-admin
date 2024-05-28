@@ -54,7 +54,13 @@ export const adminColumn: ColumnDef<AdminType>[] = [
     accessorKey: "status",
     header: "STATUS",
     cell: ({ row }) => {
-      return <StatusIndicator status={row.original.status} />;
+      return (
+        <StatusIndicator
+          status={row.original.status}
+          updateStatusUrl={`/admin/change-status/${row.original._id}`}
+          mutationTag="/admin"
+        />
+      );
     },
   },
 
