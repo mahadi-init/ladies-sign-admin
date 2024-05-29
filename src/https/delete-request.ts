@@ -4,7 +4,11 @@ async function deleteRequest(url: string) {
   try {
     const res = await fetch(`${site.BACKEND_URL}${url}`, {
       method: "DELETE",
-      credentials: "include",
+      // credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${site.bearer_token}`,
+      },
     });
 
     const data = await res.json();

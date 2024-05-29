@@ -6,7 +6,10 @@ export async function fetcher<T>(
   try {
     const res = await fetch(`${site.BACKEND_URL}${args[0]}`, {
       method: "GET",
-      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${site.bearer_token}`,
+      },
     });
 
     const json = await res.json();

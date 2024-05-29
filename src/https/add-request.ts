@@ -11,8 +11,9 @@ async function addRequest(url: string, { arg }: { arg: unknown }) {
       body: JSON.stringify(body),
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${site.bearer_token}`,
       },
-      credentials: "include",
+      // credentials: "include",
     });
 
     const data = await res.json();

@@ -82,53 +82,57 @@ export default function ProductUiWrapper<T extends { status?: string }>({
 
   return (
     <div className="w-full mt-4 flex flex-col gap-4 ">
-      <div className="flex items-center justify-between ">
-        <Input
-          className="w-fit"
-          placeholder="filter item.."
-          onChange={(e) => setTemp(e.target.value)}
-        />
-        <div className="flex gap-2">
-          <select
-            onChange={(e) => handleDropdown(e.target.value)}
-            className="mt-0.5 p-2 bg-gray-100 rounded-md"
-          >
-            <option value="ALL">ALL</option>
-            <option className="text-green-600" value="IN-STOCK">
-              IN STOCK
-            </option>
-            <option className="text-red-500" value="OUT-OF-STOCK">
-              OUT OF STOCK
-            </option>
-            <option className="text-yellow-600" value="DISCONTINUED">
-              DISCONTINUED
-            </option>
-          </select>
-          <Link
-            href="/dashboard/product/add"
-            className="flex items-center justify-center p-2 bg-gray-100 rounded-md"
-          >
-            <BadgePlus />
-          </Link>
-        </div>
-      </div>
-
       <div className="h-screen">
-        {filteredItems && <DataTable columns={columns} data={filteredItems} />}
+        {filteredItems ? (
+          <>
+            <div className="mb-4 flex items-center justify-between ">
+              <Input
+                className="w-fit"
+                placeholder="filter item.."
+                onChange={(e) => setTemp(e.target.value)}
+              />
+              <div className="flex gap-2">
+                <select
+                  onChange={(e) => handleDropdown(e.target.value)}
+                  className="mt-0.5 p-2 bg-gray-100 rounded-md"
+                >
+                  <option value="ALL">ALL</option>
+                  <option className="text-green-600" value="IN-STOCK">
+                    IN STOCK
+                  </option>
+                  <option className="text-red-500" value="OUT-OF-STOCK">
+                    OUT OF STOCK
+                  </option>
+                  <option className="text-yellow-600" value="DISCONTINUED">
+                    DISCONTINUED
+                  </option>
+                </select>
+                <Link
+                  href="/dashboard/product/add"
+                  className="flex items-center justify-center p-2 bg-gray-100 rounded-md"
+                >
+                  <BadgePlus />
+                </Link>
+              </div>
+            </div>
+            <DataTable columns={columns} data={filteredItems} />
+            <div className="mt-8 flex items-center justify-between">
+              <div className="-mt-6 text-gray-700 font-medium text-sm flex justify-center gap-4">
+                <p>Total pages : </p>
+                <p>{isTotalPagesLoading ? "Loading..." : totalPages}</p>
+                <p className="text-red-700">{totalPagesError && "Failed"}</p>
+              </div>
 
-        <div className="mt-8 flex items-center justify-between">
-          <div className="-mt-6 text-gray-700 font-medium text-sm flex justify-center gap-4">
-            <p>Total pages : </p>
-            <p>{isTotalPagesLoading ? "Loading..." : totalPages}</p>
-            <p className="text-red-700">{totalPagesError && "Failed"}</p>
-          </div>
-
-          <TablePagination
-            index={index}
-            setIndex={setIndex}
-            disableNext={isTotalPagesLoading || index === totalPages}
-          />
-        </div>
+              <TablePagination
+                index={index}
+                setIndex={setIndex}
+                disableNext={isTotalPagesLoading || index === totalPages}
+              />
+            </div>
+          </>
+        ) : (
+          <p className="text-red-400 font-bold text-center">No Data Found</p>
+        )}
       </div>
     </div>
   );
