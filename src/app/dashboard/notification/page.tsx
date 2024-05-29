@@ -1,3 +1,9 @@
+import PageTop from "@/components/native/PageTop";
+
 export default function Notifications() {
-  return <div></div>;
+  return (
+    <>
+      <PageTop title="Notifications" />
+    </>
+  );
 }
