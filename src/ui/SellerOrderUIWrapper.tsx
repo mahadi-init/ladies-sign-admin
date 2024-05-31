@@ -12,13 +12,17 @@ import { useEffect, useState } from "react";
 import useSWR from "swr";
 
 interface TableUIWrapperProps<T> {
-  route: string;
   columns: ColumnDef<T, unknown>[];
+  orderRoute: string;
+  totalPageRoute: string;
+  searchRoute: string;
 }
 
-export default function OrderUIWrapper<T extends { status?: string }>({
-  route,
+export default function SellerOrderUIWrapper<T extends { status?: string }>({
   columns,
+  orderRoute,
+  totalPageRoute,
+  searchRoute,
 }: TableUIWrapperProps<T>) {
   const limit = 10;
   const [index, setIndex] = useState(1);
@@ -28,7 +32,7 @@ export default function OrderUIWrapper<T extends { status?: string }>({
 
   // fetch all data using pagination
   const { data, error, isLoading, mutate } = useSWR<T[]>(
-    `${route}/page?page=${index}&limit=${limit}`,
+    `${orderRoute}?page=${index}&limit=${limit}`,
     fetcher
   );
 
@@ -37,11 +41,11 @@ export default function OrderUIWrapper<T extends { status?: string }>({
     data: totalPages,
     error: totalPagesError,
     isLoading: isTotalPagesLoading,
-  } = useSWR<number>(`${route}/total-pages`, fetcher);
+  } = useSWR<number>(`${totalPageRoute}`, fetcher);
 
   // fetch filtered data
   const { data: filter, isLoading: isSearchLoading } = useSWR<T[]>(
-    search && `${route}/search?q=${search}`,
+    search && `${searchRoute}/search?q=${search}`,
     fetcher
   );
 

@@ -13,12 +13,12 @@ export const ProductSchema = z
     variants: z.array(
       z.object({
         color: z.string(),
-        code: z.string(),
+        // code: z.string(),
         img: z.string().url(),
         size: z.string(),
         quantity: z.number().min(0),
         price: z.number().min(0),
-      }),
+      })
     ),
     children: z.array(z.string()),
     price: z.number().min(0),

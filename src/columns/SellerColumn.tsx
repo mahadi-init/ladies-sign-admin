@@ -4,7 +4,7 @@ import StatusIndicator from "@/components/native/StatusIndicator";
 import { Button } from "@/components/ui/button";
 import { SellerType } from "@/types/seller.t";
 import { ColumnDef } from "@tanstack/react-table";
-import { ArrowUpDown, PencilIcon } from "lucide-react";
+import { ArrowUpDown, Check, PencilIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -60,6 +60,23 @@ export const sellerColumn: ColumnDef<SellerType>[] = [
     header: "ORDERS",
     cell: ({ row }) => {
       return <p className="font-medium">{row.original.orders?.length}</p>;
+    },
+  },
+  {
+    accessorKey: "approved",
+    header: "APPROVED",
+    cell: ({ row }) => {
+      return !row.original.approved ? (
+        <StatusIndicator
+          status={row.original.approved}
+          updateStatusUrl={`/seller/approve/${row.original._id}`}
+          mutationTag="/seller"
+          variant="secondary"
+          text="PENDING"
+        />
+      ) : (
+        <Check color="green" />
+      );
     },
   },
   {

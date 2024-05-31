@@ -8,11 +8,11 @@ import { Input } from "@/components/ui/input";
 import useStatus from "@/hooks/useStatus";
 import addRequest from "@/https/add-request";
 import { fetcher } from "@/https/get-request";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { SubmitHandler, useForm } from "react-hook-form";
 import useSWR from "swr";
 import useSWRMutation from "swr/mutation";
 import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { SimpleTable } from "./table";
 
 const SizeTypeSchema = z.object({
@@ -24,7 +24,7 @@ type zSizeType = z.infer<typeof SizeTypeSchema>;
 export default function ProductType() {
   const { data, isLoading, error } = useSWR<string[]>(
     "/extra/all/sizes",
-    fetcher,
+    fetcher
   );
   const { trigger, isMutating } = useSWRMutation(`/extra/add`, addRequest);
   const { showStatus } = useStatus();
@@ -35,8 +35,6 @@ export default function ProductType() {
   } = useForm<zSizeType>({
     resolver: zodResolver(SizeTypeSchema),
   });
-
-  console.log(data);
 
   if (error) {
     return <FetchErrorMessage error={error} />;

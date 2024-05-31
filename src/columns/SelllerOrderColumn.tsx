@@ -1,16 +1,13 @@
 "use client";
-import ConfirmationDialog from "@/components/native/ConfirmationDialog";
 import DeliveryStatus from "@/components/native/DeliveryStatus";
 import { HoverToolkit } from "@/components/native/HoverToolkit";
 import { OrderType } from "@/types/order.t";
 import { getDaysAgo } from "@/utils/get-days-ago";
 import { ColumnDef } from "@tanstack/react-table";
-import { CheckCircle, Send, View } from "lucide-react";
+import { View } from "lucide-react";
 import Link from "next/link";
-import { toast } from "sonner";
-import { sendOrder } from "../utils/order-send";
 
-export const orderColumn: ColumnDef<OrderType>[] = [
+export const sellerOrderColumn: ColumnDef<OrderType>[] = [
   {
     accessorKey: "invoice",
     header: "INVOICE",
@@ -28,28 +25,8 @@ export const orderColumn: ColumnDef<OrderType>[] = [
   {
     accessorKey: "name",
     header: "CUSTOMER",
-    cell: ({ row }) => {
-      return (
-        <Link
-          href={
-            row.original.isSeller
-              ? `/dashboard/seller/edit/${row.original.personId}`
-              : `/dashboard/user/edit/${row.original.personId}`
-          }
-          className="font-medium cursor-pointer"
-        >
-          {row.original.name}
-        </Link>
-      );
-    },
   },
-  {
-    accessorKey: "isSeller",
-    header: "TYPE",
-    cell: ({ row }) => {
-      return <p>{row.original.isSeller ? "SELLER" : "USER"}</p>;
-    },
-  },
+
   {
     accessorKey: "address",
     header: "ADDRESS",
@@ -77,10 +54,6 @@ export const orderColumn: ColumnDef<OrderType>[] = [
     },
   },
   {
-    accessorKey: "status",
-    header: "STATUS",
-  },
-  {
     accessorKey: "paymentMethod",
     header: "PAYMENT",
   },
@@ -104,27 +77,6 @@ export const orderColumn: ColumnDef<OrderType>[] = [
     id: "actions",
     cell: ({ row }) => (
       <div className="flex items-center gap-8">
-        {row.original.status === "PENDING" ? (
-          <ConfirmationDialog
-            alertText="This will send order to courier"
-            // TODO: IMPLEMENT THIS FROM BACKEND SITE
-            action={async () => {
-              const res = await sendOrder(row.original);
-
-              if (res.status === 200) {
-                toast.success(res.message);
-              } else {
-                toast.error(res.message);
-              }
-            }}
-          >
-            <Send size={22} className="cursor-pointer" />
-          </ConfirmationDialog>
-        ) : (
-          <HoverToolkit text="Done sending to courir">
-            <CheckCircle size={22} />
-          </HoverToolkit>
-        )}
         <HoverToolkit text="Invoice">
           <Link href={`/order/invoice/${row.original._id}`}>
             <View size={20} />

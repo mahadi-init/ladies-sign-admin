@@ -71,6 +71,19 @@ export default function AdminUI(props: PropTypes) {
         </label>
 
         <label className="ml-1 font-medium">
+          Email <span className="text-red-600">*</span>
+          <Input
+            type="text"
+            placeholder="Jhon Doe"
+            className="mt-1 bg-gray-100"
+            {...register("email", { required: true })}
+          />
+          {errors.email && (
+            <span className="text-xs text-red-700">{errors.email.message}</span>
+          )}
+        </label>
+
+        <label className="ml-1 font-medium">
           Password <span className="text-red-600">*</span>
           <Input
             type="text"

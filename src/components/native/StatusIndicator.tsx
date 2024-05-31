@@ -1,21 +1,25 @@
+import useStatus from "@/hooks/useStatus";
+import updateRequest from "@/https/update-request";
 import useSWRMutation from "swr/mutation";
 import { Badge } from "../ui/badge";
-import updateRequest from "@/https/update-request";
-import useStatus from "@/hooks/useStatus";
 
 export default function StatusIndicator({
   status,
   updateStatusUrl,
   mutationTag,
+  variant,
+  text,
 }: {
   status?: boolean;
   updateStatusUrl: string;
   mutationTag: string;
+  variant?: "default" | "destructive" | "outline" | "secondary";
+  text?: string;
 }): JSX.Element {
   const { showStatus } = useStatus();
   const { trigger, isMutating } = useSWRMutation(
     updateStatusUrl,
-    updateRequest,
+    updateRequest
   );
 
   const handleOnClick = async () => {
@@ -25,11 +29,11 @@ export default function StatusIndicator({
 
   return (
     <Badge
-      variant={status ? "default" : "destructive"}
+      variant={!variant ? (status ? "default" : "destructive") : "outline"}
       className="text-xs font-semibold cursor-pointer"
       onClick={handleOnClick}
     >
-      {!isMutating && status ? "ACTIVE" : "INACTIVE"}
+      {!isMutating && !text ? (status ? "ACTIVE" : "INACTIVE") : text}
       {isMutating && "UPDATING.."}
     </Badge>
   );

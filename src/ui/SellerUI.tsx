@@ -70,6 +70,19 @@ export default function SellerUI(props: PropTypes) {
         </label>
 
         <label className="ml-1 font-medium">
+          Email
+          <Input
+            type="text"
+            placeholder="xyz@gmail.com"
+            className="mt-1 bg-gray-100"
+            {...register("email")}
+          />
+          {errors.email && (
+            <span className="text-xs text-red-700">{errors.email.message}</span>
+          )}
+        </label>
+
+        <label className="ml-1 font-medium">
           Phone <span className="text-red-600">*</span>
           <Input
             type="text"

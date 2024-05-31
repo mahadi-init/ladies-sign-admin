@@ -32,7 +32,7 @@ export default function Invoice({ params }: { params: { id: string } }) {
   }
 
   return (
-    <>
+    <div className="p-4">
       <div ref={ref}>
         <InvoiceGenerator data={value} />
       </div>
@@ -46,6 +46,6 @@ export default function Invoice({ params }: { params: { id: string } }) {
         <Printer size={22} />
         Print Invoice
       </Button>
-    </>
+    </div>
   );
 }

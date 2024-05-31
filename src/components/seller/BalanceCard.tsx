@@ -33,7 +33,7 @@ export default function BalanceCard({
   );
 
   return (
-    <Card className="flex flex-col w-full shadow">
+    <Card className="flex flex-col w-full max-h-[300px] shadow">
       <CardHeader className="flex flex-row items-center space-y-0">
         <CardTitle>Account balance</CardTitle>
       </CardHeader>

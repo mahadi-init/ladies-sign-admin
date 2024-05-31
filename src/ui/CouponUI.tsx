@@ -10,7 +10,6 @@ import { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import useSWR from "swr";
-import { log } from "util";
 
 interface PropTypes extends CouponType {
   trigger: (arg: unknown) => Promise<{ success: boolean; message?: string }>;
@@ -52,8 +51,6 @@ export default function CouponUI(props: PropTypes) {
       toast.error("Start time cannot be greater than end time");
       return;
     }
-
-    console.log(data);
 
     const refinedData: CouponType = {
       ...data,

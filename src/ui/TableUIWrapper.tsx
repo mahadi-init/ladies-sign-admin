@@ -29,7 +29,7 @@ export default function TableUIWrapper<T extends { status?: boolean }>({
   // fetch all data using pagination
   const { data, error, isLoading, mutate } = useSWR<T[]>(
     `${route}/page?page=${index}&limit=${limit}`,
-    fetcher,
+    fetcher
   );
 
   // fetch total number of pages
@@ -40,9 +40,9 @@ export default function TableUIWrapper<T extends { status?: boolean }>({
   } = useSWR<number>(`${route}/total-pages`, fetcher);
 
   // fetch filtered data
-  const { data: filter } = useSWR<T[]>(
+  const { data: filter, isLoading: isSearchLoading } = useSWR<T[]>(
     search && `${route}/search?q=${search}`,
-    fetcher,
+    fetcher
   );
 
   // filter by search
@@ -83,38 +83,39 @@ export default function TableUIWrapper<T extends { status?: boolean }>({
 
   return (
     <div className="w-full mt-4 flex flex-col gap-4 ">
+      <div className="mb-4 flex items-center justify-between ">
+        <Input
+          className="w-fit"
+          placeholder="filter item.."
+          onChange={(e) => setTemp(e.target.value)}
+        />
+        <div className="flex gap-2">
+          <select
+            onChange={(e) => handleDropdown(e.target.value)}
+            className="mt-0.5 p-2 bg-gray-100 rounded-md"
+          >
+            <option value="ALL">ALL</option>
+            <option className="text-green-600" value="ACTIVE">
+              ACTIVE
+            </option>
+            <option className="text-red-500" value="INACTIVE">
+              INACTIVE
+            </option>
+          </select>
+          <Button
+            variant="outline"
+            onClick={() => {
+              mutate();
+            }}
+          >
+            <RefreshCcw />
+          </Button>
+        </div>
+      </div>
+
       <div className="h-screen">
         {filteredItems ? (
           <>
-            <div className="mb-4 flex items-center justify-between ">
-              <Input
-                className="w-fit"
-                placeholder="filter item.."
-                onChange={(e) => setTemp(e.target.value)}
-              />
-              <div className="flex gap-2">
-                <select
-                  onChange={(e) => handleDropdown(e.target.value)}
-                  className="mt-0.5 p-2 bg-gray-100 rounded-md"
-                >
-                  <option value="ALL">ALL</option>
-                  <option className="text-green-600" value="ACTIVE">
-                    ACTIVE
-                  </option>
-                  <option className="text-red-500" value="INACTIVE">
-                    INACTIVE
-                  </option>
-                </select>
-                <Button
-                  variant="outline"
-                  onClick={() => {
-                    mutate();
-                  }}
-                >
-                  <RefreshCcw />
-                </Button>
-              </div>
-            </div>
             <DataTable columns={columns} data={filteredItems} />
             <div className="mt-8 flex items-center justify-between">
               <div className="-mt-6 text-gray-700 font-medium text-sm flex justify-center gap-4">
@@ -130,8 +131,10 @@ export default function TableUIWrapper<T extends { status?: boolean }>({
               />
             </div>
           </>
+        ) : isSearchLoading ? (
+          <SixSkeleton />
         ) : (
-          <p className="text-red-400 font-bold text-center">No Data Found</p>
+          <DataTable columns={columns} data={[]} />
         )}
       </div>
     </div>

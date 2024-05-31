@@ -23,7 +23,7 @@ export default function Signup() {
   });
   const { trigger, isMutating } = useSWRMutation(
     `/seller/register`,
-    addRequest,
+    addRequest
   );
 
   const onSubmit: SubmitHandler<SellerType> = async (data) => {
@@ -66,6 +66,22 @@ export default function Signup() {
               </span>
             )}
           </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="email">Email</Label>
+            <Input
+              type="text"
+              id="email"
+              placeholder="ইমেইল দিন"
+              {...register("email")}
+            />
+            {errors.email && (
+              <span className="text-xs text-red-700">
+                {errors.email.message}
+              </span>
+            )}
+          </div>
+
           <div className="space-y-2">
             <Label htmlFor="phone">
               Phone <span className="text-red-600">*</span>
@@ -132,7 +148,7 @@ export default function Signup() {
           </div>
           <div className="space-y-2">
             <Label htmlFor="facebookProfile">
-              Facebook Profile Link <span className="text-red-600">*</span>
+              Facebook Profile<span className="text-red-600">*</span>
             </Label>
             <Input
               type="text"
@@ -147,7 +163,7 @@ export default function Signup() {
             )}
           </div>
           <div className="space-y-2">
-            <Label htmlFor="facebookPage">Facebook Page Link</Label>
+            <Label htmlFor="facebookPage">Facebook Page</Label>
             <Input
               type="text"
               id="facebookPage"
@@ -157,6 +173,21 @@ export default function Signup() {
             {errors.facebookPage && (
               <span className="text-xs text-red-700">
                 {errors.facebookPage.message}
+              </span>
+            )}
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="facebookPage">Referrer</Label>
+            <Input
+              type="text"
+              id="facebookPage"
+              placeholder="আপনাকে যে অ্যাড করেছে তার sellerID দিন (ex: 1000)"
+              {...register("referrer")}
+            />
+            {errors.referrer && (
+              <span className="text-xs text-red-700">
+                {errors.referrer.message}
               </span>
             )}
           </div>

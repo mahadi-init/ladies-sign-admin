@@ -36,13 +36,13 @@ export default function Login() {
   // admin login mutation
   const { trigger: adminLogin, isMutating: isAdminMutating } = useSWRMutation(
     `/admin/login`,
-    addRequest,
+    addRequest
   );
 
   // seller login mutation
   const { trigger: sellerLogin, isMutating: isSellerMutating } = useSWRMutation(
     `/seller/login`,
-    addRequest,
+    addRequest
   );
 
   // check if already logged in
@@ -109,7 +109,7 @@ export default function Login() {
       });
 
       toast.success(
-        `${res.data.name} Successfully Logged in as ${res.data.role}`,
+        `${res.data.name} Successfully Logged in as ${res.data.role}`
       );
       router.replace("/dashboard");
       return;
@@ -192,14 +192,6 @@ export default function Login() {
                 </span>
               )}
             </label>
-
-            <div className="flex items-center justify-between">
-              <Label className="flex items-center gap-2">
-                <input type="checkbox" onChange={() => setIsAdmin(!isAdmin)} />
-                <p className="text-nowrap -mt-1">Signin as an admin</p>
-              </Label>
-              <RecoverPassword />
-            </div>
           </div>
 
           <SubmitButton
@@ -207,6 +199,14 @@ export default function Login() {
             style="w-full"
           />
         </form>
+
+        <div className="flex items-center justify-between">
+          <Label className="flex items-center gap-2">
+            <input type="checkbox" onChange={() => setIsAdmin(!isAdmin)} />
+            <p className="text-nowrap -mt-1">Signin as an admin</p>
+          </Label>
+          <RecoverPassword />
+        </div>
       </div>
 
       <div className="hidden justify-center items-center py-10 px-4 sm:py-16 sm:px-6 lg:flex lg:py-24 lg:px-8">
