@@ -8,7 +8,6 @@ import { ColumnDef } from "@tanstack/react-table";
 import { CheckCircle, Send, View } from "lucide-react";
 import Link from "next/link";
 import { toast } from "sonner";
-import { sendOrder } from "../utils/order-send";
 
 export const orderColumn: ColumnDef<OrderType>[] = [
   {
@@ -18,7 +17,7 @@ export const orderColumn: ColumnDef<OrderType>[] = [
       return (
         <Link
           href={`/order/details/${row.original._id}`}
-          className="font-medium cursor-pointer"
+          className="cursor-pointer font-medium"
         >
           # {row.original.invoice}
         </Link>
@@ -36,7 +35,7 @@ export const orderColumn: ColumnDef<OrderType>[] = [
               ? `/dashboard/seller/edit/${row.original.personId}`
               : `/dashboard/user/edit/${row.original.personId}`
           }
-          className="font-medium cursor-pointer"
+          className="cursor-pointer font-medium"
         >
           {row.original.name}
         </Link>
@@ -70,7 +69,7 @@ export const orderColumn: ColumnDef<OrderType>[] = [
           {row.original.status === "PROCESSING" ? (
             <DeliveryStatus trackingCode={row.original.trackingCode} />
           ) : (
-            <p className="text-red-300 font-bold">---------</p>
+            <p className="font-bold text-red-300">---------</p>
           )}
         </>
       );
@@ -103,34 +102,11 @@ export const orderColumn: ColumnDef<OrderType>[] = [
   {
     id: "actions",
     cell: ({ row }) => (
-      <div className="flex items-center gap-8">
-        {row.original.status === "PENDING" ? (
-          <ConfirmationDialog
-            alertText="This will send order to courier"
-            // TODO: IMPLEMENT THIS FROM BACKEND SITE
-            action={async () => {
-              const res = await sendOrder(row.original);
-
-              if (res.status === 200) {
-                toast.success(res.message);
-              } else {
-                toast.error(res.message);
-              }
-            }}
-          >
-            <Send size={22} className="cursor-pointer" />
-          </ConfirmationDialog>
-        ) : (
-          <HoverToolkit text="Done sending to courir">
-            <CheckCircle size={22} />
-          </HoverToolkit>
-        )}
-        <HoverToolkit text="Invoice">
-          <Link href={`/order/invoice/${row.original._id}`}>
-            <View size={20} />
-          </Link>
-        </HoverToolkit>
-      </div>
+      <HoverToolkit text="Invoice">
+        <Link href={`/order/invoice/${row.original._id}`}>
+          <View size={20} />
+        </Link>
+      </HoverToolkit>
     ),
   },
 ];

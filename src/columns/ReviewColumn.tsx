@@ -1,10 +1,12 @@
 "use client";
 import DeleteItem from "@/components/native/DeleteItem";
+import StatusIndicator from "@/components/native/StatusIndicator";
 import { Button } from "@/components/ui/button";
 import { ReviewType } from "@/types/review.t";
 import { ColumnDef } from "@tanstack/react-table";
-import { ArrowUpDown } from "lucide-react";
+import { ArrowUpDown, Check } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 
 export const reviewColumn: ColumnDef<ReviewType>[] = [
   {
@@ -15,30 +17,30 @@ export const reviewColumn: ColumnDef<ReviewType>[] = [
     },
   },
   {
-    accessorKey: "product",
+    accessorKey: "product.name",
     header: "PRODUCT",
-    // cell: ({ row }) => {
-    //   return (
-    //     <Link
-    //       href={`/dashboard/products/edit/${row.original.productId}`}
-    //       className="underline"
-    //     >
-    //       {row.original.product}
-    //     </Link>
-    //   );
-    // },
+    cell: ({ row }) => {
+      return (
+        <Link
+          href={`/dashboard/product/details/${row.original?.product?._id}`}
+          className="underline"
+        >
+          {row.original?.product?.name}
+        </Link>
+      );
+    },
   },
   {
-    accessorKey: "productImage",
+    accessorKey: "product.img",
     header: "IMAGE",
     cell: ({ row }) => {
-      return row.original.productImage ? (
+      return row.original.product?.img ? (
         <picture>
           <Image
             className="w-10"
             width={250}
             height={250}
-            src={row.original.productImage}
+            src={row.original.product.img}
             alt="cell image"
             loading="lazy"
           />
@@ -49,19 +51,8 @@ export const reviewColumn: ColumnDef<ReviewType>[] = [
     },
   },
   {
-    accessorKey: "userId",
+    accessorKey: "name",
     header: "USER",
-    // cell: ({ row }) => {
-    //   //TODO:ADD USER ROUTE
-    //   return (
-    //     <Link
-    //       href={`/dashboard/users/details/${row.original.userId}`}
-    //       className="underline"
-    //     >
-    //       {row.original.userName}
-    //     </Link>
-    //   );
-    // },
   },
   {
     accessorKey: "rating",
@@ -72,7 +63,7 @@ export const reviewColumn: ColumnDef<ReviewType>[] = [
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           RATING
-          <ArrowUpDown className="w-4 h-4 ml-2" />
+          <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
     },
@@ -86,8 +77,25 @@ export const reviewColumn: ColumnDef<ReviewType>[] = [
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           COMMENT
-          <ArrowUpDown className="w-4 h-4 ml-2" />
+          <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
+      );
+    },
+  },
+  {
+    accessorKey: "approved",
+    header: "APPROVED",
+    cell: ({ row }) => {
+      return !row.original.approved ? (
+        <StatusIndicator
+          status={row.original.approved}
+          updateStatusUrl={`/review/approve/${row.original._id}`}
+          mutationTag="/review/all"
+          variant="secondary"
+          text="PENDING"
+        />
+      ) : (
+        <Check color="green" />
       );
     },
   },
@@ -96,8 +104,8 @@ export const reviewColumn: ColumnDef<ReviewType>[] = [
     cell: ({ row }) => (
       <div className="flex items-center gap-8">
         <DeleteItem
-          queryUrl={`review/delete/${row.original.productId}`}
-          validationTag="reviews"
+          queryUrl={`/review/delete/${row.original._id}`}
+          validationTag="/review/all"
           successMessage="Review deleted successfully"
         />
       </div>

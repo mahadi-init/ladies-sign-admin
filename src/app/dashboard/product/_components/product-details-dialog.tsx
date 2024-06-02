@@ -32,21 +32,10 @@ export default function ProductDetailsDialog({ id }: { id?: string }) {
           <DialogDescription>{product?.description}</DialogDescription>
         </DialogHeader>
         <div>
-          {product?.img && (
-            <Image
-              src={product?.img ?? ""}
-              className="rounded-md w-52 mx-auto mt-4 mb-4"
-              alt={product?.name ?? "product img"}
-              width={600}
-              height={600}
-              loading="lazy"
-            />
-          )}
-
           <div>
             <div>
-              <table className="min-w-full text-left text-sm font-light text-surface dark:text-white">
-                <thead className="border-b border-neutral-200 font-medium bg-sky-700 text-white rounded-md">
+              <table className="text-surface min-w-full text-left text-sm font-light dark:text-white">
+                <thead className="rounded-md border-b border-neutral-200 bg-sky-700 font-medium text-white">
                   <tr>
                     <th scope="col" className="px-6 py-4">
                       #
@@ -67,7 +56,7 @@ export default function ProductDetailsDialog({ id }: { id?: string }) {
                     <td className="whitespace-nowrap px-6 py-4 font-medium">
                       Price
                     </td>
-                    <td className="whitespace-nowrap px-6 py-4 ">
+                    <td className="whitespace-nowrap px-6 py-4">
                       {product?.price}
                     </td>
                   </tr>
@@ -79,7 +68,7 @@ export default function ProductDetailsDialog({ id }: { id?: string }) {
                     <td className="whitespace-nowrap px-6 py-4 font-medium">
                       Status
                     </td>
-                    <td className="whitespace-nowrap px-6 py-4 ">
+                    <td className="whitespace-nowrap px-6 py-4">
                       {product?.status}
                     </td>
                   </tr>
@@ -91,7 +80,7 @@ export default function ProductDetailsDialog({ id }: { id?: string }) {
                     <td className="whitespace-nowrap px-6 py-4 font-medium">
                       Sell Count
                     </td>
-                    <td className="whitespace-nowrap px-6 py-4 ">
+                    <td className="whitespace-nowrap px-6 py-4">
                       {product?.sellCount}
                     </td>
                   </tr>
@@ -103,7 +92,7 @@ export default function ProductDetailsDialog({ id }: { id?: string }) {
                     <td className="whitespace-nowrap px-6 py-4 font-medium">
                       Seller Price
                     </td>
-                    <td className="whitespace-nowrap px-6 py-4 ">
+                    <td className="whitespace-nowrap px-6 py-4">
                       {product?.sellerPrice}
                     </td>
                   </tr>
@@ -115,7 +104,7 @@ export default function ProductDetailsDialog({ id }: { id?: string }) {
                     <td className="whitespace-nowrap px-6 py-4 font-medium">
                       Quantity
                     </td>
-                    <td className="whitespace-nowrap px-6 py-4 ">
+                    <td className="whitespace-nowrap px-6 py-4">
                       {product?.quantity}
                     </td>
                   </tr>
@@ -127,7 +116,7 @@ export default function ProductDetailsDialog({ id }: { id?: string }) {
                     <td className="whitespace-nowrap px-6 py-4 font-medium">
                       Discount
                     </td>
-                    <td className="whitespace-nowrap px-6 py-4 ">
+                    <td className="whitespace-nowrap px-6 py-4">
                       {product?.discount}
                     </td>
                   </tr>
@@ -139,7 +128,7 @@ export default function ProductDetailsDialog({ id }: { id?: string }) {
                     <td className="whitespace-nowrap px-6 py-4 font-medium">
                       SKU
                     </td>
-                    <td className="whitespace-nowrap px-6 py-4 ">
+                    <td className="whitespace-nowrap px-6 py-4">
                       {product?.sku}
                     </td>
                   </tr>
@@ -151,7 +140,7 @@ export default function ProductDetailsDialog({ id }: { id?: string }) {
                     <td className="whitespace-nowrap px-6 py-4 font-medium">
                       Product Type
                     </td>
-                    <td className="whitespace-nowrap px-6 py-4 ">
+                    <td className="whitespace-nowrap px-6 py-4">
                       {product?.productType}
                     </td>
                   </tr>
@@ -163,7 +152,7 @@ export default function ProductDetailsDialog({ id }: { id?: string }) {
                     <td className="whitespace-nowrap px-6 py-4 font-medium">
                       Category
                     </td>
-                    <td className="whitespace-nowrap px-6 py-4 ">
+                    <td className="whitespace-nowrap px-6 py-4">
                       {product?.category?.name}
                     </td>
                   </tr>
@@ -175,7 +164,7 @@ export default function ProductDetailsDialog({ id }: { id?: string }) {
                     <td className="whitespace-nowrap px-6 py-4 font-medium">
                       Brand
                     </td>
-                    <td className="whitespace-nowrap px-6 py-4 ">
+                    <td className="whitespace-nowrap px-6 py-4">
                       {product?.brand?.name}
                     </td>
                   </tr>
@@ -187,7 +176,7 @@ export default function ProductDetailsDialog({ id }: { id?: string }) {
                     <td className="whitespace-nowrap px-6 py-4 font-medium">
                       Unit
                     </td>
-                    <td className="whitespace-nowrap px-6 py-4 ">
+                    <td className="whitespace-nowrap px-6 py-4">
                       {product?.unit}
                     </td>
                   </tr>

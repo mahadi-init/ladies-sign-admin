@@ -62,7 +62,6 @@
     "tailwindcss-animate": "^1.0.7",
     "uploadthing": "^6.10.1",
     "vaul": "^0.9.0",
-    "websocket": "^1.0.35",
     "zod": "^3.22.4"
   },
   "devDependencies": {

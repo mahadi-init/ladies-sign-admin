@@ -13,7 +13,14 @@ export const productColumn: ColumnDef<ProductType>[] = [
     accessorKey: "id",
     header: "ID",
     cell: ({ row }) => {
-      return <p className="font-medium"># {row.original.cid}</p>;
+      return (
+        <Link
+          href={`/dashboard/product/details/${row.original._id}`}
+          className="font-medium underline"
+        >
+          # {row.original.cid}
+        </Link>
+      );
     },
   },
   {
@@ -67,7 +74,7 @@ export const productColumn: ColumnDef<ProductType>[] = [
             row.original.status === "IN-STOCK"
               ? "text-green-500"
               : "text-red-500",
-            "font-medium"
+            "font-medium",
           )}
         >
           {row.original.status}
