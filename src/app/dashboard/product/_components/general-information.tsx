@@ -1,13 +1,28 @@
 "use client";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { ProductType } from "@/types/product.t";
+import { ProductSchema, ProductType } from "@/types/product.t";
 import { useFormContext } from "react-hook-form";
+import { z } from "zod";
+
+const generalInformation = ProductSchema.pick({
+  name: true,
+  description: true,
+  price: true,
+  sellerPrice: true,
+  quantity: true,
+  discount: true,
+  sku: true,
+  videoId: true,
+});
+type GeneralInformationType = z.infer<typeof generalInformation>;
 
 export default function GeneralInformation({
   children,
+  data,
 }: {
   children: React.ReactNode;
+  data?: GeneralInformationType;
 }) {
   const { register } = useFormContext<ProductType>();
 
@@ -24,6 +39,7 @@ export default function GeneralInformation({
             <Input
               type="text"
               id="title"
+              defaultValue={data?.name}
               placeholder="Product Title"
               {...register("name", { required: true })}
             />
@@ -38,6 +54,7 @@ export default function GeneralInformation({
             </label>
             <Textarea
               id="description"
+              defaultValue={data?.description}
               placeholder="Your Description"
               {...register("description", { required: true })}
             />
@@ -54,6 +71,7 @@ export default function GeneralInformation({
             <Input
               type="number"
               id="price"
+              defaultValue={data?.price}
               placeholder="Product price"
               {...register("price", { required: true })}
             />
@@ -72,6 +90,7 @@ export default function GeneralInformation({
             <Input
               type="number"
               id="seller-discount"
+              defaultValue={data?.sellerPrice}
               placeholder="Seller Discount"
               {...register("sellerPrice", { required: true })}
             />
@@ -90,6 +109,7 @@ export default function GeneralInformation({
             <Input
               type="number"
               id="quantity"
+              defaultValue={data?.quantity}
               placeholder="Quantity"
               {...register("quantity", { required: true })}
             />
@@ -108,6 +128,7 @@ export default function GeneralInformation({
             <Input
               type="number"
               id="discount"
+              defaultValue={data?.discount}
               placeholder="Discount"
               {...register("discount", { required: true })}
             />
@@ -125,6 +146,7 @@ export default function GeneralInformation({
           <Input
             type="text"
             id="sku"
+            defaultValue={data?.sku}
             placeholder="SKU"
             {...register("sku", { required: false })}
           />
@@ -138,6 +160,7 @@ export default function GeneralInformation({
           <Input
             type="url"
             id="video-id"
+            defaultValue={data?.videoId}
             placeholder="video id"
             {...register("videoId", { required: false })}
           />

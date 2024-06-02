@@ -24,6 +24,7 @@ export function ProductCategory({
   setSelectedChildrens,
   tags,
   setTags,
+  isFeatured,
 }: {
   category?: string;
   setCategory: (arg0?: string) => void;
@@ -31,6 +32,7 @@ export function ProductCategory({
   setSelectedChildrens: (arg0: string[]) => void;
   tags: string[];
   setTags: (arg0: string[]) => void;
+  isFeatured?: boolean;
 }) {
   const {
     data: categories,
@@ -138,7 +140,12 @@ export function ProductCategory({
           <span className="block mb-1 text-sm font-medium mt-1">
             Set as Featured
           </span>
-          <Input className="w-5" type="checkbox" {...register("featured")} />
+          <Input
+            className="w-5"
+            defaultChecked={isFeatured}
+            type="checkbox"
+            {...register("featured")}
+          />
         </Label>
       </div>
     </>

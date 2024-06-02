@@ -3,22 +3,28 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { fetcher } from "@/https/get-request";
 import { ExtraType } from "@/types/extra.t";
-import { ProductType } from "@/types/product.t";
+import { ProductSchema, ProductType } from "@/types/product.t";
 import { useUploadThing } from "@/utils/uploadthing";
 import clsx from "clsx";
 import { EyeIcon, EyeOffIcon, Upload } from "lucide-react";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useFieldArray, useFormContext } from "react-hook-form";
 import { toast } from "sonner";
 import useSWR from "swr";
+import { z } from "zod";
+
+const variantSchema = ProductSchema.pick({ variants: true });
+type VariantType = z.infer<typeof variantSchema>;
 
 export default function ProductVariants({
   setImages,
   setIsLoading,
+  variantsData,
 }: {
   setImages: (arg0?: string[]) => void;
   setIsLoading: (arg0: boolean) => void;
+  variantsData?: VariantType;
 }) {
   const { data } = useSWR<ExtraType>("/extra/all", fetcher);
   const { register, watch } = useFormContext<ProductType>();
@@ -26,6 +32,33 @@ export default function ProductVariants({
   const { fields, append, remove } = useFieldArray({
     name: "variants",
   });
+
+  useEffect(() => {
+    if (variantsData) {
+      variantsData?.variants?.map((item: any) => {
+        append({
+          color: item.color,
+          img: item.img,
+          size: item.size,
+          quantity: item.quantity,
+          price: item.price,
+        });
+      });
+    }
+  }, [append, variantsData]);
+
+  const getImage = (index: number) => {
+    if (typeof watch(`variants.${index}.img`) === "string") {
+      return watch(`variants.${index}.img`);
+    } else if (
+      watch(`variants.${index}.img`) &&
+      watch(`variants.${index}.img`)[0]
+    ) {
+      return URL.createObjectURL(watch(`variants.${index}.img`)[0] as any);
+    } else {
+      return "/logo.png";
+    }
+  };
 
   const { startUpload } = useUploadThing("product", {
     onClientUploadComplete: (res) => {
@@ -35,7 +68,7 @@ export default function ProductVariants({
       setImages(
         res.map((r) => {
           return r.url;
-        }),
+        })
       );
 
       setIsLoading(false);
@@ -62,7 +95,7 @@ export default function ProductVariants({
             type="button"
             className={clsx(
               buttonVariants({ variant: "default" }),
-              "ml-auto cursor-pointer",
+              "ml-auto cursor-pointer"
             )}
             onClick={() => append({})}
           >
@@ -77,14 +110,7 @@ export default function ProductVariants({
             {!hideImages && (
               <div className="w-full flex flex-col mb-6 items-center">
                 <Image
-                  src={
-                    (watch(`variants.${index}.img`) &&
-                      watch(`variants.${index}.img`)[0] &&
-                      URL.createObjectURL(
-                        watch(`variants.${index}.img`)[0] as any,
-                      )) ??
-                    "/logo.png"
-                  }
+                  src={getImage(index)}
                   height={200}
                   width={200}
                   alt="img"
@@ -111,19 +137,7 @@ export default function ProductVariants({
 
             <div className="grid items-center w-full grid-cols-1 gap-4 mb-6 lg:grid-cols-2 xl:grid-cols-5">
               <div className="flex items-center gap-4">
-                <Image
-                  src={
-                    (watch(`variants.${index}.img`) &&
-                      watch(`variants.${index}.img`)[0] &&
-                      URL.createObjectURL(
-                        watch(`variants.${index}.img`)[0] as any,
-                      )) ??
-                    "/logo.png"
-                  }
-                  height={64}
-                  width={64}
-                  alt="img"
-                />
+                <Image src={getImage(index)} height={64} width={64} alt="img" />
 
                 <div className="w-full">
                   <Label
@@ -230,7 +244,7 @@ export default function ProductVariants({
               type="button"
               className={clsx(
                 buttonVariants({ variant: "outline" }),
-                "ml-auto cursor-pointer ",
+                "ml-auto cursor-pointer "
               )}
               onClick={() => setHideImages(!hideImages)}
             >
@@ -245,13 +259,25 @@ export default function ProductVariants({
               type="button"
               className={clsx(
                 buttonVariants({ variant: "default" }),
-                "ml-auto cursor-pointer",
+                "ml-auto cursor-pointer"
               )}
-              onClick={() =>
-                startUpload(
-                  watch("variants")?.map((variant) => variant.img[0]) as [],
-                )
-              }
+              onClick={() => {
+                let count = 0;
+
+                const images = watch("variants")?.map((variant) => {
+                  console.log(typeof variant.img);
+                  if (typeof variant.img !== "string") {
+                    count++;
+                    return variant.img[0];
+                  }
+                }) as [];
+
+                if (count === 0) {
+                  return;
+                }
+
+                startUpload(images);
+              }}
             >
               Upload All Images
             </a>

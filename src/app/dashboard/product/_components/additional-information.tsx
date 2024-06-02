@@ -1,16 +1,28 @@
 "use client";
 import { Input } from "@/components/ui/input";
 import { fetcher } from "@/https/get-request";
-import { ProductType } from "@/types/product.t";
+import { ProductSchema, ProductType } from "@/types/product.t";
 import { useFormContext } from "react-hook-form";
 import useSWR from "swr";
+import { z } from "zod";
 import AdditionalKeyValue from "./additional-key-value";
 
-export default function AdditionalInformation() {
+const additionalInfoSchema = ProductSchema.pick({
+  productType: true,
+  brand: true,
+  unit: true,
+});
+type AdditionalInfoType = z.infer<typeof additionalInfoSchema>;
+
+export default function AdditionalInformation({
+  data,
+}: {
+  data?: AdditionalInfoType;
+}) {
   const { register } = useFormContext<ProductType>();
   const { data: productTypes } = useSWR<string[]>(
     "/extra/all/product-types",
-    fetcher,
+    fetcher
   );
   const { data: brands } = useSWR<string[]>("/brand/all-names", fetcher);
 
@@ -27,7 +39,7 @@ export default function AdditionalInformation() {
           </label>
           <select
             id="product-type"
-            defaultValue={productTypes?.[0]}
+            defaultValue={data?.productType ?? productTypes?.[0]}
             className="mt-0.5 w-full p-2 bg-white rounded-md"
             {...register("productType", { required: true })}
           >
@@ -54,7 +66,7 @@ export default function AdditionalInformation() {
           </label>
           <select
             id="brand"
-            defaultValue={brands?.[0]}
+            defaultValue={data?.brand?.name ?? brands?.[0]}
             className="mt-0.5 w-full p-2 bg-white rounded-md"
             {...register("brand.name", { required: true })}
           >
@@ -79,13 +91,14 @@ export default function AdditionalInformation() {
           <Input
             type="text"
             id="unit"
+            defaultValue={data?.unit}
             placeholder="Product unit"
             {...register("unit", { required: true })}
           />
           <p className="mt-2 text-sm text-gray-500">Set the unit of product.</p>
         </div>
       </div>
-      <AdditionalKeyValue />
+      <AdditionalKeyValue data={data as ProductType} />
     </div>
   );
 }

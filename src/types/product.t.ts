@@ -38,7 +38,9 @@ export const ProductSchema = z
     }),
     status: ProductStatusSchema,
     reviews: z.array(z.string()),
-    additionalInformation: z.array(z.any()),
+    additionalInformation: z.array(
+      z.object({ key: z.string(), value: z.string() })
+    ),
     tags: z.array(z.string()),
     sizes: z.array(z.string()),
     offerDate: z.object({

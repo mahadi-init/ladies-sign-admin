@@ -1,15 +1,35 @@
 "use client";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { ProductSchema } from "@/types/product.t";
 import clsx from "clsx";
 import { Trash2 } from "lucide-react";
+import { useEffect } from "react";
 import { useFieldArray, useFormContext } from "react-hook-form";
+import { z } from "zod";
 
-export default function AdditionalKeyValue() {
+const additionalKeyValueSchema = ProductSchema.pick({
+  additionalInformation: true,
+});
+type AdditionalKeyValueType = z.infer<typeof additionalKeyValueSchema>;
+
+export default function AdditionalKeyValue({
+  data,
+}: {
+  data?: AdditionalKeyValueType;
+}) {
   const { register } = useFormContext();
   const { fields, append, remove } = useFieldArray({
     name: "additionalInformation",
   });
+
+  useEffect(() => {
+    if (data) {
+      data?.additionalInformation?.map((item: any) => {
+        append({ key: item.key, value: item.value });
+      });
+    }
+  }, [append, data]);
 
   return (
     <div className="pt-6 border-t border-gray-200">
@@ -22,7 +42,7 @@ export default function AdditionalKeyValue() {
           type="button"
           className={clsx(
             buttonVariants({ variant: "default" }),
-            "ml-auto cursor-pointer",
+            "ml-auto cursor-pointer"
           )}
           onClick={() => append({ key: "", value: "" })}
         >

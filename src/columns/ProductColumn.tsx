@@ -1,4 +1,5 @@
 "use client";
+import ProductDetailsDialog from "@/app/dashboard/product/_components/product-details-dialog";
 import DeleteItem from "@/components/native/DeleteItem";
 import { ImagepopOver } from "@/components/native/ImagePopOver";
 import { ProductType } from "@/types/product.t";
@@ -18,16 +19,7 @@ export const productColumn: ColumnDef<ProductType>[] = [
   {
     accessorKey: "name",
     header: "NAME",
-    cell: ({ row }) => {
-      return (
-        <Link
-          className="underline"
-          href={`/dashboard/product/details/${row.original._id}`}
-        >
-          {row.original.name}
-        </Link>
-      );
-    },
+    cell: ({ row }) => <ProductDetailsDialog id={row.original._id} />,
   },
   {
     accessorKey: "img",
@@ -75,7 +67,7 @@ export const productColumn: ColumnDef<ProductType>[] = [
             row.original.status === "IN-STOCK"
               ? "text-green-500"
               : "text-red-500",
-            "font-medium",
+            "font-medium"
           )}
         >
           {row.original.status}

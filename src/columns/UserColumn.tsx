@@ -1,7 +1,6 @@
 "use client";
 import StatusIndicator from "@/components/native/StatusIndicator";
 import { UserType } from "@/types/user.t";
-import { getDaysAgo } from "@/utils/get-days-ago";
 import { ColumnDef } from "@tanstack/react-table";
 
 export const userColumn: ColumnDef<UserType>[] = [
@@ -56,7 +55,15 @@ export const userColumn: ColumnDef<UserType>[] = [
     accessorKey: "status",
     header: "STATUS",
     cell: ({ row }) => {
-      return <StatusIndicator status={row.original.status} />;
+      return (
+        <StatusIndicator
+          status={row.original.status}
+          // TODO: add mutationTag
+          mutationTag=""
+          // TODO: add updateStatusUrl
+          updateStatusUrl=""
+        />
+      );
     },
   },
 ];

@@ -49,7 +49,7 @@ export default function Records() {
 const DepositRecord = ({ sellerID }: { sellerID?: string }) => {
   const { data } = useSWR<TransactionType[]>(
     `/transaction/all/${sellerID}`,
-    fetcher,
+    fetcher
   );
 
   if (data?.length === 0) {
@@ -58,9 +58,9 @@ const DepositRecord = ({ sellerID }: { sellerID?: string }) => {
 
   return (
     <div className="flex flex-wrap gap-4 justify-around">
-      {data?.map((d) => {
+      {data?.map((d, i) => {
         return (
-          <Card className="w-[450px]">
+          <Card key={i} className="w-[450px]">
             <CardHeader>
               <CardTitle>{new Date(d?.createdAt).toDateString()}</CardTitle>
               <CardDescription>{d.paymentID}</CardDescription>

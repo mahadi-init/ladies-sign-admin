@@ -1,10 +1,10 @@
 import { useUploadThing } from "@/utils/uploadthing";
 import { useDropzone } from "@uploadthing/react";
-import { useCallback, useEffect, useState } from "react";
-import { generateClientDropzoneAccept } from "uploadthing/client";
 import { FolderPlus } from "lucide-react";
-import { toast } from "sonner";
 import Image from "next/image";
+import { useCallback, useEffect, useState } from "react";
+import { toast } from "sonner";
+import { generateClientDropzoneAccept } from "uploadthing/client";
 
 export function ImageUploader({
   endpoint,
@@ -52,7 +52,7 @@ export function ImageUploader({
       setIsLoading(true);
       startUpload(files);
     }
-  }, [files, startUpload]);
+  }, [files, setIsLoading, startUpload]);
 
   const fileTypes = permittedFileInfo?.config
     ? Object.keys(permittedFileInfo?.config)
