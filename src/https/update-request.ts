@@ -1,9 +1,12 @@
+import { getAuthCookie } from "@/helpers/get-auth";
 import { site } from "@/site-config";
 
 async function updateRequest(url: string, { arg }: { arg: unknown }) {
   const body = JSON.parse(
-    JSON.stringify(arg, (_, value) => (value === "" ? undefined : value)),
+    JSON.stringify(arg, (_, value) => (value === "" ? undefined : value))
   );
+
+  const auth = getAuthCookie();
 
   try {
     const res = await fetch(`${site.BACKEND_URL}${url}`, {
@@ -12,7 +15,7 @@ async function updateRequest(url: string, { arg }: { arg: unknown }) {
       // credentials: "include",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${site.bearer_token}`,
+        Authorization: `Bearer ${auth}`,
       },
     });
 

@@ -11,8 +11,8 @@ import {
 import { Input } from "@/components/ui/input";
 import useStatus from "@/hooks/useStatus";
 import addRequest from "@/https/add-request";
-import { setClientAuthInfo } from "@/utils/client-auth";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { setCookie } from "cookies-next";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -79,7 +79,7 @@ function SentResetEmail({
       </div>
 
       <Label className="flex items-center gap-2">
-        <input type="checkbox" onChange={() => setIsAdmin(!isAdmin)} />
+        <Input type="checkbox" onChange={() => setIsAdmin(!isAdmin)} />
         <p className="text-nowrap -mt-1">Signin as an admin</p>
       </Label>
 
@@ -121,22 +121,11 @@ function LoginWithToken({ isAdmin }: { isAdmin: boolean }) {
     );
 
     if (res) {
-      if (isAdmin) {
-        setClientAuthInfo({
-          name: res.data.name,
-          id: res.data._id,
-          role: res.data.role,
-          status: res.data.status,
-        });
+      setCookie("auth", res.token, { sameSite: "none", secure: true });
 
+      if (isAdmin) {
         router.replace("/dashboard");
       } else {
-        setClientAuthInfo({
-          name: res.data.name,
-          id: res.data._id,
-          status: res.data.status,
-        });
-
         router.replace("/seller");
       }
     }

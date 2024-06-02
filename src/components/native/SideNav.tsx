@@ -1,4 +1,10 @@
 "use client";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@radix-ui/react-accordion";
 import clsx from "clsx";
 import { deleteCookie } from "cookies-next";
 import {
@@ -23,12 +29,6 @@ import { useState } from "react";
 import { toast } from "sonner";
 import { Button } from "../ui/button";
 import ConfirmationDialog from "./ConfirmationDialog";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@radix-ui/react-accordion";
 
 export default function Sidenav(): JSX.Element {
   const pathname = usePathname();
@@ -43,7 +43,7 @@ export default function Sidenav(): JSX.Element {
 
   const handleLogout = async () => {
     deleteCookie("auth");
-    router.replace("/");
+    router.replace("/auth/signin");
   };
 
   return (
@@ -101,7 +101,7 @@ export default function Sidenav(): JSX.Element {
                   className={clsx(
                     "flex items-center gap-3 rounded p-3 text-slate-700 transition-colors hover:bg-rose-50 hover:text-rose-500 focus:bg-rose-50",
                     pathname.endsWith("dashboard") &&
-                      "bg-purple-50 text-purple-600",
+                      "bg-purple-50 text-purple-600"
                   )}
                 >
                   <div className="flex items-center self-center">
@@ -120,7 +120,7 @@ export default function Sidenav(): JSX.Element {
                   className={clsx(
                     "flex items-center gap-3 rounded p-3 text-slate-700 transition-colors hover:bg-rose-50 hover:text-rose-500 focus:bg-rose-50",
                     pathname.includes("product") &&
-                      "bg-purple-50 text-purple-600",
+                      "bg-purple-50 text-purple-600"
                   )}
                 >
                   <div className="flex items-center self-center">
@@ -139,7 +139,7 @@ export default function Sidenav(): JSX.Element {
                   className={clsx(
                     "flex items-center gap-3 rounded p-3 text-slate-700 transition-colors hover:bg-rose-50 hover:text-rose-500 focus:bg-rose-50",
                     pathname.includes("category") &&
-                      "bg-purple-100 text-purple-800",
+                      "bg-purple-100 text-purple-800"
                   )}
                 >
                   <div className="flex items-center self-center">
@@ -158,7 +158,7 @@ export default function Sidenav(): JSX.Element {
                   className={clsx(
                     "flex items-center gap-3 rounded p-3 text-slate-700 transition-colors hover:bg-rose-50 hover:text-rose-500 focus:bg-rose-50",
                     pathname.includes("order") &&
-                      "bg-purple-100 text-purple-800",
+                      "bg-purple-100 text-purple-800"
                   )}
                 >
                   <div className="flex items-center self-center">
@@ -181,7 +181,7 @@ export default function Sidenav(): JSX.Element {
                   className={clsx(
                     "flex items-center gap-3 rounded p-3 text-slate-700 transition-colors hover:bg-rose-50 hover:text-rose-500 focus:bg-rose-50",
                     pathname.includes("brand") &&
-                      "bg-purple-100 text-purple-800",
+                      "bg-purple-100 text-purple-800"
                   )}
                 >
                   <div className="flex items-center self-center">
@@ -199,7 +199,7 @@ export default function Sidenav(): JSX.Element {
                   className={clsx(
                     "flex items-center gap-3 rounded p-3 text-slate-700 transition-colors hover:bg-rose-50 hover:text-rose-500 focus:bg-rose-50",
                     pathname.includes("review") &&
-                      "bg-purple-100 text-purple-800 ",
+                      "bg-purple-100 text-purple-800 "
                   )}
                 >
                   <div className="flex items-center self-center">
@@ -218,7 +218,7 @@ export default function Sidenav(): JSX.Element {
                   className={clsx(
                     "flex items-center gap-3 rounded p-3 text-slate-700 transition-colors hover:bg-rose-50 hover:text-rose-500 focus:bg-rose-50",
                     pathname.includes("coupon") &&
-                      "bg-purple-100 text-purple-800",
+                      "bg-purple-100 text-purple-800"
                   )}
                 >
                   <div className="flex items-center self-center">
@@ -234,7 +234,7 @@ export default function Sidenav(): JSX.Element {
                   className={clsx(
                     "flex items-center gap-3 rounded p-3 text-slate-700 transition-colors hover:bg-rose-50 focus:bg-rose-50",
                     pathname.includes("extra") &&
-                      "bg-purple-100 text-purple-800",
+                      "bg-purple-100 text-purple-800"
                   )}
                 >
                   <Accordion type="multiple" className="w-full">
@@ -275,7 +275,7 @@ export default function Sidenav(): JSX.Element {
                   className={clsx(
                     "flex items-center gap-3 rounded p-3 text-slate-700 transition-colors hover:bg-rose-50 hover:text-rose-500 focus:bg-rose-50",
                     pathname.includes("admin") &&
-                      "bg-purple-100 text-purple-800",
+                      "bg-purple-100 text-purple-800"
                   )}
                 >
                   <div className="flex items-center self-center">
@@ -294,7 +294,7 @@ export default function Sidenav(): JSX.Element {
                   className={clsx(
                     "flex items-center gap-3 rounded p-3 text-slate-700 transition-colors hover:bg-rose-50 hover:text-rose-500 focus:bg-rose-50",
                     pathname.includes("seller") &&
-                      "bg-purple-100 text-purple-800",
+                      "bg-purple-100 text-purple-800"
                   )}
                 >
                   <div className="flex items-center self-center">
@@ -312,8 +312,7 @@ export default function Sidenav(): JSX.Element {
                   onClick={hideSideNav}
                   className={clsx(
                     "flex items-center gap-3 rounded p-3 text-slate-700 transition-colors hover:bg-rose-50 hover:text-rose-500 focus:bg-rose-50",
-                    pathname.includes("user") &&
-                      "bg-purple-100 text-purple-800",
+                    pathname.includes("user") && "bg-purple-100 text-purple-800"
                   )}
                 >
                   <div className="flex items-center self-center">
@@ -332,7 +331,7 @@ export default function Sidenav(): JSX.Element {
                   className={clsx(
                     "flex items-center gap-3 rounded p-3 text-slate-700 transition-colors hover:bg-rose-50 hover:text-rose-500 focus:bg-rose-50",
                     pathname.includes("profile") &&
-                      "bg-purple-100 text-purple-800",
+                      "bg-purple-100 text-purple-800"
                   )}
                 >
                   <div className="flex items-center self-center">
@@ -351,7 +350,7 @@ export default function Sidenav(): JSX.Element {
                   className={clsx(
                     "flex items-center gap-3 rounded p-3 text-slate-700 transition-colors hover:bg-rose-50 hover:text-rose-500 focus:bg-rose-50",
                     pathname.includes("notification") &&
-                      "bg-purple-100 text-purple-800",
+                      "bg-purple-100 text-purple-800"
                   )}
                 >
                   <div className="flex items-center self-center">

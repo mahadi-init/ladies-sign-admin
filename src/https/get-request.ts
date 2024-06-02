@@ -1,14 +1,17 @@
+import { getAuthCookie } from "@/helpers/get-auth";
 import { site } from "@/site-config";
 
 export async function fetcher<T>(
   ...args: [RequestInfo, RequestInit?]
 ): Promise<T> {
+  const auth = getAuthCookie();
+
   try {
     const res = await fetch(`${site.BACKEND_URL}${args[0]}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${site.bearer_token}`,
+        Authorization: `Bearer ${auth}`,
       },
     });
 
