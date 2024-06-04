@@ -24,7 +24,7 @@ type zSizeType = z.infer<typeof SizeTypeSchema>;
 export default function ProductType() {
   const { data, isLoading, error } = useSWR<string[]>(
     "/extra/all/sizes",
-    fetcher
+    fetcher,
   );
   const { trigger, isMutating } = useSWRMutation(`/extra/add`, addRequest);
   const { showStatus } = useStatus();
@@ -32,6 +32,7 @@ export default function ProductType() {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm<zSizeType>({
     resolver: zodResolver(SizeTypeSchema),
   });
@@ -43,6 +44,8 @@ export default function ProductType() {
   const onSubmit: SubmitHandler<zSizeType> = async (data) => {
     const res = await trigger(data);
     showStatus("/extra", "Size added successfully", res);
+
+    reset();
   };
 
   return (
@@ -52,9 +55,9 @@ export default function ProductType() {
       {isLoading ? (
         <SixSkeleton />
       ) : (
-        <div className="w-full mt-8">
+        <div className="mt-8 w-full">
           <Card className="w-full p-2">
-            <p className="text-lg font-medium text-center mb-2.5">Sizes</p>
+            <p className="mb-2.5 text-center text-lg font-medium">Sizes</p>
             <SimpleTable heads={["Type"]} data={data} tag="size" />
             <hr />
             <Input

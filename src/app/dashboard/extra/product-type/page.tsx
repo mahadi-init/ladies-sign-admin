@@ -32,6 +32,7 @@ export default function ProductType() {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm<zProductType>({
     resolver: zodResolver(ProductTypeSchema),
   });
@@ -43,6 +44,8 @@ export default function ProductType() {
   const onSubmit: SubmitHandler<zProductType> = async (data) => {
     const res = await trigger(data);
     showStatus("/extra", "Product Type added successfully", res);
+
+    reset();
   };
 
   return (
@@ -52,9 +55,9 @@ export default function ProductType() {
       {isLoading ? (
         <SixSkeleton />
       ) : (
-        <div className="w-full mt-8">
+        <div className="mt-8 w-full">
           <Card className="w-full p-2">
-            <p className="text-lg font-medium text-center mb-2.5">
+            <p className="mb-2.5 text-center text-lg font-medium">
               Product Types
             </p>
             <SimpleTable heads={["Type"]} data={data} tag="productType" />

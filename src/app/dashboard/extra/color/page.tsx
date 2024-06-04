@@ -32,6 +32,7 @@ export default function Color() {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm<zColorType>({
     resolver: zodResolver(colorSchema),
   });
@@ -43,6 +44,7 @@ export default function Color() {
   const onSubmit: SubmitHandler<zColorType> = async (data) => {
     const res = await trigger(data);
     showStatus("/extra", "Color added successfully", res);
+    reset();
   };
 
   return (
@@ -52,9 +54,9 @@ export default function Color() {
       {isLoading ? (
         <SixSkeleton />
       ) : (
-        <div className="w-full mt-8">
+        <div className="mt-8 w-full">
           <Card className="w-full p-2">
-            <p className="text-lg font-medium text-center mb-2.5">Colors</p>
+            <p className="mb-2.5 text-center text-lg font-medium">Colors</p>
             <SimpleTable
               heads={["NAME", "CODE"]}
               data={data as { name: string; code: string }[]}
@@ -76,7 +78,7 @@ export default function Color() {
               </div>
               <div className="w-full">
                 <Input
-                  className="w-full mt-2.5 bg-gray-100"
+                  className="mt-2.5 w-full bg-gray-100"
                   type="color"
                   placeholder="Enter color code"
                   {...register("color.code", { required: true })}
