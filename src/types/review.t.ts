@@ -12,7 +12,6 @@ const ReviewSchema = z
     rating: z.number(),
     approved: z.boolean(),
     comment: z.string(),
-    approved: z.boolean(),
     createdAt: z.string(),
     updatedAt: z.string(),
   })
