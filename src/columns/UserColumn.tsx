@@ -1,7 +1,10 @@
 "use client";
+import DeleteItem from "@/components/native/DeleteItem";
 import StatusIndicator from "@/components/native/StatusIndicator";
 import { UserType } from "@/types/user.t";
 import { ColumnDef } from "@tanstack/react-table";
+import { PencilIcon } from "lucide-react";
+import Link from "next/link";
 
 export const userColumn: ColumnDef<UserType>[] = [
   {
@@ -14,22 +17,12 @@ export const userColumn: ColumnDef<UserType>[] = [
   {
     accessorKey: "name",
     header: "NAME",
-    // cell: ({ row }) => {
-    //   return (
-    //     <Link
-    //       href={`/dashboard/users/details/${row.original.id}`}
-    //       className="underline truncate text-medium"
-    //     >
-    //       {row.original.name ?? "--"}
-    //     </Link>
-    //   );
-    // },
   },
   {
     accessorKey: "phone",
     header: "PHONE",
     cell: ({ row }) => {
-      return <p className="truncate text-medium">{row.original.phone}</p>;
+      return <p className="text-medium truncate">{row.original.phone}</p>;
     },
   },
   {
@@ -58,12 +51,22 @@ export const userColumn: ColumnDef<UserType>[] = [
       return (
         <StatusIndicator
           status={row.original.status}
-          // TODO: add mutationTag
-          mutationTag=""
-          // TODO: add updateStatusUrl
-          updateStatusUrl=""
+          updateStatusUrl={`/user/change-status/${row.original._id}`}
+          mutationTag="/user"
         />
       );
     },
+  },
+  {
+    id: "actions",
+    cell: ({ row }) => (
+      <div className="flex items-center gap-8">
+        <DeleteItem
+          queryUrl={`/user/delete/${row.original._id}`}
+          validationTag="/user"
+          successMessage="User deleted successfully"
+        />
+      </div>
+    ),
   },
 ];

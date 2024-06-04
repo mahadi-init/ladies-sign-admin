@@ -10,7 +10,7 @@ import Link from "next/link";
 
 export const productColumn: ColumnDef<ProductType>[] = [
   {
-    accessorKey: "id",
+    accessorKey: "cid",
     header: "ID",
     cell: ({ row }) => {
       return (

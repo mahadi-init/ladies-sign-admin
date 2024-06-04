@@ -12,7 +12,6 @@ import {
 import { fetcher } from "@/https/get-request";
 import { ProductType } from "@/types/product.t";
 import { Edit2Icon } from "lucide-react";
-import Image from "next/image";
 import Link from "next/link";
 import useSWR from "swr";
 

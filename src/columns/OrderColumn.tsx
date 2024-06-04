@@ -1,11 +1,10 @@
 "use client";
-import ConfirmationDialog from "@/components/native/ConfirmationDialog";
 import DeliveryStatus from "@/components/native/DeliveryStatus";
 import { HoverToolkit } from "@/components/native/HoverToolkit";
 import { OrderType } from "@/types/order.t";
 import { getDaysAgo } from "@/utils/get-days-ago";
 import { ColumnDef } from "@tanstack/react-table";
-import { CheckCircle, Send, View } from "lucide-react";
+import { View } from "lucide-react";
 import Link from "next/link";
 import { toast } from "sonner";
 
