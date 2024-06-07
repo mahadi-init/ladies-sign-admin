@@ -1,28 +1,20 @@
 import { z } from "zod";
-import { OrderStatusSchema } from "./order-status.t";
 import { ProductSchema } from "./product.t";
 
 const OrderSchema = z
   .object({
     _id: z.string(),
-    personId: z.string(),
+    personID: z.string(),
     name: z.string(),
-    isSeller: z.boolean(),
     invoice: z.number(),
     cart: z.array(ProductSchema),
     phone: z.string().min(11, "minium 11 characters required"),
     address: z.string(),
-    city: z.string(),
-    total: z.number(),
     subTotal: z.number(),
     shippingCost: z.number(),
-    discount: z.number(),
-    shippingOption: z.string(),
-    paymentMethod: z.string(),
-    paymentDetails: z.object({}),
-    trackingCode: z.string(),
+    total: z.number(),
     trackingLink: z.string(),
-    status: OrderStatusSchema,
+    status: z.string(),
     createdAt: z.string().datetime(),
     updatedAt: z.string().datetime(),
   })

@@ -15,7 +15,7 @@ export const sellerOrderColumn: ColumnDef<OrderType>[] = [
       return (
         <Link
           href={`/order/details/${row.original._id}`}
-          className="font-medium cursor-pointer"
+          className="cursor-pointer font-medium"
         >
           # {row.original.invoice}
         </Link>
@@ -24,9 +24,8 @@ export const sellerOrderColumn: ColumnDef<OrderType>[] = [
   },
   {
     accessorKey: "name",
-    header: "CUSTOMER",
+    header: "NAME",
   },
-
   {
     accessorKey: "address",
     header: "ADDRESS",
@@ -39,23 +38,19 @@ export const sellerOrderColumn: ColumnDef<OrderType>[] = [
     },
   },
   {
-    accessorKey: "delivery",
-    header: "DELIVERY",
+    accessorKey: "trackingLink",
+    header: "TRACKING",
     cell: ({ row }) => {
       return (
         <>
           {row.original.status === "PROCESSING" ? (
-            <DeliveryStatus trackingCode={row.original.trackingCode} />
+            <DeliveryStatus trackingCode={row.original.trackingLink} />
           ) : (
-            <p className="text-red-300 font-bold">---------</p>
+            <p className="font-bold text-red-300">---------</p>
           )}
         </>
       );
     },
-  },
-  {
-    accessorKey: "paymentMethod",
-    header: "PAYMENT",
   },
   {
     accessorKey: "createdAt",

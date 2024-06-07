@@ -5,7 +5,7 @@ import { Card } from "../ui/card";
 
 function InvoiceGenerator({ data }: { data?: OrderType }) {
   return (
-    <div className="w-full p-6 mx-auto my-10 bg-white shadow-md">
+    <div className="mx-auto my-10 w-full bg-white p-6 shadow-md">
       <div className="mb-6 text-center">
         <h1 className="text-3xl font-bold">Ladies Sign</h1>
         <p className="text-gray-600">
@@ -13,8 +13,8 @@ function InvoiceGenerator({ data }: { data?: OrderType }) {
         </p>
         <p className="text-gray-600">0123456789</p>
       </div>
-      <Card className="p-4 mb-6 border">
-        <div className="grid grid-cols-3 gap-4 mb-4">
+      <Card className="mb-6 border p-4">
+        <div className="mb-4 grid grid-cols-3 gap-4">
           <h2 className="col-span-1 text-sm font-bold">PRODUCT</h2>
           <h2 className="col-span-1 text-sm font-bold">QUANTITY</h2>
           <h2 className="col-span-1 text-sm font-bold">TOTAL</h2>
@@ -31,13 +31,13 @@ function InvoiceGenerator({ data }: { data?: OrderType }) {
           })} */}
         </div>
       </Card>
-      <Card className="p-4 mb-6 border">
+      <Card className="mb-6 border p-4">
         <h2 className="mb-4 text-lg font-bold">Order Price</h2>
-        <div className="grid grid-cols-2 gap-4 mb-2">
+        <div className="mb-2 grid grid-cols-2 gap-4">
           <p className="text-sm">Subtotal</p>
           <p className="text-sm">৳{data?.subTotal}</p>
         </div>
-        <div className="grid grid-cols-2 gap-4 mb-2">
+        <div className="mb-2 grid grid-cols-2 gap-4">
           <p className="text-sm">Shipping cost:</p>
           <p className="text-sm">৳{data?.shippingCost}</p>
         </div>
@@ -46,18 +46,14 @@ function InvoiceGenerator({ data }: { data?: OrderType }) {
           {/* <p className="text-sm font-bold">${data?.totalAmount}</p> */}
         </div>
       </Card>
-      <Card className="p-4 mb-6 border">
-        <div className="grid grid-cols-2 gap-4 mb-2">
-          <p className="text-sm font-bold">Payment Method</p>
-          <p className="text-sm">{data?.paymentMethod}</p>
-        </div>
-        <div className="grid grid-cols-2 gap-4 mb-2">
+      <Card className="mb-6 border p-4">
+        <div className="mb-2 grid grid-cols-2 gap-4">
           <p className="text-sm font-bold">Bill No:</p>
           <p className="text-sm"># {data?.invoice}</p>
         </div>
-        <div className="grid grid-cols-2 gap-4 mb-2">
+        <div className="mb-2 grid grid-cols-2 gap-4">
           <p className="text-sm font-bold">No of items:</p>
-          {/*  <p className="text-sm">{data?.cart.length}</p> */}
+          <p className="text-sm">{data?.cart?.length}</p>
         </div>
         <div className="grid grid-cols-2 gap-4">
           <p className="text-sm font-bold">Date:</p>

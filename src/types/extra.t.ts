@@ -1,6 +1,5 @@
 import { z } from "zod";
 
-// #region
 const ExtraSchema = z
   .object({
     productTypes: z.string().array(),

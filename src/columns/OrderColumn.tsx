@@ -6,7 +6,6 @@ import { getDaysAgo } from "@/utils/get-days-ago";
 import { ColumnDef } from "@tanstack/react-table";
 import { View } from "lucide-react";
 import Link from "next/link";
-import { toast } from "sonner";
 
 export const orderColumn: ColumnDef<OrderType>[] = [
   {
@@ -24,31 +23,6 @@ export const orderColumn: ColumnDef<OrderType>[] = [
     },
   },
   {
-    accessorKey: "name",
-    header: "CUSTOMER",
-    cell: ({ row }) => {
-      return (
-        <Link
-          href={
-            row.original.isSeller
-              ? `/dashboard/seller/edit/${row.original.personId}`
-              : `/dashboard/user/edit/${row.original.personId}`
-          }
-          className="cursor-pointer font-medium"
-        >
-          {row.original.name}
-        </Link>
-      );
-    },
-  },
-  {
-    accessorKey: "isSeller",
-    header: "TYPE",
-    cell: ({ row }) => {
-      return <p>{row.original.isSeller ? "SELLER" : "USER"}</p>;
-    },
-  },
-  {
     accessorKey: "address",
     header: "ADDRESS",
   },
@@ -60,13 +34,13 @@ export const orderColumn: ColumnDef<OrderType>[] = [
     },
   },
   {
-    accessorKey: "delivery",
-    header: "DELIVERY",
+    accessorKey: "trackingLink",
+    header: "TRACKING",
     cell: ({ row }) => {
       return (
         <>
           {row.original.status === "PROCESSING" ? (
-            <DeliveryStatus trackingCode={row.original.trackingCode} />
+            <DeliveryStatus trackingCode={row.original.trackingLink} />
           ) : (
             <p className="font-bold text-red-300">---------</p>
           )}
@@ -77,10 +51,6 @@ export const orderColumn: ColumnDef<OrderType>[] = [
   {
     accessorKey: "status",
     header: "STATUS",
-  },
-  {
-    accessorKey: "paymentMethod",
-    header: "PAYMENT",
   },
   {
     accessorKey: "createdAt",

@@ -10,10 +10,9 @@ import { useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import useSWRMutation from "swr/mutation";
-import AdditionalInformation from "../_components/additional-information";
 import GeneralInformation from "../_components/general-information";
-import { ProductCategory } from "../_components/product-category";
 import ProductVariants from "../_components/product-variants";
+import AdditionalKeyValue from "../_components/additional-key-value";
 
 export default function AddProduct() {
   const methods = useForm();
@@ -76,31 +75,20 @@ export default function AddProduct() {
       <FormProvider {...methods}>
         <form
           onSubmit={methods.handleSubmit(onSubmit)}
-          className="flex flex-col w-full gap-4 mt-4 mb-4"
+          className="mb-4 mt-4 flex w-full flex-col gap-4"
         >
           <GeneralInformation>
-            <div className="flex flex-col pb-2 xl:flex-row justify-evenly xl:items-center">
-              <div className="flex flex-col items-center ">
+            <div className="flex flex-col justify-evenly pb-2 xl:flex-row xl:items-center">
+              <div className="flex flex-col items-center">
                 <ImageUploader
                   setIsLoading={setIsLoading}
                   setImgUrl={setImgUrl}
                   endpoint="product"
                 />
               </div>
-
-              <div className="flex flex-col gap-4 xl:w-1/2">
-                <ProductCategory
-                  category={category}
-                  setCategory={setCategory}
-                  childrens={children}
-                  setSelectedChildrens={setChildren}
-                  tags={tags}
-                  setTags={setTags}
-                />
-              </div>
             </div>
           </GeneralInformation>
-          <AdditionalInformation />
+          {/* <AdditionalKeyValue data={data as ProductType} /> */}
           <ProductVariants setIsLoading={setIsLoading} setImages={setImages} />
           <ButtonGroup isMutating={isMutating} />
         </form>

@@ -9,9 +9,7 @@ const generalInformation = ProductSchema.pick({
   name: true,
   description: true,
   price: true,
-  sellerPrice: true,
   quantity: true,
-  discount: true,
   sku: true,
   videoId: true,
 });
@@ -27,13 +25,13 @@ export default function GeneralInformation({
   const { register } = useFormContext<ProductType>();
 
   return (
-    <div className="p-6 bg-gray-100 rounded-lg shadow">
+    <div className="rounded-lg bg-gray-100 p-6 shadow">
       <div className="mb-6">
         <h2 className="mb-2 text-xl font-semibold">General</h2>
         {children}
         <div className="grid grid-cols-1 gap-4">
           <div>
-            <label className="block mb-1 text-sm font-medium" htmlFor="title">
+            <label className="mb-1 block text-sm font-medium" htmlFor="title">
               Name <span className="text-red-500">*</span>
             </label>
             <Input
@@ -47,7 +45,7 @@ export default function GeneralInformation({
 
           <div>
             <label
-              className="block mb-1 text-sm font-medium"
+              className="mb-1 block text-sm font-medium"
               htmlFor="description"
             >
               Description <span className="text-red-500">*</span>
@@ -65,7 +63,7 @@ export default function GeneralInformation({
       <div className="mb-6">
         <div className="grid grid-cols-2 gap-4">
           <div>
-            <label className="block mb-1 text-sm font-medium" htmlFor="price">
+            <label className="mb-1 block text-sm font-medium" htmlFor="price">
               Price <span className="text-red-500">*</span>
             </label>
             <Input
@@ -82,26 +80,7 @@ export default function GeneralInformation({
 
           <div>
             <label
-              className="block mb-1 text-sm font-medium"
-              htmlFor="seller-discount"
-            >
-              Seller Price<span className="text-red-500">*</span>
-            </label>
-            <Input
-              type="number"
-              id="seller-discount"
-              defaultValue={data?.sellerPrice}
-              placeholder="Seller Discount"
-              {...register("sellerPrice", { required: true })}
-            />
-            <p className="mt-1 text-xs text-gray-500">
-              Set the seller Discount.
-            </p>
-          </div>
-
-          <div>
-            <label
-              className="block mb-1 text-sm font-medium"
+              className="mb-1 block text-sm font-medium"
               htmlFor="quantity"
             >
               Quantity <span className="text-red-500">*</span>
@@ -117,30 +96,12 @@ export default function GeneralInformation({
               Enter the product quantity.
             </p>
           </div>
-
-          <div>
-            <label
-              className="block mb-1 text-sm font-medium"
-              htmlFor="discount"
-            >
-              Discount <span className="text-red-500">*</span>
-            </label>
-            <Input
-              type="number"
-              id="discount"
-              defaultValue={data?.discount}
-              placeholder="Discount"
-              {...register("discount", { required: true })}
-            />
-            <p className="mt-1 text-xs text-gray-500">
-              Set the customer Discount.
-            </p>
-          </div>
         </div>
       </div>
+
       <div className="grid grid-cols-2 gap-4">
         <div>
-          <label className="block mb-1 text-sm font-medium" htmlFor="sku">
+          <label className="mb-1 block text-sm font-medium" htmlFor="sku">
             SKU
           </label>
           <Input
@@ -154,7 +115,7 @@ export default function GeneralInformation({
         </div>
 
         <div>
-          <label className="block mb-1 text-sm font-medium" htmlFor="video-id">
+          <label className="mb-1 block text-sm font-medium" htmlFor="video-id">
             Youtube Video Id
           </label>
           <Input
@@ -168,23 +129,6 @@ export default function GeneralInformation({
             Set the video id of product.
           </p>
         </div>
-
-        {/* <div>
-          <label
-            className="block mb-1 text-sm font-medium"
-            htmlFor="start-end-date"
-          >
-            Start And End Date
-          </label>
-          <Input
-            type="date"
-            id="start-end-date"
-            placeholder="YYYY-MM-DD ~ YYYY-MM-DD"
-          />
-          <p className="mt-1 text-xs text-gray-500">
-            set the product offer and end date
-          </p>
-        </div> */}
       </div>
     </div>
   );

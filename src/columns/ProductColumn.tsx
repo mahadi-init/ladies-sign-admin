@@ -10,20 +10,6 @@ import Link from "next/link";
 
 export const productColumn: ColumnDef<ProductType>[] = [
   {
-    accessorKey: "cid",
-    header: "ID",
-    cell: ({ row }) => {
-      return (
-        <Link
-          href={`/dashboard/product/details/${row.original._id}`}
-          className="font-medium underline"
-        >
-          # {row.original.cid}
-        </Link>
-      );
-    },
-  },
-  {
     accessorKey: "name",
     header: "NAME",
     cell: ({ row }) => <ProductDetailsDialog id={row.original._id} />,
@@ -32,27 +18,14 @@ export const productColumn: ColumnDef<ProductType>[] = [
     accessorKey: "img",
     header: "IMAGE",
     cell: ({ row }) => {
-      return row.original.img ? (
-        <ImagepopOver img={row.original.img} />
+      return row.original.thumbnail ? (
+        <ImagepopOver img={row.original.thumbnail} />
       ) : (
         <span className="text-xs">No Image</span>
       );
     },
   },
-  {
-    accessorKey: "type",
-    header: "Type",
-    cell: ({ row }) => {
-      return <p>{row.original.productType}</p>;
-    },
-  },
-  {
-    accessorKey: "category",
-    header: "Category",
-    cell: ({ row }) => {
-      return <p>{row.original.category?.name}</p>;
-    },
-  },
+
   {
     accessorKey: "price",
     header: "PRICE",

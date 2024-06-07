@@ -20,9 +20,9 @@ export default function EditProduct({ params }: { params: { id: string } }) {
 
       <div className="mt-8 grid grid-cols-1 items-center gap-4 xl:grid-cols-2 2xl:grid-cols-3">
         <Card className="flex items-center gap-2">
-          {product?.img && (
+          {product?.thumbnail && (
             <Image
-              src={product?.img ?? ""}
+              src={product?.thumbnail ?? ""}
               className="mt-2 max-w-xs rounded-md"
               alt={product?.name ?? "product img"}
               width={500}
@@ -132,16 +132,6 @@ export default function EditProduct({ params }: { params: { id: string } }) {
                 </td>
               </tr>
 
-              <tr className="border-b border-neutral-200 bg-gray-100 dark:border-white/10">
-                <td className="whitespace-nowrap px-6 py-4 font-medium">6</td>
-                <td className="whitespace-nowrap px-6 py-4 font-medium">
-                  Discount
-                </td>
-                <td className="whitespace-nowrap px-6 py-4">
-                  {product?.discount}
-                </td>
-              </tr>
-
               <tr className="border-b border-neutral-200 dark:border-white/10">
                 <td className="whitespace-nowrap px-6 py-4 font-medium">7</td>
                 <td className="whitespace-nowrap px-6 py-4 font-medium">SKU</td>
@@ -158,51 +148,12 @@ export default function EditProduct({ params }: { params: { id: string } }) {
                 </td>
               </tr>
 
-              <tr className="border-b border-neutral-200 dark:border-white/10">
-                <td className="whitespace-nowrap px-6 py-4 font-medium">9</td>
-                <td className="whitespace-nowrap px-6 py-4 font-medium">
-                  Product Type
-                </td>
-                <td className="whitespace-nowrap px-6 py-4">
-                  {product?.productType}
-                </td>
-              </tr>
-              <tr className="border-b border-neutral-200 bg-gray-100 dark:border-white/10">
-                <td className="whitespace-nowrap px-6 py-4 font-medium">9</td>
-                <td className="whitespace-nowrap px-6 py-4 font-medium">
-                  Category
-                </td>
-                <td className="whitespace-nowrap px-6 py-4">
-                  {product?.category?.name}
-                </td>
-              </tr>
-
-              <tr className="border-b border-neutral-200 dark:border-white/10">
-                <td className="whitespace-nowrap px-6 py-4 font-medium">10</td>
-                <td className="whitespace-nowrap px-6 py-4 font-medium">
-                  Brand
-                </td>
-                <td className="whitespace-nowrap px-6 py-4">
-                  {product?.brand?.name}
-                </td>
-              </tr>
-
               <tr className="border-b border-neutral-200 bg-gray-100 dark:border-white/10">
                 <td className="whitespace-nowrap px-6 py-4 font-medium">11</td>
                 <td className="whitespace-nowrap px-6 py-4 font-medium">
                   Unit
                 </td>
                 <td className="whitespace-nowrap px-6 py-4">{product?.unit}</td>
-              </tr>
-
-              <tr className="border-b border-neutral-200 dark:border-white/10">
-                <td className="whitespace-nowrap px-6 py-4 font-medium">12</td>
-                <td className="whitespace-nowrap px-6 py-4 font-medium">
-                  Status
-                </td>
-                <td className="whitespace-nowrap px-6 py-4">
-                  {product?.status}
-                </td>
               </tr>
 
               <tr className="border-b border-neutral-200 bg-gray-100 dark:border-white/10">
