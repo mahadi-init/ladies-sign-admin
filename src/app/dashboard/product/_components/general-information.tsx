@@ -60,45 +60,6 @@ export default function GeneralInformation({
         </div>
       </div>
 
-      <div className="mb-6">
-        <div className="grid grid-cols-2 gap-4">
-          <div>
-            <label className="mb-1 block text-sm font-medium" htmlFor="price">
-              Price <span className="text-red-500">*</span>
-            </label>
-            <Input
-              type="number"
-              id="price"
-              defaultValue={data?.price}
-              placeholder="Product price"
-              {...register("price", { required: true })}
-            />
-            <p className="mt-1 text-xs text-gray-500">
-              Set the base price of product.
-            </p>
-          </div>
-
-          <div>
-            <label
-              className="mb-1 block text-sm font-medium"
-              htmlFor="quantity"
-            >
-              Quantity <span className="text-red-500">*</span>
-            </label>
-            <Input
-              type="number"
-              id="quantity"
-              defaultValue={data?.quantity}
-              placeholder="Quantity"
-              {...register("quantity", { required: true })}
-            />
-            <p className="mt-1 text-xs text-gray-500">
-              Enter the product quantity.
-            </p>
-          </div>
-        </div>
-      </div>
-
       <div className="grid grid-cols-2 gap-4">
         <div>
           <label className="mb-1 block text-sm font-medium" htmlFor="sku">

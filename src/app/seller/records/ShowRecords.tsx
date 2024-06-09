@@ -1,5 +1,6 @@
 "use client";
 
+import { DepositeRecordCard } from "@/components/deposite-record-card";
 import PageTop from "@/components/native/PageTop";
 import {
   Card,
@@ -21,7 +22,7 @@ export default function ShowRecords({ sellerID }: { sellerID?: string }) {
 
   return (
     <div>
-      <div className="flex justify-between items-center mb-4">
+      <div className="mb-4 flex items-center justify-between">
         <div>
           <PageTop title="Records" />
         </div>
@@ -47,7 +48,7 @@ export default function ShowRecords({ sellerID }: { sellerID?: string }) {
 const DepositRecord = ({ sellerID }: { sellerID?: string }) => {
   const { data } = useSWR<TransactionType[]>(
     `/transaction/all/${sellerID}`,
-    fetcher
+    fetcher,
   );
 
   if (data?.length === 0) {
@@ -55,23 +56,9 @@ const DepositRecord = ({ sellerID }: { sellerID?: string }) => {
   }
 
   return (
-    <div className="flex flex-wrap gap-4 justify-around">
+    <div className="flex flex-wrap justify-around gap-4">
       {data?.map((d, i) => {
-        return (
-          <Card key={i} className="w-[450px]">
-            <CardHeader>
-              <CardTitle>{new Date(d?.createdAt).toDateString()}</CardTitle>
-              <CardDescription>{d.paymentID}</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <p>Amount : {d.amount}</p>
-              <p>Invoice Number : {d.merchantInvoiceNumber}</p>
-              <p>Status : {d.transactionStatus}</p>
-              <p>Time : {new Date(d?.createdAt).toLocaleTimeString()}</p>
-            </CardContent>
-            <CardFooter className="flex justify-between"></CardFooter>
-          </Card>
-        );
+        return <DepositeRecordCard key={i} data={d} index={i} />;
       })}
     </div>
   );

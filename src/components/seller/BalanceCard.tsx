@@ -33,14 +33,14 @@ export default function BalanceCard({
   );
 
   return (
-    <Card className="flex flex-col w-full max-h-[300px] shadow">
+    <Card className="flex max-h-[300px] w-full flex-col shadow">
       <CardHeader className="flex flex-row items-center space-y-0">
         <CardTitle>Account balance</CardTitle>
       </CardHeader>
 
       <CardContent className="flex items-center space-x-4">
         <div className="flex items-center space-x-4">
-          <Avatar className="w-12 h-12">
+          <Avatar className="h-12 w-12">
             <AvatarFallback>{profile?.name?.substring(0, 2)}</AvatarFallback>
           </Avatar>
           <div className="space-y-1.5">
@@ -48,7 +48,7 @@ export default function BalanceCard({
               {profile?.name ?? "Loading.."}
             </h3>
             <p className="text-sm font-medium text-gray-500 dark:text-gray-400">
-              ID: {profile?.cid ?? "Loading.."}
+              ID: {profile?._id ?? "Loading.."}
             </p>
           </div>
         </div>
@@ -69,7 +69,7 @@ export default function BalanceCard({
             {deposit && (
               <TableRow>
                 <TableCell className="w-1 text-center">
-                  <ArrowUpIcon className="w-4 h-4 text-green-600" />
+                  <ArrowUpIcon className="h-4 w-4 text-green-600" />
                 </TableCell>
                 <TableCell className="font-medium">Deposit</TableCell>
                 <TableCell className="font-medium">
@@ -91,7 +91,7 @@ export default function BalanceCard({
             {withdraw && (
               <TableRow>
                 <TableCell className="w-1 text-center">
-                  <ArrowDownIcon className="w-4 h-4 text-red-600" />
+                  <ArrowDownIcon className="h-4 w-4 text-red-600" />
                 </TableCell>
                 <TableCell className="font-medium">Withdraw</TableCell>
                 <TableCell className="font-medium">{withdraw?._id}</TableCell>
@@ -112,7 +112,7 @@ export default function BalanceCard({
         </Table>
       </CardContent>
 
-      <CardFooter className="justify-end mt-4 gap-4">
+      <CardFooter className="mt-4 justify-end gap-4">
         <DepositDrawer profile={profile} />
         <WithdrawDrawer profile={profile} />
       </CardFooter>

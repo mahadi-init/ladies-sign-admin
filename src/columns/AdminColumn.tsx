@@ -1,7 +1,5 @@
 "use client";
 import DeleteItem from "@/components/native/DeleteItem";
-import { ImagepopOver } from "@/components/native/ImagePopOver";
-import StatusIndicator from "@/components/native/StatusIndicator";
 import { Button } from "@/components/ui/button";
 import { AdminType } from "@/types/admin.t";
 import { ColumnDef } from "@tanstack/react-table";
@@ -25,45 +23,19 @@ export const adminColumn: ColumnDef<AdminType>[] = [
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           NAME
-          <ArrowUpDown className="w-4 h-4 ml-2" />
+          <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
     },
   },
   {
-    accessorKey: "img",
-    header: "IMAGE",
-    cell: ({ row }) => {
-      return row.original.img ? (
-        <ImagepopOver img={row.original.img} />
-      ) : (
-        <span className="text-xs">No Image</span>
-      );
-    },
-  },
-
-  {
     accessorKey: "phone",
     header: "PHONE",
   },
   {
-    accessorKey: "role",
-    header: "ROLE",
+    accessorKey: "email",
+    header: "EMAIL",
   },
-  {
-    accessorKey: "status",
-    header: "STATUS",
-    cell: ({ row }) => {
-      return (
-        <StatusIndicator
-          status={row.original.status}
-          updateStatusUrl={`/admin/change-status/${row.original._id}`}
-          mutationTag="/admin"
-        />
-      );
-    },
-  },
-
   {
     id: "actions",
     cell: ({ row }) => (

@@ -10,13 +10,20 @@ import Link from "next/link";
 
 export const productColumn: ColumnDef<ProductType>[] = [
   {
+    accessorKey: "index",
+    header: "INDEX",
+    cell: ({ row }) => {
+      return <p># {row.index + 1}</p>;
+    },
+  },
+  {
     accessorKey: "name",
     header: "NAME",
     cell: ({ row }) => <ProductDetailsDialog id={row.original._id} />,
   },
   {
-    accessorKey: "img",
-    header: "IMAGE",
+    accessorKey: "thumbnail",
+    header: "THUBMAIL",
     cell: ({ row }) => {
       return row.original.thumbnail ? (
         <ImagepopOver img={row.original.thumbnail} />
@@ -25,7 +32,6 @@ export const productColumn: ColumnDef<ProductType>[] = [
       );
     },
   },
-
   {
     accessorKey: "price",
     header: "PRICE",

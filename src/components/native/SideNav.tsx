@@ -189,12 +189,6 @@ export default function Sidenav(): JSX.Element {
                           Extra
                         </div>
                       </AccordionTrigger>
-                      <AccordionContent className="m-2 mt-4 hover:text-rose-500">
-                        <Link href={"/dashboard/extra/product-type"}>
-                          - Product Type
-                        </Link>
-                      </AccordionContent>
-
                       <AccordionContent className="m-2 hover:text-rose-500">
                         <Link href={"/dashboard/extra/color"}>- Color</Link>
                       </AccordionContent>

@@ -10,13 +10,6 @@ import Link from "next/link";
 
 export const sellerColumn: ColumnDef<SellerType>[] = [
   {
-    accessorKey: "cid",
-    header: "ID",
-    cell: ({ row }) => {
-      return <p className="font-semibold"># {row.original.cid}</p>;
-    },
-  },
-  {
     accessorKey: "name",
     header: ({ column }) => {
       return (
@@ -25,25 +18,8 @@ export const sellerColumn: ColumnDef<SellerType>[] = [
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           NAME
-          <ArrowUpDown className="w-4 h-4 ml-2" />
+          <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
-      );
-    },
-  },
-  {
-    accessorKey: "img",
-    header: "IMAGE",
-    cell: ({ row }) => {
-      return row.original.img ? (
-        <Image
-          className="w-12 rounded-md"
-          width={250}
-          height={250}
-          src={row.original.img}
-          alt="cell image"
-        />
-      ) : (
-        <span className="text-xs">No Image</span>
       );
     },
   },
@@ -76,19 +52,6 @@ export const sellerColumn: ColumnDef<SellerType>[] = [
         />
       ) : (
         <Check color="green" />
-      );
-    },
-  },
-  {
-    accessorKey: "status",
-    header: "STATUS",
-    cell: ({ row }) => {
-      return (
-        <StatusIndicator
-          status={row.original.status}
-          updateStatusUrl={`/seller/change-status/${row.original._id}`}
-          mutationTag="/seller"
-        />
       );
     },
   },

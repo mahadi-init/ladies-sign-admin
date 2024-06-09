@@ -75,23 +75,6 @@ function AdminInfo({ data }: { data?: AdminType }) {
               )}
             </Label>
 
-            <Label htmlFor="address">
-              Address
-              <Input
-                id="address"
-                type="text"
-                defaultValue={data?.address as string}
-                placeholder="Dhanmondi 12"
-                className="mt-2 bg-gray-100"
-                {...register("address", { required: true })}
-              />
-              {errors.address && (
-                <span className="text-xs text-red-700">
-                  {errors.address.message}
-                </span>
-              )}
-            </Label>
-
             <Label htmlFor="phone">
               Phone
               <Input
@@ -100,18 +83,6 @@ function AdminInfo({ data }: { data?: AdminType }) {
                 defaultValue={data?.phone}
                 placeholder="0123456789"
                 className="mt-2 bg-gray-100"
-              />
-            </Label>
-
-            <Label htmlFor="role">
-              Role
-              <Input
-                id="phone"
-                type="text"
-                defaultValue={data?.role}
-                placeholder="Editor"
-                className="mt-2 bg-gray-100"
-                disabled
               />
             </Label>
           </div>
@@ -256,7 +227,7 @@ export default function AdminProfileUI({ id }: { id: string }): JSX.Element {
 
   return (
     <>
-      <div className="flex flex-col gap-8 my-8 xl:flex-row justify-center">
+      <div className="my-8 flex flex-col justify-center gap-8 xl:flex-row">
         <form
           action={updateProfileImage}
           className="flex flex-col items-center"
@@ -280,7 +251,7 @@ export default function AdminProfileUI({ id }: { id: string }): JSX.Element {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 gap-8 w-full">
+      <div className="grid w-full grid-cols-1 gap-8">
         <AdminSecurity password={data?.password} id={data?._id} />
       </div>
     </>

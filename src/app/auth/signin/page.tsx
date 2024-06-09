@@ -19,7 +19,6 @@ import useSWRMutation from "swr/mutation";
 
 export default function Login() {
   const router = useRouter();
-  const [isLoading, setIsLoading] = useState(true);
   const [isAdmin, setIsAdmin] = useState(false);
   const {
     register,
@@ -29,30 +28,18 @@ export default function Login() {
     resolver: zodResolver(AdminSchema),
   });
 
-  // admin login mutation
-  const { trigger: adminLogin, isMutating: isAdminMutating } = useSWRMutation(
-    `/admin/login`,
-    addRequest
-  );
-
-  // seller login mutation
-  const { trigger: sellerLogin, isMutating: isSellerMutating } = useSWRMutation(
-    `/seller/login`,
-    addRequest
+  const { trigger, isMutating } = useSWRMutation(
+    `/auth/login?role=${isAdmin ? "admin" : "seller"}`,
+    addRequest,
   );
 
   const onSubmit: SubmitHandler<any> = async (data) => {
-    if (isAdmin) adminLoginHandler(data);
-    else sellerLoginHandler(data);
-  };
-
-  const adminLoginHandler = async (data: AdminType) => {
     const res: {
       success: boolean;
-      data: AdminType;
+      data: AdminType | SellerType;
       token: string | undefined;
       message: string | undefined;
-    } = await adminLogin(data);
+    } = await trigger(data);
 
     if (res.success === true) {
       setCookie("auth", res.token, {
@@ -60,32 +47,8 @@ export default function Login() {
         secure: true,
       });
 
-      toast.success(
-        `${res.data.name} Successfully Logged in as ${res.data.role}`
-      );
-      router.replace("/dashboard");
-      return;
-    }
-
-    toast.error(res.message);
-  };
-
-  const sellerLoginHandler = async (data: SellerType) => {
-    const res: {
-      success: boolean;
-      data: SellerType;
-      token: string;
-      message: string | undefined;
-    } = await sellerLogin(data);
-
-    if (res.success === true) {
-      setCookie("auth", res.token, {
-        sameSite: "none",
-        secure: true,
-      });
-
-      toast.success(`${res.data.name} Successfully Logged in as Seller`);
-      router.replace("/seller");
+      toast.success(`${res.data.name} Successfully Logged in`);
+      router.replace(isAdmin ? "/dashboard" : "/seller");
       return;
     }
 
@@ -93,7 +56,7 @@ export default function Login() {
   };
 
   return (
-    <div className="p-4 flex justify-evenly items-center w-screen h-screen">
+    <div className="flex h-screen w-screen items-center justify-evenly p-4">
       <div className="w-full max-w-md">
         <div className="space-y-2">
           <h1 className="text-3xl font-bold">Sign in to your account</h1>
@@ -143,25 +106,22 @@ export default function Login() {
             </label>
           </div>
 
-          <SubmitButton
-            isMutating={isAdmin ? isAdminMutating : isSellerMutating}
-            style="w-full"
-          />
+          <SubmitButton isMutating={isMutating} style="w-full" />
         </form>
 
         <div className="flex items-center justify-between">
           <Label className="flex items-center gap-2">
             <Input type="checkbox" onChange={() => setIsAdmin(!isAdmin)} />
-            <p className="text-nowrap -mt-1">Signin as an admin</p>
+            <p className="-mt-1 text-nowrap">Signin as an admin</p>
           </Label>
           <RecoverPassword />
         </div>
       </div>
 
-      <div className="hidden justify-center items-center py-10 px-4 sm:py-16 sm:px-6 lg:flex lg:py-24 lg:px-8">
+      <div className="hidden items-center justify-center px-4 py-10 sm:px-6 sm:py-16 lg:flex lg:px-8 lg:py-24">
         <div>
           <Image
-            className="w-96 h-96"
+            className="h-96 w-96"
             width={900}
             height={900}
             src="/logo.png"
@@ -170,7 +130,7 @@ export default function Login() {
           />
 
           <div className="mx-auto mt-3 w-full max-w-md xl:max-w-xl">
-            <h3 className="text-2xl font-semibold text-center text-black">
+            <h3 className="text-center text-2xl font-semibold text-black">
               Your best place for shopping
             </h3>
           </div>

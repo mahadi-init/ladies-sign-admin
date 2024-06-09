@@ -111,43 +111,6 @@ export default function AdminUI(props: PropTypes) {
           )}
         </label>
 
-        <label className="ml-1 font-medium">
-          Address
-          <Input
-            type="text"
-            className="mt-1 bg-gray-100"
-            placeholder="Enter address"
-            {...register("address")}
-          />
-          {errors.address && (
-            <span className="text-xs text-red-700">
-              {errors.address.message}
-            </span>
-          )}
-        </label>
-
-        <label className="ml-1 font-medium" htmlFor="role">
-          Role <span className="text-red-500">*</span>
-          <select
-            id="role"
-            defaultValue={props.role ?? roles[0]}
-            className="mt-0.5 w-full p-3 bg-gray-100 rounded-md"
-            {...register("role")}
-          >
-            {roles.map((item) => {
-              return (
-                <option
-                  hidden={item.toLowerCase() === props.role?.toLowerCase()}
-                  value={item}
-                  key={item}
-                >
-                  {item}
-                </option>
-              );
-            })}
-          </select>
-        </label>
-
         <ButtonGroup isMutating={props.isMutating} />
       </div>
     </form>

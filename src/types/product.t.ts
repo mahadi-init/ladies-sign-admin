@@ -1,5 +1,4 @@
 import { z } from "zod";
-import { ProductStatusSchema } from "./product-status.t";
 
 export const ProductSchema = z
   .object({

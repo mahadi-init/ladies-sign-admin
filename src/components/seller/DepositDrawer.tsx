@@ -32,18 +32,17 @@ export default function DepositDrawer({ profile }: { profile?: SellerType }) {
     addRequest,
   );
 
-  // FIXME: FIX BKASH SHOWING UNAUTHORIZED ISSUE
   const onSubmit: SubmitHandler<{ amount: string; reference: string }> = async (
     data,
   ) => {
     const customData = {
       mode: "0011",
       payerReference: data.reference,
-      callbackURL: `${site.BACKEND_URL}/bkash/execute-payment/seller/${profile?._id}`,
+      callbackURL: `${site.BACKEND_URL}/bkash/execute-payment?seller=${profile?._id}`,
       amount: data.amount.toString(),
       currency: "BDT",
       intent: "sale",
-      merchantInvoiceNumber: profile?.cid?.toString(),
+      merchantInvoiceNumber: profile?._id,
     };
     const res: { success: boolean; data: BkashPayment } =
       await trigger(customData);
@@ -64,7 +63,7 @@ export default function DepositDrawer({ profile }: { profile?: SellerType }) {
       <DrawerContent>
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className="w-full max-w-sm mx-auto"
+          className="mx-auto w-full max-w-sm"
         >
           <DrawerHeader>
             <DrawerTitle>Are you absolutely sure?</DrawerTitle>

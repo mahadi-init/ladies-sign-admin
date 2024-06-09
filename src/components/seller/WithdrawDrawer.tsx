@@ -20,6 +20,7 @@ import useSWRMutation from "swr/mutation";
 import addRequest from "@/https/add-request";
 import useStatus from "@/hooks/useStatus";
 import SubmitButton from "../native/SubmitButton";
+import { toast } from "sonner";
 
 export default function WithdrawDrawer({ profile }: { profile?: SellerType }) {
   const { register, handleSubmit } = useForm<{
@@ -33,6 +34,15 @@ export default function WithdrawDrawer({ profile }: { profile?: SellerType }) {
     amount: string;
     bkash: string;
   }> = async (data) => {
+    if (
+      profile &&
+      profile.balance &&
+      Number.parseInt(data.amount) > profile?.balance
+    ) {
+      toast.error("Insufficient balance");
+      return;
+    }
+
     const refinedData = {
       ...data,
       message: "Hello sir, i am sending you withdraw request",
@@ -51,7 +61,7 @@ export default function WithdrawDrawer({ profile }: { profile?: SellerType }) {
       <DrawerContent>
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className="w-full max-w-sm mx-auto"
+          className="mx-auto w-full max-w-sm"
         >
           <DrawerHeader>
             <DrawerTitle>Are you absolutely sure?</DrawerTitle>

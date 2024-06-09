@@ -19,17 +19,7 @@ export const getAuthId = async () => {
   return payload.id;
 };
 
-export const getAuthName = async (): Promise<string | unknown> => {
-  const payload = await getAuthInfo();
-  return payload.name;
-};
-
 export const getAuthRole = async () => {
   const payload = await getAuthInfo();
   return payload.role;
-};
-
-export const getAuthStatus = async () => {
-  const payload = await getAuthInfo();
-  return payload.status;
 };

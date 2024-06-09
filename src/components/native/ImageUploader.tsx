@@ -66,7 +66,7 @@ export function ImageUploader({
   return (
     <div
       {...getRootProps()}
-      className="w-fit mx-auto flex flex-col items-center"
+      className="mx-auto flex w-fit flex-col items-center"
     >
       <Image
         src={
@@ -80,7 +80,7 @@ export function ImageUploader({
       />
       <label
         htmlFor="uploadFile1"
-        className="flex flex-col justify-center items-center mx-auto mt-4 w-80 h-24 text-base text-black bg-white rounded border-2 border-gray-300 border-dashed cursor-pointer font-[sans-serif]"
+        className="mx-auto mt-4 flex h-24 w-80 cursor-pointer flex-col items-center justify-center rounded border-2 border-dashed border-gray-300 bg-white font-[sans-serif] text-base text-black"
       >
         <div className="flex flex-col items-center justify-center">
           <FolderPlus />

@@ -49,7 +49,7 @@ export default function AddProduct() {
 
     const data = {
       ...formData,
-      img: imgUrl,
+      thumbnail: imgUrl,
       category: {
         name: category,
       },

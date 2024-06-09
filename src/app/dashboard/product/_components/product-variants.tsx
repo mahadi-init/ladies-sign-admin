@@ -42,6 +42,7 @@ export default function ProductVariants({
           size: item.size,
           quantity: item.quantity,
           price: item.price,
+          sellerPrice: item.sellerPrice,
         });
       });
     }
@@ -68,7 +69,7 @@ export default function ProductVariants({
       setImages(
         res.map((r) => {
           return r.url;
-        })
+        }),
       );
 
       setIsLoading(false);
@@ -86,16 +87,16 @@ export default function ProductVariants({
   });
 
   return (
-    <div className="p-6 bg-gray-100 rounded-lg shadow-md">
-      <div className="flex gap-2 justify-between items-center">
+    <div className="rounded-lg bg-gray-100 p-6 shadow-md">
+      <div className="flex items-center justify-between gap-2">
         <h3 className="text-lg font-medium text-gray-900">Product Variants</h3>
 
-        <div className="space-x-3 flex items-center">
+        <div className="flex items-center space-x-3">
           <a
             type="button"
             className={clsx(
               buttonVariants({ variant: "default" }),
-              "ml-auto cursor-pointer"
+              "ml-auto cursor-pointer",
             )}
             onClick={() => append({})}
           >
@@ -106,9 +107,9 @@ export default function ProductVariants({
 
       {fields.map((field, index) => {
         return (
-          <div key={field.id} className="w-full mt-4">
+          <div key={field.id} className="mt-4 w-full">
             {!hideImages && (
-              <div className="w-full flex flex-col mb-6 items-center">
+              <div className="mb-6 flex w-full flex-col items-center">
                 <Image
                   src={getImage(index)}
                   height={200}
@@ -117,8 +118,7 @@ export default function ProductVariants({
                 />
                 <label
                   htmlFor={`img.${index}`}
-                  className="flex flex-col justify-center items-center mx-auto mt-4 w-80 h-24 text-base text-black bg-white 
-                rounded border-2 border-gray-300 border-dashed cursor-pointer font-[sans-serif]"
+                  className="mx-auto mt-4 flex h-24 w-80 cursor-pointer flex-col items-center justify-center rounded border-2 border-dashed border-gray-300 bg-white font-[sans-serif] text-base text-black"
                 >
                   <Upload />
                   Upload
@@ -135,14 +135,14 @@ export default function ProductVariants({
               </div>
             )}
 
-            <div className="grid items-center w-full grid-cols-1 gap-4 mb-6 lg:grid-cols-2 xl:grid-cols-5">
+            <div className="mb-6 grid w-full grid-cols-1 items-center gap-4 lg:grid-cols-3 xl:grid-cols-6">
               <div className="flex items-center gap-4">
                 <Image src={getImage(index)} height={64} width={64} alt="img" />
 
                 <div className="w-full">
                   <Label
                     htmlFor="colorName"
-                    className="block mb-1 text-sm font-medium"
+                    className="mb-1 block text-sm font-medium"
                   >
                     Color Name <span className="text-red-600">*</span>
                   </Label>
@@ -150,7 +150,7 @@ export default function ProductVariants({
                     id="colorName"
                     key={field.id}
                     defaultValue={data?.colors?.[0]?.name}
-                    className="mt-0.5 w-full p-2 bg-white rounded-md"
+                    className="mt-0.5 w-full rounded-md bg-white p-2"
                     {...register(`variants.${index}.color`, { required: true })}
                   >
                     {data?.colors?.map((color, index) => {
@@ -168,7 +168,7 @@ export default function ProductVariants({
               <div>
                 <label
                   htmlFor="size"
-                  className="block mb-1 text-sm font-medium"
+                  className="mb-1 block text-sm font-medium"
                 >
                   Sizes <span className="text-red-600">*</span>
                 </label>
@@ -176,7 +176,7 @@ export default function ProductVariants({
                   id="size"
                   key={field.id}
                   defaultValue={data?.sizes?.[0]}
-                  className="mt-0.5 w-full p-2 bg-white rounded-md"
+                  className="mt-0.5 w-full rounded-md bg-white p-2"
                   {...register(`variants.${index}.size`, { required: true })}
                 >
                   {data?.sizes?.map((size) => {
@@ -193,7 +193,7 @@ export default function ProductVariants({
               <div>
                 <label
                   htmlFor="quantity"
-                  className="block mb-1 text-sm font-medium "
+                  className="mb-1 block text-sm font-medium"
                 >
                   Quantity <span className="text-red-600">*</span>
                 </label>
@@ -212,7 +212,7 @@ export default function ProductVariants({
               <div>
                 <label
                   htmlFor="price"
-                  className="block mb-1 text-sm font-medium"
+                  className="mb-1 block text-sm font-medium"
                 >
                   Price <span className="text-red-600">*</span>
                 </label>
@@ -223,7 +223,26 @@ export default function ProductVariants({
                   placeholder="Price"
                   {...register(`variants.${index}.price`, { required: true })}
                 />
-                <p className="mt-1 text-xs">Quantity with that color</p>
+                <p className="mt-1 text-xs">variant price</p>
+              </div>
+
+              <div>
+                <label
+                  htmlFor="price"
+                  className="mb-1 block text-sm font-medium"
+                >
+                  Seller Price <span className="text-red-600">*</span>
+                </label>
+                <Input
+                  id="price"
+                  key={field.id}
+                  type="number"
+                  placeholder="Seller Price"
+                  {...register(`variants.${index}.sellerPrice`, {
+                    required: true,
+                  })}
+                />
+                <p className="mt-1 text-xs">variant seller price </p>
               </div>
 
               <Button
@@ -239,19 +258,19 @@ export default function ProductVariants({
       })}
       {fields.length > 0 && (
         <div className="flex justify-end">
-          <div className="flex gap-8 items-center">
+          <div className="flex items-center gap-8">
             <a
               type="button"
               className={clsx(
                 buttonVariants({ variant: "outline" }),
-                "ml-auto cursor-pointer "
+                "ml-auto cursor-pointer",
               )}
               onClick={() => setHideImages(!hideImages)}
             >
               {!hideImages ? (
-                <EyeOffIcon className="w-5 h-5" />
+                <EyeOffIcon className="h-5 w-5" />
               ) : (
-                <EyeIcon className="w-5 h-5" />
+                <EyeIcon className="h-5 w-5" />
               )}
               <span className="ml-1">Images</span>
             </a>
@@ -259,7 +278,7 @@ export default function ProductVariants({
               type="button"
               className={clsx(
                 buttonVariants({ variant: "default" }),
-                "ml-auto cursor-pointer"
+                "ml-auto cursor-pointer",
               )}
               onClick={() => {
                 let count = 0;

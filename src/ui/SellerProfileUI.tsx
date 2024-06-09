@@ -184,7 +184,7 @@ function SellerInfo({ data }: { data?: SellerType }) {
                 className="mt-2 bg-gray-100"
                 disabled
               />
-              <p className="text-xs text-gray-500 mt-1">
+              <p className="mt-1 text-xs text-gray-500">
                 contact with admin to change
               </p>
             </Label>
@@ -194,12 +194,12 @@ function SellerInfo({ data }: { data?: SellerType }) {
               <Input
                 id="text"
                 type="text"
-                defaultValue={data?.cid}
+                defaultValue={data?.phone}
                 placeholder="রেফারেল লিখুন"
                 className="mt-2 bg-gray-100"
                 disabled
               />
-              <p className="text-xs text-gray-500 mt-1">same as id</p>
+              <p className="mt-1 text-xs text-gray-500">same as id</p>
             </Label>
           </div>
         </CardContent>
@@ -344,7 +344,7 @@ export default function SellerProfileUI({ id }: { id: string }): JSX.Element {
 
   return (
     <>
-      <div className="flex flex-col gap-8 my-8 xl:flex-row justify-center">
+      <div className="my-8 flex flex-col justify-center gap-8 xl:flex-row">
         <form
           action={updateProfileImage}
           className="flex flex-col items-center"
@@ -365,7 +365,7 @@ export default function SellerProfileUI({ id }: { id: string }): JSX.Element {
         {data ? <BalanceCard profile={data} /> : <LoadingSkeleton />}
       </div>
 
-      <div className="grid grid-cols-1 gap-8 w-full">
+      <div className="grid w-full grid-cols-1 gap-8">
         <SellerInfo data={data} />
         <SellerSecurity password={data?.password} id={data?._id} />
       </div>
