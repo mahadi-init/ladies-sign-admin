@@ -10,9 +10,9 @@ import { DashboardOrderSummaryType } from "@/types/dashboard.t";
 export default async function Dashboard() {
   const data: any = await Promise.all([
     await fetcher("/dashboard/steadfast-balance"),
-    await fetcher(`/dashboard/amount`),
-    await fetcher(`/dashboard/sales-report`),
-    await fetcher(`/dashboard/most-selling-category`),
+    // await fetcher(`/dashboard/amount`),
+    // await fetcher(`/dashboard/sales-report`),
+    // await fetcher(`/dashboard/most-selling-category`),
     await fetcher(`/dashboard/recent-order`),
   ]);
 
@@ -28,11 +28,11 @@ export default async function Dashboard() {
       {data[0] && data[1] ? (
         <StatisticCards {...statisticData} />
       ) : (
-        <p className="text-red-400 font-semibold text-center">
+        <p className="text-center font-semibold text-red-400">
           Overview data not found
         </p>
       )}
-      <div className="grid grid-cols-1 gap-4 items-center xl:grid-cols-2">
+      <div className="grid grid-cols-1 items-center gap-4 xl:grid-cols-2">
         {data[2] && <SalesStatistics data={data[2]} />}
 
         {data[3] && <MostSellingCategory data={data[3]} />}
@@ -42,7 +42,7 @@ export default async function Dashboard() {
         {data[4] ? (
           <DataTable columns={orderColumn} data={data[4]} />
         ) : (
-          <p className="text-red-400 font-semibold text-center">
+          <p className="text-center font-semibold text-red-400">
             Order data not found
           </p>
         )}

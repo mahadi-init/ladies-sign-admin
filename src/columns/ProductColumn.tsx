@@ -25,8 +25,8 @@ export const productColumn: ColumnDef<ProductType>[] = [
     accessorKey: "thumbnail",
     header: "THUBMAIL",
     cell: ({ row }) => {
-      return row.original.thumbnail ? (
-        <ImagepopOver img={row.original.thumbnail} />
+      return row.original.variants && row.original?.variants[0]?.img ? (
+        <ImagepopOver img={row.original?.variants[0].img} />
       ) : (
         <span className="text-xs">No Image</span>
       );
@@ -36,12 +36,55 @@ export const productColumn: ColumnDef<ProductType>[] = [
     accessorKey: "price",
     header: "PRICE",
     cell: ({ row }) => {
-      return <p>৳ {row.original.price}</p>;
+      if (!row.original.variants) {
+        return 0;
+      }
+
+      let totalPrice = 0;
+      let avgPrice = 0;
+
+      row.original.variants?.map((p) => {
+        totalPrice += p.price;
+      });
+
+      avgPrice = totalPrice / row.original.variants?.length;
+
+      return <p>৳ {avgPrice}</p>;
+    },
+  },
+
+  {
+    accessorKey: "sellerPrice",
+    header: "SELLER PRICE",
+    cell: ({ row }) => {
+      if (!row.original.variants) {
+        return 0;
+      }
+
+      let totalPrice = 0;
+      let avgPrice = 0;
+
+      row.original.variants?.map((p) => {
+        totalPrice += p.sellerPrice;
+      });
+
+      avgPrice = totalPrice / row.original.variants?.length;
+
+      return <p>৳ {avgPrice}</p>;
     },
   },
   {
     accessorKey: "quantity",
     header: "QUANTITY",
+    cell: ({ row }) => {
+      let qty = 0;
+
+      row.original.variants?.map((q) => {
+        qty += q.quantity;
+      });
+
+      return <p>{qty}</p>;
+    },
   },
   {
     accessorKey: "status",

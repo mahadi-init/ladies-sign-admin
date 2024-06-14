@@ -4,14 +4,11 @@ export const ProductSchema = z
   .object({
     _id: z.string(),
     name: z.string().min(3, "Name is too short"),
-    thumbnail: z.string().url(),
     sku: z.string().min(3, "SKU is too short"),
     slug: z.string(),
-    unit: z.string(),
-    price: z.number().min(0),
-    sellerPrice: z.number().min(0),
-    quantity: z.number().min(0),
+    // unit: z.string(),
     description: z.string(),
+    discount: z.number(),
     videoId: z.string(),
     reviews: z.array(z.string()),
     variants: z.array(

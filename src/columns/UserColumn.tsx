@@ -32,31 +32,13 @@ export const userColumn: ColumnDef<UserType>[] = [
       return <p>{row.original.address ?? "-----------"}</p>;
     },
   },
-  {
-    accessorKey: "createdAt",
-    header: "SINCE",
-    cell: ({ row }) => {
-      return (
-        <p className="font-medium">
-          {/* @ts-expect-error */}
-          {new Date(row.original.createdAt).toDateString()}
-        </p>
-      );
-    },
-  },
-  {
-    accessorKey: "status",
-    header: "STATUS",
-    cell: ({ row }) => {
-      return (
-        <StatusIndicator
-          status={row.original.status}
-          updateStatusUrl={`/user/change-status/${row.original._id}`}
-          mutationTag="/user"
-        />
-      );
-    },
-  },
+  // {
+  //   accessorKey: "createdAt",
+  //   header: "SINCE",
+  //   cell: ({ row }) => {
+  //     return <p className="font-medium">{row.original.createdAt}</p>;
+  //   },
+  // },
   {
     id: "actions",
     cell: ({ row }) => (

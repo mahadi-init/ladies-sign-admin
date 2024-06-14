@@ -18,6 +18,54 @@ import useSWR from "swr";
 export default function ProductDetailsDialog({ id }: { id?: string }) {
   const { data: product } = useSWR<ProductType>(`/product/get/${id}`, fetcher);
 
+  const getPrice = () => {
+    if (!product?.variants) {
+      return 0;
+    }
+
+    let totalPrice = 0;
+    let avgPrice = 0;
+
+    product?.variants?.map((p) => {
+      totalPrice += p.price;
+    });
+
+    avgPrice = totalPrice / product?.variants?.length;
+
+    return avgPrice;
+  };
+
+  const getSellerPrice = () => {
+    if (!product?.variants) {
+      return 0;
+    }
+
+    let totalPrice = 0;
+    let avgPrice = 0;
+
+    product?.variants?.map((p) => {
+      totalPrice += p.sellerPrice;
+    });
+
+    avgPrice = totalPrice / product?.variants?.length;
+
+    return avgPrice;
+  };
+
+  const getQuantity = () => {
+    if (!product) {
+      return 0;
+    }
+
+    let qty = 0;
+
+    product.variants?.map((q) => {
+      qty += q.quantity;
+    });
+
+    return qty;
+  };
+
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -56,7 +104,7 @@ export default function ProductDetailsDialog({ id }: { id?: string }) {
                       Price
                     </td>
                     <td className="whitespace-nowrap px-6 py-4">
-                      {product?.price}
+                      {getPrice()}
                     </td>
                   </tr>
 
@@ -80,7 +128,7 @@ export default function ProductDetailsDialog({ id }: { id?: string }) {
                       Seller Price
                     </td>
                     <td className="whitespace-nowrap px-6 py-4">
-                      {product?.sellerPrice}
+                      {getSellerPrice()}
                     </td>
                   </tr>
 
@@ -92,7 +140,7 @@ export default function ProductDetailsDialog({ id }: { id?: string }) {
                       Quantity
                     </td>
                     <td className="whitespace-nowrap px-6 py-4">
-                      {product?.quantity}
+                      {getQuantity()}
                     </td>
                   </tr>
 
@@ -108,15 +156,21 @@ export default function ProductDetailsDialog({ id }: { id?: string }) {
                     </td>
                   </tr>
 
-                  <tr className="border-b border-neutral-200 bg-gray-100">
+                  <tr className="border-b border-neutral-200">
                     <td className="whitespace-nowrap px-6 py-4 font-medium">
-                      9
+                      6
                     </td>
                     <td className="whitespace-nowrap px-6 py-4 font-medium">
-                      Unit
+                      Colors
                     </td>
                     <td className="whitespace-nowrap px-6 py-4">
-                      {product?.unit}
+                      {product?.variants?.map((item, i) => {
+                        return (
+                          <p key={i} className="mb-1">
+                            {i + 1}.{item.color.toUpperCase()}
+                          </p>
+                        );
+                      })}
                     </td>
                   </tr>
                 </tbody>

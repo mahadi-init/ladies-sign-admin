@@ -11,7 +11,7 @@ export default function LogoutButton() {
 
   const handleLogout = async () => {
     deleteCookie("auth");
-    router.replace("/auth/signin");
+    router.replace("/");
   };
 
   return (

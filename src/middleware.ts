@@ -10,33 +10,24 @@ export async function middleware(request: NextRequest) {
     //   throw new Error();
     // }
 
-    // const role = payload.role
-
-    // // auto login
-    // if (request.nextUrl.pathname === "/") {
-    //   if (role === "ADMIN") {
-    //     return NextResponse.redirect(new URL("/dashboard", request.url));
-    //   }
-
-    //   return NextResponse.redirect(new URL("/seller", request.url));
-    // }
-
-    // // to prevent unauthorized access
-    // if (role !== "ADMIN") {
+    // // prevent
+    // if (!payload.role) {
     //   if (request.nextUrl.pathname.startsWith("/dashboard")) {
     //     throw new Error();
     //   }
     // }
-    // if (role !== "SELLER") {
-    //   if (request.nextUrl.pathname.startsWith("/seller")) {
-    //     throw new Error();
+
+    // // auto login
+    // if (request.nextUrl.pathname === "/") {
+    //   if (payload.role) {
+    //     return NextResponse.redirect(new URL("/dashboard", request.url));
     //   }
     // }
   } catch (err: any) {
-    // return NextResponse.redirect(new URL("/auth/signin", request.url));
+    return NextResponse.redirect(new URL("/auth", request.url));
   }
 }
 
-// export const config = {
-//   matcher: ["/", "/dashboard/:path*", "/seller/:path*", "/order/:path*"],
-// };
+export const config = {
+  matcher: ["/", "/dashboard/:path*"],
+};

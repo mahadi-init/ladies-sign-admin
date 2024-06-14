@@ -38,7 +38,7 @@ export default function Invoice({ params }: { params: { id: string } }) {
       </div>
 
       <Button
-        className="flex gap-2 items-center"
+        className="flex items-center gap-2"
         onClick={() => {
           handlePrint(null, () => ref.current);
         }}

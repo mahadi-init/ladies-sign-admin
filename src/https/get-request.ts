@@ -6,6 +6,7 @@ export async function fetcher<T>(
 ): Promise<T> {
   const auth = getAuthCookie();
 
+
   try {
     const res = await fetch(`${site.BACKEND_URL}${args[0]}`, {
       method: "GET",

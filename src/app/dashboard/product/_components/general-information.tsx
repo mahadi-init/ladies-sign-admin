@@ -8,18 +8,15 @@ import { z } from "zod";
 const generalInformation = ProductSchema.pick({
   name: true,
   description: true,
-  price: true,
-  quantity: true,
   sku: true,
   videoId: true,
+  discount: true,
 });
 type GeneralInformationType = z.infer<typeof generalInformation>;
 
 export default function GeneralInformation({
-  children,
   data,
 }: {
-  children: React.ReactNode;
   data?: GeneralInformationType;
 }) {
   const { register } = useFormContext<ProductType>();
@@ -28,7 +25,6 @@ export default function GeneralInformation({
     <div className="rounded-lg bg-gray-100 p-6 shadow">
       <div className="mb-6">
         <h2 className="mb-2 text-xl font-semibold">General</h2>
-        {children}
         <div className="grid grid-cols-1 gap-4">
           <div>
             <label className="mb-1 block text-sm font-medium" htmlFor="title">
@@ -60,7 +56,20 @@ export default function GeneralInformation({
         </div>
       </div>
 
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
+        <div>
+          <label className="mb-1 block text-sm font-medium" htmlFor="sku">
+            Discount
+          </label>
+          <Input
+            type="text"
+            id="sku"
+            defaultValue={data?.sku}
+            placeholder="Discount"
+            {...register("discount", { required: false })}
+          />
+          <p className="mt-1 text-xs text-gray-500">Enter the product SKU.</p>
+        </div>
         <div>
           <label className="mb-1 block text-sm font-medium" htmlFor="sku">
             SKU

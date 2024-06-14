@@ -16,7 +16,7 @@ interface TableUIWrapperProps<T> {
   columns: ColumnDef<T, unknown>[];
 }
 
-export default function TableUIWrapper<T extends { status?: boolean }>({
+export default function TableUIWrapper<T>({
   route,
   columns,
 }: TableUIWrapperProps<T>) {
@@ -71,15 +71,15 @@ export default function TableUIWrapper<T extends { status?: boolean }>({
     return <FetchErrorMessage error={error} />;
   }
 
-  // filter by dropdown
-  const handleDropdown = (status: string) => {
-    if (status === "ALL") {
-      setFilteredItems(data);
-    } else {
-      const temp = status === "ACTIVE" ? true : false;
-      setFilteredItems(data?.filter((item) => item.status === temp));
-    }
-  };
+  // // filter by dropdown
+  // const handleDropdown = (status: string) => {
+  //   if (status === "ALL") {
+  //     setFilteredItems(data);
+  //   } else {
+  //     const temp = status === "ACTIVE" ? true : false;
+  //     setFilteredItems(data?.filter((item) => item.status === temp));
+  //   }
+  // };
 
   return (
     <div className="mt-4 flex w-full flex-col gap-4">

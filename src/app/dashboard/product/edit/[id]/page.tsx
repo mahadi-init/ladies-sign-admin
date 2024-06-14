@@ -2,7 +2,6 @@
 import { Breadcrumbs } from "@/components/native/Breadcrumbs";
 import ButtonGroup from "@/components/native/ButtonGroup";
 import FetchErrorMessage from "@/components/native/FetchErrorMessage";
-import { ImageUploader } from "@/components/native/ImageUploader";
 import PageTop from "@/components/native/PageTop";
 import useStatus from "@/hooks/useStatus";
 import addRequest from "@/https/add-request";
@@ -25,16 +24,16 @@ export default function EditProduct({ params }: { params: { id: string } }) {
     error,
   } = useSWR<ProductType>(`/product/get/${params.id}`, fetcher);
   const methods = useForm();
-  const [imgUrl, setImgUrl] = useState<string>();
   const [isLoading, setIsLoading] = useState(false);
   const [images, setImages] = useState<string[]>();
-  const { trigger, isMutating } = useSWRMutation("/product/add", addRequest);
+  const { trigger, isMutating } = useSWRMutation(
+    `/product/edit${params.id}`,
+    addRequest,
+  );
   const { showStatus } = useStatus();
 
   useEffect(() => {
     if (data) {
-      setImgUrl(data.thumbnail);
-
       // set images
       let images = data.variants?.map((item) => {
         return item.img;
@@ -45,14 +44,6 @@ export default function EditProduct({ params }: { params: { id: string } }) {
   }, [data]);
 
   const onSubmit = async (formData: ProductType) => {
-    if (!imgUrl) {
-      toast.error("Please select an image for the product");
-      return;
-    }
-
-    console.log(formData.variants?.length);
-    console.log(images);
-
     if (images?.length !== formData.variants?.length) {
       toast.error("Upload images for variants properly");
       return;
@@ -71,7 +62,6 @@ export default function EditProduct({ params }: { params: { id: string } }) {
 
     const data = {
       ...formData,
-      img: imgUrl,
       variants: refinedVariants,
     };
 
@@ -95,19 +85,8 @@ export default function EditProduct({ params }: { params: { id: string } }) {
             onSubmit={methods.handleSubmit(onSubmit)}
             className="mb-4 mt-4 flex w-full flex-col gap-4"
           >
-            <GeneralInformation data={data}>
-              <div className="flex flex-col justify-evenly pb-2 xl:flex-row xl:items-center">
-                <div className="flex flex-col items-center">
-                  <ImageUploader
-                    imgUrl={data?.thumbnail}
-                    setIsLoading={setIsLoading}
-                    setImgUrl={setImgUrl}
-                    endpoint="product"
-                  />
-                </div>
-              </div>
-            </GeneralInformation>
-            {/* <AdditionalKeyValue /> */}
+            <GeneralInformation data={data} />
+            <AdditionalKeyValue />
             <ProductVariants
               setIsLoading={setIsLoading}
               setImages={setImages}

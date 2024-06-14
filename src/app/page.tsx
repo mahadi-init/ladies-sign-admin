@@ -1,40 +1,113 @@
 "use client";
-import { buttonVariants } from "@/components/ui/button";
-import clsx from "clsx";
+import RecoverPassword from "@/components/native/RecoverPassword";
+import SubmitButton from "@/components/native/SubmitButton";
+import { Input } from "@/components/ui/input";
+import addRequest from "@/https/add-request";
+import { AdminSchema, AdminType } from "@/types/admin.t";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { setCookie } from "cookies-next";
 import Image from "next/image";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { toast } from "sonner";
+import useSWRMutation from "swr/mutation";
 
 export default function Login() {
   const router = useRouter();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<AdminType>({
+    resolver: zodResolver(AdminSchema),
+  });
+
+  const { trigger, isMutating } = useSWRMutation(
+    `/auth/login?role=admin`,
+    addRequest,
+  );
+
+  const onSubmit: SubmitHandler<any> = async (data) => {
+    const res: {
+      success: boolean;
+      data: AdminType;
+      token: string | undefined;
+      message: string | undefined;
+    } = await trigger(data);
+
+    console.log(res.token);
+
+    if (res.success === true) {
+      setCookie("auth", res.token, {
+        sameSite: "none",
+        secure: true,
+      });
+
+      toast.success(`${res.data.name} Successfully Logged in`);
+      router.replace("/dashboard");
+      return;
+    }
+
+    toast.error(res.message);
+  };
 
   return (
-    <div className="p-4 flex justify-evenly items-center w-screen h-screen">
+    <div className="flex h-screen w-screen items-center justify-evenly p-4">
       <div className="w-full max-w-md">
-        <p className="text-4xl font-serif font-bold text-center mb-8 text-amber-500">
-          WELCOME
-        </p>
+        <div className="space-y-2">
+          <h1 className="text-3xl font-bold">Sign in to your account</h1>
+        </div>
 
-        <div className="w-full flex flex-col gap-8">
-          <Link
-            href="/auth/signin"
-            className={clsx("w-full", buttonVariants({ variant: "default" }))}
-          >
-            Login
-          </Link>
-          <Link
-            href="/auth/signup"
-            className={clsx("w-full", buttonVariants({ variant: "default" }))}
-          >
-            Signup
-          </Link>
+        <form onSubmit={handleSubmit(onSubmit)} className="mt-6 space-y-5">
+          <label htmlFor="phone" className="ml-1 font-medium">
+            Phone Number <span className="text-red-600">*</span>
+            <Input
+              id="tel"
+              type="phone"
+              placeholder="Enter Phone"
+              className="mt-2.5"
+              {...register("phone", { required: true })}
+            />
+            {errors.phone && (
+              <span className="text-xs text-red-700">
+                {errors.phone.message}
+              </span>
+            )}
+          </label>
+
+          <div className="space-y-5">
+            <label
+              htmlFor="password"
+              className="text-base font-medium text-gray-900"
+            >
+              Password <span className="text-red-600">*</span>
+              <Input
+                id="password"
+                type="password"
+                placeholder="Enter strong password"
+                className="mt-2.5"
+                {...register("password", { required: true })}
+              />
+              {errors.password && (
+                <span className="text-xs text-red-700">
+                  {errors.password.message}
+                </span>
+              )}
+            </label>
+          </div>
+
+          <SubmitButton isMutating={isMutating} style="w-full" />
+        </form>
+
+        <div className="flex justify-end">
+          <RecoverPassword />
         </div>
       </div>
 
-      <div className="hidden justify-center items-center py-10 px-4 sm:py-16 sm:px-6 lg:flex lg:py-24 lg:px-8">
+      <div className="hidden items-center justify-center px-4 py-10 sm:px-6 sm:py-16 lg:flex lg:px-8 lg:py-24">
         <div>
           <Image
-            className="w-96 h-96"
+            className="h-96 w-96"
             width={900}
             height={900}
             src="/logo.png"
@@ -43,7 +116,7 @@ export default function Login() {
           />
 
           <div className="mx-auto mt-3 w-full max-w-md xl:max-w-xl">
-            <h3 className="text-2xl font-semibold text-center text-black">
+            <h3 className="text-center text-2xl font-semibold text-black">
               Your best place for shopping
             </h3>
           </div>

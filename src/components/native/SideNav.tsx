@@ -40,7 +40,7 @@ export default function Sidenav(): JSX.Element {
 
   const handleLogout = async () => {
     deleteCookie("auth");
-    router.replace("/auth/signin");
+    router.replace("/");
   };
 
   return (

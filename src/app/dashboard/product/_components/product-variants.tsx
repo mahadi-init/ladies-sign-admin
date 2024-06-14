@@ -45,6 +45,15 @@ export default function ProductVariants({
           sellerPrice: item.sellerPrice,
         });
       });
+    } else {
+      append({
+        color: null,
+        img: null,
+        size: null,
+        quantity: null,
+        price: null,
+        sellerPrice: null,
+      });
     }
   }, [append, variantsData]);
 
