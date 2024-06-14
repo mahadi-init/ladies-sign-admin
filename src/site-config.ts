@@ -3,7 +3,4 @@ export const site = {
 
   // for JWT
   JWT_SECRET: process.env.JWT_SECRET as string,
-
-  // bearer token
-  bearer_token: process.env.NEXT_PUBLIC_bearer_token as string,
 };
