@@ -12,11 +12,11 @@ async function updateRequest(url: string, { arg }: { arg: unknown }) {
     const res = await fetch(`${site.BACKEND_URL}${url}`, {
       method: "PATCH",
       body: JSON.stringify(body),
-      // credentials: "include",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${auth}`,
       },
+      credentials: "include",
     });
 
     const data = await res.json();

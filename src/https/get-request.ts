@@ -14,6 +14,7 @@ export async function fetcher<T>(
         "Content-Type": "application/json",
         Authorization: `Bearer ${auth}`,
       },
+      credentials: "include",
     });
 
     const json = await res.json();

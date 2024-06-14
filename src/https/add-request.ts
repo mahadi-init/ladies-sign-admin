@@ -16,7 +16,7 @@ async function addRequest(url: string, { arg }: { arg: unknown }) {
         "Content-Type": "application/json",
         Authorization: `Bearer ${auth}`,
       },
-      // credentials: "include",
+      credentials: "include",
     });
 
     const data = await res.json();
