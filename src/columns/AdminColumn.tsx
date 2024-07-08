@@ -1,9 +1,8 @@
 "use client";
 import DeleteItem from "@/components/native/DeleteItem";
-import { Button } from "@/components/ui/button";
 import { AdminType } from "@/types/admin.t";
 import { ColumnDef } from "@tanstack/react-table";
-import { ArrowUpDown, PencilIcon } from "lucide-react";
+import { PencilIcon } from "lucide-react";
 import Link from "next/link";
 
 export const adminColumn: ColumnDef<AdminType>[] = [
@@ -16,17 +15,7 @@ export const adminColumn: ColumnDef<AdminType>[] = [
   },
   {
     accessorKey: "name",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          NAME
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
-      );
-    },
+    header: "NAME",
   },
   {
     accessorKey: "phone",

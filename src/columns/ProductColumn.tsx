@@ -1,5 +1,4 @@
 "use client";
-import ProductDetailsDialog from "@/app/dashboard/product/_components/product-details-dialog";
 import DeleteItem from "@/components/native/DeleteItem";
 import { ImagepopOver } from "@/components/native/ImagePopOver";
 import { ProductType } from "@/types/product.t";
@@ -19,7 +18,6 @@ export const productColumn: ColumnDef<ProductType>[] = [
   {
     accessorKey: "name",
     header: "NAME",
-    cell: ({ row }) => <ProductDetailsDialog id={row.original._id} />,
   },
   {
     accessorKey: "thumbnail",

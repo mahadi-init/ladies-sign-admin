@@ -1,27 +1,22 @@
 "use client";
 import DeleteItem from "@/components/native/DeleteItem";
 import StatusIndicator from "@/components/native/StatusIndicator";
-import { Button } from "@/components/ui/button";
 import { SellerType } from "@/types/seller.t";
 import { ColumnDef } from "@tanstack/react-table";
-import { ArrowUpDown, Check, PencilIcon } from "lucide-react";
-import Image from "next/image";
+import { Check, PencilIcon } from "lucide-react";
 import Link from "next/link";
 
 export const sellerColumn: ColumnDef<SellerType>[] = [
   {
-    accessorKey: "name",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          NAME
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
-      );
+    accessorKey: "index",
+    header: "INDEX",
+    cell: ({ row }) => {
+      return <p># {row.index + 1}</p>;
     },
+  },
+  {
+    accessorKey: "name",
+    header: "NAME",
   },
   {
     accessorKey: "phone",

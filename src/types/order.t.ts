@@ -1,23 +1,37 @@
 import { z } from "zod";
-import { ProductSchema } from "./product.t";
 
-const OrderSchema = z
+export const CartItemSchema = z
   .object({
     _id: z.string(),
-    personID: z.string(),
     name: z.string(),
-    invoice: z.number(),
-    cart: z.array(ProductSchema),
-    phone: z.string().min(11, "minium 11 characters required"),
-    address: z.string(),
-    subTotal: z.number(),
+    price: z.coerce.number().gt(0, "must be > 0"),
+    quantity: z.coerce.number().gt(0, "must be > 0"),
+    img: z.string(),
+    sku: z.string(),
+  })
+  .partial();
+
+export const OrderSchema = z
+  .object({
+    _id: z.string(),
+    name: z.string().min(2, "Name is too short"),
+    phone: z.string().min(11, "Phone number must be 11 characters"),
+    address: z.string().min(2, "Address is too short"),
+    cart: z.array(CartItemSchema),
     shippingCost: z.number(),
+    subTotal: z.number(),
     total: z.number(),
+    note: z.string(),
     trackingLink: z.string(),
+    consignmentId: z.string(),
+    sellerName: z.string(),
+    sellerId: z.string(),
     status: z.string(),
-    createdAt: z.string().datetime(),
-    updatedAt: z.string().datetime(),
+    confirm: z.string(),
+    createdAt: z.date(),
+    updatedAt: z.date(),
   })
   .partial();
 
 export type OrderType = z.infer<typeof OrderSchema>;
+
