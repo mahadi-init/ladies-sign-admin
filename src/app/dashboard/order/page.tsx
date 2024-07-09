@@ -6,7 +6,7 @@ export default async function Orders() {
   return (
     <>
       <PageTop title="Orders" />
-      <OrderUIWrapper route="/order" columns={orderColumn} />
+      <OrderUIWrapper route="/order" columns={orderColumn as any} />
     </>
   );
 }

@@ -14,14 +14,15 @@ import { SellerType } from "@/types/seller.t";
 import { ArrowDownIcon } from "lucide-react";
 import useSWR from "swr";
 import WithdrawDrawer from "./WithdrawDrawer";
-import { TransactionType, WithdrawType } from "@/types/transaction.t";
+import { TransactionType } from "@/types/transaction.t";
 import DepositDrawer from "./DepositDrawer";
+import { WithdrawType } from "@/types/withdraw.t";
 
 export default function BalanceCard({
   profile,
 }: {
   profile?: SellerType;
-}): JSX.Element {
+}) {
   const { data: deposit } = useSWR<TransactionType>(
     `/transaction/last/${profile?._id}`,
     fetcher,
