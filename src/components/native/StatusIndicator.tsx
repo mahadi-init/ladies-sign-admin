@@ -19,7 +19,7 @@ export default function StatusIndicator({
   const { showStatus } = useStatus();
   const { trigger, isMutating } = useSWRMutation(
     updateStatusUrl,
-    updateRequest
+    updateRequest,
   );
 
   const handleOnClick = async () => {
@@ -30,11 +30,10 @@ export default function StatusIndicator({
   return (
     <Badge
       variant={!variant ? (status ? "default" : "destructive") : "outline"}
-      className="text-xs font-semibold cursor-pointer"
+      className="cursor-pointer text-xs font-semibold"
       onClick={handleOnClick}
     >
-      {!isMutating && !text ? (status ? "ACTIVE" : "INACTIVE") : text}
-      {isMutating && "UPDATING.."}
+      {isMutating ? "UPDATING.." : text ?? (status ? "ACTIVE" : "INACTIVE")}
     </Badge>
   );
 }
