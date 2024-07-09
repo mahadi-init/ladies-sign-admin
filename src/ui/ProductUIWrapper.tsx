@@ -25,10 +25,8 @@ interface TableUIWrapperProps<T> {
 export default function OrderUIWrapper<
   T extends { status?: string; confirm?: boolean },
 >({ route, columns, statusValue }: TableUIWrapperProps<T>) {
-  const [temp, setTemp] = useState<string>();
   const { replace } = useRouter();
   const pathname = usePathname();
-  const { showStatus } = useStatus();
 
   // using search params
   const searchParams = useSearchParams();
@@ -51,22 +49,19 @@ export default function OrderUIWrapper<
   );
 
   // handle search with 300 ms delay count
-  const handleSearch = useDebouncedCallback(
-    (e: React.KeyboardEvent<HTMLInputElement>) => {
-      const params = new URLSearchParams(searchParams);
-      params.set("index", "1");
+  const handleSearch = useDebouncedCallback((value: string) => {
+    const params = new URLSearchParams(searchParams);
+    params.set("index", "1");
 
-      if (temp && temp !== "") {
-        params.set("filterBy", "search");
-        params.set("search", temp.trim() as string);
-      } else {
-        params.delete("search");
-        params.set("filterBy", "default");
-      }
-      replace(`${pathname}?${params.toString()}`);
-    },
-    300,
-  );
+    if (value && value !== "") {
+      params.set("filterBy", "search");
+      params.set("search", value.trim() as string);
+    } else {
+      params.delete("search");
+      params.set("filterBy", "default");
+    }
+    replace(`${pathname}?${params.toString()}`);
+  }, 300);
 
   if (error) {
     return <FetchErrorMessage error={error} />;
@@ -96,11 +91,6 @@ export default function OrderUIWrapper<
     replace(`${pathname}?${params.toString()}`);
   };
 
-  const refreshDataInfo = async () => {
-    const res = await trigger({});
-    showStatus("/order", "Data refreshed successfully", res);
-  };
-
   return (
     <div className="mt-4 flex w-full flex-col gap-4">
       <div className="mb-4 flex items-center justify-between">
@@ -108,8 +98,7 @@ export default function OrderUIWrapper<
           className="w-fit"
           placeholder="filter item.."
           autoFocus
-          onChange={(e) => setTemp(e.target.value)}
-          onKeyDown={(e) => handleSearch(e)}
+          onChange={(e) => handleSearch(e.target.value)}
           defaultValue={search as string}
         />
 

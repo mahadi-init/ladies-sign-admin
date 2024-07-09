@@ -8,6 +8,7 @@ export const CartItemSchema = z
     quantity: z.coerce.number().gt(0, "must be > 0"),
     img: z.string(),
     sku: z.string(),
+    color: z.string(),
   })
   .partial();
 
@@ -34,4 +35,3 @@ export const OrderSchema = z
   .partial();
 
 export type OrderType = z.infer<typeof OrderSchema>;
-

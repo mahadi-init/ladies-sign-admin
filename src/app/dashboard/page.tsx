@@ -1,19 +1,17 @@
 import { orderColumn } from "@/columns/OrderColumn";
 import PageTop from "@/components/native/PageTop";
-import SixSkeleton from "@/components/native/SixSkeleton";
 import StatisticCards from "@/components/native/StatisticCards";
 import { fetcher } from "@/https/get-request";
 import { DashboardOrderSummaryType } from "@/types/dashboard.t";
 import OrderUIWrapper from "@/ui/OrderUIWrapper";
+import { Statistics } from "./(dashboard)/Statistics";
 
 export default async function Dashboard() {
   const data: any = await Promise.all([
     await fetcher("/dashboard/steadfast-balance"),
     await fetcher(`/dashboard/amount`),
-    await fetcher(`/dashboard/recent-order`),
+    // await fetcher(`/dashboard/sales-per-month`),
   ]);
-
-  if (!data[0] || !data[1]) return <SixSkeleton />;
 
   //@ts-expect-error
   const statisticData: DashboardOrderSummaryType = {
@@ -31,12 +29,12 @@ export default async function Dashboard() {
           Overview data not found
         </p>
       )}
+      {/* <Statistics data={data[2]} /> */}
       <h2 className="mb-4 mt-6 text-xl font-semibold">Mini orders</h2>
       <div className="mt-8">
         <OrderUIWrapper
           route="/order"
           columns={orderColumn as any}
-          confirmValue="NO"
           statusValue="WAITING"
         />
       </div>

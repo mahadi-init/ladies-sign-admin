@@ -39,6 +39,8 @@ export default function Invoice({ params }: { params: { id: string } }) {
 
       <Button
         className="flex items-center gap-2"
+        size="sm"
+        variant="secondary"
         onClick={() => {
           handlePrint(null, () => ref.current);
         }}

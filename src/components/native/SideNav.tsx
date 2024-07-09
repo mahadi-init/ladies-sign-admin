@@ -11,6 +11,8 @@ import {
   BadgeDollarSign,
   BellRing,
   CheckCheck,
+  DollarSign,
+  Landmark,
   LayoutDashboard,
   ListOrdered,
   LogOut,
@@ -32,7 +34,7 @@ export default function Sidenav(): JSX.Element {
   const router = useRouter();
   const [isSideNavOpen, setIsSideNavOpen] = useState(false);
   //FIXME: change
-  const numOfPendingOrder = 2;
+  // const numOfPendingOrder = 2;
 
   const hideSideNav = async () => {
     setIsSideNavOpen(false);
@@ -81,7 +83,7 @@ export default function Sidenav(): JSX.Element {
       <aside
         id="nav-menu-4"
         aria-label="Side navigation"
-        className={`fixed bottom-0 left-0 top-0 z-40 flex w-72 flex-col border-r border-r-slate-200 bg-white transition-transform lg:translate-x-0 ${
+        className={`fixed bottom-0 left-0 top-0 z-40 flex w-48 flex-col border-r border-r-slate-200 bg-white transition-transform lg:translate-x-0 ${
           isSideNavOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >
@@ -145,10 +147,10 @@ export default function Sidenav(): JSX.Element {
                   <div className="flex w-full flex-1 flex-col items-start justify-center gap-0 overflow-hidden truncate text-sm">
                     Orders
                   </div>
-                  <span className="inline-flex items-center justify-center rounded-full bg-pink-100 px-2 text-xs text-pink-500">
-                    {numOfPendingOrder}
-                    <span className="sr-only"> new orders</span>
-                  </span>
+                  {/* <span className="inline-flex items-center justify-center rounded-full bg-pink-100 px-2 text-xs text-pink-500"> */}
+                  {/*   {numOfPendingOrder} */}
+                  {/*   <span className="sr-only"> new orders</span> */}
+                  {/* </span> */}
                 </Link>
               </li>
 
@@ -280,6 +282,48 @@ export default function Sidenav(): JSX.Element {
                   </div>
                 </Link>
               </li>
+            </ul>
+          </div>
+
+          <div>
+            <ul className="flex flex-1 flex-col gap-1 py-3">
+              <li className="px-3">
+                <Link
+                  href="/dashboard/withdraw"
+                  onClick={hideSideNav}
+                  className={clsx(
+                    "flex items-center gap-3 rounded p-3 text-slate-700 transition-colors hover:bg-rose-50 hover:text-rose-500 focus:bg-rose-50",
+                    pathname.includes("withdraw") &&
+                      "bg-purple-100 text-purple-800",
+                  )}
+                >
+                  <div className="flex items-center self-center">
+                    <DollarSign size={18} />
+                  </div>
+                  <div className="flex w-full flex-1 flex-col items-start justify-center gap-0 overflow-hidden truncate text-sm">
+                    Withdraw
+                  </div>
+                </Link>
+              </li>
+
+              <li className="px-3">
+                <Link
+                  href="/dashboard/payment"
+                  onClick={hideSideNav}
+                  className={clsx(
+                    "flex items-center gap-3 rounded p-3 text-slate-700 transition-colors hover:bg-rose-50 hover:text-rose-500 focus:bg-rose-50",
+                    pathname.includes("payment") &&
+                      "bg-purple-100 text-purple-800",
+                  )}
+                >
+                  <div className="flex items-center self-center">
+                    <Landmark size={18} />
+                  </div>
+                  <div className="flex w-full flex-1 flex-col items-start justify-center gap-0 overflow-hidden truncate text-sm">
+                    Payment
+                  </div>
+                </Link>
+              </li>
 
               <li className="px-3">
                 <Link
@@ -297,9 +341,9 @@ export default function Sidenav(): JSX.Element {
                   <div className="flex w-full flex-1 flex-col items-start justify-center gap-0 overflow-hidden truncate text-sm">
                     Notifications
                   </div>
-                  <span className="inline-flex items-center justify-center rounded-full bg-pink-100 px-2 text-xs text-pink-500">
-                    2<span className="sr-only"> new notifications</span>
-                  </span>
+                  {/* <span className="inline-flex items-center justify-center rounded-full bg-pink-100 px-2 text-xs text-pink-500"> */}
+                  {/*   2<span className="sr-only"> new notifications</span> */}
+                  {/* </span> */}
                 </Link>
               </li>
             </ul>

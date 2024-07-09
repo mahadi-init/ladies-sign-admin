@@ -109,7 +109,7 @@ export const orderColumn: ColumnDef<OrderType>[] = [
       return (
         <p className="font-medium">
           {/* @ts-ignore */}
-          {new Date(row.original.createdAt).toLocaleDateString()}
+          {new Date(row.original.createdAt).toDateString()}
         </p>
       );
     },
