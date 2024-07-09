@@ -45,7 +45,7 @@ function SellerInfo({ data }: { data?: SellerType }) {
 
   const onSubmit: SubmitHandler<SellerType> = async (data) => {
     const res = await trigger(data);
-    showStatus("/seller", "Information updated successfully", res);
+    await showStatus("/seller", "Information updated successfully", res);
   };
 
   return (
@@ -240,7 +240,7 @@ function SellerSecurity({ password, id }: { password?: string; id?: string }) {
     }
 
     const res = await trigger({ password: passwords?.newPassword });
-    showStatus("/seller", "Password successfully updated", res);
+    await showStatus("/seller", "Password successfully updated", res);
   };
 
   return (

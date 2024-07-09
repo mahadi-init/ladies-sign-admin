@@ -11,7 +11,7 @@ import { ColumnDef } from "@tanstack/react-table";
 import clsx from "clsx";
 import { RefreshCwIcon } from "lucide-react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import React, { useState } from "react";
+import React from "react";
 import useSWR from "swr";
 import useSWRMutation from "swr/mutation";
 import { useDebouncedCallback } from "use-debounce";
@@ -106,7 +106,7 @@ export default function OrderUIWrapper<
 
   const refreshDataInfo = async () => {
     const res = await trigger({});
-    showStatus("/order", "Data refreshed successfully", res);
+    await showStatus("/order", "Data refreshed successfully", res);
   };
 
   return (

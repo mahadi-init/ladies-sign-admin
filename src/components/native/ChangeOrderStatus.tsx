@@ -38,7 +38,7 @@ export default function ChangeOrderStatus({
         }
 
         const res = await trigger({ status: updateValue });
-        showStatus("/order", "Successfully updated", res);
+        await showStatus("/order", "Successfully updated", res);
       }}
     >
       <Button variant={"outline"} className="font-bold">

@@ -2,7 +2,6 @@
 import ButtonGroup from "@/components/native/ButtonGroup";
 import { ImageUploader } from "@/components/native/ImageUploader";
 import SubmitButton from "@/components/native/SubmitButton";
-import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -46,7 +45,7 @@ function AdminInfo({ data }: { data?: AdminType }) {
 
   const onSubmit: SubmitHandler<AdminType> = async (data) => {
     const res = await trigger(data);
-    showStatus("/admin", "Information updated successfully", res);
+    await showStatus("/admin", "Information updated successfully", res);
   };
 
   return (
@@ -124,7 +123,7 @@ function AdminSecurity({ password, id }: { password?: string; id?: string }) {
     }
 
     const res = await trigger({ password: passwords?.newPassword });
-    showStatus("/admin", "Password successfully updated", res);
+    await showStatus("/admin", "Password successfully updated", res);
   };
 
   return (
@@ -222,7 +221,7 @@ export default function AdminProfileUI({ id }: { id: string }): JSX.Element {
     }
 
     const res = await trigger({ img: image });
-    showStatus("/admin", "Profile image successfully updated", res);
+    await showStatus("/admin", "Profile image successfully updated", res);
   };
 
   return (

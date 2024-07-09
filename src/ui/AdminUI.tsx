@@ -45,7 +45,7 @@ export default function AdminUI(props: PropTypes) {
     };
 
     const res = await props.trigger(refinedData);
-    showStatus("/admin", props.successMessage, res);
+    await showStatus("/admin", props.successMessage, res);
   };
 
   return (

@@ -24,7 +24,7 @@ export default function StatusIndicator({
 
   const handleOnClick = async () => {
     const res = await trigger({ status: !status });
-    showStatus(mutationTag as string, "Status updated successfully", res);
+    await showStatus(mutationTag as string, "Status updated successfully", res);
   };
 
   return (

@@ -44,7 +44,7 @@ export default function SellerUI(props: PropTypes) {
     };
 
     const res = await props.trigger(refinedData);
-    showStatus("/seller", props.successMessage, res);
+    await showStatus("/seller", props.successMessage, res);
   };
 
   return (

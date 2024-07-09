@@ -50,7 +50,7 @@ export default function WithdrawDrawer({ profile }: { profile?: SellerType }) {
     };
 
     const res = await trigger(refinedData);
-    showStatus("/withdraw", "Withdraw request sent successfully", res);
+    await showStatus("/withdraw", "Withdraw request sent successfully", res);
   };
 
   return (

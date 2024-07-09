@@ -83,7 +83,7 @@ export default function TableUIWrapper<T>({
 
   const refreshDataInfo = async () => {
     const res = await trigger({});
-    showStatus(route, "Data refreshed successfully", res);
+    await showStatus(route, "Data refreshed successfully", res);
   };
 
   return (

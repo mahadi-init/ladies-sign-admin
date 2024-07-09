@@ -35,7 +35,7 @@ export default function Login() {
       message: string | undefined;
     } = await trigger(data);
 
-    if (res.success === true) {
+    if (res.success) {
       setCookie("auth", res.token, {
         sameSite: "none",
         secure: true,

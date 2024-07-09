@@ -113,8 +113,8 @@ export default function SellerOrderUIWrapper<T extends { status?: string }>({
           </select>
           <Button
             variant="outline"
-            onClick={() => {
-              mutate();
+            onClick={async() => {
+              await mutate();
             }}
           >
             <RefreshCcw />

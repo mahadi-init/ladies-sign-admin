@@ -25,7 +25,7 @@ export default function DeleteItem(props: PropTypes): JSX.Element {
     const res = await trigger();
 
     if (res.success === true) {
-      mutate(
+      await mutate(
         (key) => typeof key === "string" && key.startsWith(props.validationTag),
         undefined,
         { revalidate: true },

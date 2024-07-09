@@ -289,7 +289,7 @@ export default function ProductVariants({
                 buttonVariants({ variant: "default" }),
                 "ml-auto cursor-pointer",
               )}
-              onClick={() => {
+              onClick={async() => {
                 let count = 0;
 
                 const images = watch("variants")?.map((variant) => {
@@ -304,7 +304,7 @@ export default function ProductVariants({
                   return;
                 }
 
-                startUpload(images);
+                await startUpload(images);
               }}
             >
               Upload All Images

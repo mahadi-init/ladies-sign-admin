@@ -36,7 +36,7 @@ export default function ChangeConfirmationStatus({
         }
 
         const res = await trigger({ confirm: updateValue });
-        showStatus("/order", "Successfully updated", res);
+        await showStatus("/order", "Successfully updated", res);
       }}
     >
       <Button variant={"outline"} className="font-bold">

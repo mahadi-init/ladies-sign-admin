@@ -41,7 +41,7 @@ export default function OrderConfirmationDialog({
 
   const handleSubmit = async () => {
     const res = await trigger(data);
-    showStatus("/order", "Order send successully", res);
+    await showStatus("/order", "Order send successully", res);
   };
 
   return (
