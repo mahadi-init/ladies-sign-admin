@@ -4,7 +4,7 @@ import React, { Suspense } from "react";
 import { Toaster } from "sonner";
 import "./globals.css";
 
-// const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Ladies Sign Admin",
@@ -21,7 +21,7 @@ export default async function RootLayout({
 }) {
   return (
     <html>
-      <body>
+      <body className={inter.className}>
         <Suspense>{children}</Suspense>
         <Toaster position="top-right" richColors />
       </body>

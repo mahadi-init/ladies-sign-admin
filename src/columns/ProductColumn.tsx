@@ -18,6 +18,16 @@ export const productColumn: ColumnDef<ProductType>[] = [
   {
     accessorKey: "name",
     header: "NAME",
+    cell: ({ row }) => {
+      return (
+        <Link
+          href={`/dashboard/product/details/${row.original._id}`}
+          className="font-semibold text-blue-500"
+        >
+          {row.original.name}
+        </Link>
+      );
+    },
   },
   {
     accessorKey: "thumbnail",
@@ -29,6 +39,10 @@ export const productColumn: ColumnDef<ProductType>[] = [
         <span className="text-xs">No Image</span>
       );
     },
+  },
+  {
+    accessorKey: "sku",
+    header: "SKU",
   },
   {
     accessorKey: "price",

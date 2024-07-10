@@ -1,7 +1,6 @@
 "use client";
 import { DataTable } from "@/components/native/DataTable";
-import FetchErrorMessage from "@/components/native/FetchErrorMessage";
-import SixSkeleton from "@/components/native/SixSkeleton";
+import LoadingOrShow from "@/components/native/LoadingOrShow";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import useStatus from "@/hooks/useStatus";
@@ -11,7 +10,6 @@ import { ColumnDef } from "@tanstack/react-table";
 import clsx from "clsx";
 import { RefreshCwIcon } from "lucide-react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import React, { useState } from "react";
 import useSWR from "swr";
 import useSWRMutation from "swr/mutation";
 import { useDebouncedCallback } from "use-debounce";
@@ -62,10 +60,6 @@ export default function TableUIWrapper<T>({
     }
     replace(`${pathname}?${params.toString()}`);
   }, 300);
-
-  if (error) {
-    return <FetchErrorMessage error={error} />;
-  }
 
   const handleLimit = (limit: string) => {
     const params = new URLSearchParams(searchParams);
@@ -155,10 +149,10 @@ export default function TableUIWrapper<T>({
               </div>
             </div>
           </>
-        ) : isLoading ? (
-          <SixSkeleton />
         ) : (
-          <DataTable columns={columns} data={[]} />
+          <LoadingOrShow isLoading={isLoading} error={error}>
+            <DataTable columns={columns} data={[]} />
+          </LoadingOrShow>
         )}
       </div>
     </div>
