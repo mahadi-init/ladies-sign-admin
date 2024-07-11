@@ -16,6 +16,7 @@ import {
   LayoutDashboard,
   ListOrdered,
   LogOut,
+  Settings,
   ShieldHalf,
   ShoppingBasket,
   Star,
@@ -344,6 +345,25 @@ export default function Sidenav(): JSX.Element {
                   {/* <span className="inline-flex items-center justify-center rounded-full bg-pink-100 px-2 text-xs text-pink-500"> */}
                   {/*   2<span className="sr-only"> new notifications</span> */}
                   {/* </span> */}
+                </Link>
+              </li>
+
+              <li className="px-3">
+                <Link
+                  href="/dashboard/settings"
+                  onClick={hideSideNav}
+                  className={clsx(
+                    "flex items-center gap-3 rounded p-3 text-slate-700 transition-colors hover:bg-rose-50 hover:text-rose-500 focus:bg-rose-50",
+                    pathname.includes("settings") &&
+                      "bg-purple-100 text-purple-800",
+                  )}
+                >
+                  <div className="flex items-center self-center">
+                    <Settings size={18} />
+                  </div>
+                  <div className="flex w-full flex-1 flex-col items-start justify-center gap-0 overflow-hidden truncate text-sm">
+                    Settings
+                  </div>
                 </Link>
               </li>
             </ul>

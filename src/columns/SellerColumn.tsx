@@ -17,6 +17,16 @@ export const sellerColumn: ColumnDef<SellerType>[] = [
   {
     accessorKey: "name",
     header: "NAME",
+    cell: ({ row }) => {
+      return (
+        <Link
+          href={`/dashboard/seller/account?id=${row.original._id}&name=${row.original.name}`}
+          className="cursor-pointer font-medium text-blue-600 hover:underline"
+        >
+          {row.original.name}
+        </Link>
+      );
+    },
   },
   {
     accessorKey: "phone",

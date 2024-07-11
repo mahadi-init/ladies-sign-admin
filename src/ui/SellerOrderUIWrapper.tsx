@@ -2,145 +2,193 @@
 import { DataTable } from "@/components/native/DataTable";
 import FetchErrorMessage from "@/components/native/FetchErrorMessage";
 import SixSkeleton from "@/components/native/SixSkeleton";
-import TablePagination from "@/components/native/TablePagination";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import useStatus from "@/hooks/useStatus";
 import { fetcher } from "@/https/get-request";
+import updateRequest from "@/https/update-request";
 import { ColumnDef } from "@tanstack/react-table";
-import { RefreshCcw } from "lucide-react";
-import { useEffect, useState } from "react";
+import clsx from "clsx";
+import { RefreshCwIcon } from "lucide-react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import useSWR from "swr";
+import useSWRMutation from "swr/mutation";
+import { useDebouncedCallback } from "use-debounce";
 
 interface TableUIWrapperProps<T> {
+  auth?: string;
+  route: string;
   columns: ColumnDef<T, unknown>[];
-  orderRoute: string;
-  totalPageRoute: string;
-  searchRoute: string;
 }
 
-export default function SellerOrderUIWrapper<T extends { status?: string }>({
-  columns,
-  orderRoute,
-  totalPageRoute,
-  searchRoute,
-}: TableUIWrapperProps<T>) {
-  const limit = 10;
-  const [index, setIndex] = useState(1);
-  const [temp, setTemp] = useState<string>();
-  const [search, setSearch] = useState<string>();
-  const [filteredItems, setFilteredItems] = useState<T[]>();
+export default function SellerOrderUIWrapper<
+  T extends { status?: string; confirm?: boolean },
+>({ auth, route, columns }: TableUIWrapperProps<T>) {
+  const { replace } = useRouter();
+  const pathname = usePathname();
+  const { showStatus } = useStatus();
 
-  // fetch all data using pagination
-  const { data, error, isLoading, mutate } = useSWR<T[]>(
-    `${orderRoute}?page=${index}&limit=${limit}`,
-    fetcher
+  // using search params
+  const searchParams = useSearchParams();
+  const index = searchParams.get("index") ?? "1";
+  const limit = searchParams.get("limit") ?? "25";
+  const search = searchParams.get("search");
+  const status = searchParams.get("status");
+  const confirm = searchParams.get("confirm");
+  const filterBy = searchParams.get("filterBy") ?? "default";
+
+  // data fetching
+  const { data, error, isLoading } = useSWR<T[]>(
+    `${route}?auth=${auth}&page=${index}&limit=${limit}&filterBy=${filterBy}&search=${search}&status=${status}&confirm=${confirm}`,
+    fetcher,
   );
 
-  // fetch total number of pages
-  const {
-    data: totalPages,
-    error: totalPagesError,
-    isLoading: isTotalPagesLoading,
-  } = useSWR<number>(`${totalPageRoute}`, fetcher);
-
-  // fetch filtered data
-  const { data: filter, isLoading: isSearchLoading } = useSWR<T[]>(
-    search && `${searchRoute}/search?q=${search}`,
-    fetcher
+  // refresh all data
+  const { trigger, isMutating } = useSWRMutation(
+    `${route}/refresh?auth=${auth}`,
+    updateRequest,
   );
 
-  // filter by search
-  useEffect(() => {
-    if (search) {
-      setFilteredItems(filter);
+  // handle search with 300 ms delay count
+  const handleSearch = useDebouncedCallback((value: string) => {
+    const params = new URLSearchParams(searchParams);
+    params.set("index", "1");
+
+    if (value && value !== "") {
+      params.set("filterBy", "search");
+      params.set("search", value.trim() as string);
     } else {
-      setFilteredItems(data);
+      params.delete("search");
+      params.set("filterBy", "default");
     }
-  }, [filter, data, search]);
-
-  // temporary store the input then update after delay
-  useEffect(() => {
-    const timeout = setTimeout(() => {
-      setSearch(temp);
-    }, 500);
-
-    return () => clearTimeout(timeout);
-  }, [temp, search]);
-
-  if (isLoading) {
-    return <SixSkeleton />;
-  }
+    replace(`${pathname}?${params.toString()}`);
+  }, 300);
 
   if (error) {
     return <FetchErrorMessage error={error} />;
   }
 
-  // filter by dropdown
-  const handleDropdown = (status: string) => {
-    if (status === "ALL") {
-      setFilteredItems(data);
-    } else {
-      setFilteredItems(data?.filter((item) => item.status === status));
-    }
+  const handleStatus = (status: string) => {
+    const params = new URLSearchParams(searchParams);
+
+    params.set("index", "1");
+    params.set("filterBy", "status");
+    params.set("status", status as string);
+
+    replace(`${pathname}?${params.toString()}`);
+  };
+
+  const handleLimit = (limit: string) => {
+    const params = new URLSearchParams(searchParams);
+
+    params.set("limit", limit as string);
+    replace(`${pathname}?${params.toString()}`);
+  };
+
+  const handlePagination = (index: number) => {
+    const params = new URLSearchParams(searchParams);
+
+    params.set("index", index.toString());
+    replace(`${pathname}?${params.toString()}`);
+  };
+
+  const refreshDataInfo = async () => {
+    const res = await trigger({});
+    showStatus("/order", "Data refreshed successfully", res);
   };
 
   return (
-    <div className="w-full mt-4 flex flex-col gap-4 ">
-      <div className="mb-4 flex items-center justify-between ">
+    <div className="mt-4 flex w-full flex-col gap-4">
+      <div className="mb-4 flex items-center justify-between">
         <Input
           className="w-fit"
           placeholder="filter item.."
-          onChange={(e) => setTemp(e.target.value)}
+          autoFocus
+          onChange={(e) => handleSearch(e.target.value)}
+          defaultValue={search as string}
         />
+
         <div className="flex gap-2">
-          <select
-            onChange={(e) => handleDropdown(e.target.value)}
-            className="mt-0.5 p-2 bg-gray-100 rounded-md"
-          >
-            <option value="ALL">ALL</option>
-            <option className="text-sky-600" value="PENDING">
-              PENDING
-            </option>
-            <option className="text-yellow-700" value="PROCESSING">
-              PROCESSING
-            </option>
-            <option className="text-green-600" value="DELIVERED">
-              DELIVERED
-            </option>
-            <option className="text-red-600" value="CANCELLED">
-              CANCELLED
-            </option>
-          </select>
+          <div className="flex gap-2">
+            <select
+              onChange={(e) => handleStatus(e.target.value)}
+              className="mt-0.5 rounded-md bg-gray-100 p-2"
+              defaultValue={status as string}
+            >
+              <option value="ALL">ALL</option>
+              <option className="text-sky-600" value="WAITING">
+                WAITING
+              </option>
+              <option className="text-yellow-700" value="PROCESSING">
+                PROCESSING
+              </option>
+              <option className="text-green-600" value="DELIVERED">
+                DELIVERED
+              </option>
+              <option className="text-red-600" value="CANCELLED">
+                CANCELLED
+              </option>
+            </select>
+          </div>
+
           <Button
+            onClick={refreshDataInfo}
             variant="outline"
-            onClick={async() => {
-              await mutate();
-            }}
+            disabled={isMutating}
           >
-            <RefreshCcw />
+            <div className={clsx(isMutating && "animate-spin")}>
+              <RefreshCwIcon size={18} />
+            </div>
           </Button>
         </div>
       </div>
 
       <div className="h-screen">
-        {filteredItems ? (
+        {data ? (
           <>
-            <DataTable columns={columns} data={filteredItems} />
+            <DataTable columns={columns} data={data} />
             <div className="mt-8 flex items-center justify-between">
-              <div className="-mt-6 text-gray-700 font-medium text-sm flex justify-center gap-4">
-                <p>Total pages : </p>
-                <p>{isTotalPagesLoading ? "Loading..." : totalPages}</p>
-                <p className="text-red-700">{totalPagesError && "Failed"}</p>
+              <div className="flex gap-2">
+                <select
+                  onChange={(e) => handleLimit(e.target.value)}
+                  className="mt-0.5 rounded-md bg-gray-100 p-2"
+                  defaultValue={limit}
+                >
+                  <option value="10">10</option>
+                  <option value="25">25</option>
+                  <option value="35">35</option>
+                  <option value="50">50</option>
+                </select>
               </div>
 
-              <TablePagination
-                index={index}
-                setIndex={setIndex}
-                disableNext={isTotalPagesLoading || index === totalPages}
-              />
+              <div className="mb-4 flex gap-2">
+                <Button
+                  variant="outline"
+                  onClick={() => {
+                    let i = parseInt(index);
+
+                    if (i === 1) {
+                      return;
+                    }
+
+                    handlePagination(--i);
+                  }}
+                >
+                  Prev
+                </Button>
+                <Button
+                  variant="outline"
+                  onClick={() => {
+                    let i = parseInt(index);
+                    handlePagination(++i);
+                  }}
+                >
+                  Next
+                </Button>
+              </div>
             </div>
           </>
-        ) : isSearchLoading ? (
+        ) : isLoading ? (
           <SixSkeleton />
         ) : (
           <DataTable columns={columns} data={[]} />
