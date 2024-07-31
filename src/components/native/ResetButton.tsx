@@ -1,5 +1,6 @@
 "use client";
-import { Button } from "../ui/button";
+
+import { Button } from "flowbite-react";
 
 export default function ResetButton({
   style,
@@ -7,7 +8,7 @@ export default function ResetButton({
   style?: string;
 }): JSX.Element {
   return (
-    <Button type="reset" variant="destructive" className={style}>
+    <Button type="reset" color="failure" className={style}>
       Reset
     </Button>
   );

@@ -1,159 +1,46 @@
 "use client";
+import Limit from "@/components/common/limit";
+import TablePagination from "@/components/common/pagination";
+import Search from "@/components/common/search";
 import { DataTable } from "@/components/native/DataTable";
-import LoadingOrShow from "@/components/native/LoadingOrShow";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import useStatus from "@/hooks/useStatus";
-import { fetcher } from "@/https/get-request";
-import updateRequest from "@/https/update-request";
 import { ColumnDef } from "@tanstack/react-table";
-import clsx from "clsx";
-import { RefreshCwIcon } from "lucide-react";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import useSWR from "swr";
-import useSWRMutation from "swr/mutation";
-import { useDebouncedCallback } from "use-debounce";
+import { Button } from "flowbite-react";
+import { PlusIcon } from "lucide-react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 interface TableUIWrapperProps<T> {
-  route: string;
+  data: T[];
   columns: ColumnDef<T, unknown>[];
+  totalPages: number;
 }
 
 export default function TableUIWrapper<T>({
-  route,
+  data,
   columns,
+  totalPages,
 }: TableUIWrapperProps<T>) {
-  const { replace } = useRouter();
   const pathname = usePathname();
-  const { showStatus } = useStatus();
-
-  // using search params
-  const searchParams = useSearchParams();
-  const index = searchParams.get("index") ?? "1";
-  const limit = searchParams.get("limit") ?? "25";
-  const search = searchParams.get("search");
-  const filterBy = searchParams.get("filterBy") ?? "default";
-
-  // data fetching
-  const { data, error, isLoading } = useSWR<T[]>(
-    `${route}/page?page=${index}&limit=${limit}&filterBy=${filterBy}&search=${search}`,
-    fetcher,
-  );
-
-  // refresh all data
-  const { trigger, isMutating } = useSWRMutation(
-    `${route}/refresh`,
-    updateRequest,
-  );
-
-  // handle search with 300 ms delay count
-  const handleSearch = useDebouncedCallback((value: string) => {
-    const params = new URLSearchParams(searchParams);
-    params.set("index", "1");
-
-    if (value && value !== "") {
-      params.set("filterBy", "search");
-      params.set("search", value.trim() as string);
-    } else {
-      params.delete("search");
-      params.set("filterBy", "default");
-    }
-    replace(`${pathname}?${params.toString()}`);
-  }, 300);
-
-  const handleLimit = (limit: string) => {
-    const params = new URLSearchParams(searchParams);
-
-    params.set("limit", limit as string);
-    replace(`${pathname}?${params.toString()}`);
-  };
-
-  const handlePagination = (index: number) => {
-    const params = new URLSearchParams(searchParams);
-
-    params.set("index", index.toString());
-    replace(`${pathname}?${params.toString()}`);
-  };
-
-  const refreshDataInfo = async () => {
-    const res = await trigger({});
-    await showStatus(route, "Data refreshed successfully", res);
-  };
 
   return (
     <div className="mt-4 flex w-full flex-col gap-4">
-      <div className="mb-4 flex items-center justify-between">
-        <Input
-          className="w-fit"
-          placeholder="filter item.."
-          autoFocus
-          onChange={(e) => handleSearch(e.target.value)}
-          defaultValue={search as string}
-        />
-
-        <div className="mt-6 flex gap-2">
-          <Button
-            onClick={refreshDataInfo}
-            variant="outline"
-            disabled={isMutating}
-          >
-            <div className={clsx(isMutating && "animate-spin")}>
-              <RefreshCwIcon size={18} />
-            </div>
+      <div className="flex items-center justify-between">
+        <Search />
+        <Link href={`${pathname}/add`}>
+          <Button color="gray">
+            <PlusIcon className="mr-2 h-5 w-5" />
+            Add
           </Button>
-        </div>
+        </Link>
       </div>
-
       <div className="h-screen">
-        {data ? (
-          <>
-            <DataTable columns={columns} data={data} />
-            <div className="mt-8 flex items-center justify-between">
-              <div className="flex gap-2">
-                <select
-                  onChange={(e) => handleLimit(e.target.value)}
-                  className="mt-0.5 rounded-md bg-gray-100 p-2"
-                  defaultValue={limit}
-                >
-                  <option value="10">10</option>
-                  <option value="25">25</option>
-                  <option value="35">35</option>
-                  <option value="50">50</option>
-                </select>
-              </div>
-
-              <div className="mb-4 flex gap-2">
-                <Button
-                  variant="outline"
-                  onClick={() => {
-                    let i = parseInt(index);
-
-                    if (i === 1) {
-                      return;
-                    }
-
-                    handlePagination(--i);
-                  }}
-                >
-                  Prev
-                </Button>
-                <Button
-                  variant="outline"
-                  onClick={() => {
-                    let i = parseInt(index);
-                    handlePagination(++i);
-                  }}
-                >
-                  Next
-                </Button>
-              </div>
-            </div>
-          </>
-        ) : (
-          <LoadingOrShow isLoading={isLoading} error={error}>
-            <DataTable columns={columns} data={[]} />
-          </LoadingOrShow>
-        )}
+        <DataTable columns={columns} data={data} />
+        <div className="mt-8 flex items-center justify-between">
+          <div className="-mt-6">
+            <Limit />
+          </div>
+          <TablePagination totalPages={totalPages} />
+        </div>
       </div>
     </div>
   );

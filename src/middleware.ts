@@ -1,25 +1,15 @@
-import { NextResponse, type NextRequest } from "next/server";
-import { getAuthInfo } from "./utils/get-auth-info";
+import { auth } from "@/auth";
 
-export async function middleware(request: NextRequest) {
-  try {
-    const payload = await getAuthInfo();
-
-    // basic auth check
-    if (!payload) {
-      throw new Error();
-    }
-
-    // auto login
-    if (request.nextUrl.pathname === "/") {
-      if (payload.role) {
-        return NextResponse.redirect(new URL("/dashboard", request.url));
-      }
-    }
-  } catch (err: any) {
-    return NextResponse.redirect(new URL("/auth", request.url));
+export default auth((req) => {
+  if (!req.auth && req.nextUrl.pathname !== "/") {
+    const newUrl = new URL("/", req.nextUrl.origin);
+    return Response.redirect(newUrl);
   }
-}
+  // else if (req.auth && req.nextUrl.pathname === "/") {
+  //   const newUrl = new URL("/dashboard", req.nextUrl.origin);
+  //   return Response.redirect(newUrl);
+  // }
+});
 
 export const config = {
   matcher: ["/", "/dashboard/:path*"],

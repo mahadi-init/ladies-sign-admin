@@ -12,15 +12,13 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { fetcher } from "@/https/get-request";
-import { SellerType } from "@/types/seller.t";
-import { SubmitHandler, useForm } from "react-hook-form";
-import useSWR from "swr";
-import useSWRMutation from "swr/mutation";
-import addRequest from "@/https/add-request";
 import useStatus from "@/hooks/useStatus";
-import SubmitButton from "../native/SubmitButton";
+import addRequest from "@/https/add-request";
+import { SellerType } from "@/types/seller";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "sonner";
+import useSWRMutation from "swr/mutation";
+import SubmitButton from "../native/SubmitButton";
 
 export default function WithdrawDrawer({ profile }: { profile?: SellerType }) {
   const { register, handleSubmit } = useForm<{

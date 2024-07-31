@@ -1,39 +1,26 @@
 "use client";
-import deleteRequest from "@/https/delete-request";
+import { Response } from "@/types/response";
 import { Trash2 } from "lucide-react";
 import { toast } from "sonner";
-import { useSWRConfig } from "swr";
-import useSWRMutation from "swr/mutation";
 import { Button } from "../ui/button";
 import ConfirmationDialog from "./ConfirmationDialog";
 
-interface PropTypes {
-  queryUrl: string;
-  validationTag: string;
-  successMessage: string;
-}
-
-export default function DeleteItem(props: PropTypes): JSX.Element {
-  const { mutate } = useSWRConfig();
-  const { trigger, isMutating } = useSWRMutation(props.queryUrl, deleteRequest);
-
+export default function DeleteItem<T>({
+  _id,
+  action,
+  message,
+}: {
+  _id?: string;
+  action: (_id?: string) => Promise<Response<T>>;
+  message: string;
+}): JSX.Element {
   const handleFormAction = async () => {
-    if (isMutating) {
-      toast.loading("Deleting...");
-    }
+    const res = await action(_id);
 
-    const res = await trigger();
-
-    if (res.success === true) {
-      await mutate(
-        (key) => typeof key === "string" && key.startsWith(props.validationTag),
-        undefined,
-        { revalidate: true },
-      );
-
-      toast.success(props.successMessage);
+    if (res.success) {
+      toast.success(message);
     } else {
-      toast.error(res?.message);
+      toast.error(res.message);
     }
   };
 
@@ -45,7 +32,7 @@ export default function DeleteItem(props: PropTypes): JSX.Element {
       <Button
         type="button"
         size="icon"
-        className="w-6 h-6"
+        className="h-6 w-6"
         variant="destructive"
       >
         <Trash2 size={16} />

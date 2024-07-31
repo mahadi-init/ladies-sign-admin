@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import useStatus from "@/hooks/useStatus";
 import addRequest from "@/https/add-request";
-import { OrderType } from "@/types/order.t";
+import { OrderType } from "@/types/order";
 import React, { useEffect } from "react";
 import { toast } from "sonner";
 import useSWRMutation from "swr/mutation";

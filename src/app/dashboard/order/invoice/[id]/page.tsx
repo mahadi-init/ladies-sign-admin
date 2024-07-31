@@ -2,7 +2,7 @@
 import InvoiceGenerator from "@/components/native/InvoiceGenerator";
 import { Button } from "@/components/ui/button";
 import { fetcher } from "@/https/get-request";
-import { OrderType } from "@/types/order.t";
+import { OrderType } from "@/types/order";
 import { Printer } from "lucide-react";
 import { useRef } from "react";
 import { useReactToPrint } from "react-to-print";

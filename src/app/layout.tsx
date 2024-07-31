@@ -1,6 +1,7 @@
+import { connectDB } from "@/db/connect";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import React, { Suspense } from "react";
+import React from "react";
 import { Toaster } from "sonner";
 import "./globals.css";
 
@@ -19,10 +20,12 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  await connectDB();
+
   return (
     <html>
       <body className={inter.className}>
-        <Suspense>{children}</Suspense>
+        {children}
         <Toaster position="top-right" richColors />
       </body>
     </html>

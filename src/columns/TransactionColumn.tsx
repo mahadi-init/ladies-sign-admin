@@ -1,8 +1,7 @@
 "use client";
-import ChangeStatus from "@/components/native/ChangeStatus";
 import DeleteItem from "@/components/native/DeleteItem";
+import { TransactionType } from "@/types/transaction";
 import { ColumnDef } from "@tanstack/react-table";
-import { TransactionType } from "@/types/transaction.t";
 
 export const transactionColumn: ColumnDef<TransactionType>[] = [
   {

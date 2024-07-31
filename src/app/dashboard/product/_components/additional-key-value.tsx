@@ -1,8 +1,7 @@
 "use client";
-import { Button, buttonVariants } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { ProductSchema } from "@/types/product.t";
+import { ProductSchema } from "@/types/product";
 import clsx from "clsx";
+import { Button, Card, FloatingLabel } from "flowbite-react";
 import { Trash2 } from "lucide-react";
 import { useEffect } from "react";
 import { useFieldArray, useFormContext } from "react-hook-form";
@@ -34,22 +33,21 @@ export default function AdditionalKeyValue({
   }, [append, data]);
 
   return (
-    <div className="rounded-md border-t border-gray-200 bg-gray-100 p-6">
+    <Card>
       <div className="flex items-center gap-2">
         <h3 className="text-lg font-medium text-gray-900">
           Additional Information
         </h3>
 
-        <a
+        <Button
+          size="md"
           type="button"
-          className={clsx(
-            buttonVariants({ variant: "default" }),
-            "ml-auto cursor-pointer",
-          )}
+          color="success"
+          className={clsx("ml-auto")}
           onClick={() => append({ key: "", value: "" })}
         >
           Add Information
-        </a>
+        </Button>
       </div>
 
       {fields.map((field, index) => (
@@ -59,12 +57,10 @@ export default function AdditionalKeyValue({
             className="mt-4 flex flex-wrap items-center gap-4"
           >
             <div className="w-1/4">
-              <label className="block text-sm font-medium text-gray-700">
-                Key <span className="text-red-600">*</span>
-              </label>
-              <Input
+              <FloatingLabel
+                label="Key"
+                variant="outlined"
                 key={field.id}
-                placeholder="Enter key"
                 {...register(`additionalInformation.${index}.key`, {
                   required: true,
                 })}
@@ -72,22 +68,20 @@ export default function AdditionalKeyValue({
             </div>
 
             <div className="w-6/12 lg:w-7/12 2xl:w-8/12">
-              <label className="block text-sm font-medium text-gray-700">
-                Value <span className="text-red-600">*</span>
-              </label>
-              <Input
+              <FloatingLabel
+                label="Value"
+                variant="outlined"
                 key={field.id}
-                placeholder="Enter value"
                 {...register(`additionalInformation.${index}.value`, {
                   required: true,
                 })}
               />
             </div>
 
-            <div className="mt-4 flex justify-end gap-2">
+            <div className="flex justify-end gap-2">
               <Button
                 type="button"
-                variant="destructive"
+                color="failure"
                 onClick={() => {
                   remove(index);
                 }}
@@ -98,6 +92,6 @@ export default function AdditionalKeyValue({
           </div>
         </>
       ))}
-    </div>
+    </Card>
   );
 }

@@ -1,19 +1,17 @@
 "use client";
 import RecoverPassword from "@/components/native/RecoverPassword";
 import SubmitButton from "@/components/native/SubmitButton";
-import { Input } from "@/components/ui/input";
-import addRequest from "@/https/add-request";
-import { AdminSchema, AdminType } from "@/types/admin.t";
+import { AdminSchema, AdminType } from "@/types/admin";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { setCookie } from "cookies-next";
+import { FloatingLabel } from "flowbite-react";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
+import { useTransition } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "sonner";
-import useSWRMutation from "swr/mutation";
+import { login } from "./auth/action";
 
-export default function Login() {
-  const router = useRouter();
+export default function Signin() {
+  const [isPending, startTransition] = useTransition();
   const {
     register,
     handleSubmit,
@@ -22,31 +20,14 @@ export default function Login() {
     resolver: zodResolver(AdminSchema),
   });
 
-  const { trigger, isMutating } = useSWRMutation(
-    `/auth/login?role=admin`,
-    addRequest,
-  );
+  const onSubmit: SubmitHandler<AdminType> = async (data) => {
+    startTransition(async () => {
+      const res = await login(data.phone, data.password);
 
-  const onSubmit: SubmitHandler<any> = async (data) => {
-    const res: {
-      success: boolean;
-      data: AdminType;
-      token: string | undefined;
-      message: string | undefined;
-    } = await trigger(data);
-
-    if (res.success) {
-      setCookie("auth", res.token, {
-        sameSite: "none",
-        secure: true,
-      });
-
-      toast.success(`${res.data.name} Successfully Logged in`);
-      router.replace("/dashboard");
-      return;
-    }
-
-    toast.error(res.message);
+      if (res && !res.success) {
+        toast.error("Login failed");
+      }
+    });
   };
 
   return (
@@ -57,44 +38,29 @@ export default function Login() {
         </div>
 
         <form onSubmit={handleSubmit(onSubmit)} className="mt-6 space-y-5">
-          <label htmlFor="phone" className="ml-1 font-medium">
-            Phone Number <span className="text-red-600">*</span>
-            <Input
-              id="tel"
-              type="phone"
-              placeholder="Enter Phone"
-              className="mt-2.5"
-              {...register("phone", { required: true })}
-            />
-            {errors.phone && (
-              <span className="text-xs text-red-700">
-                {errors.phone.message}
-              </span>
-            )}
-          </label>
+          <FloatingLabel
+            label="Phone *"
+            variant="outlined"
+            id="tel"
+            type="phone"
+            color={errors.phone && "error"}
+            helperText={errors.phone && errors.phone.message}
+            {...register("phone", { required: true })}
+          />
 
           <div className="space-y-5">
-            <label
-              htmlFor="password"
-              className="text-base font-medium text-gray-900"
-            >
-              Password <span className="text-red-600">*</span>
-              <Input
-                id="password"
-                type="password"
-                placeholder="Enter strong password"
-                className="mt-2.5"
-                {...register("password", { required: true })}
-              />
-              {errors.password && (
-                <span className="text-xs text-red-700">
-                  {errors.password.message}
-                </span>
-              )}
-            </label>
+            <FloatingLabel
+              label="Password *"
+              variant="outlined"
+              id="password"
+              type="password"
+              color={errors.password && "error"}
+              helperText={errors.password && errors.password.message}
+              {...register("password", { required: true })}
+            />
           </div>
 
-          <SubmitButton isMutating={isMutating} style="w-full" />
+          <SubmitButton isMutating={isPending} style="w-full" />
         </form>
 
         <div className="flex justify-end">

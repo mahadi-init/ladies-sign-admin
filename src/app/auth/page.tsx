@@ -1,19 +1,17 @@
 "use client";
+import { signIn } from "@/auth";
 import RecoverPassword from "@/components/native/RecoverPassword";
 import SubmitButton from "@/components/native/SubmitButton";
 import { Input } from "@/components/ui/input";
-import addRequest from "@/https/add-request";
-import { AdminSchema, AdminType } from "@/types/admin.t";
+import { AdminSchema, AdminType } from "@/types/admin";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { setCookie } from "cookies-next";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
+import { useTransition } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "sonner";
-import useSWRMutation from "swr/mutation";
 
 export default function Login() {
-  const router = useRouter();
+  const [isPending, startTransition] = useTransition();
   const {
     register,
     handleSubmit,
@@ -22,31 +20,14 @@ export default function Login() {
     resolver: zodResolver(AdminSchema),
   });
 
-  const { trigger, isMutating } = useSWRMutation(
-    `/auth/login?role=admin`,
-    addRequest,
-  );
+  const onSubmit: SubmitHandler<AdminType> = async (data) => {
+    startTransition(async () => {
+      const res = await signIn(data.phone, data.password);
 
-  const onSubmit: SubmitHandler<any> = async (data) => {
-    const res: {
-      success: boolean;
-      data: AdminType;
-      token: string | undefined;
-      message: string | undefined;
-    } = await trigger(data);
-
-    if (res.success) {
-      setCookie("auth", res.token, {
-        sameSite: "none",
-        secure: true,
-      });
-
-      toast.success(`${res.data.name} Successfully Logged in`);
-      router.replace("/dashboard");
-      return;
-    }
-
-    toast.error(res.message);
+      if (!res) {
+        toast.error("Login failed");
+      }
+    });
   };
 
   return (
@@ -94,7 +75,7 @@ export default function Login() {
             </label>
           </div>
 
-          <SubmitButton isMutating={isMutating} style="w-full" />
+          <SubmitButton isMutating={isPending} style="w-full" />
         </form>
 
         <div className="flex justify-end">

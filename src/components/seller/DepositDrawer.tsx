@@ -11,14 +11,14 @@ import {
 } from "@/components/ui/drawer";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import useSWRMutation from "swr/mutation";
 import addRequest from "@/https/add-request";
 import { site } from "@/site-config";
-import { useRouter } from "next/navigation";
-import { useForm, SubmitHandler } from "react-hook-form";
-import { SellerType } from "@/types/seller.t";
 import { BkashPayment } from "@/types/bkash.t";
+import { SellerType } from "@/types/seller";
+import { useRouter } from "next/navigation";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "sonner";
+import useSWRMutation from "swr/mutation";
 import SubmitButton from "../native/SubmitButton";
 
 export default function DepositDrawer({ profile }: { profile?: SellerType }) {

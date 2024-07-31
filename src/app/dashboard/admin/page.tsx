@@ -1,40 +1,42 @@
-"use client";
-
-import { adminColumn } from "@/columns/AdminColumn";
+import { LoadingDataTable } from "@/components/native/LoadingDataTable";
 import PageTop from "@/components/native/PageTop";
-import addRequest from "@/https/add-request";
-import AdminUI from "@/ui/AdminUI";
 import TableUIWrapper from "@/ui/TableUIWrapper";
-import { useEffect, useState } from "react";
-import useSWRMutation from "swr/mutation";
+import { Suspense } from "react";
+import { adminColumn } from "./column";
+import { adminPagination } from "./data";
 
-export default function AddAdmin() {
-  const [show, setShow] = useState<boolean>();
-  const { trigger, isMutating } = useSWRMutation(`/admin/register`, addRequest);
-
-  useEffect(() => {
-    const showAdmin = localStorage.getItem("show-admin");
-
-    if (showAdmin === "true") {
-      setShow(true);
-    } else {
-      setShow(false);
-    }
-  }, []);
+export default async function Admins({
+  searchParams,
+}: {
+  searchParams: {
+    filterBy: "default" | "search";
+    index: number;
+    limit: number;
+    q: string;
+  };
+}) {
+  const res = await adminPagination(
+    searchParams.filterBy,
+    searchParams.index,
+    searchParams.limit,
+    searchParams.q,
+  );
+  const parsed = JSON.parse(res);
 
   return (
     <>
       <PageTop title="Admins" />
-      <div className="flex flex-col justify-between gap-4 xl:flex-row">
-        {show && (
-          <AdminUI
-            trigger={trigger}
-            isMutating={isMutating}
-            successMessage="Admin added successfully"
-          />
-        )}
-        <TableUIWrapper route="/admin" columns={adminColumn} />
-      </div>
+      <Suspense
+        fallback={
+          <LoadingDataTable columns={adminColumn} data={JSON.parse(res)} />
+        }
+      >
+        <TableUIWrapper
+          data={parsed.data}
+          columns={adminColumn}
+          totalPages={parsed.totalPages}
+        />
+      </Suspense>
     </>
   );
 }

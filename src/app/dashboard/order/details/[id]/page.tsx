@@ -1,7 +1,7 @@
 "use client";
 import { OrderSummary } from "@/components/native/OrderSummary";
 import { fetcher } from "@/https/get-request";
-import { OrderType } from "@/types/order.t";
+import { OrderType } from "@/types/order";
 import useSWR from "swr";
 
 export default function OrderDetails({ params }: { params: { id: string } }) {

@@ -1,10 +1,8 @@
 "use client";
 import ChangeStatus from "@/components/native/ChangeStatus";
 import DeleteItem from "@/components/native/DeleteItem";
-import { WithdrawType } from "@/types/withdraw.t";
+import { WithdrawType } from "@/types/withdraw";
 import { ColumnDef } from "@tanstack/react-table";
-import { PencilIcon } from "lucide-react";
-import Link from "next/link";
 
 export const withdrawColumn: ColumnDef<WithdrawType>[] = [
   {

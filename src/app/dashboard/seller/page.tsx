@@ -1,42 +1,42 @@
-"use client";
-import { sellerColumn } from "@/columns/SellerColumn";
+import { LoadingDataTable } from "@/components/native/LoadingDataTable";
 import PageTop from "@/components/native/PageTop";
-import addRequest from "@/https/add-request";
-import SellerUI from "@/ui/SellerUI";
 import TableUIWrapper from "@/ui/TableUIWrapper";
-import { useEffect, useState } from "react";
-import useSWRMutation from "swr/mutation";
+import { Suspense } from "react";
+import { sellerColumn } from "./column";
+import { sellerPagination } from "./data";
 
-export default function Seller() {
-  const [show, setShow] = useState<boolean>();
-  const { trigger, isMutating } = useSWRMutation(
-    `/seller/register`,
-    addRequest,
+export default async function Sellers({
+  searchParams,
+}: {
+  searchParams: {
+    filterBy: "default" | "search";
+    index: number;
+    limit: number;
+    q: string;
+  };
+}) {
+  const res = await sellerPagination(
+    searchParams.filterBy,
+    searchParams.index,
+    searchParams.limit,
+    searchParams.q,
   );
-
-  useEffect(() => {
-    const showSeller = localStorage.getItem("show-seller");
-
-    if (showSeller === "true") {
-      setShow(true);
-    } else {
-      setShow(false);
-    }
-  }, []);
+  const parsed = JSON.parse(res);
 
   return (
     <>
       <PageTop title="Seller" />
-      <div className="flex flex-col justify-between gap-4 xl:flex-row">
-        {show && (
-          <SellerUI
-            trigger={trigger}
-            isMutating={isMutating}
-            successMessage="Seller add successfully"
-          />
-        )}
-        <TableUIWrapper route="/seller" columns={sellerColumn} />
-      </div>
+      <Suspense
+        fallback={
+          <LoadingDataTable columns={sellerColumn} data={JSON.parse(res)} />
+        }
+      >
+        <TableUIWrapper
+          data={parsed.data}
+          columns={sellerColumn}
+          totalPages={parsed.totalPages}
+        />
+      </Suspense>
     </>
   );
 }

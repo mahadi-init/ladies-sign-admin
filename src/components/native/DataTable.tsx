@@ -1,18 +1,12 @@
 "use client";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
+
 import {
   ColumnDef,
   flexRender,
   getCoreRowModel,
   useReactTable,
 } from "@tanstack/react-table";
+import { Table } from "flowbite-react";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -31,54 +25,56 @@ export function DataTable<TData, TValue>({
 
   return (
     <div className="w-full">
-      <div className="border rounded-md">
-        <Table>
-          <TableHeader>
-            {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow key={headerGroup.id}>
-                {headerGroup.headers.map((header) => {
-                  return (
-                    <TableHead key={header.id}>
-                      {header.isPlaceholder
-                        ? null
-                        : flexRender(
-                            header.column.columnDef.header,
-                            header.getContext()
-                          )}
-                    </TableHead>
-                  );
-                })}
-              </TableRow>
-            ))}
-          </TableHeader>
-          <TableBody>
+      <div className="overflow-x-auto">
+        <Table striped>
+          {table.getHeaderGroups().map((headerGroup) => (
+            <Table.Head key={headerGroup.id}>
+              {headerGroup.headers.map((header) => {
+                return (
+                  <Table.HeadCell key={header.id}>
+                    {header.isPlaceholder
+                      ? null
+                      : flexRender(
+                          header.column.columnDef.header,
+                          header.getContext(),
+                        )}
+                  </Table.HeadCell>
+                );
+              })}
+            </Table.Head>
+          ))}
+          <Table.Body className="divide-y">
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
-                <TableRow
+                <Table.Row
+                  className="bg-white"
                   key={row.id}
                   data-state={row.getIsSelected() && "selected"}
                 >
                   {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>
+                    <Table.Cell
+                      key={cell.id}
+                      className="whitespace-nowrap font-medium text-gray-900"
+                    >
                       {flexRender(
                         cell.column.columnDef.cell,
-                        cell.getContext()
+                        cell.getContext(),
                       )}
-                    </TableCell>
+                    </Table.Cell>
                   ))}
-                </TableRow>
+                </Table.Row>
               ))
             ) : (
-              <TableRow>
-                <TableCell
+              <Table.Row>
+                <Table.Cell
                   colSpan={columns.length}
                   className="h-24 text-center"
                 >
                   No results.
-                </TableCell>
-              </TableRow>
+                </Table.Cell>
+              </Table.Row>
             )}
-          </TableBody>
+          </Table.Body>
         </Table>
       </div>
     </div>

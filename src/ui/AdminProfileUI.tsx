@@ -15,7 +15,7 @@ import useStatus from "@/hooks/useStatus";
 import { fetcher } from "@/https/get-request";
 import updateRequest from "@/https/update-request";
 import { AdminType } from "@/types/admin.t";
-import { SellerSchema } from "@/types/seller.t";
+import { SellerSchema } from "@/types/seller";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";

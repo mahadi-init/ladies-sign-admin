@@ -2,8 +2,7 @@
 import ResetButton from "@/components/native/ResetButton";
 import SubmitButton from "@/components/native/SubmitButton";
 import { Input } from "@/components/ui/input";
-import { LocalResponse } from "@/types/response.t";
-import { UserType } from "@/types/user.t";
+import { UserType } from "@/types/user";
 import Image from "next/image";
 import { toast } from "sonner";
 
@@ -16,7 +15,7 @@ interface PropTypes extends Partial<UserType> {
     queryUrl: string,
     validationTag: string,
     successMessage: string,
-  ) => Promise<LocalResponse>;
+  ) => Promise<any>;
 }
 
 //FIXME: NEED TO WORK ON THIS
@@ -59,7 +58,7 @@ export default function UserUI<T extends PropTypes>(props: T) {
 
   return (
     <form action={handleFormAction} className="w-full">
-      <div className="flex flex-col justify-center items-center my-4 w-full">
+      <div className="my-4 flex w-full flex-col items-center justify-center">
         <Image src="/blocked-sign.png" height={300} width={300} alt="blocked" />
         <p className="text-sm text-red-700">Image Upload not available</p>
       </div>
@@ -143,7 +142,7 @@ export default function UserUI<T extends PropTypes>(props: T) {
           />
         </label> */}
 
-        <div className="flex gap-8 mt-4">
+        <div className="mt-4 flex gap-8">
           <ResetButton />
           <SubmitButton style="w-fit" />
         </div>

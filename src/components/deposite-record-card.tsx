@@ -1,5 +1,5 @@
-import { CardTitle, CardHeader, CardContent, Card } from "@/components/ui/card";
-import { TransactionType } from "@/types/transaction.t";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { TransactionType } from "@/types/transaction";
 import clsx from "clsx";
 
 export function DepositeRecordCard({

@@ -1,10 +1,7 @@
 "use client";
 import DeleteItem from "@/components/native/DeleteItem";
-import StatusIndicator from "@/components/native/StatusIndicator";
-import { UserType } from "@/types/user.t";
+import { UserType } from "@/types/user";
 import { ColumnDef } from "@tanstack/react-table";
-import { PencilIcon } from "lucide-react";
-import Link from "next/link";
 
 export const userColumn: ColumnDef<UserType>[] = [
   {

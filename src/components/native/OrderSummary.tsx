@@ -1,16 +1,16 @@
 import {
-  TableHead,
-  TableRow,
-  TableHeader,
-  TableCell,
-  TableBody,
   Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
 } from "@/components/ui/table";
+import { OrderType } from "@/types/order";
+import { Separator } from "@radix-ui/react-select";
 import { PackageIcon } from "lucide-react";
-import { OrderType } from "@/types/order.t";
 import Link from "next/link";
 import { ImagepopOver } from "./ImagePopOver";
-import { Separator } from "@radix-ui/react-select";
 import SixSkeleton from "./SixSkeleton";
 
 export function OrderSummary({ order }: { order?: OrderType }) {

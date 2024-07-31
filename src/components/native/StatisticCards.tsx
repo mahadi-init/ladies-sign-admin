@@ -1,5 +1,5 @@
 import { Card } from "@/components/ui/card";
-import { DashboardOrderSummaryType } from "@/types/dashboard.t";
+import { DashboardOrderSummaryType } from "@/types/dashboard";
 import { Ban, CircleCheck, Clock3, TrendingUp } from "lucide-react";
 
 export default function StatisticCards(

@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 import useStatus from "@/hooks/useStatus";
 import { fetcher } from "@/https/get-request";
 import updateRequest from "@/https/update-request";
-import { OrderSchema, OrderType } from "@/types/order.t";
+import { OrderSchema, OrderType } from "@/types/order";
 import { getLastSixDigit } from "@/utils/get-last-six-digit";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SubmitHandler, useForm } from "react-hook-form";

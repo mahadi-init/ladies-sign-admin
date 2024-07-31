@@ -1,7 +1,7 @@
 import useStatus from "@/hooks/useStatus";
 import updateRequest from "@/https/update-request";
+import { Badge } from "flowbite-react";
 import useSWRMutation from "swr/mutation";
-import { Badge } from "../ui/badge";
 
 export default function StatusIndicator({
   status,
@@ -29,11 +29,11 @@ export default function StatusIndicator({
 
   return (
     <Badge
-      variant={!variant ? (status ? "default" : "destructive") : "outline"}
-      className="cursor-pointer text-xs font-semibold"
+      color={!variant ? (status ? "" : "failure") : "dark"}
+      className="w-fit cursor-pointer rounded-lg text-xs font-semibold"
       onClick={handleOnClick}
     >
-      {isMutating ? "UPDATING.." : text ?? (status ? "ACTIVE" : "INACTIVE")}
+      {isMutating ? "UPDATING.." : (text ?? (status ? "ACTIVE" : "INACTIVE"))}
     </Badge>
   );
 }

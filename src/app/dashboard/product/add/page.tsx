@@ -2,23 +2,18 @@
 import { Breadcrumbs } from "@/components/native/Breadcrumbs";
 import ButtonGroup from "@/components/native/ButtonGroup";
 import PageTop from "@/components/native/PageTop";
-import useStatus from "@/hooks/useStatus";
-import addRequest from "@/https/add-request";
-import { ProductType } from "@/types/product.t";
+import { ProductType } from "@/types/product";
 import { useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { toast } from "sonner";
-import useSWRMutation from "swr/mutation";
+import AdditionalKeyValue from "../_components/additional-key-value";
 import GeneralInformation from "../_components/general-information";
 import ProductVariants from "../_components/product-variants";
-import AdditionalKeyValue from "../_components/additional-key-value";
 
 export default function AddProduct() {
   const methods = useForm();
   const [isLoading, setIsLoading] = useState(false);
   const [images, setImages] = useState<string[]>();
-  const { trigger, isMutating } = useSWRMutation("/product/add", addRequest);
-  const { showStatus } = useStatus();
 
   const onSubmit = async (formData: ProductType) => {
     if (images?.length !== formData.variants?.length) {
@@ -42,8 +37,8 @@ export default function AddProduct() {
       variants: refinedVariants,
     };
 
-    const res = await trigger(data);
-    showStatus("/product", "Product added sucessfully", res);
+    // const res = await trigger(data);
+    // showStatus("/product", "Product added sucessfully", res);
   };
 
   return (
@@ -64,7 +59,7 @@ export default function AddProduct() {
           <GeneralInformation />
           <AdditionalKeyValue />
           <ProductVariants setIsLoading={setIsLoading} setImages={setImages} />
-          <ButtonGroup isMutating={isMutating} />
+          <ButtonGroup />
         </form>
       </FormProvider>
     </>

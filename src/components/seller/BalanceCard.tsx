@@ -10,19 +10,15 @@ import {
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { fetcher } from "@/https/get-request";
 import { ArrowUpIcon } from "@/icons/ArrowUpIcon";
-import { SellerType } from "@/types/seller.t";
+import { SellerType } from "@/types/seller";
+import { TransactionType } from "@/types/transaction";
+import { WithdrawType } from "@/types/withdraw";
 import { ArrowDownIcon } from "lucide-react";
 import useSWR from "swr";
-import WithdrawDrawer from "./WithdrawDrawer";
-import { TransactionType } from "@/types/transaction.t";
 import DepositDrawer from "./DepositDrawer";
-import { WithdrawType } from "@/types/withdraw.t";
+import WithdrawDrawer from "./WithdrawDrawer";
 
-export default function BalanceCard({
-  profile,
-}: {
-  profile?: SellerType;
-}) {
+export default function BalanceCard({ profile }: { profile?: SellerType }) {
   const { data: deposit } = useSWR<TransactionType>(
     `/transaction/last/${profile?._id}`,
     fetcher,

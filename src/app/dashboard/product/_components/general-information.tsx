@@ -1,7 +1,6 @@
 "use client";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { ProductSchema, ProductType } from "@/types/product.t";
+import { ProductSchema, ProductType } from "@/types/product";
+import { Card, FloatingLabel, Textarea } from "flowbite-react";
 import { useFormContext } from "react-hook-form";
 import { z } from "zod";
 
@@ -19,87 +18,73 @@ export default function GeneralInformation({
 }: {
   data?: GeneralInformationType;
 }) {
-  const { register } = useFormContext<ProductType>();
+  const {
+    register,
+    formState: { errors },
+  } = useFormContext<ProductType>();
 
   return (
-    <div className="rounded-lg bg-gray-100 p-6 shadow">
+    <Card>
       <div className="mb-6">
         <h2 className="mb-2 text-xl font-semibold">General</h2>
         <div className="grid grid-cols-1 gap-4">
-          <div>
-            <label className="mb-1 block text-sm font-medium" htmlFor="title">
-              Name <span className="text-red-500">*</span>
-            </label>
-            <Input
-              type="text"
-              id="title"
-              defaultValue={data?.name}
-              placeholder="Product Title"
-              {...register("name", { required: true })}
-            />
-          </div>
+          <FloatingLabel
+            label="Title *"
+            variant="outlined"
+            type="text"
+            id="title"
+            color={errors.name && "error"}
+            helperText={errors.name && errors.name.message}
+            defaultValue={data?.name}
+            {...register("name", { required: true })}
+          />
 
-          <div>
-            <label
-              className="mb-1 block text-sm font-medium"
-              htmlFor="description"
-            >
-              Description <span className="text-red-500">*</span>
-            </label>
-            <Textarea
-              id="description"
-              defaultValue={data?.description}
-              placeholder="Your Description"
-              {...register("description", { required: true })}
-            />
-          </div>
+          <Textarea
+            id="description"
+            defaultValue={data?.description}
+            placeholder="Product Description"
+            className="bg-white"
+            rows={4}
+            {...register("description", { required: true })}
+          />
         </div>
       </div>
 
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
-        <div>
-          <label className="mb-1 block text-sm font-medium" htmlFor="sku">
-            Discount
-          </label>
-          <Input
-            type="text"
-            id="sku"
-            defaultValue={data?.sku}
-            placeholder="Discount"
-            {...register("discount", { required: false })}
-          />
-          <p className="mt-1 text-xs text-gray-500">Enter the product SKU.</p>
-        </div>
-        <div>
-          <label className="mb-1 block text-sm font-medium" htmlFor="sku">
-            SKU
-          </label>
-          <Input
-            type="text"
-            id="sku"
-            defaultValue={data?.sku}
-            placeholder="SKU"
-            {...register("sku", { required: false })}
-          />
-          <p className="mt-1 text-xs text-gray-500">Enter the product SKU.</p>
-        </div>
+        <FloatingLabel
+          label="Discount"
+          variant="outlined"
+          type="text"
+          id="discount"
+          defaultValue={data?.sku}
+          color={errors.discount && "error"}
+          helperText={errors.discount && errors.discount.message}
+          {...register("discount", { required: false })}
+        />
 
-        <div>
-          <label className="mb-1 block text-sm font-medium" htmlFor="video-id">
-            Youtube Video Id
-          </label>
-          <Input
-            type="url"
-            id="video-id"
-            defaultValue={data?.videoId}
-            placeholder="video id"
-            {...register("videoId", { required: false })}
-          />
-          <p className="mt-1 text-xs text-gray-500">
-            Set the video id of product.
-          </p>
-        </div>
+        <FloatingLabel
+          label="SKU *"
+          variant="outlined"
+          type="text"
+          id="sku"
+          defaultValue={data?.sku}
+          color={errors.sku && "error"}
+          helperText={errors.sku && errors.sku.message}
+          {...register("sku", { required: false })}
+        />
+
+        <FloatingLabel
+          label="Youtube URL"
+          variant="outlined"
+          type="url"
+          id="video-id"
+          defaultValue={data?.videoId}
+          placeholder="video id"
+          color={errors.videoId && "error"}
+          helperText={errors.videoId && errors.videoId.message}
+          {...register("videoId", { required: false })}
+        />
       </div>
-    </div>
+    </Card>
   );
 }

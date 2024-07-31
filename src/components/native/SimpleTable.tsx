@@ -6,7 +6,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import DeleteItem from "./DeleteItem";
 
 type SimpleTableProps = {
   heads: string[];
@@ -42,13 +41,7 @@ export function SimpleTable({ heads, data, tag }: SimpleTableProps) {
               >
                 {datum.code}
               </TableCell>
-              <TableCell className="font-medium">
-                <DeleteItem
-                  successMessage="Deleted Successfully"
-                  validationTag="/extra"
-                  queryUrl={`/extra/delete?${tag}=${datum.name}`}
-                />
-              </TableCell>
+              <TableCell className="font-medium"></TableCell>
             </TableRow>
           ))}
       </TableBody>

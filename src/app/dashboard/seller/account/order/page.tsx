@@ -14,8 +14,8 @@ import {
 import useStatus from "@/hooks/useStatus";
 import addRequest from "@/https/add-request";
 import { fetcher } from "@/https/get-request";
-import { OrderSchema, OrderType } from "@/types/order.t";
-import { ProductType } from "@/types/product.t";
+import { OrderSchema, OrderType } from "@/types/order";
+import { ProductType } from "@/types/product";
 import { convertBengaliToEnglish } from "@/utils/convert-bangla-english";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useSearchParams } from "next/navigation";

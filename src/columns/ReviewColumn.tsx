@@ -2,7 +2,7 @@
 import DeleteItem from "@/components/native/DeleteItem";
 import StatusIndicator from "@/components/native/StatusIndicator";
 import { Button } from "@/components/ui/button";
-import { ReviewType } from "@/types/review.t";
+import { ReviewType } from "@/types/review";
 import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown, Check } from "lucide-react";
 import Image from "next/image";

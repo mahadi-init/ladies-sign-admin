@@ -16,7 +16,7 @@ import { Label } from "@/components/ui/label";
 import useStatus from "@/hooks/useStatus";
 import { fetcher } from "@/https/get-request";
 import updateRequest from "@/https/update-request";
-import { SellerSchema, SellerType } from "@/types/seller.t";
+import { SellerSchema, SellerType } from "@/types/seller";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";

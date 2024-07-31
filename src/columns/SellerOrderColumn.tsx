@@ -1,5 +1,5 @@
 "use client";
-import { OrderType } from "@/types/order.t";
+import { OrderType } from "@/types/order";
 import { ColumnDef } from "@tanstack/react-table";
 import clsx from "clsx";
 import Link from "next/link";

@@ -1,12 +1,6 @@
 "use client";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@radix-ui/react-accordion";
+import { logout } from "@/app/auth/action";
 import clsx from "clsx";
-import { deleteCookie } from "cookies-next";
 import {
   BadgeDollarSign,
   BellRing,
@@ -16,17 +10,16 @@ import {
   LayoutDashboard,
   ListOrdered,
   LogOut,
-  Settings,
   ShieldHalf,
   ShoppingBasket,
   Star,
   User,
   Users,
 } from "lucide-react";
+import { signOut } from "next-auth/react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
-import { toast } from "sonner";
 import { Button } from "../ui/button";
 import ConfirmationDialog from "./ConfirmationDialog";
 
@@ -34,16 +27,13 @@ export default function Sidenav(): JSX.Element {
   const pathname = usePathname();
   const router = useRouter();
   const [isSideNavOpen, setIsSideNavOpen] = useState(false);
-  //FIXME: change
-  // const numOfPendingOrder = 2;
 
   const hideSideNav = async () => {
     setIsSideNavOpen(false);
   };
 
-  const handleLogout = async () => {
-    deleteCookie("auth");
-    router.replace("/");
+  const handleLogout = () => {
+    signOut();
   };
 
   return (
@@ -175,33 +165,22 @@ export default function Sidenav(): JSX.Element {
               </li>
 
               <li className="px-3">
-                <div
+                <Link
+                  href="/dashboard/extra"
+                  onClick={hideSideNav}
                   className={clsx(
-                    "flex items-center gap-3 rounded p-3 text-slate-700 transition-colors hover:bg-rose-50 focus:bg-rose-50",
+                    "flex items-center gap-3 rounded p-3 text-slate-700 transition-colors hover:bg-rose-50 hover:text-rose-500 focus:bg-rose-50",
                     pathname.includes("extra") &&
                       "bg-purple-100 text-purple-800",
                   )}
                 >
-                  <Accordion type="multiple" className="w-full">
-                    <AccordionItem value="item-1">
-                      <AccordionTrigger className="flex w-full gap-2.5">
-                        <div className="flex items-center self-center">
-                          <CheckCheck size={18} />
-                        </div>
-                        <div className="flex w-full flex-1 flex-col items-start justify-center gap-0 overflow-hidden truncate text-sm">
-                          Extra
-                        </div>
-                      </AccordionTrigger>
-                      <AccordionContent className="m-2 hover:text-rose-500">
-                        <Link href={"/dashboard/extra/color"}>- Color</Link>
-                      </AccordionContent>
-
-                      <AccordionContent className="m-2 hover:text-rose-500">
-                        <Link href={"/dashboard/extra/size"}>- Size</Link>
-                      </AccordionContent>
-                    </AccordionItem>
-                  </Accordion>
-                </div>
+                  <div className="flex items-center self-center">
+                    <CheckCheck size={18} />
+                  </div>
+                  <div className="flex w-full flex-1 flex-col items-start justify-center gap-0 overflow-hidden truncate text-sm">
+                    Extra
+                  </div>
+                </Link>
               </li>
             </ul>
           </div>
@@ -347,7 +326,7 @@ export default function Sidenav(): JSX.Element {
                   {/* </span> */}
                 </Link>
               </li>
-
+              {/* 
               <li className="px-3">
                 <Link
                   href="/dashboard/settings"
@@ -365,7 +344,7 @@ export default function Sidenav(): JSX.Element {
                     Settings
                   </div>
                 </Link>
-              </li>
+              </li> */}
             </ul>
           </div>
         </nav>
@@ -373,14 +352,8 @@ export default function Sidenav(): JSX.Element {
         <footer className="border-t border-slate-200 p-3">
           <ConfirmationDialog
             alertText="You will logged out from admin panel"
-            action={() => {
-              toast.promise(handleLogout, {
-                loading: "Loading...",
-                success: () => {
-                  return `Logout successful`;
-                },
-                error: "Error",
-              });
+            action={async () => {
+              await logout();
             }}
           >
             <button className="flex items-center gap-3 rounded p-3 text-slate-900 transition-colors hover:text-rose-500">
@@ -395,14 +368,12 @@ export default function Sidenav(): JSX.Element {
         </footer>
       </aside>
 
-      {/*  <!-- Backdrop --> */}
       <div
         className={`fixed bottom-0 left-0 right-0 top-0 z-30 bg-slate-900/20 transition-colors sm:hidden ${
           isSideNavOpen ? "block" : "hidden"
         }`}
         onClick={() => setIsSideNavOpen(false)}
       ></div>
-      {/*  <!-- End Side navigation menu with user profile and alert message --> */}
     </>
   );
 }

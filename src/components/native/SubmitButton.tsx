@@ -1,30 +1,28 @@
 "use client";
 import { ReloadIcon } from "@radix-ui/react-icons";
-import { Button } from "../ui/button";
+import { Button } from "flowbite-react";
 
 interface SubmitButtonProps {
   text: string;
   style: string;
   isMutating: boolean;
-  variant: "default" | "destructive" | "ghost" | "link" | "outline";
 }
 
 export default function SubmitButton({
   isMutating,
   text,
   style,
-  variant = "default",
 }: Partial<SubmitButtonProps>): JSX.Element {
   return (
     <Button
-      variant={variant}
+      color="success"
       type="submit"
       disabled={isMutating}
       className={style}
     >
       {isMutating ? (
         <>
-          <ReloadIcon className="w-4 h-4 mr-2 animate-spin" />
+          <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />
           <span>Please wait</span>
         </>
       ) : (
