@@ -1,5 +1,4 @@
 "use client";
-import DeleteItem from "@/components/native/DeleteItem";
 import StatusIndicator from "@/components/native/StatusIndicator";
 import { Button } from "@/components/ui/button";
 import { ReviewType } from "@/types/review";
@@ -103,11 +102,11 @@ export const reviewColumn: ColumnDef<ReviewType>[] = [
     id: "actions",
     cell: ({ row }) => (
       <div className="flex items-center gap-8">
-        <DeleteItem
+        {/* <DeleteItem
           queryUrl={`/review/delete/${row.original._id}`}
           validationTag="/review/all"
           successMessage="Review deleted successfully"
-        />
+        /> */}
       </div>
     ),
   },

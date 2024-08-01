@@ -1,20 +1,14 @@
 "use client";
 
 import PageTop from "@/components/native/PageTop";
-import SubmitButton from "@/components/native/SubmitButton";
 import { Input } from "@/components/ui/input";
 import useStatus from "@/hooks/useStatus";
-import { fetcher } from "@/https/get-request";
-import updateRequest from "@/https/update-request";
 import { OrderSchema, OrderType } from "@/types/order";
-import { getLastSixDigit } from "@/utils/get-last-six-digit";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SubmitHandler, useForm } from "react-hook-form";
-import useSWR from "swr";
-import useSWRMutation from "swr/mutation";
 
 export default function EditOrder({ params }: { params: { id: string } }) {
-  const { data } = useSWR<OrderType>(`/order/get/${params.id}`, fetcher);
+  // const { data } = useSWR<OrderType>(`/order/get/${params.id}`, fetcher);
   const { showStatus } = useStatus();
   const {
     register,
@@ -24,14 +18,14 @@ export default function EditOrder({ params }: { params: { id: string } }) {
     resolver: zodResolver(OrderSchema),
   });
 
-  const { trigger, isMutating } = useSWRMutation(
-    `/order/edit/${params.id}`,
-    updateRequest,
-  );
+  // const { trigger, isMutating } = useSWRMutation(
+  //   `/order/edit/${params.id}`,
+  //   updateRequest,
+  // );
 
   const handleUpdate: SubmitHandler<OrderType> = async (data) => {
-    const res = await trigger(data);
-    showStatus("/order", "Order updated successfully", res);
+    // const res = await trigger(data);
+    // showStatus("/order", "Order updated successfully", res);
   };
 
   return (
@@ -39,10 +33,10 @@ export default function EditOrder({ params }: { params: { id: string } }) {
       <PageTop title="Edit Order" />
 
       <div className="mt-8">
-        <p>Invoice: #{getLastSixDigit(data?._id)}</p>
+        {/* <p>Invoice: #{getLastSixDigit(data?._id)}</p> */}
         <p className="flex items-center gap-2">
           Seller Name :{" "}
-          {data?.sellerName ?? <p className="text-red-700">NONE</p>}
+          {/* {data?.sellerName ?? <p className="text-red-700">NONE</p>} */}
         </p>
       </div>
 
@@ -58,7 +52,7 @@ export default function EditOrder({ params }: { params: { id: string } }) {
             type="text"
             id="name"
             placeholder="Enter name"
-            defaultValue={data?.name}
+            // defaultValue={data?.name}
             {...register("name")}
           />
           {errors.name && (
@@ -74,7 +68,7 @@ export default function EditOrder({ params }: { params: { id: string } }) {
             type="text"
             id="phone"
             placeholder="Enter phone"
-            defaultValue={data?.phone}
+            // defaultValue={data?.phone}
             {...register("phone")}
           />
           {errors.phone && (
@@ -90,7 +84,7 @@ export default function EditOrder({ params }: { params: { id: string } }) {
             type="text"
             id="address"
             placeholder="Enter address"
-            defaultValue={data?.address}
+            // defaultValue={data?.address}
             {...register("address")}
           />
           {errors.address && (
@@ -108,7 +102,7 @@ export default function EditOrder({ params }: { params: { id: string } }) {
             type="text"
             id="note"
             placeholder="Enter note"
-            defaultValue={data?.note}
+            // defaultValue={data?.note}
             {...register("note")}
           />
           {errors.note && (
@@ -141,7 +135,7 @@ export default function EditOrder({ params }: { params: { id: string } }) {
           </select>
         </div> */}
 
-        <SubmitButton text="Update" isMutating={isMutating} />
+        {/* <SubmitButton text="Update" isMutating={isMutating} /> */}
       </form>
     </div>
   );

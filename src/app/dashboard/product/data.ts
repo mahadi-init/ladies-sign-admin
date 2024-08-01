@@ -36,7 +36,6 @@ export const productPagination = async (
     // length count
     length = await ProductModel.find({
       $or: [
-        { _id: { $regex: q, $options: "i" } },
         { name: { $regex: q, $options: "i" } },
         { sku: { $regex: q, $options: "i" } },
       ],
@@ -45,7 +44,6 @@ export const productPagination = async (
     // find
     result = await ProductModel.find({
       $or: [
-        { _id: { $regex: q, $options: "i" } },
         { name: { $regex: q, $options: "i" } },
         { sku: { $regex: q, $options: "i" } },
       ],

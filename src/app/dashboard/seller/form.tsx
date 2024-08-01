@@ -3,7 +3,7 @@ import ButtonGroup from "@/components/native/ButtonGroup";
 import { ImageUploader } from "@/components/native/ImageUploader";
 import { SellerSchema, SellerType } from "@/types/seller";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { FloatingLabel } from "flowbite-react";
+import { Label, TextInput } from "flowbite-react";
 import { useEffect, useState, useTransition } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -69,77 +69,121 @@ export default function SellerForm(props: PropTypes) {
       />
 
       <div className="flex flex-col gap-6 p-4">
-        <FloatingLabel
-          label="Name *"
-          variant="outlined"
-          type="text"
-          color={errors.name && "error"}
-          helperText={errors.name && errors.name.message}
-          {...register("name", { required: true })}
-        />
+        <div className="block">
+          <div className="mb-1">
+            <Label htmlFor="name" value="Name *" />
+          </div>
+          <TextInput
+            type="text"
+            id="name"
+            color={errors.name && "error"}
+            placeholder="Enter phone"
+            helperText={errors.name && errors.name.message}
+            {...register("name", { required: true })}
+          />
+        </div>
 
-        <FloatingLabel
-          label="Email"
-          variant="outlined"
-          type="text"
-          color={errors.email && "error"}
-          helperText={errors.email && errors.email.message}
-          {...register("email")}
-        />
+        <div className="block">
+          <div className="mb-1">
+            <Label htmlFor="email" value="Email" />
+          </div>
+          <TextInput
+            id="email"
+            type="text"
+            color={errors.email && "error"}
+            placeholder="Enter email"
+            helperText={errors.email && errors.email.message}
+            {...register("email")}
+          />
+        </div>
 
-        <FloatingLabel
-          label="Phone *"
-          variant="outlined"
-          type="text"
-          color={errors.phone && "error"}
-          helperText={errors.phone && errors.phone.message}
-          {...register("phone", { required: true })}
-        />
+        <div className="block">
+          <div className="mb-1">
+            <Label htmlFor="phone" value="Phone *" />
+          </div>
+          <TextInput
+            type="text"
+            id="phone"
+            color={errors.phone && "error"}
+            placeholder="Enter phone"
+            helperText={errors.phone && errors.phone.message}
+            {...register("phone", { required: true })}
+          />
+        </div>
 
-        <FloatingLabel
-          label="Whatsapp *"
-          variant="outlined"
-          type="text"
-          color={errors.whatsapp && "error"}
-          helperText={errors.whatsapp && errors.whatsapp.message}
-          {...register("whatsapp", { required: true })}
-        />
+        <div className="block">
+          <div className="mb-1">
+            <Label htmlFor="whatsapp" value="Whatsapp *" />
+          </div>
+          <TextInput
+            type="text"
+            id="whatsapp"
+            color={errors.whatsapp && "error"}
+            placeholder="Enter whatsapp"
+            helperText={errors.whatsapp && errors.whatsapp.message}
+            {...register("whatsapp", { required: true })}
+          />
+        </div>
 
-        <FloatingLabel
-          label="Password *"
-          variant="outlined"
-          type="text"
-          color={errors.password && "error"}
-          helperText={errors.password && errors.password.message}
-          {...register("password", { required: true })}
-        />
+        <div className="block">
+          <div className="mb-1">
+            <Label htmlFor="password" value="Password *" />
+          </div>
+          <TextInput
+            type="text"
+            id="password"
+            color={errors.password && "error"}
+            placeholder="Enter password"
+            helperText={errors.password && errors.password.message}
+            {...register("password", { required: true })}
+          />
+        </div>
 
-        <FloatingLabel
-          label="Address *"
-          variant="outlined"
-          type="text"
-          color={errors.address && "error"}
-          helperText={errors.address && errors.address.message}
-          {...register("address", { required: true })}
-        />
+        <div className="block">
+          <div className="block">
+            <div className="mb-1">
+              <Label htmlFor="address" value="Address *" />
+            </div>
+            <TextInput
+              type="text"
+              id="address"
+              color={errors.address && "error"}
+              placeholder="Enter address"
+              helperText={errors.address && errors.address.message}
+              {...register("address", { required: true })}
+            />
+          </div>
+        </div>
 
-        <FloatingLabel
-          label="Facebook Profile *"
-          variant="outlined"
-          type="text"
-          color={errors.facebookProfile && "error"}
-          helperText={errors.facebookProfile && errors.facebookProfile.message}
-          {...register("facebookProfile", { required: true })}
-        />
+        <div className="block">
+          <div className="mb-1">
+            <Label htmlFor="profile" value="Profile *" />
+          </div>
+          <TextInput
+            type="text"
+            id="profile"
+            color={errors.facebookProfile && "error"}
+            placeholder="Enter facebook profile"
+            helperText={
+              errors.facebookProfile && errors.facebookProfile.message
+            }
+            {...register("facebookProfile", { required: true })}
+          />
+        </div>
 
-        <FloatingLabel
-          label="Facebook Page"
-          variant="outlined"
-          type="text"
-          color={errors.facebookPage && "error"}
-          helperText={errors.facebookPage && errors.facebookPage.message}
-          {...register("facebookPage")}
-        />
+        <div className="block">
+          <div className="mb-1">
+            <Label htmlFor="page" value="Page" />
+          </div>
+          <TextInput
+            type="text"
+            id="page"
+            color={errors.facebookPage && "error"}
+            placeholder="Enter facebook page"
+            helperText={errors.facebookPage && errors.facebookPage.message}
+            {...register("facebookPage")}
+          />
+        </div>
 
         <ButtonGroup isMutating={isPending} />
       </div>

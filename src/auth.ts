@@ -22,7 +22,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           throw new Error("User not found.");
         }
 
-        return { role: user.role, id: user._id };
+        return user;
       },
     }),
   ],

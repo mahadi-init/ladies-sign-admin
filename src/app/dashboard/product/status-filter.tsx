@@ -13,6 +13,7 @@ export default function StatusFilter() {
   const handleStatus = (status: string) => {
     const params = new URLSearchParams(searchParams);
 
+    params.set("filterBy", "status");
     params.set("status", status as string);
     replace(`${pathname}?${params.toString()}`);
   };

@@ -1,10 +1,12 @@
 "use client";
+import DeleteItem from "@/components/native/DeleteItem";
 import { ImagepopOver } from "@/components/native/ImagePopOver";
 import { ProductType } from "@/types/product";
 import { ColumnDef } from "@tanstack/react-table";
 import clsx from "clsx";
 import { PencilIcon } from "lucide-react";
 import Link from "next/link";
+import { remove } from "./action";
 
 export const productColumn: ColumnDef<ProductType>[] = [
   {
@@ -123,11 +125,11 @@ export const productColumn: ColumnDef<ProductType>[] = [
         <Link href={`/dashboard/product/edit/${row.original._id}`}>
           <PencilIcon size={16} />
         </Link>
-        {/* <DeleteItem
-          queryUrl={`/product/delete/${row.original._id}`}
-          validationTag="/product"
-          successMessage="Product deleted successfully"
-        /> */}
+        <DeleteItem
+          _id={row.original._id}
+          message="Delete Successful"
+          action={remove}
+        />
       </div>
     ),
   },

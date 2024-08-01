@@ -1,14 +1,17 @@
+import AdminForm from "@/app/dashboard/profile/form";
+import { auth } from "@/auth";
 import PageTop from "@/components/native/PageTop";
-import AdminProfileUI from "@/ui/AdminProfileUI";
-import { getAuthId } from "@/utils/get-auth-info";
+import { AdminType } from "@/types/admin";
+import { getAdminData } from "./data";
 
 export default async function Profile() {
-  const adminID = await getAuthId();
+  const session = await auth();
+  const data = await getAdminData(session?.user.id);
 
   return (
     <>
       <PageTop title="Profile" />
-      <>{adminID && <AdminProfileUI id={adminID as string} />}</>;
+      <AdminForm data={JSON.parse(data) as AdminType} />
     </>
   );
 }

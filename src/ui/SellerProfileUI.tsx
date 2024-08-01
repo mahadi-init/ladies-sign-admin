@@ -1,9 +1,5 @@
 "use client";
-import ButtonGroup from "@/components/native/ButtonGroup";
 import { ImageUploader } from "@/components/native/ImageUploader";
-import LoadingSkeleton from "@/components/native/LoadingSkeleton";
-import SubmitButton from "@/components/native/SubmitButton";
-import BalanceCard from "@/components/seller/BalanceCard";
 import {
   Card,
   CardContent,
@@ -14,21 +10,17 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import useStatus from "@/hooks/useStatus";
-import { fetcher } from "@/https/get-request";
-import updateRequest from "@/https/update-request";
 import { SellerSchema, SellerType } from "@/types/seller";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "sonner";
-import useSWR from "swr";
-import useSWRMutation from "swr/mutation";
 
 function SellerInfo({ data }: { data?: SellerType }) {
-  const { trigger, isMutating } = useSWRMutation(
-    `/seller/edit/${data?._id}`,
-    updateRequest,
-  );
+  // const { trigger, isMutating } = useSWRMutation(
+  //   `/seller/edit/${data?._id}`,
+  //   updateRequest,
+  // );
   const { showStatus } = useStatus();
   const {
     register,
@@ -44,8 +36,8 @@ function SellerInfo({ data }: { data?: SellerType }) {
   }, [reset, data]);
 
   const onSubmit: SubmitHandler<SellerType> = async (data) => {
-    const res = await trigger(data);
-    await showStatus("/seller", "Information updated successfully", res);
+    // const res = await trigger(data);
+    // await showStatus("/seller", "Information updated successfully", res);
   };
 
   return (
@@ -205,7 +197,7 @@ function SellerInfo({ data }: { data?: SellerType }) {
         </CardContent>
 
         <CardFooter className="justify-end">
-          <ButtonGroup isMutating={isMutating} />
+          {/* <ButtonGroup isMutating={isMutating} /> */}
         </CardFooter>
       </form>
     </Card>
@@ -213,10 +205,10 @@ function SellerInfo({ data }: { data?: SellerType }) {
 }
 
 function SellerSecurity({ password, id }: { password?: string; id?: string }) {
-  const { trigger, isMutating } = useSWRMutation(
-    `/seller/change-password/${id}`,
-    updateRequest,
-  );
+  // const { trigger, isMutating } = useSWRMutation(
+  //   `/seller/change-password/${id}`,
+  //   updateRequest,
+  // );
   const { showStatus } = useStatus();
   const [passwords, setPasswords] = useState<{
     currentPassword?: string;
@@ -239,8 +231,8 @@ function SellerSecurity({ password, id }: { password?: string; id?: string }) {
       return;
     }
 
-    const res = await trigger({ password: passwords?.newPassword });
-    await showStatus("/seller", "Password successfully updated", res);
+    // const res = await trigger({ password: passwords?.newPassword });
+    // await showStatus("/seller", "Password successfully updated", res);
   };
 
   return (
@@ -304,7 +296,7 @@ function SellerSecurity({ password, id }: { password?: string; id?: string }) {
         </CardContent>
 
         <CardFooter className="justify-end">
-          <ButtonGroup isMutating={isMutating} />
+          {/* <ButtonGroup isMutating={isMutating} /> */}
         </CardFooter>
       </form>
     </Card>
@@ -312,19 +304,19 @@ function SellerSecurity({ password, id }: { password?: string; id?: string }) {
 }
 
 export default function SellerProfileUI({ id }: { id: string }): JSX.Element {
-  const { data } = useSWR<SellerType>(`/seller/get/${id}`, fetcher);
+  // const { data } = useSWR<SellerType>(`/seller/get/${id}`, fetcher);
   const [image, setImage] = useState<string>();
   const [isLoading, setIsLoading] = useState(false);
   const { showStatus } = useStatus();
 
-  const { trigger, isMutating } = useSWRMutation(
-    `/seller/edit/${data?._id}`,
-    updateRequest,
-  );
+  // const { trigger, isMutating } = useSWRMutation(
+  //   `/seller/edit/${data?._id}`,
+  //   updateRequest,
+  // );
 
-  useEffect(() => {
-    setImage(data?.img);
-  }, [data]);
+  // useEffect(() => {
+  //   setImage(data?.img);
+  // }, [data]);
 
   const updateProfileImage = async () => {
     if (!image) {
@@ -337,9 +329,8 @@ export default function SellerProfileUI({ id }: { id: string }): JSX.Element {
       return;
     }
 
-    const res = await trigger({ img: image });
-
-    showStatus("/seller", "Profile image successfully updated", res);
+    // const res = await trigger({ img: image });
+    // showStatus("/seller", "Profile image successfully updated", res);
   };
 
   return (
@@ -355,19 +346,19 @@ export default function SellerProfileUI({ id }: { id: string }): JSX.Element {
             setImgUrl={setImage}
             endpoint="seller"
           />
-          <SubmitButton
+          {/* <SubmitButton
             isMutating={isMutating}
             style="w-full mt-2"
             text="Update profile picture"
             variant="outline"
-          />
+          /> */}
         </form>
-        {data ? <BalanceCard profile={data} /> : <LoadingSkeleton />}
+        {/* {data ? <BalanceCard profile={data} /> : <LoadingSkeleton />} */}
       </div>
 
       <div className="grid w-full grid-cols-1 gap-8">
-        <SellerInfo data={data} />
-        <SellerSecurity password={data?.password} id={data?._id} />
+        {/* <SellerInfo data={data} /> */}
+        {/* <SellerSecurity password={data?.password} id={data?._id} /> */}
       </div>
     </>
   );

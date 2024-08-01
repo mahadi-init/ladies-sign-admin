@@ -8,26 +8,22 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
-import { fetcher } from "@/https/get-request";
 import { ArrowUpIcon } from "@/icons/ArrowUpIcon";
 import { SellerType } from "@/types/seller";
-import { TransactionType } from "@/types/transaction";
-import { WithdrawType } from "@/types/withdraw";
 import { ArrowDownIcon } from "lucide-react";
-import useSWR from "swr";
 import DepositDrawer from "./DepositDrawer";
 import WithdrawDrawer from "./WithdrawDrawer";
 
 export default function BalanceCard({ profile }: { profile?: SellerType }) {
-  const { data: deposit } = useSWR<TransactionType>(
-    `/transaction/last/${profile?._id}`,
-    fetcher,
-  );
+  // const { data: deposit } = useSWR<TransactionType>(
+  //   `/transaction/last/${profile?._id}`,
+  //   fetcher,
+  // );
 
-  const { data: withdraw } = useSWR<WithdrawType>(
-    `/withdraw/last/${profile?._id}`,
-    fetcher,
-  );
+  // const { data: withdraw } = useSWR<WithdrawType>(
+  //   `/withdraw/last/${profile?._id}`,
+  //   fetcher,
+  // );
 
   return (
     <Card className="flex max-h-[300px] w-full flex-col shadow">
@@ -63,48 +59,48 @@ export default function BalanceCard({ profile }: { profile?: SellerType }) {
       <CardContent>
         <Table>
           <TableBody>
-            {deposit && (
-              <TableRow>
-                <TableCell className="w-1 text-center">
-                  <ArrowUpIcon className="h-4 w-4 text-green-600" />
-                </TableCell>
-                <TableCell className="font-medium">Deposit</TableCell>
-                <TableCell className="font-medium">
-                  {deposit?.paymentID}
-                </TableCell>
-                <TableCell className="font-medium">
-                  {/*@ts-ignore  */}
-                  {new Date(deposit?.createdAt).toDateString()}
-                </TableCell>
-                <TableCell className="font-medium">
-                  {/*@ts-ignore  */}
-                  {new Date(deposit?.createdAt).toLocaleTimeString()}
-                </TableCell>
-                <TableCell className="text-right font-medium">
-                  ৳{deposit?.amount}
-                </TableCell>
-              </TableRow>
-            )}
-            {withdraw && (
-              <TableRow>
-                <TableCell className="w-1 text-center">
-                  <ArrowDownIcon className="h-4 w-4 text-red-600" />
-                </TableCell>
-                <TableCell className="font-medium">Withdraw</TableCell>
-                <TableCell className="font-medium">{withdraw?._id}</TableCell>
-                <TableCell className="font-medium">
-                  {/*@ts-ignore  */}
-                  {new Date(withdraw?.createdAt).toDateString()}
-                </TableCell>
-                <TableCell className="font-medium">
-                  {/*@ts-ignore  */}
-                  {new Date(withdraw?.createdAt).toLocaleTimeString()}
-                </TableCell>
-                <TableCell className="text-right font-medium">
-                  ৳{withdraw?.amount}
-                </TableCell>
-              </TableRow>
-            )}
+            {/* {deposit && ( */}
+            <TableRow>
+              <TableCell className="w-1 text-center">
+                <ArrowUpIcon className="h-4 w-4 text-green-600" />
+              </TableCell>
+              <TableCell className="font-medium">Deposit</TableCell>
+              <TableCell className="font-medium">
+                {/* {deposit?.paymentID} */}
+              </TableCell>
+              <TableCell className="font-medium">
+                {/*@ts-ignore  */}
+                {/* {new Date(deposit?.createdAt).toDateString()} */}
+              </TableCell>
+              <TableCell className="font-medium">
+                {/*@ts-ignore  */}
+                {/* {new Date(deposit?.createdAt).toLocaleTimeString()} */}
+              </TableCell>
+              <TableCell className="text-right font-medium">
+                {/* ৳{deposit?.amount} */}
+              </TableCell>
+            </TableRow>
+            {/* )} */}
+            {/* {withdraw && ( */}
+            <TableRow>
+              <TableCell className="w-1 text-center">
+                <ArrowDownIcon className="h-4 w-4 text-red-600" />
+              </TableCell>
+              <TableCell className="font-medium">Withdraw</TableCell>
+              {/* <TableCell className="font-medium">{withdraw?._id}</TableCell> */}
+              <TableCell className="font-medium">
+                {/*@ts-ignore  */}
+                {/* {new Date(withdraw?.createdAt).toDateString()} */}
+              </TableCell>
+              <TableCell className="font-medium">
+                {/*@ts-ignore  */}
+                {/* {new Date(withdraw?.createdAt).toLocaleTimeString()} */}
+              </TableCell>
+              <TableCell className="text-right font-medium">
+                {/* ৳{withdraw?.amount} */}
+              </TableCell>
+            </TableRow>
+            {/* )} */}
           </TableBody>
         </Table>
       </CardContent>

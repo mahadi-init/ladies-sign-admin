@@ -3,7 +3,7 @@ import ButtonGroup from "@/components/native/ButtonGroup";
 import { ImageUploader } from "@/components/native/ImageUploader";
 import { AdminSchema, AdminType } from "@/types/admin";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { FloatingLabel } from "flowbite-react";
+import { Label, TextInput } from "flowbite-react";
 import { useEffect, useState, useTransition } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -69,41 +69,58 @@ export default function AdminForm(props: PropTypes) {
       />
 
       <div className="flex flex-col gap-6 p-4">
-        <FloatingLabel
-          label="Name *"
-          variant="outlined"
-          type="text"
-          color={errors.name && "error"}
-          helperText={errors.name && errors.name.message}
-          {...register("name", { required: true })}
-        />
+        <div className="block">
+          <div className="mb-1">
+            <Label htmlFor="name" value="Name *" />
+          </div>
+          <TextInput
+            type="text"
+            color={errors.name && "error"}
+            placeholder="Enter name"
+            helperText={errors.name && errors.name.message}
+            {...register("name", { required: true })}
+          />
+        </div>
 
-        <FloatingLabel
-          label="Email *"
-          variant="outlined"
-          type="text"
-          color={errors.email && "error"}
-          helperText={errors.email && errors.email.message}
-          {...register("email", { required: true })}
-        />
+        <div className="block">
+          <div className="mb-1">
+            <Label htmlFor="email" value="Email *" />
+          </div>
+          <TextInput
+            type="text"
+            color={errors.email && "error"}
+            placeholder="Enter email"
+            helperText={errors.email && errors.email.message}
+            {...register("email", { required: true })}
+          />
+        </div>
 
-        <FloatingLabel
-          label="Password *"
-          variant="outlined"
-          type="text"
-          color={errors.password && "error"}
-          helperText={errors.password && errors.password.message}
-          {...register("password", { required: true })}
-        />
+        <div className="block">
+          <div className="mb-1">
+            <Label htmlFor="password" value="Password *" />
+          </div>
+          <TextInput
+            type="text"
+            color={errors.password && "error"}
+            placeholder="Enter password"
+            helperText={errors.password && errors.password.message}
+            {...register("password", { required: true })}
+          />
+        </div>
 
-        <FloatingLabel
-          label="Phone *"
-          variant="outlined"
-          type="tel"
-          color={errors.phone && "error"}
-          helperText={errors.phone && errors.phone.message}
-          {...register("phone", { required: true })}
-        />
+        <div className="block">
+          <div className="mb-1">
+            <Label htmlFor="phone" value="Phone *" />
+          </div>
+          <TextInput
+            type="tel"
+            id="phone"
+            color={errors.phone && "error"}
+            placeholder="Enter phone"
+            helperText={errors.phone && errors.phone.message}
+            {...register("phone", { required: true })}
+          />
+        </div>
 
         <ButtonGroup isMutating={isPending} />
       </div>

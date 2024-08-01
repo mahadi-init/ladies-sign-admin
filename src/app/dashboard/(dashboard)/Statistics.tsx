@@ -1,14 +1,11 @@
 "use client";
 
-import { TrendingUp } from "lucide-react";
-import { Label, Pie, PieChart } from "recharts";
 import { Bar, BarChart, CartesianGrid, Rectangle, XAxis } from "recharts";
 
 import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
@@ -18,9 +15,6 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
-import React from "react";
-import useSWR from "swr";
-import { fetcher } from "@/https/get-request";
 
 const chartData = [
   { month: "January", visitors: 187, fill: "var(--color-chrome)" },

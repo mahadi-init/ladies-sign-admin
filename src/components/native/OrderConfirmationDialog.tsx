@@ -10,11 +10,8 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import useStatus from "@/hooks/useStatus";
-import addRequest from "@/https/add-request";
 import { OrderType } from "@/types/order";
-import React, { useEffect } from "react";
-import { toast } from "sonner";
-import useSWRMutation from "swr/mutation";
+import React from "react";
 
 export default function OrderConfirmationDialog({
   alertText,
@@ -25,23 +22,23 @@ export default function OrderConfirmationDialog({
   children: React.ReactNode;
   data: OrderType;
 }): React.ReactElement {
-  const { trigger, isMutating } = useSWRMutation(
-    "/order/send-order",
-    addRequest,
-  );
+  // const { trigger, isMutating } = useSWRMutation(
+  //   "/order/send-order",
+  //   addRequest,
+  // );
   const { showStatus } = useStatus();
 
-  useEffect(() => {
-    if (isMutating) {
-      toast.loading("Order sending...");
-    } else {
-      toast.dismiss();
-    }
-  }, [isMutating]);
+  // useEffect(() => {
+  //   if (isMutating) {
+  //     toast.loading("Order sending...");
+  //   } else {
+  //     toast.dismiss();
+  //   }
+  // }, [isMutating]);
 
   const handleSubmit = async () => {
-    const res = await trigger(data);
-    await showStatus("/order", "Order send successully", res);
+    // const res = await trigger(data);
+    // await showStatus("/order", "Order send successully", res);
   };
 
   return (

@@ -22,7 +22,10 @@ export default function Login() {
 
   const onSubmit: SubmitHandler<AdminType> = async (data) => {
     startTransition(async () => {
-      const res = await signIn(data.phone, data.password);
+      const res = await signIn("credentials", {
+        phone: data.phone,
+        passwod: data.password,
+      });
 
       if (!res) {
         toast.error("Login failed");

@@ -3,29 +3,27 @@ import { Breadcrumbs } from "@/components/native/Breadcrumbs";
 import ButtonGroup from "@/components/native/ButtonGroup";
 import PageTop from "@/components/native/PageTop";
 import { ProductType } from "@/types/product";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import AdditionalKeyValue from "../../_components/additional-key-value";
-import GeneralInformation from "../../_components/general-information";
-import ProductVariants from "../../_components/product-variants";
 
 export default function EditProduct({ params }: { params: { id: string } }) {
-  const data: ProductType = {};
+  // const data: ProductType = {};
   const methods = useForm();
   const [isLoading, setIsLoading] = useState(false);
   const [images, setImages] = useState<string[]>();
 
-  useEffect(() => {
-    if (data) {
-      // set images
-      let images = data.variants?.map((item) => {
-        return item.img;
-      });
+  // useEffect(() => {
+  //   if (data) {
+  //     // set images
+  //     let images = data.variants?.map((item) => {
+  //       return item.img;
+  //     });
 
-      setImages(images);
-    }
-  }, [data]);
+  //     setImages(images);
+  //   }
+  // }, [data]);
 
   const onSubmit = async (formData: ProductType) => {
     if (images?.length !== formData.variants?.length) {
@@ -68,13 +66,13 @@ export default function EditProduct({ params }: { params: { id: string } }) {
           onSubmit={methods.handleSubmit(onSubmit)}
           className="mb-4 mt-4 flex w-full flex-col gap-4"
         >
-          <GeneralInformation data={data} />
+          {/* <GeneralInformation data={data} /> */}
           <AdditionalKeyValue />
-          <ProductVariants
+          {/* <ProductVariants
             setIsLoading={setIsLoading}
             setImages={setImages}
             variantsData={data}
-          />
+          /> */}
           <ButtonGroup />
         </form>
       </FormProvider>

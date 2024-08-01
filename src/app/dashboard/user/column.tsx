@@ -2,6 +2,7 @@
 import DeleteItem from "@/components/native/DeleteItem";
 import { UserType } from "@/types/user";
 import { ColumnDef } from "@tanstack/react-table";
+import { remove } from "./action";
 
 export const userColumn: ColumnDef<UserType>[] = [
   {
@@ -29,21 +30,21 @@ export const userColumn: ColumnDef<UserType>[] = [
       return <p>{row.original.address ?? "-----------"}</p>;
     },
   },
-  // {
-  //   accessorKey: "createdAt",
-  //   header: "SINCE",
-  //   cell: ({ row }) => {
-  //     return <p className="font-medium">{row.original.createdAt}</p>;
-  //   },
-  // },
+  {
+    accessorKey: "createdAt",
+    header: "SINCE",
+    cell: ({ row }) => {
+      return <p className="font-medium">{row.original.createdAt}</p>;
+    },
+  },
   {
     id: "actions",
     cell: ({ row }) => (
       <div className="flex items-center gap-8">
         <DeleteItem
-          queryUrl={`/user/delete/${row.original._id}`}
-          validationTag="/user"
-          successMessage="User deleted successfully"
+          _id={row.original._id}
+          action={remove}
+          message="Deleted successfully"
         />
       </div>
     ),

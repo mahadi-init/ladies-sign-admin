@@ -1,9 +1,6 @@
+import useStatus from "@/hooks/useStatus";
 import { Button } from "../ui/button";
 import ConfirmationDialog from "./ConfirmationDialog";
-import useSWRMutation from "swr/mutation";
-import updateRequest from "@/https/update-request";
-import useStatus from "@/hooks/useStatus";
-import clsx from "clsx";
 
 export default function ChangeConfirmationStatus({
   id,
@@ -12,10 +9,10 @@ export default function ChangeConfirmationStatus({
   id?: string;
   confirm?: string;
 }) {
-  const { trigger, isMutating } = useSWRMutation(
-    `/order/change-confirm-status/${id}`,
-    updateRequest,
-  );
+  // const { trigger, isMutating } = useSWRMutation(
+  //   `/order/change-confirm-status/${id}`,
+  //   updateRequest,
+  // );
   const { showStatus } = useStatus();
 
   return (
@@ -35,12 +32,12 @@ export default function ChangeConfirmationStatus({
             updateValue = "NO";
         }
 
-        const res = await trigger({ confirm: updateValue });
-        await showStatus("/order", "Successfully updated", res);
+        // const res = await trigger({ confirm: updateValue });
+        // await showStatus("/order", "Successfully updated", res);
       }}
     >
       <Button variant={"outline"} className="font-bold">
-        {isMutating ? (
+        {/* {isMutating ? (
           "Loading.."
         ) : (
           <p
@@ -54,7 +51,7 @@ export default function ChangeConfirmationStatus({
           >
             {confirm}
           </p>
-        )}
+        )} */}
       </Button>
     </ConfirmationDialog>
   );

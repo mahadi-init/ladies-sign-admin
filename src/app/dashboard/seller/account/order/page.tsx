@@ -1,21 +1,16 @@
 "use client";
 
-import SubmitButton from "@/components/native/SubmitButton";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
   Select,
   SelectContent,
   SelectGroup,
-  SelectItem,
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
 import useStatus from "@/hooks/useStatus";
-import addRequest from "@/https/add-request";
-import { fetcher } from "@/https/get-request";
 import { OrderSchema, OrderType } from "@/types/order";
-import { ProductType } from "@/types/product";
 import { convertBengaliToEnglish } from "@/utils/convert-bangla-english";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useSearchParams } from "next/navigation";
@@ -27,14 +22,12 @@ import {
   useForm,
 } from "react-hook-form";
 import { toast } from "sonner";
-import useSWR from "swr";
-import useSWRMutation from "swr/mutation";
 
 export default function Order() {
   const searchParams = useSearchParams();
   const id = searchParams.get("id");
   const name = searchParams.get("name");
-  const { data: products } = useSWR<ProductType[]>("/product/all", fetcher);
+  // const { data: products } = useSWR<ProductType[]>("/product/all", fetcher);
   const {
     control,
     register,
@@ -50,7 +43,7 @@ export default function Order() {
     name: "cart",
   });
 
-  const { trigger, isMutating } = useSWRMutation("/order/add", addRequest);
+  // const { trigger, isMutating } = useSWRMutation("/order/add", addRequest);
   const { showStatus } = useStatus();
 
   // auto append first array field
@@ -74,27 +67,24 @@ export default function Order() {
     let sku = "";
 
     data.cart.forEach((item, index) => {
-      const product = products?.find((p) => p._id === item._id);
-
-      if (!product) {
-        return;
-      }
-
-      cart.push({
-        _id: product._id,
-        name: product.name,
-        price: item.price,
-        quantity: item.quantity,
-        // img: product.img,
-        sku: product.sku,
-      });
-      subtotal += Number(item.price) * Number(item.quantity);
-
-      if (index !== data.cart!!.length - 1) {
-        sku += product.sku + " & ";
-      } else {
-        sku += product.sku;
-      }
+      // const product = products?.find((p) => p._id === item._id);
+      // if (!product) {
+      //   return;
+      // }
+      // cart.push({
+      //   _id: product._id,
+      //   name: product.name,
+      //   price: item.price,
+      //   quantity: item.quantity,
+      //   // img: product.img,
+      //   sku: product.sku,
+      // });
+      // subtotal += Number(item.price) * Number(item.quantity);
+      // if (index !== data.cart!!.length - 1) {
+      //   sku += product.sku + " & ";
+      // } else {
+      //   sku += product.sku;
+      // }
     });
 
     total = subtotal;
@@ -119,9 +109,9 @@ export default function Order() {
       sellerId: id,
     };
 
-    const res = await trigger(order);
-    showStatus("/order", "Order send successully", res);
-    reset();
+    // const res = await trigger(order);
+    // showStatus("/order", "Order send successully", res);
+    // reset();
   };
 
   return (
@@ -216,29 +206,28 @@ export default function Order() {
                     </SelectTrigger>
                     <SelectContent>
                       <SelectGroup>
-                        {products?.map((product) => {
-                          return (
-                            <SelectItem
-                              key={product._id}
-                              value={product._id as string}
-                            >
-                              <div className="flex items-center gap-2">
-                                {/* <Image
+                        {/* {products?.map((product) => { */}
+                        return ({/* <SelectItem */}
+                        {/* // key={product._id} */}
+                        {/* // value={product._id as string} */}
+                        {/* > */}
+                        <div className="flex items-center gap-2">
+                          {/* <Image
                                   src={product.img ?? ""}
                                   alt="product image"
                                   width={24}
                                   height={24}
                                   className="rounded-sm"
                                 /> */}
-                                <div className="flex gap-4">
-                                  {/* <p>TITLE: {product.name}</p>
+                          <div className="flex gap-4">
+                            {/* <p>TITLE: {product.name}</p>
                                   <p>PRICE: {product.price}</p>
                                   <p>SKU: {product.price}</p> */}
-                                </div>
-                              </div>
-                            </SelectItem>
-                          );
-                        })}
+                          </div>
+                        </div>
+                        {/* </SelectItem> */}
+                        );
+                        {/* })} */}
                       </SelectGroup>
                     </SelectContent>
                   </Select>
@@ -296,7 +285,7 @@ export default function Order() {
           ))}
         </div>
 
-        <SubmitButton isMutating={isMutating} />
+        {/* <SubmitButton isMutating={isMutating} /> */}
       </form>
     </div>
   );

@@ -3,7 +3,8 @@ import RecoverPassword from "@/components/native/RecoverPassword";
 import SubmitButton from "@/components/native/SubmitButton";
 import { AdminSchema, AdminType } from "@/types/admin";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { FloatingLabel } from "flowbite-react";
+import { Label, TextInput } from "flowbite-react";
+import { Lock, Phone } from "lucide-react";
 import Image from "next/image";
 import { useTransition } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -38,23 +39,31 @@ export default function Signin() {
         </div>
 
         <form onSubmit={handleSubmit(onSubmit)} className="mt-6 space-y-5">
-          <FloatingLabel
-            label="Phone *"
-            variant="outlined"
-            id="tel"
-            type="phone"
-            color={errors.phone && "error"}
-            helperText={errors.phone && errors.phone.message}
-            {...register("phone", { required: true })}
-          />
+          <div className="block">
+            <div className="mb-1">
+              <Label htmlFor="phone" value="Phone *" />
+            </div>
+            <TextInput
+              id="phone"
+              type="phone"
+              color={errors.phone && "error"}
+              placeholder="Enter your phone number"
+              helperText={errors.phone && errors.phone.message}
+              icon={Phone}
+              {...register("phone", { required: true })}
+            />
+          </div>
 
-          <div className="space-y-5">
-            <FloatingLabel
-              label="Password *"
-              variant="outlined"
+          <div className="block">
+            <div className="mb-1">
+              <Label htmlFor="password" value="Password *" />
+            </div>
+            <TextInput
               id="password"
               type="password"
               color={errors.password && "error"}
+              placeholder="Enter your password"
+              icon={Lock}
               helperText={errors.password && errors.password.message}
               {...register("password", { required: true })}
             />

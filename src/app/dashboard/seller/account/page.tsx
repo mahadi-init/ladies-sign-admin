@@ -1,23 +1,18 @@
 "use client";
 
-import { sellerOrderColumn } from "@/columns/SellerOrderColumn";
 import { Card } from "@/components/ui/card";
-import { fetcher } from "@/https/get-request";
-import { SellerDashboard } from "@/types/seller-dashboard";
-import SellerOrderUIWrapper from "@/ui/SellerOrderUIWrapper";
 import { Ban, CircleCheck, Clock3, TrendingUp } from "lucide-react";
 import { useSearchParams } from "next/navigation";
-import useSWR from "swr";
 
 export default function SellerById() {
   const searchParams = useSearchParams();
   const id = searchParams.get("id");
   const name = searchParams.get("name");
 
-  const { data } = useSWR<SellerDashboard>(
-    id && `/seller/orders/dashboard/${id}`,
-    fetcher,
-  );
+  // const { data } = useSWR<SellerDashboard>(
+  //   id && `/seller/orders/dashboard/${id}`,
+  //   fetcher,
+  // );
 
   return (
     <div>
@@ -109,7 +104,7 @@ export default function SellerById() {
       <div className="mb-8 mt-6 grid grid-cols-2 gap-4 md:grid-cols-3 xl:grid-cols-4">
         <Card className="flex items-center justify-between rounded-lg bg-white p-4 shadow">
           <div>
-            <p className="text-lg font-semibold">{data?.totalOrders ?? 0}</p>
+            {/* <p className="text-lg font-semibold">{data?.totalOrders ?? 0}</p> */}
             <p className="text-sm text-gray-600">Total Orders</p>
           </div>
           <TrendingUp className="text-3xl text-indigo-500" />
@@ -117,7 +112,7 @@ export default function SellerById() {
 
         <Card className="flex items-center justify-between rounded-lg bg-white p-4 shadow">
           <div>
-            <p className="text-lg font-semibold">{data?.totalPending ?? 0}</p>
+            {/* <p className="text-lg font-semibold">{data?.totalPending ?? 0}</p> */}
             <p className="text-sm text-gray-600">Today Pending</p>
           </div>
           <Clock3 className="text-3xl text-yellow-500" />
@@ -125,7 +120,7 @@ export default function SellerById() {
 
         <Card className="flex items-center justify-between rounded-lg bg-white p-4 shadow">
           <div>
-            <p className="text-lg font-semibold">{data?.totalCancelled ?? 0}</p>
+            {/* <p className="text-lg font-semibold">{data?.totalCancelled ?? 0}</p> */}
             <p className="text-sm text-gray-600">Total Cancelled</p>
           </div>
           <Ban className="text-3xl text-red-500" />
@@ -133,7 +128,7 @@ export default function SellerById() {
 
         <Card className="flex items-center justify-between rounded-lg bg-white p-4 shadow">
           <div>
-            <p className="text-lg font-semibold">{data?.totalDelivered ?? 0}</p>
+            {/* <p className="text-lg font-semibold">{data?.totalDelivered ?? 0}</p> */}
             <p className="text-sm text-gray-600">Total Delivered</p>
           </div>
           <CircleCheck className="text-3xl text-green-500" />
@@ -141,7 +136,7 @@ export default function SellerById() {
 
         <Card className="flex items-center justify-between rounded-lg bg-white p-4 shadow">
           <div>
-            <p className="text-lg font-semibold">{data?.thisMonthTotal ?? 0}</p>
+            {/* <p className="text-lg font-semibold">{data?.thisMonthTotal ?? 0}</p> */}
             <p className="text-sm text-gray-600">Monthly Total</p>
           </div>
           <TrendingUp className="text-3xl text-indigo-500" />
@@ -150,7 +145,7 @@ export default function SellerById() {
         <Card className="flex items-center justify-between rounded-lg bg-white p-4 shadow">
           <div>
             <p className="text-lg font-semibold">
-              {data?.thisMonthPending ?? 0}
+              {/* {data?.thisMonthPending ?? 0} */}
             </p>
             <p className="text-sm text-gray-600">Monthly Pending</p>
           </div>
@@ -160,7 +155,7 @@ export default function SellerById() {
         <Card className="flex items-center justify-between rounded-lg bg-white p-4 shadow">
           <div>
             <p className="text-lg font-semibold">
-              {data?.thisMonthCancelled ?? 0}
+              {/* {data?.thisMonthCancelled ?? 0} */}
             </p>
             <p className="text-sm text-gray-600">Monthly Cancelled</p>
           </div>
@@ -170,21 +165,21 @@ export default function SellerById() {
         <Card className="flex items-center justify-between rounded-lg bg-white p-4 shadow">
           <div>
             <p className="text-lg font-semibold">
-              {data?.thisMonthDelivered ?? 0}
+              {/* {data?.thisMonthDelivered ?? 0} */}
             </p>
             <p className="text-sm text-gray-600">Monthly Delivered</p>
           </div>
           <CircleCheck className="text-3xl text-green-500" />
         </Card>
       </div>
-
+      {/* 
       {id && (
         <SellerOrderUIWrapper
           auth={id}
           route={`/seller/orders`}
           columns={sellerOrderColumn as any}
         />
-      )}
+      )} */}
     </div>
   );
 }

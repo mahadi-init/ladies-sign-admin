@@ -1,7 +1,4 @@
-import useStatus from "@/hooks/useStatus";
-import updateRequest from "@/https/update-request";
 import { Badge } from "flowbite-react";
-import useSWRMutation from "swr/mutation";
 
 export default function StatusIndicator({
   status,
@@ -16,15 +13,15 @@ export default function StatusIndicator({
   variant?: "default" | "destructive" | "outline" | "secondary";
   text?: string;
 }): JSX.Element {
-  const { showStatus } = useStatus();
-  const { trigger, isMutating } = useSWRMutation(
-    updateStatusUrl,
-    updateRequest,
-  );
+  // const { showStatus } = useStatus();
+  // const { trigger, isMutating } = useSWRMutation(
+  //   updateStatusUrl,
+  //   updateRequest,
+  // );
 
   const handleOnClick = async () => {
-    const res = await trigger({ status: !status });
-    await showStatus(mutationTag as string, "Status updated successfully", res);
+    // const res = await trigger({ status: !status });
+    // await showStatus(mutationTag as string, "Status updated successfully", res);
   };
 
   return (
@@ -33,7 +30,7 @@ export default function StatusIndicator({
       className="w-fit cursor-pointer rounded-lg text-xs font-semibold"
       onClick={handleOnClick}
     >
-      {isMutating ? "UPDATING.." : (text ?? (status ? "ACTIVE" : "INACTIVE"))}
+      {/* {isMutating ? "UPDATING.." : (text ?? (status ? "ACTIVE" : "INACTIVE"))} */}
     </Badge>
   );
 }

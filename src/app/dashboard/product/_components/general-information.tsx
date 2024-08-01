@@ -1,6 +1,6 @@
 "use client";
 import { ProductSchema, ProductType } from "@/types/product";
-import { Card, FloatingLabel, Textarea } from "flowbite-react";
+import { Card, Label, Textarea, TextInput } from "flowbite-react";
 import { useFormContext } from "react-hook-form";
 import { z } from "zod";
 
@@ -28,62 +28,81 @@ export default function GeneralInformation({
       <div className="mb-6">
         <h2 className="mb-2 text-xl font-semibold">General</h2>
         <div className="grid grid-cols-1 gap-4">
-          <FloatingLabel
-            label="Title *"
-            variant="outlined"
-            type="text"
-            id="title"
-            color={errors.name && "error"}
-            helperText={errors.name && errors.name.message}
-            defaultValue={data?.name}
-            {...register("name", { required: true })}
-          />
+          <div className="block">
+            <div className="mb-1">
+              <Label htmlFor="title" value="Title *" />
+            </div>
 
-          <Textarea
-            id="description"
-            defaultValue={data?.description}
-            placeholder="Product Description"
-            className="bg-white"
-            rows={4}
-            {...register("description", { required: true })}
-          />
+            <TextInput
+              type="text"
+              id="title"
+              color={errors.name && "error"}
+              helperText={errors.name && errors.name.message}
+              defaultValue={data?.name}
+              placeholder="Enter title"
+              {...register("name", { required: true })}
+            />
+          </div>
+
+          <div className="block">
+            <div className="mb-1">
+              <Label htmlFor="description" value="Description *" />
+            </div>
+            <Textarea
+              id="description"
+              defaultValue={data?.description}
+              placeholder="Product Description"
+              rows={4}
+              {...register("description", { required: true })}
+            />
+          </div>
         </div>
       </div>
 
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
-        <FloatingLabel
-          label="Discount"
-          variant="outlined"
-          type="text"
-          id="discount"
-          defaultValue={data?.sku}
-          color={errors.discount && "error"}
-          helperText={errors.discount && errors.discount.message}
-          {...register("discount", { required: false })}
-        />
+        <div className="block">
+          <div className="mb-1">
+            <Label htmlFor="discount" value="Discount" />
+          </div>
+          <TextInput
+            type="text"
+            id="discount"
+            defaultValue={data?.sku}
+            color={errors.discount && "error"}
+            placeholder="Enter disount (in tk)"
+            helperText={errors.discount && errors.discount.message}
+            {...register("discount", { required: false })}
+          />
+        </div>
 
-        <FloatingLabel
-          label="SKU *"
-          variant="outlined"
-          type="text"
-          id="sku"
-          defaultValue={data?.sku}
-          color={errors.sku && "error"}
-          helperText={errors.sku && errors.sku.message}
-          {...register("sku", { required: false })}
-        />
+        <div className="block">
+          <div className="mb-1">
+            <Label htmlFor="sku" value="SKU *" />
+          </div>
+          <TextInput
+            type="text"
+            id="sku"
+            defaultValue={data?.sku}
+            color={errors.sku && "error"}
+            placeholder="Enter sku"
+            helperText={errors.sku && errors.sku.message}
+            {...register("sku", { required: false })}
+          />
+        </div>
 
-        <FloatingLabel
-          label="Youtube URL"
-          variant="outlined"
-          type="url"
-          id="video-id"
-          defaultValue={data?.videoId}
-          placeholder="video id"
-          color={errors.videoId && "error"}
-          helperText={errors.videoId && errors.videoId.message}
-          {...register("videoId", { required: false })}
-        />
+        <div className="block">
+          <div className="mb-1">
+            <Label htmlFor="video-id" value="Video ID" />
+          </div>
+          <TextInput
+            id="video-id"
+            defaultValue={data?.videoId}
+            placeholder="Enter youtube url"
+            color={errors.videoId && "error"}
+            helperText={errors.videoId && errors.videoId.message}
+            {...register("videoId", { required: false })}
+          />
+        </div>
       </div>
     </Card>
   );

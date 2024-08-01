@@ -1,14 +1,22 @@
 "use server";
 
-import { ProductModel } from "@/models/product.model";
-import { ProductType } from "@/types/product";
+import { UserModel } from "@/models/user.model";
 import { Response } from "@/types/response";
+import { UserType } from "@/types/user";
 import { revalidatePath } from "next/cache";
 
-export async function create<T>(data: ProductType): Promise<Response<T>> {
+export async function create<T>(data: UserType): Promise<Response<T>> {
   try {
-    await ProductModel.create(data);
-    revalidatePath("/dashboard/product");
+    const sameNumbers = await UserModel.find({
+      phone: data.phone,
+    });
+
+    if (sameNumbers.length > 0) {
+      throw new Error("phone number already exists");
+    }
+
+    await UserModel.create(data);
+    revalidatePath("/dashboard/user");
 
     return {
       success: true,
@@ -23,11 +31,11 @@ export async function create<T>(data: ProductType): Promise<Response<T>> {
 
 export async function update<T>(
   _id: string,
-  data: ProductType,
+  data: UserType,
 ): Promise<Response<T>> {
   try {
-    await ProductModel.findByIdAndUpdate(_id, data);
-    revalidatePath("/dashboard/product");
+    await UserModel.findByIdAndUpdate(_id, data);
+    revalidatePath("/dashboard/user");
 
     return {
       success: true,
@@ -42,8 +50,8 @@ export async function update<T>(
 
 export async function remove<T>(_id?: string): Promise<Response<T>> {
   try {
-    await ProductModel.findByIdAndDelete(_id);
-    revalidatePath("/dashboard/product");
+    await UserModel.findByIdAndDelete(_id);
+    revalidatePath("/dashboard/user");
 
     return {
       success: true,

@@ -1,7 +1,5 @@
 "use client";
 import ButtonGroup from "@/components/native/ButtonGroup";
-import { ImageUploader } from "@/components/native/ImageUploader";
-import SubmitButton from "@/components/native/SubmitButton";
 import {
   Card,
   CardContent,
@@ -9,26 +7,18 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import useStatus from "@/hooks/useStatus";
-import { fetcher } from "@/https/get-request";
-import updateRequest from "@/https/update-request";
-import { AdminType } from "@/types/admin.t";
+import { AdminType } from "@/types/admin";
 import { SellerSchema } from "@/types/seller";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useEffect, useState } from "react";
+import { TextInput } from "flowbite-react";
+import { useEffect, useState, useTransition } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "sonner";
-import useSWR from "swr";
-import useSWRMutation from "swr/mutation";
+import { update } from "./action";
 
 function AdminInfo({ data }: { data?: AdminType }) {
-  const { showStatus } = useStatus();
-  const { trigger, isMutating } = useSWRMutation(
-    `/admin/edit/${data?._id}`,
-    updateRequest,
-  );
+  const [isPending, startTransition] = useTransition();
 
   const {
     register,
@@ -44,8 +34,15 @@ function AdminInfo({ data }: { data?: AdminType }) {
   }, [reset, data]);
 
   const onSubmit: SubmitHandler<AdminType> = async (data) => {
-    const res = await trigger(data);
-    await showStatus("/admin", "Information updated successfully", res);
+    startTransition(async () => {
+      const res = await update(data, data._id);
+
+      if (res.success) {
+        toast.success("Information updated successfully");
+      } else {
+        toast.error(res.message);
+      }
+    });
   };
 
   return (
@@ -59,7 +56,7 @@ function AdminInfo({ data }: { data?: AdminType }) {
           <div className="grid gap-4">
             <Label htmlFor="name">
               Name
-              <Input
+              <TextInput
                 id="name"
                 type="text"
                 defaultValue={data?.name}
@@ -76,7 +73,7 @@ function AdminInfo({ data }: { data?: AdminType }) {
 
             <Label htmlFor="phone">
               Phone
-              <Input
+              <TextInput
                 id="phone"
                 type="tel"
                 defaultValue={data?.phone}
@@ -88,7 +85,7 @@ function AdminInfo({ data }: { data?: AdminType }) {
         </CardContent>
 
         <CardFooter className="justify-end">
-          <ButtonGroup isMutating={isMutating} />
+          <ButtonGroup isMutating={isPending} />
         </CardFooter>
       </form>
     </Card>
@@ -96,11 +93,7 @@ function AdminInfo({ data }: { data?: AdminType }) {
 }
 
 function AdminSecurity({ password, id }: { password?: string; id?: string }) {
-  const { trigger, isMutating } = useSWRMutation(
-    `/admin/change-password/${id}`,
-    updateRequest,
-  );
-  const { showStatus } = useStatus();
+  const [isPending, startTransition] = useTransition();
   const [passwords, setPasswords] = useState<{
     currentPassword?: string;
     newPassword?: string;
@@ -114,7 +107,7 @@ function AdminSecurity({ password, id }: { password?: string; id?: string }) {
     } else if (password !== passwords?.currentPassword) {
       toast.error("Wrong current password");
       return;
-    } else if (password?.length <= 6) {
+    } else if (password?.length < 6) {
       toast.error("Password should be at least 6 characters");
       return;
     } else if (passwords?.newPassword !== passwords?.confirmPassword) {
@@ -122,8 +115,15 @@ function AdminSecurity({ password, id }: { password?: string; id?: string }) {
       return;
     }
 
-    const res = await trigger({ password: passwords?.newPassword });
-    await showStatus("/admin", "Password successfully updated", res);
+    startTransition(async () => {
+      const res = await update({ password: passwords?.newPassword }, id);
+
+      if (res.success) {
+        toast.success("Password updated successfully");
+      } else {
+        toast.error(res.message);
+      }
+    });
   };
 
   return (
@@ -137,7 +137,7 @@ function AdminSecurity({ password, id }: { password?: string; id?: string }) {
             <div className="flex flex-col">
               <Label htmlFor="current-password">
                 Current Password
-                <Input
+                <TextInput
                   id="current-password"
                   placeholder="Current Password"
                   className="mt-2 bg-gray-100"
@@ -154,7 +154,7 @@ function AdminSecurity({ password, id }: { password?: string; id?: string }) {
             <div className="flex flex-col">
               <Label htmlFor="new-password">
                 New Password
-                <Input
+                <TextInput
                   id="new-password"
                   placeholder="New Password"
                   className="mt-2 bg-gray-100"
@@ -170,7 +170,7 @@ function AdminSecurity({ password, id }: { password?: string; id?: string }) {
             </div>
             <div className="flex flex-col">
               <Label htmlFor="confirm-password">Confirm Password</Label>
-              <Input
+              <TextInput
                 id="confirm-password"
                 placeholder="Confirm Password"
                 className="mt-2 bg-gray-100"
@@ -187,47 +187,48 @@ function AdminSecurity({ password, id }: { password?: string; id?: string }) {
         </CardContent>
 
         <CardFooter className="justify-end">
-          <ButtonGroup isMutating={isMutating} />
+          <ButtonGroup isMutating={isPending} />
         </CardFooter>
       </form>
     </Card>
   );
 }
 
-export default function AdminProfileUI({ id }: { id: string }): JSX.Element {
-  const { data } = useSWR<AdminType>(`/admin/get/${id}`, fetcher);
-  const [image, setImage] = useState<string>();
-  const [isLoading, setIsLoading] = useState(false);
-  const { showStatus } = useStatus();
+export default function AdminForm({ data }: { data: AdminType }) {
+  const [isPending, startTransition] = useTransition();
+  // const [image, setImage] = useState<string>();
+  // const [isLoading, setIsLoading] = useState(false);
 
-  const { trigger, isMutating } = useSWRMutation(
-    `/admin/edit/${data?._id}`,
-    updateRequest,
-  );
+  // useEffect(() => {
+  //   setImage(data?.img);
+  // }, [data]);
 
-  useEffect(() => {
-    setImage(data?.img);
-  }, [data]);
+  // const updateProfileImage = async () => {
+  //   if (!image) {
+  //     toast.error("Please select an image");
+  //     return;
+  //   }
 
-  const updateProfileImage = async () => {
-    if (!image) {
-      toast.error("Please select an image");
-      return;
-    }
+  //   if (isLoading) {
+  //     toast.error("Please wait for image upload to complete");
+  //     return;
+  //   }
 
-    if (isLoading) {
-      toast.error("Please wait for image upload to complete");
-      return;
-    }
+  //   startTransition(async () => {
+  //     const res = await update({ img: image }, data._id);
 
-    const res = await trigger({ img: image });
-    await showStatus("/admin", "Profile image successfully updated", res);
-  };
+  //     if (res.success) {
+  //       toast.success("Image updated successfully");
+  //     } else {
+  //       toast.error(res.message);
+  //     }
+  //   });
+  // };
 
   return (
     <>
       <div className="my-8 flex flex-col justify-center gap-8 xl:flex-row">
-        <form
+        {/* <form
           action={updateProfileImage}
           className="flex flex-col items-center"
         >
@@ -238,12 +239,11 @@ export default function AdminProfileUI({ id }: { id: string }): JSX.Element {
             endpoint="admin"
           />
           <SubmitButton
-            isMutating={isMutating}
+            isMutating={isPending}
             style="w-full mt-2"
             text="Update profile picture"
-            variant="outline"
           />
-        </form>
+        </form> */}
 
         <div className="w-full">
           <AdminInfo data={data} />

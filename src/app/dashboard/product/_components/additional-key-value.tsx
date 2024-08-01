@@ -1,7 +1,7 @@
 "use client";
 import { ProductSchema } from "@/types/product";
 import clsx from "clsx";
-import { Button, Card, FloatingLabel } from "flowbite-react";
+import { Button, Card, Label, TextInput } from "flowbite-react";
 import { Trash2 } from "lucide-react";
 import { useEffect } from "react";
 import { useFieldArray, useFormContext } from "react-hook-form";
@@ -42,7 +42,6 @@ export default function AdditionalKeyValue({
         <Button
           size="md"
           type="button"
-          color="success"
           className={clsx("ml-auto")}
           onClick={() => append({ key: "", value: "" })}
         >
@@ -57,25 +56,33 @@ export default function AdditionalKeyValue({
             className="mt-4 flex flex-wrap items-center gap-4"
           >
             <div className="w-1/4">
-              <FloatingLabel
-                label="Key"
-                variant="outlined"
-                key={field.id}
-                {...register(`additionalInformation.${index}.key`, {
-                  required: true,
-                })}
-              />
+              <div className="block">
+                <div className="mb-1">
+                  <Label htmlFor="key" value="Key *" />
+                </div>
+                <TextInput
+                  key={field.id}
+                  placeholder="Enter key"
+                  {...register(`additionalInformation.${index}.key`, {
+                    required: true,
+                  })}
+                />
+              </div>
             </div>
 
             <div className="w-6/12 lg:w-7/12 2xl:w-8/12">
-              <FloatingLabel
-                label="Value"
-                variant="outlined"
-                key={field.id}
-                {...register(`additionalInformation.${index}.value`, {
-                  required: true,
-                })}
-              />
+              <div className="block">
+                <div className="mb-1">
+                  <Label htmlFor="value" value="Value *" />
+                </div>
+                <TextInput
+                  key={field.id}
+                  placeholder="Enter value"
+                  {...register(`additionalInformation.${index}.value`, {
+                    required: true,
+                  })}
+                />
+              </div>
             </div>
 
             <div className="flex justify-end gap-2">

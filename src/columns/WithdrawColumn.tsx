@@ -1,6 +1,5 @@
 "use client";
 import ChangeStatus from "@/components/native/ChangeStatus";
-import DeleteItem from "@/components/native/DeleteItem";
 import { WithdrawType } from "@/types/withdraw";
 import { ColumnDef } from "@tanstack/react-table";
 
@@ -40,11 +39,11 @@ export const withdrawColumn: ColumnDef<WithdrawType>[] = [
     id: "actions",
     cell: ({ row }) => (
       <div className="flex items-center gap-8">
-        <DeleteItem
+        {/* <DeleteItem
           queryUrl={`/withdraw/delete/${row.original._id}`}
           validationTag="/withdraw"
           successMessage="Withdraw deleted successfully"
-        />
+        /> */}
       </div>
     ),
   },

@@ -11,15 +11,10 @@ import {
 } from "@/components/ui/drawer";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import addRequest from "@/https/add-request";
 import { site } from "@/site-config";
-import { BkashPayment } from "@/types/bkash.t";
 import { SellerType } from "@/types/seller";
 import { useRouter } from "next/navigation";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { toast } from "sonner";
-import useSWRMutation from "swr/mutation";
-import SubmitButton from "../native/SubmitButton";
 
 export default function DepositDrawer({ profile }: { profile?: SellerType }) {
   const router = useRouter();
@@ -27,10 +22,10 @@ export default function DepositDrawer({ profile }: { profile?: SellerType }) {
     amount: string;
     reference: string;
   }>();
-  const { trigger, isMutating } = useSWRMutation(
-    `/bkash/create-payment`,
-    addRequest,
-  );
+  // const { trigger, isMutating } = useSWRMutation(
+  //   `/bkash/create-payment`,
+  //   addRequest,
+  // );
 
   const onSubmit: SubmitHandler<{ amount: string; reference: string }> = async (
     data,
@@ -44,15 +39,15 @@ export default function DepositDrawer({ profile }: { profile?: SellerType }) {
       intent: "sale",
       merchantInvoiceNumber: profile?._id,
     };
-    const res: { success: boolean; data: BkashPayment } =
-      await trigger(customData);
+    // const res: { success: boolean; data: BkashPayment } =
+    //   await trigger(customData);
 
-    if (!res.success) {
-      toast.error("Something went wrong");
-      return;
-    }
+    // if (!res.success) {
+    //   toast.error("Something went wrong");
+    //   return;
+    // }
 
-    router.push(res.data.bkashURL);
+    // router.push(res.data.bkashURL);
   };
 
   return (
@@ -97,7 +92,7 @@ export default function DepositDrawer({ profile }: { profile?: SellerType }) {
           </div>
 
           <DrawerFooter>
-            <SubmitButton isMutating={isMutating} text="Submit" />
+            {/* <SubmitButton isMutating={isMutating} text="Submit" /> */}
             <DrawerClose>
               <Button className="w-full" variant="outline">
                 Cancel
