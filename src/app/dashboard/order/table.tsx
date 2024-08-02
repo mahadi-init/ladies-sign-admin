@@ -4,7 +4,6 @@ import TablePagination from "@/components/common/pagination";
 import Search from "@/components/common/search";
 import { DataTable } from "@/components/native/DataTable";
 import { ColumnDef } from "@tanstack/react-table";
-import { usePathname } from "next/navigation";
 import StatusFilter from "./status-filter";
 
 interface TableUIWrapperProps<T> {
@@ -18,7 +17,6 @@ export default function OrderTableUIWrapper<T>({
   columns,
   totalPages,
 }: TableUIWrapperProps<T>) {
-  const pathname = usePathname();
 
   return (
     <div className="mt-4 flex w-full flex-col gap-4">
@@ -26,12 +24,6 @@ export default function OrderTableUIWrapper<T>({
         <Search />
         <div className="flex items-center gap-2">
           <StatusFilter />
-          {/* <Link href={`${pathname}/add`}>
-            <Button color="gray">
-              <PlusIcon className="mr-2 h-5 w-5" />
-              Add
-            </Button>
-          </Link> */}
         </div>
       </div>
       <div className="h-screen">
