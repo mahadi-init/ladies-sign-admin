@@ -62,14 +62,14 @@ export default function GeneralInformation({
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
         <div className="block">
           <div className="mb-1">
-            <Label htmlFor="discount" value="Discount" />
+            <Label htmlFor="discount" value="Discount (percentage)" />
           </div>
           <TextInput
             type="text"
             id="discount"
             defaultValue={data?.sku}
             color={errors.discount && "error"}
-            placeholder="Enter disount (in tk)"
+            placeholder="Enter disount (in percentage)"
             helperText={errors.discount && errors.discount.message}
             {...register("discount", { required: false })}
           />
