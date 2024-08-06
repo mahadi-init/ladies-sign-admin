@@ -26,11 +26,7 @@ export default async function Users({
   return (
     <>
       <PageTop title="Users" />
-      <Suspense
-        fallback={
-          <LoadingDataTable columns={userColumn} data={JSON.parse(res)} />
-        }
-      >
+      <Suspense>
         <TableUIWrapper
           data={parsed.data}
           columns={userColumn}

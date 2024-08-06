@@ -4,7 +4,6 @@ import { Inter } from "next/font/google";
 import React from "react";
 import { Toaster } from "sonner";
 import "./globals.css";
-import { auth } from "@/auth";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -21,8 +20,6 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const session = auth()
-  console.log(session)
   await connectDB();
 
   return (

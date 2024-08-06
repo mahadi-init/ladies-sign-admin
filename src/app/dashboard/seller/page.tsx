@@ -1,4 +1,3 @@
-import { LoadingDataTable } from "@/components/native/LoadingDataTable";
 import PageTop from "@/components/native/PageTop";
 import TableUIWrapper from "@/ui/TableUIWrapper";
 import { Suspense } from "react";
@@ -26,11 +25,7 @@ export default async function Sellers({
   return (
     <>
       <PageTop title="Seller" />
-      <Suspense
-        fallback={
-          <LoadingDataTable columns={sellerColumn} data={JSON.parse(res)} />
-        }
-      >
+      <Suspense>
         <TableUIWrapper
           data={parsed.data}
           columns={sellerColumn}

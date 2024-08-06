@@ -26,11 +26,7 @@ export default async function Admins({
   return (
     <>
       <PageTop title="Admins" />
-      <Suspense
-        fallback={
-          <LoadingDataTable columns={adminColumn} data={JSON.parse(res)} />
-        }
-      >
+      <Suspense>
         <TableUIWrapper
           data={parsed.data}
           columns={adminColumn}
