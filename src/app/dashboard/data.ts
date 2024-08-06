@@ -57,7 +57,6 @@ export const salesPermonth = async () => {
 export const getPendingOrders = async () => {
   try {
     const orders = await OrderModel.find({ status: "WAITING" }).limit(25)
-    console.log(orders);
 
 
     return JSON.stringify({

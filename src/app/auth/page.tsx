@@ -1,16 +1,17 @@
 "use client";
-import { signIn } from "@/auth";
 import RecoverPassword from "@/components/native/RecoverPassword";
 import SubmitButton from "@/components/native/SubmitButton";
-import { Input } from "@/components/ui/input";
 import { AdminSchema, AdminType } from "@/types/admin";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Label, TextInput } from "flowbite-react";
+import { Lock, Phone } from "lucide-react";
 import Image from "next/image";
 import { useTransition } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "sonner";
+import { login } from "./action";
 
-export default function Login() {
+export default function Signin() {
   const [isPending, startTransition] = useTransition();
   const {
     register,
@@ -22,12 +23,9 @@ export default function Login() {
 
   const onSubmit: SubmitHandler<AdminType> = async (data) => {
     startTransition(async () => {
-      const res = await signIn("credentials", {
-        phone: data.phone,
-        passwod: data.password,
-      });
+      const res = await login(data.phone, data.password);
 
-      if (!res) {
+      if (res && !res.success) {
         toast.error("Login failed");
       }
     });
@@ -41,41 +39,34 @@ export default function Login() {
         </div>
 
         <form onSubmit={handleSubmit(onSubmit)} className="mt-6 space-y-5">
-          <label htmlFor="phone" className="ml-1 font-medium">
-            Phone Number <span className="text-red-600">*</span>
-            <Input
-              id="tel"
+          <div className="block">
+            <div className="mb-1">
+              <Label htmlFor="phone" value="Phone *" />
+            </div>
+            <TextInput
+              id="phone"
               type="phone"
-              placeholder="Enter Phone"
-              className="mt-2.5"
+              color={errors.phone && "error"}
+              placeholder="Enter your phone number"
+              helperText={errors.phone && errors.phone.message}
+              icon={Phone}
               {...register("phone", { required: true })}
             />
-            {errors.phone && (
-              <span className="text-xs text-red-700">
-                {errors.phone.message}
-              </span>
-            )}
-          </label>
+          </div>
 
-          <div className="space-y-5">
-            <label
-              htmlFor="password"
-              className="text-base font-medium text-gray-900"
-            >
-              Password <span className="text-red-600">*</span>
-              <Input
-                id="password"
-                type="password"
-                placeholder="Enter strong password"
-                className="mt-2.5"
-                {...register("password", { required: true })}
-              />
-              {errors.password && (
-                <span className="text-xs text-red-700">
-                  {errors.password.message}
-                </span>
-              )}
-            </label>
+          <div className="block">
+            <div className="mb-1">
+              <Label htmlFor="password" value="Password *" />
+            </div>
+            <TextInput
+              id="password"
+              type="password"
+              color={errors.password && "error"}
+              placeholder="Enter your password"
+              icon={Lock}
+              helperText={errors.password && errors.password.message}
+              {...register("password", { required: true })}
+            />
           </div>
 
           <SubmitButton isMutating={isPending} style="w-full" />

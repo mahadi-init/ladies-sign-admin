@@ -279,7 +279,6 @@ export default function ProductVariants({
                 let count = 0;
 
                 const images = watch("variants")?.map((variant) => {
-                  console.log(typeof variant.img);
                   if (typeof variant.img !== "string") {
                     count++;
                     return variant.img[0];
