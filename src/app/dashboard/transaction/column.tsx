@@ -46,7 +46,7 @@ export const transactionColumn: ColumnDef<TransactionType>[] = [
         <DeleteItem
           _id={row.original._id}
           action={remove}
-          message="Deleted successful"
+          message="Delete successful"
         />
       </div>
     ),
