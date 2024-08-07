@@ -40,8 +40,8 @@ export default function Sidenav(): JSX.Element {
         title="Side navigation"
         type="button"
         className={`visible fixed left-2 top-1 z-40 order-10 block h-10 w-10 self-center rounded bg-white opacity-100 lg:hidden ${isSideNavOpen
-            ? "visible opacity-100 [&_span:nth-child(1)]:w-6 [&_span:nth-child(1)]:translate-y-0 [&_span:nth-child(1)]:rotate-45 [&_span:nth-child(2)]:-rotate-45 [&_span:nth-child(3)]:w-0"
-            : ""
+          ? "visible opacity-100 [&_span:nth-child(1)]:w-6 [&_span:nth-child(1)]:translate-y-0 [&_span:nth-child(1)]:rotate-45 [&_span:nth-child(2)]:-rotate-45 [&_span:nth-child(3)]:w-0"
+          : ""
           }`}
         aria-haspopup="menu"
         aria-label="Side navigation"
@@ -282,11 +282,11 @@ export default function Sidenav(): JSX.Element {
 
               <li className="px-3">
                 <Link
-                  href="/dashboard/payment"
+                  href="/dashboard/transaction"
                   onClick={hideSideNav}
                   className={clsx(
                     "flex items-center gap-3 rounded p-3 text-slate-700 transition-colors hover:bg-rose-50 hover:text-rose-500 focus:bg-rose-50",
-                    pathname.includes("payment") &&
+                    pathname.includes("transaction") &&
                     "bg-purple-100 text-purple-800",
                   )}
                 >
@@ -294,7 +294,7 @@ export default function Sidenav(): JSX.Element {
                     <Landmark size={18} />
                   </div>
                   <div className="flex w-full flex-1 flex-col items-start justify-center gap-0 overflow-hidden truncate text-sm">
-                    Payment
+                    Transaction
                   </div>
                 </Link>
               </li>

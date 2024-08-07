@@ -1,36 +1,16 @@
-// const withdrawSchema = new mongoose.Schema(
-//   {
-//     seller: {
-//       type: ObjectId,
-//       ref: "Seller",
-//       required: true,
-//     },
-//     status: {
-//       type: String,
-//       default: "PENDING",
-//     },
-//     amount: {
-//       type: Number,
-//       requried: true,
-//     },
-//     message: String,
-//     bkash: {
-//       type: String,
-//       required: true,
-//     },
-//   },
-//   {
-//     timestamps: true,
-//   },
-// );
+import { z } from "zod";
 
-export interface WithdrawType {
-  _id: string;
-  seller: string;
-  status: string;
-  amount: number;
-  message: string;
-  bkash: string;
-  createdAt: Date;
-  updatedAt: Date;
-}
+export const WithdrawSchema = z.object({
+  _id: z.string().optional(),
+  sellerID: z.string(),
+  status: z.enum(["PENDING", "HOLD", "COMPLETE"]),
+  amount: z.number(),
+  message: z.string(),
+  bkash: z.string().min(11, "minimum 11 characters required"),
+  nogod: z.string().min(11, "minimum 11 characters required"),
+  rocket: z.string().min(11, "minimum 11 characters required"),
+  createdAt: z.string().datetime(),
+  updatedAt: z.string().datetime(),
+});
+
+export type WithdrawType = z.infer<typeof WithdrawSchema>;
