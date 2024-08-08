@@ -26,7 +26,7 @@ export default async function Orders({
 
   return (
     <>
-      <PageTop title="Products" />
+      <PageTop title="Orders" />
       <Suspense>
         <OrderTableUIWrapper
           data={parsed.data}

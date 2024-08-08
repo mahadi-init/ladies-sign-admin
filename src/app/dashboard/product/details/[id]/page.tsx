@@ -1,11 +1,18 @@
-"use client";
 import PageTop from "@/components/native/PageTop";
+import { ProductModel } from "@/models/product.model";
 import { ProductType } from "@/types/product";
 import Image from "next/image";
 import Link from "next/link";
 
-export default function ProductDetails({ params }: { params: { id: string } }) {
-  const data: ProductType = {} as ProductType;
+const getProductData = async (id?: string) => {
+  const res = await ProductModel.findById(id)
+
+  return JSON.stringify(res)
+}
+
+export default async function ProductDetails({ params }: { params: { id: string } }) {
+  const data: ProductType = JSON.parse(await getProductData(params.id))
+
 
   return (
     <>

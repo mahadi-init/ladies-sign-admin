@@ -20,9 +20,9 @@ export default async function Dashboard() {
   //   ...(data[1] as object),
   // };
   //
-  console.log(balance);
-  console.log(salesPerMonth);
-  console.log(pendingOrders);
+  //console.log(balance);
+  //console.log(salesPerMonth);
+  //console.log(pendingOrders);
 
 
   return (
