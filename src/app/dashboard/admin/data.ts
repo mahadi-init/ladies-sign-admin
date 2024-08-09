@@ -1,3 +1,4 @@
+import { connectDB } from "@/db/connect";
 import { AdminModel } from "@/models/admin.model";
 import { AdminType } from "@/types/admin";
 
@@ -7,6 +8,8 @@ export const adminPagination = async (
   limit: number = 25,
   q: string,
 ) => {
+  connectDB()
+
   const skip = (index - 1) * limit;
 
   let result: AdminType[] = [];
@@ -53,6 +56,8 @@ export const adminPagination = async (
 };
 
 export const getAdmindata = async (_id?: string) => {
+  connectDB()
+
   const data = await AdminModel.findById(_id);
   return JSON.stringify(data);
 };

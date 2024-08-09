@@ -6,6 +6,7 @@ import isToday from "dayjs/plugin/isToday";
 import isYesterday from "dayjs/plugin/isYesterday";
 import isSameOrBefore from "dayjs/plugin/isSameOrBefore";
 import isSameOrAfter from "dayjs/plugin/isSameOrAfter";
+import { connectDB } from "@/db/connect";
 
 // Apply necessary plugins to dayjs
 dayjs.extend(customParseFormat);
@@ -37,6 +38,8 @@ export async function getSteadfastBalance() {
 }
 
 export const salesPermonth = async () => {
+  connectDB()
+
   try {
     const salesPerMonth = await OrderModel.aggregate([
       {
@@ -55,6 +58,8 @@ export const salesPermonth = async () => {
 };
 
 export const getPendingOrders = async () => {
+  connectDB()
+
   try {
     const orders = await OrderModel.find({ status: "WAITING" }).limit(25)
 
@@ -66,6 +71,8 @@ export const getPendingOrders = async () => {
 };
 
 export const getDashboardAmount = async () => {
+  connectDB()
+
   try {
     const todayStart = dayjs().startOf("day");
     const todayEnd = dayjs().endOf("day");

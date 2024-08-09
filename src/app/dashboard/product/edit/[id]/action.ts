@@ -1,4 +1,5 @@
 "use server"
+import { connectDB } from "@/db/connect";
 import { ProductModel } from "@/models/product.model";
 import { ProductType } from "@/types/product";
 import { Response } from "@/types/response";
@@ -8,6 +9,7 @@ export async function update<T>(
   _id: string,
   data: ProductType,
 ): Promise<Response<T>> {
+  connectDB()
   try {
     await ProductModel.findByIdAndUpdate(_id, data);
     revalidatePath("/dashboard/product");

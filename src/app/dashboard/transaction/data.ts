@@ -1,3 +1,4 @@
+import { connectDB } from "@/db/connect";
 import { TransactionModel } from "@/models/transaction.model";
 import { TransactionType } from "@/types/transaction";
 
@@ -8,6 +9,8 @@ export const transactionPagination = async (
   q: string,
   type: "DEPOSIT" | "PAYMENT"
 ) => {
+  connectDB()
+
   const skip = (index - 1) * limit;
 
   let result: TransactionType[] = [];
@@ -65,6 +68,8 @@ export const transactionPagination = async (
 };
 
 export const getTransactiondata = async (_id?: string) => {
+  connectDB()
+
   const data = await TransactionModel.findById(_id);
   return JSON.stringify(data);
 };

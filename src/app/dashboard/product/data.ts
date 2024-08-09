@@ -1,3 +1,4 @@
+import { connectDB } from "@/db/connect";
 import { ProductModel } from "@/models/product.model";
 import { ProductType } from "@/types/product";
 
@@ -8,6 +9,8 @@ export const productPagination = async (
   q: string,
   status: "IN-STOCK" | "OUT-OF-STOCK" | "DISCONTINUED",
 ) => {
+  connectDB()
+
   const skip = (index - 1) * limit;
 
   let result: ProductType[] = [];
@@ -61,6 +64,8 @@ export const productPagination = async (
 };
 
 export const getProductdata = async (_id?: string) => {
+  connectDB()
+
   const data = await ProductModel.findById(_id);
   return JSON.stringify(data);
 };

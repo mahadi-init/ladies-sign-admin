@@ -1,4 +1,3 @@
-import { connectDB } from "@/db/connect";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import React from "react";
@@ -20,8 +19,6 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  await connectDB();
-
   return (
     <html>
       <body className={inter.className}>

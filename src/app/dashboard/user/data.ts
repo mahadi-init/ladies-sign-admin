@@ -1,3 +1,4 @@
+import { connectDB } from "@/db/connect";
 import { UserModel } from "@/models/user.model";
 import { UserType } from "@/types/user";
 
@@ -7,6 +8,8 @@ export const userPagination = async (
   limit: number = 25,
   q: string,
 ) => {
+  connectDB()
+
   const skip = (index - 1) * limit;
 
   let result: UserType[] = [];
@@ -53,6 +56,8 @@ export const userPagination = async (
 };
 
 export const getUserdata = async (_id?: string) => {
+  connectDB()
+
   const data = await UserModel.findById(_id);
   return JSON.stringify(data);
 };

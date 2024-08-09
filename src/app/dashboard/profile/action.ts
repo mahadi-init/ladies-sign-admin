@@ -1,5 +1,6 @@
 "use server";
 
+import { connectDB } from "@/db/connect";
 import { AdminModel } from "@/models/admin.model";
 import { AdminType } from "@/types/admin";
 import { Response } from "@/types/response";
@@ -9,6 +10,7 @@ export async function update<T>(
   data: AdminType | any,
   _id?: string,
 ): Promise<Response<T>> {
+  connectDB()
   try {
     await AdminModel.findByIdAndUpdate(_id, data);
     revalidatePath("/dashboard/profile");
@@ -25,6 +27,7 @@ export async function update<T>(
 }
 
 export async function remove<T>(_id?: string): Promise<Response<T>> {
+  connectDB()
   try {
     await AdminModel.findByIdAndDelete(_id);
     revalidatePath("/dashboard/profile");

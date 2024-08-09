@@ -1,11 +1,13 @@
 "use server";
 
+import { connectDB } from "@/db/connect";
 import { UserModel } from "@/models/user.model";
 import { Response } from "@/types/response";
 import { UserType } from "@/types/user";
 import { revalidatePath } from "next/cache";
 
 export async function create<T>(data: UserType): Promise<Response<T>> {
+  connectDB()
   try {
     const sameNumbers = await UserModel.find({
       phone: data.phone,
@@ -33,6 +35,7 @@ export async function update<T>(
   _id: string,
   data: UserType,
 ): Promise<Response<T>> {
+  connectDB()
   try {
     await UserModel.findByIdAndUpdate(_id, data);
     revalidatePath("/dashboard/user");
@@ -49,6 +52,7 @@ export async function update<T>(
 }
 
 export async function remove<T>(_id?: string): Promise<Response<T>> {
+  connectDB()
   try {
     await UserModel.findByIdAndDelete(_id);
     revalidatePath("/dashboard/user");

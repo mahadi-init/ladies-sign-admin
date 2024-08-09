@@ -3,16 +3,10 @@ import { ProductModel } from "@/models/product.model";
 import { ProductType } from "@/types/product";
 import Image from "next/image";
 import Link from "next/link";
-
-const getProductData = async (id?: string) => {
-  const res = await ProductModel.findById(id)
-
-  return JSON.stringify(res)
-}
+import { getProductData } from "./data";
 
 export default async function ProductDetails({ params }: { params: { id: string } }) {
   const data: ProductType = JSON.parse(await getProductData(params.id))
-
 
   return (
     <>

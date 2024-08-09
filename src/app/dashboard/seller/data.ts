@@ -1,3 +1,4 @@
+import { connectDB } from "@/db/connect";
 import { SellerModel } from "@/models/seller.model";
 import { SellerType } from "@/types/seller";
 
@@ -7,6 +8,7 @@ export const sellerPagination = async (
   limit: number = 25,
   q: string,
 ) => {
+  connectDB()
   const skip = (index - 1) * limit;
 
   let result: SellerType[] = [];
@@ -53,6 +55,7 @@ export const sellerPagination = async (
 };
 
 export const getSellerData = async (_id?: string) => {
+  connectDB()
   const data = await SellerModel.findById(_id);
   return JSON.stringify(data);
 };

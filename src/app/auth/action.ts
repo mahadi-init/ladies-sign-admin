@@ -1,9 +1,12 @@
 "use server";
 
 import { signIn, signOut } from "@/auth";
+import { connectDB } from "@/db/connect";
 import { redirect } from "next/navigation";
 
 export async function login(phone?: string, password?: string) {
+  connectDB()
+
   try {
     await signIn("credentials", {
       phone: phone,
@@ -20,5 +23,5 @@ export async function login(phone?: string, password?: string) {
 }
 
 export async function logout() {
-  await signOut({ redirectTo: "/" });
+  await signOut({ redirectTo: "/auth" });
 }

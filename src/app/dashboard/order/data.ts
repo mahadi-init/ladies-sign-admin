@@ -1,3 +1,4 @@
+import { connectDB } from "@/db/connect";
 import { OrderModel } from "@/models/order.model";
 import { OrderType } from "@/types/order";
 
@@ -8,6 +9,8 @@ export const orderPagination = async (
   q: string,
   status: "WAITING" | "PROCESSING" | "DELIVERED" | "CANCELLED",
 ) => {
+  connectDB()
+
   const skip = (index - 1) * limit;
 
   let result: OrderType[] = [];
@@ -67,6 +70,8 @@ export const orderPagination = async (
 };
 
 export const getOrderdata = async (_id?: string) => {
+  connectDB()
+
   const data = await OrderModel.findById(_id);
   return JSON.stringify(data);
 };
