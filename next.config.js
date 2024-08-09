@@ -13,9 +13,10 @@ const nextConfig = {
       fullUrl: false,
     },
   },
-  // experimental: {
-  //   typedRoutes: true,
-  // },
+  experimental: {
+    esmExternals: "loose",
+    serverComponentsExternalPackages: ["mongoose"]
+  },
 };
 
 module.exports = nextConfig;
