@@ -1,6 +1,4 @@
-import { auth } from "@/auth";
 import Sidenav from "@/components/native/SideNav";
-import { redirect } from "next/navigation";
 import React from "react";
 
 export default async function Layout({
@@ -8,10 +6,6 @@ export default async function Layout({
 }: {
   children: React.ReactNode;
 }) {
-  const session = await auth()
-  if (!session) {
-    redirect("/auth")
-  }
 
   return (
     <>
