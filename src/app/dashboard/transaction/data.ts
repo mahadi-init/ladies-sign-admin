@@ -1,8 +1,9 @@
 import { connectDB } from "@/db/connect";
 import { TransactionModel } from "@/models/transaction.model";
 import { TransactionType } from "@/types/transaction";
+import { cache } from "react";
 
-export const transactionPagination = async (
+export const transactionPagination = cache(async (
   filterBy: "default" | "type" | "search" = "default",
   index: number = 1,
   limit: number = 25,
@@ -65,11 +66,11 @@ export const transactionPagination = async (
     data: result,
     totalPages: totalPages,
   });
-};
+});
 
-export const getTransactiondata = async (_id?: string) => {
+export const getTransactiondata = cache(async (_id?: string) => {
   connectDB()
 
   const data = await TransactionModel.findById(_id);
   return JSON.stringify(data);
-};
+})

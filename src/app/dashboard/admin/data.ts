@@ -1,8 +1,9 @@
 import { connectDB } from "@/db/connect";
 import { AdminModel } from "@/models/admin.model";
 import { AdminType } from "@/types/admin";
+import { cache } from "react"
 
-export const adminPagination = async (
+export const adminPagination = cache(async (
   filterBy: "default" | "search" = "default",
   index: number = 1,
   limit: number = 25,
@@ -53,11 +54,11 @@ export const adminPagination = async (
     data: result,
     totalPages: totalPages,
   });
-};
+});
 
-export const getAdmindata = async (_id?: string) => {
+export const getAdmindata = cache(async (_id?: string) => {
   connectDB()
 
   const data = await AdminModel.findById(_id);
   return JSON.stringify(data);
-};
+});

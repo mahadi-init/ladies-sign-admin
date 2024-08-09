@@ -1,8 +1,9 @@
 import { connectDB } from "@/db/connect";
 import { UserModel } from "@/models/user.model";
 import { UserType } from "@/types/user";
+import { cache } from "react";
 
-export const userPagination = async (
+export const userPagination = cache(async (
   filterBy: "default" | "search" = "default",
   index: number = 1,
   limit: number = 25,
@@ -53,11 +54,11 @@ export const userPagination = async (
     data: result,
     totalPages: totalPages,
   });
-};
+});
 
-export const getUserdata = async (_id?: string) => {
+export const getUserdata = cache(async (_id?: string) => {
   connectDB()
 
   const data = await UserModel.findById(_id);
   return JSON.stringify(data);
-};
+})

@@ -1,8 +1,9 @@
 import { connectDB } from "@/db/connect";
 import { SellerModel } from "@/models/seller.model";
 import { SellerType } from "@/types/seller";
+import { cache } from "react";
 
-export const sellerPagination = async (
+export const sellerPagination = cache(async (
   filterBy: "default" | "search" = "default",
   index: number = 1,
   limit: number = 25,
@@ -52,10 +53,10 @@ export const sellerPagination = async (
     data: result,
     totalPages: totalPages,
   });
-};
+});
 
-export const getSellerData = async (_id?: string) => {
+export const getSellerData = cache(async (_id?: string) => {
   connectDB()
   const data = await SellerModel.findById(_id);
   return JSON.stringify(data);
-};
+});

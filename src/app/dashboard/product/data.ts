@@ -1,8 +1,9 @@
 import { connectDB } from "@/db/connect";
 import { ProductModel } from "@/models/product.model";
 import { ProductType } from "@/types/product";
+import { cache } from "react";
 
-export const productPagination = async (
+export const productPagination = cache(async (
   filterBy: "default" | "status" | "search" = "default",
   index: number = 1,
   limit: number = 25,
@@ -61,11 +62,11 @@ export const productPagination = async (
     data: result,
     totalPages: totalPages,
   });
-};
+})
 
-export const getProductdata = async (_id?: string) => {
+export const getProductdata = cache(async (_id?: string) => {
   connectDB()
 
   const data = await ProductModel.findById(_id);
   return JSON.stringify(data);
-};
+});

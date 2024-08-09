@@ -1,8 +1,9 @@
 import { connectDB } from "@/db/connect";
 import { OrderModel } from "@/models/order.model";
 import { OrderType } from "@/types/order";
+import { cache } from "react";
 
-export const orderPagination = async (
+export const orderPagination = cache(async (
   filterBy: "default" | "status" | "search" = "default",
   index: number = 1,
   limit: number = 25,
@@ -67,11 +68,11 @@ export const orderPagination = async (
     data: result,
     totalPages: totalPages,
   });
-};
+})
 
-export const getOrderdata = async (_id?: string) => {
+export const getOrderdata = cache(async (_id?: string) => {
   connectDB()
 
   const data = await OrderModel.findById(_id);
   return JSON.stringify(data);
-};
+})

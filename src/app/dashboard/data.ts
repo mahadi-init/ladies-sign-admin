@@ -7,6 +7,7 @@ import isYesterday from "dayjs/plugin/isYesterday";
 import isSameOrBefore from "dayjs/plugin/isSameOrBefore";
 import isSameOrAfter from "dayjs/plugin/isSameOrAfter";
 import { connectDB } from "@/db/connect";
+import { cache } from "react";
 
 // Apply necessary plugins to dayjs
 dayjs.extend(customParseFormat);
@@ -16,7 +17,7 @@ dayjs.extend(isSameOrBefore);
 dayjs.extend(isSameOrAfter);
 
 // steadfast related
-export async function getSteadfastBalance() {
+export const getSteadfastBalance = cache(async () => {
   try {
     const res = await fetch(`${site.STEADFAST_BASE_URL}/api/v1/get_balance`, {
       headers: {
@@ -35,9 +36,9 @@ export async function getSteadfastBalance() {
   } catch (error: any) {
     return null;
   }
-}
+})
 
-export const salesPermonth = async () => {
+export const salesPermonth = cache(async () => {
   connectDB()
 
   try {
@@ -55,9 +56,9 @@ export const salesPermonth = async () => {
 
     return JSON.stringify(salesPerMonth);
   } catch (error: any) { }
-};
+})
 
-export const getPendingOrders = async () => {
+export const getPendingOrders = cache(async () => {
   connectDB()
 
   try {
@@ -68,9 +69,9 @@ export const getPendingOrders = async () => {
       orders: orders,
     });
   } catch (error: any) { }
-};
+})
 
-export const getDashboardAmount = async () => {
+export const getDashboardAmount = cache(async () => {
   connectDB()
 
   try {
@@ -139,4 +140,4 @@ export const getDashboardAmount = async () => {
       totalOrderAmount,
     });
   } catch (error: any) { }
-};
+})
