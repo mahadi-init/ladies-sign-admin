@@ -2,6 +2,7 @@ import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import { AdminModel } from "./models/admin.model";
 import { AdminType } from "./types/admin";
+import { connectDB } from "./db/connect";
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   providers: [
@@ -11,6 +12,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         password: {},
       },
       authorize: async (credentials) => {
+        connectDB()
         let user: AdminType | null = null;
 
         user = await AdminModel.findOne({
