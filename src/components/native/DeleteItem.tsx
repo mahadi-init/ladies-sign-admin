@@ -1,4 +1,3 @@
-"use client";
 import { Response } from "@/types/response";
 import { Trash2 } from "lucide-react";
 import { toast } from "sonner";
@@ -15,7 +14,10 @@ export default function DeleteItem<T>({
   message: string;
 }): JSX.Element {
   const handleFormAction = async () => {
+    toast.loading("Deleting...")
+
     const res = await action(_id);
+    toast.dismiss()
 
     if (res.success) {
       toast.success(message);
