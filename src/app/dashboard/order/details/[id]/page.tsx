@@ -1,9 +1,14 @@
-"use client";
-// import { fetcher } from "@/https/get-request";
+import { OrderType } from "@/types/order";
+import { getOrderdata } from "../../data";
+import { OrderSummary } from "./order-summary";
 
-export default function OrderDetails({ params }: { params: { id: string } }) {
-  // const { data: order } = useSWR<OrderType>(`/order/get/${params.id}`, fetcher);
-  // return <OrderSummary order={order} />;
+export default async function OrderDetails({
+  params,
+}: {
+  params: { id: string };
+}) {
+  const data = await getOrderdata(params.id);
+  const parsed = JSON.parse(data);
 
-  return <></>;
+  return <OrderSummary order={parsed as OrderType} />;
 }

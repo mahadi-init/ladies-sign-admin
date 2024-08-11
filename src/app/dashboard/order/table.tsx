@@ -10,14 +10,15 @@ interface TableUIWrapperProps<T> {
   data: T[];
   columns: ColumnDef<T, unknown>[];
   totalPages: number;
+  showLimit?: boolean;
 }
 
 export default function OrderTableUIWrapper<T>({
   data,
   columns,
   totalPages,
+  showLimit,
 }: TableUIWrapperProps<T>) {
-
   return (
     <div className="mt-4 flex w-full flex-col gap-4">
       <div className="flex items-center justify-between">
@@ -28,10 +29,12 @@ export default function OrderTableUIWrapper<T>({
       </div>
       <div className="h-screen">
         <DataTable columns={columns} data={data} />
-        <div className="mt-8 flex items-center justify-between">
-          <div className="-mt-6">
-            <Limit />
-          </div>
+        <div className="mt-8 flex items-center justify-between pb-8">
+          {showLimit && (
+            <div>
+              <Limit />
+            </div>
+          )}
           <TablePagination totalPages={totalPages} />
         </div>
       </div>

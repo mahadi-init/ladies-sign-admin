@@ -21,6 +21,10 @@ export default function TablePagination({
     replace(`${pathname}?${params.toString()}`);
   };
 
+  if (totalPages <= 0) {
+    return null;
+  }
+
   return (
     <Pagination
       currentPage={Number(index)}

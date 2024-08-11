@@ -1,6 +1,6 @@
 import { site } from "@/site-config";
 import mongoose from "mongoose";
-mongoose.set("strictQuery", true);
+//mongoose.set("strictQuery", true);
 
 export const connectDB = async () => {
   try {

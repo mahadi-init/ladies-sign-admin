@@ -1,8 +1,8 @@
 import PageTop from "@/components/native/PageTop";
 import { Suspense } from "react";
-import { productColumn } from "../product/column";
 import { orderPagination } from "./data";
 import OrderTableUIWrapper from "./table";
+import { orderColumn } from "./column";
 
 export default async function Orders({
   searchParams,
@@ -29,9 +29,10 @@ export default async function Orders({
       <PageTop title="Orders" />
       <Suspense>
         <OrderTableUIWrapper
-          data={parsed.data}
-          columns={productColumn}
+          columns={orderColumn}
+          data={parsed?.data}
           totalPages={parsed.totalPages}
+          showLimit
         />
       </Suspense>
     </>

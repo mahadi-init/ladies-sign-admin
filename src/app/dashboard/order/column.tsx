@@ -12,15 +12,17 @@ import Link from "next/link";
 
 export const orderColumn: ColumnDef<OrderType>[] = [
   {
+    accessorKey: "index",
+    header: "INDEX",
+    cell: ({ row }) => {
+      return <p># {row.index + 1}</p>;
+    },
+  },
+  {
     accessorKey: "confirmation",
     header: "CONFIRM",
     cell: ({ row }) => {
-      return (
-        <ChangeConfirmationStatus
-          id={row.original._id}
-          confirm={row.original.confirm}
-        />
-      );
+      return <p>{row.original.confirm}</p>;
     },
   },
   // {
@@ -163,13 +165,7 @@ export const orderColumn: ColumnDef<OrderType>[] = [
           color = "text-pink-600";
       }
 
-      return (
-        <ChangeOrderStatus
-          id={row.original._id}
-          status={row.original.status}
-          color={color}
-        />
-      );
+      return <p>{row.original.status}</p>;
     },
   },
   {

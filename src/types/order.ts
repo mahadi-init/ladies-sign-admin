@@ -9,6 +9,7 @@ export const CartItemSchema = z
     img: z.string().url(),
     sku: z.string(),
     color: z.string(),
+    size: z.string(),
   })
   .partial();
 

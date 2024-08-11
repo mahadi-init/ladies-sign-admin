@@ -35,7 +35,7 @@ export default function TableUIWrapper<T>({
       </div>
       <div className="h-screen">
         <DataTable columns={columns} data={data} />
-        <div className="mt-8 flex items-center justify-between">
+        <div className="mt-8 flex items-center justify-between pb-8">
           <div className="-mt-6">
             <Limit />
           </div>

@@ -1,5 +1,3 @@
-"use client";
-
 import { Input } from "@/components/ui/input";
 import { Card } from "flowbite-react";
 import { ColorTable } from "./color-table";

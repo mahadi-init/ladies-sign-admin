@@ -36,10 +36,10 @@ export const getSteadfastBalance = cache(async () => {
   } catch (error: any) {
     return null;
   }
-})
+});
 
 export const salesPermonth = cache(async () => {
-  connectDB()
+  connectDB();
 
   try {
     const salesPerMonth = await OrderModel.aggregate([
@@ -55,24 +55,23 @@ export const salesPermonth = cache(async () => {
     ]);
 
     return JSON.stringify(salesPerMonth);
-  } catch (error: any) { }
-})
+  } catch (error: any) {}
+});
 
 export const getPendingOrders = cache(async () => {
-  connectDB()
+  connectDB();
 
   try {
-    const orders = await OrderModel.find({ status: "WAITING" }).limit(25)
-
+    const orders = await OrderModel.find({ status: "WAITING" }).limit(5);
 
     return JSON.stringify({
       orders: orders,
     });
-  } catch (error: any) { }
-})
+  } catch (error: any) {}
+});
 
 export const getDashboardAmount = cache(async () => {
-  connectDB()
+  connectDB();
 
   try {
     const todayStart = dayjs().startOf("day");
@@ -139,5 +138,5 @@ export const getDashboardAmount = cache(async () => {
       monthlyOrderAmount,
       totalOrderAmount,
     });
-  } catch (error: any) { }
-})
+  } catch (error: any) {}
+});

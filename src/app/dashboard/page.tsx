@@ -6,7 +6,7 @@ import { orderColumn } from "./order/column";
 export default async function Dashboard() {
   const balance = await getSteadfastBalance();
   const salesPerMonth = await salesPermonth();
-  const pendingOrders = await getPendingOrders()
+  const pendingOrders = await getPendingOrders();
 
   // const data: any = await Promise.all([
   //   await fetcher("/dashboard/steadfast-balance"),
@@ -24,7 +24,6 @@ export default async function Dashboard() {
   //console.log(salesPerMonth);
   //console.log(pendingOrders);
 
-
   return (
     <>
       <PageTop title="Dashboard" />
@@ -40,8 +39,9 @@ export default async function Dashboard() {
       <div className="mt-8">
         <OrderTableUIWrapper
           columns={orderColumn}
-          data={JSON.parse(pendingOrders as string).orders}
+          data={JSON.parse((pendingOrders as string) ?? "").orders}
           totalPages={0}
+          showLimit={false}
         />
       </div>
     </>
