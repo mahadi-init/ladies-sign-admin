@@ -3,7 +3,7 @@ import { z } from "zod";
 const ReviewSchema = z
   .object({
     _id: z.string(),
-    name: z.string(),
+    by: z.string(),
     product: z.object({
       _id: z.string(),
       name: z.string(),

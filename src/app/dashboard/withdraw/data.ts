@@ -1,9 +1,9 @@
 import { connectDB } from "@/db/connect";
-import { AdminModel } from "@/models/admin.model";
-import { AdminType } from "@/types/admin";
+import { WithdrawModel } from "@/models/withdraw.model";
+import { WithdrawType } from "@/types/withdraw";
 import { cache } from "react";
 
-export const adminPagination = cache(
+export const withdrawPagination = cache(
   async (
     filterBy: "default" | "search" = "default",
     index: number = 1,
@@ -14,13 +14,13 @@ export const adminPagination = cache(
 
     const skip = (index - 1) * limit;
 
-    let result: AdminType[] = [];
+    let result: WithdrawType[] = [];
     let length = 0;
 
     // filter by default
     if (filterBy === "default") {
-      length = await AdminModel.find().countDocuments();
-      result = await AdminModel.find()
+      length = await WithdrawModel.find().countDocuments();
+      result = await WithdrawModel.find()
         .sort({ createdAt: -1 })
         .skip(skip)
         .limit(limit);
@@ -29,21 +29,13 @@ export const adminPagination = cache(
     // filter by search
     if (filterBy === "search") {
       // length count
-      length = await AdminModel.find({
-        $or: [
-          { name: { $regex: q, $options: "i" } },
-          { email: { $regex: q, $options: "i" } },
-          { phone: { $regex: q, $options: "i" } },
-        ],
+      length = await WithdrawModel.find({
+        $or: [{ sellerID: { $regex: q, $options: "i" } }],
       }).countDocuments();
 
       // find
-      result = await AdminModel.find({
-        $or: [
-          { name: { $regex: q, $options: "i" } },
-          { email: { $regex: q, $options: "i" } },
-          { phone: { $regex: q, $options: "i" } },
-        ],
+      result = await WithdrawModel.find({
+        $or: [{ sellerID: { $regex: q, $options: "i" } }],
       })
         .sort({ createdAt: -1 })
         .skip(skip)
@@ -61,6 +53,6 @@ export const adminPagination = cache(
 export const getAdmindata = cache(async (_id?: string) => {
   connectDB();
 
-  const data = await AdminModel.findById(_id);
+  const data = await WithdrawModel.findById(_id);
   return JSON.stringify(data);
 });

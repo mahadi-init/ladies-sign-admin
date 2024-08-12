@@ -22,5 +22,5 @@ const withdrawSchema: Schema<WithdrawType> = new Schema(
   },
 );
 
-export const Withdraw: Model<WithdrawType> =
+export const WithdrawModel: Model<WithdrawType> =
   models?.Withdraw || model("Withdraw", withdrawSchema);

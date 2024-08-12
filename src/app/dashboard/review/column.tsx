@@ -1,11 +1,12 @@
 "use client";
+import DeleteItem from "@/components/native/DeleteItem";
 import StatusIndicator from "@/components/native/StatusIndicator";
-import { Button } from "@/components/ui/button";
 import { ReviewType } from "@/types/review";
 import { ColumnDef } from "@tanstack/react-table";
-import { ArrowUpDown, Check } from "lucide-react";
+import { Check } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { remove } from "./action";
 
 export const reviewColumn: ColumnDef<ReviewType>[] = [
   {
@@ -50,36 +51,16 @@ export const reviewColumn: ColumnDef<ReviewType>[] = [
     },
   },
   {
-    accessorKey: "name",
-    header: "USER",
+    accessorKey: "by",
+    header: "By",
   },
   {
     accessorKey: "rating",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          RATING
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
-      );
-    },
+    header: "RATING",
   },
   {
     accessorKey: "comment",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          COMMENT
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
-      );
-    },
+    header: "COMMENT",
   },
   {
     accessorKey: "approved",
@@ -102,11 +83,11 @@ export const reviewColumn: ColumnDef<ReviewType>[] = [
     id: "actions",
     cell: ({ row }) => (
       <div className="flex items-center gap-8">
-        {/* <DeleteItem
-          queryUrl={`/review/delete/${row.original._id}`}
-          validationTag="/review/all"
-          successMessage="Review deleted successfully"
-        /> */}
+        <DeleteItem
+          _id={row.original._id}
+          action={remove}
+          message="Review deleted"
+        />
       </div>
     ),
   },
