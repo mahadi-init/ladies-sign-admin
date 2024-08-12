@@ -10,7 +10,6 @@ interface TableUIWrapperProps<T> {
   data: T[];
   columns: ColumnDef<T, unknown>[];
   totalPages: number;
-  showLimit?: boolean;
 }
 
 export default function OrderTableUIWrapper<T>({

@@ -41,21 +41,19 @@ export const getSteadfastBalance = cache(async () => {
 export const salesPermonth = cache(async () => {
   connectDB();
 
-  try {
-    const salesPerMonth = await OrderModel.aggregate([
-      {
-        $group: {
-          _id: { $month: "$createdAt" },
-          totalSales: { $sum: "$total" },
-        },
+  const salesPerMonth = await OrderModel.aggregate([
+    {
+      $group: {
+        _id: { $month: "$createdAt" },
+        totalSales: { $sum: "$total" },
       },
-      {
-        $sort: { _id: 1 },
-      },
-    ]);
+    },
+    {
+      $sort: { _id: 1 },
+    },
+  ]);
 
-    return JSON.stringify(salesPerMonth);
-  } catch (error: any) {}
+  return JSON.stringify(salesPerMonth);
 });
 
 export const getPendingOrders = cache(async () => {

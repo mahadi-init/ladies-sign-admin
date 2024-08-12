@@ -1,4 +1,3 @@
-import { LoadingDataTable } from "@/components/native/LoadingDataTable";
 import PageTop from "@/components/native/PageTop";
 import TableUIWrapper from "@/ui/TableUIWrapper";
 import { Suspense } from "react";

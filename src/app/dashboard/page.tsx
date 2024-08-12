@@ -1,40 +1,47 @@
 import PageTop from "@/components/native/PageTop";
-import { getPendingOrders, getSteadfastBalance, salesPermonth } from "./data";
-import OrderTableUIWrapper from "./order/table";
-import { orderColumn } from "./order/column";
+import {
+  getDashboardAmount,
+  getPendingOrders,
+  getSteadfastBalance,
+  salesPermonth,
+} from "./data";
+import { Statistics } from "./(dashboard)/Statistics";
+import { DashboardOrderSummaryType } from "@/types/dashboard";
+import StatisticCards from "@/components/native/StatisticCards";
+import { Suspense } from "react";
+import { orderColumn } from "./order-column";
+import OrderTableUIWrapper from "./order-table";
 
 export default async function Dashboard() {
-  const balance = await getSteadfastBalance();
-  const salesPerMonth = await salesPermonth();
-  //const pendingOrders = await getPendingOrders();
+  const data = await Promise.all([
+    await getSteadfastBalance(),
+    await getDashboardAmount(),
+    await salesPermonth(),
+    await getPendingOrders(),
+  ]);
 
-  // const data: any = await Promise.all([
-  //   await fetcher("/dashboard/steadfast-balance"),
-  //   await fetcher(`/dashboard/amount`),
-  //   // await fetcher(`/dashboard/sales-per-month`),
-  // ]);
-
-  // //@ts-expect-error
-  // const statisticData: DashboardOrderSummaryType = {
-  //   balance: data[0]?.current_balance,
-  //   ...(data[1] as object),
-  // };
-  //
-  //console.log(balance);
-  //console.log(salesPerMonth);
-  //console.log(pendingOrders);
+  //@ts-expect-error
+  const statisticData: DashboardOrderSummaryType = {
+    balance: data[0]?.current_balance,
+    ...(JSON.parse(data[1] ?? "") as object),
+  };
 
   return (
-    <>
+    <Suspense>
       <PageTop title="Dashboard" />
-      {/* {data[0] && data[1] ? (
+      {data[0] && data[1] ? (
         <StatisticCards {...statisticData} />
       ) : (
         <p className="text-center font-semibold text-red-400">
           Overview data not found
         </p>
-      )} */}
-      {/* <Statistics data={data[2]} /> */}
-    </>
+      )}
+      <Statistics data={JSON.parse(data[2])} />
+      <p className="mt-4 text-xl font-semibold">Mini Waiting Orders</p>
+      <OrderTableUIWrapper
+        columns={orderColumn}
+        data={JSON.parse(data[3] ?? "").orders}
+      />
+    </Suspense>
   );
 }
