@@ -32,7 +32,6 @@ export default async function Orders({
           columns={orderColumn}
           data={parsed?.data}
           totalPages={parsed.totalPages}
-          showLimit
         />
       </Suspense>
     </>

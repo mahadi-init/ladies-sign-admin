@@ -1,14 +1,16 @@
 "use client";
-import ChangeConfirmationStatus from "@/components/native/ChangeConfirmStatus";
-import ChangeOrderStatus from "@/components/native/ChangeOrderStatus";
 import { HoverToolkit } from "@/components/native/HoverToolkit";
 import { MultipleHoverToolkit } from "@/components/native/MutipleHoverToolkit";
 import OrderConfirmationDialog from "@/components/native/OrderConfirmationDialog";
 import { OrderType } from "@/types/order";
-// import { getFormattedDate } from "@/utils/get-formatted-date";
 import { ColumnDef } from "@tanstack/react-table";
+import { Badge } from "flowbite-react";
 import { PenIcon, ReceiptText, Send } from "lucide-react";
 import Link from "next/link";
+import { toast } from "sonner";
+import { changeConfirmation } from "./action";
+import { ChangeStatus } from "./change-status";
+import { ChangeConfirm } from "./change-confirm";
 
 export const orderColumn: ColumnDef<OrderType>[] = [
   {
@@ -22,7 +24,9 @@ export const orderColumn: ColumnDef<OrderType>[] = [
     accessorKey: "confirmation",
     header: "CONFIRM",
     cell: ({ row }) => {
-      return <p>{row.original.confirm}</p>;
+      return (
+        <ChangeConfirm id={row.original._id} confirm={row.original.confirm} />
+      );
     },
   },
   // {
@@ -53,27 +57,27 @@ export const orderColumn: ColumnDef<OrderType>[] = [
       return (
         <Link
           href={`/dashboard/order/details/${row.original._id}`}
-          className="cursor-pointer font-medium underline"
+          className="cursor-pointer font-semibold text-blue-700 underline"
         >
           {row.original.cart?.map((item) => item.sku).join(" & ")}
         </Link>
       );
     },
   },
-  {
-    accessorKey: "orderBy",
-    header: "SELLER",
-    cell: ({ row }) => {
-      return (
-        <Link
-          href={`/dashboard/sellers/profile?id=${row.original.sellerId}&name=${row.original.sellerName}`}
-          className="cursor-pointer font-medium underline"
-        >
-          {row.original.sellerName}
-        </Link>
-      );
-    },
-  },
+  //{
+  //  accessorKey: "orderBy",
+  //  header: "SELLER",
+  //  cell: ({ row }) => {
+  //    return (
+  //      <Link
+  //        href={`/dashboard/sellers/profile?id=${row.original.sellerId}&name=${row.original.sellerName}`}
+  //        className="cursor-pointer font-medium underline"
+  //      >
+  //        {row.original.sellerName}
+  //      </Link>
+  //    );
+  //  },
+  //},
   {
     accessorKey: "name",
     header: "Name",
@@ -95,6 +99,11 @@ export const orderColumn: ColumnDef<OrderType>[] = [
   {
     accessorKey: "phone",
     header: "CUSTOMER PHONE",
+    cell: ({ row }) => {
+      return (
+        <p className="font-semibold text-green-500">{row.original.phone}</p>
+      );
+    },
   },
   {
     accessorKey: "total",
@@ -140,32 +149,9 @@ export const orderColumn: ColumnDef<OrderType>[] = [
     accessorKey: "status",
     header: "STATUS",
     cell: ({ row }) => {
-      let color;
-
-      switch (row.original.status) {
-        case "WAITING":
-          color = "text-sky-600";
-          break;
-
-        case "IN_REVIEW":
-          color = "text-yellow-600";
-          break;
-
-        case "DELIVERED":
-        case "PARTIAL_DELIVERED":
-          color = "text-green-600";
-          break;
-
-        case "CANCELLED":
-        case "HOLD":
-          color = "text-red-600";
-          break;
-
-        default:
-          color = "text-pink-600";
-      }
-
-      return <p>{row.original.status}</p>;
+      return (
+        <ChangeStatus id={row.original._id} status={row.original.status} />
+      );
     },
   },
   {

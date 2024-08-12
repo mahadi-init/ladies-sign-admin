@@ -31,7 +31,7 @@ export const OrderSchema = z
     sellerName: z.string(),
     sellerId: z.string(),
     status: z.string(),
-    confirm: z.string(),
+    confirm: z.enum(["NO", "HOLD", "OK"]),
     lastChecked: z.string().datetime(),
     createdAt: z.string().datetime(),
     updatedAt: z.string().datetime(),

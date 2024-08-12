@@ -1,6 +1,6 @@
 "use client";
 
-import { FloatingLabel } from "flowbite-react";
+import { FloatingLabel, TextInput } from "flowbite-react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useDebouncedCallback } from "use-debounce";
 
@@ -28,11 +28,10 @@ export default function Search() {
   }, 300);
 
   return (
-    <FloatingLabel
-      variant="outlined"
-      label="search"
+    <TextInput
       className="w-fit"
       autoFocus
+      placeholder="Search something..."
       onChange={(e) => handleSearch(e.target.value)}
       defaultValue={search as string}
     />
