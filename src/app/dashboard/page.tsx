@@ -1,14 +1,14 @@
 import PageTop from "@/components/native/PageTop";
+import StatisticCards from "@/components/native/StatisticCards";
+import { DashboardOrderSummaryType } from "@/types/dashboard";
+import { Suspense } from "react";
+import { Statistics } from "./(dashboard)/Statistics";
 import {
   getDashboardAmount,
   getPendingOrders,
   getSteadfastBalance,
   salesPermonth,
 } from "./data";
-import { Statistics } from "./(dashboard)/Statistics";
-import { DashboardOrderSummaryType } from "@/types/dashboard";
-import StatisticCards from "@/components/native/StatisticCards";
-import { Suspense } from "react";
 import { orderColumn } from "./order-column";
 import OrderTableUIWrapper from "./order-table";
 
@@ -36,7 +36,7 @@ export default async function Dashboard() {
           Overview data not found
         </p>
       )}
-      <Statistics data={JSON.parse(data[2])} />
+      <Statistics />
       <p className="mt-4 text-xl font-semibold">Mini Waiting Orders</p>
       <OrderTableUIWrapper
         columns={orderColumn}

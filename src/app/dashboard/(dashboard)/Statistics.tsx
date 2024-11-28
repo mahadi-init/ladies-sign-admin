@@ -1,7 +1,5 @@
 "use client";
 
-import { Bar, BarChart, CartesianGrid, Rectangle, XAxis } from "recharts";
-
 import {
   Card,
   CardContent,
@@ -15,20 +13,21 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
+import { Bar, BarChart, CartesianGrid, XAxis } from "recharts";
 
 const chartData = [
   { month: "January", visitors: 187, fill: "var(--color-chrome)" },
-  { month: "Februray", visitors: 200, fill: "var(--color-safari)" },
+  { month: "February", visitors: 200, fill: "var(--color-safari)" },
   { month: "March", visitors: 275, fill: "var(--color-firefox)" },
   { month: "April", visitors: 173, fill: "var(--color-edge)" },
   { month: "May", visitors: 90, fill: "var(--color-other)" },
   { month: "June", visitors: 187, fill: "var(--color-chrome)" },
-  { month: "July", visitors: 200, fill: "var(--color-safari)" },
-  { month: "Auguest", visitors: 275, fill: "var(--color-firefox)" },
-  { month: "September", visitors: 173, fill: "var(--color-edge)" },
-  { month: "October", visitors: 90, fill: "var(--color-firefox)" },
-  { month: "November", visitors: 90, fill: "var(--color-other)" },
-  { month: "December", visitors: 90, fill: "var(--color-edge)" },
+  { month: "July", visitors: 300, fill: "var(--color-safari)" },
+  { month: "August", visitors: 400, fill: "var(--color-firefox)" },
+  { month: "September", visitors: 250, fill: "var(--color-edge)" },
+  { month: "October", visitors: 100, fill: "var(--color-other)" },
+  { month: "November", visitors: 200, fill: "var(--color-safari)" },
+  { month: "December", visitors: 200, fill: "var(--color-edge)" },
 ];
 
 const chartConfig = {
@@ -57,11 +56,7 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 
-export function Statistics({
-  data,
-}: {
-  data?: { _id: number; totalSales: number };
-}) {
+export function Statistics() {
   return (
     <Card>
       <CardHeader className="items-center pb-0">
@@ -70,38 +65,19 @@ export function Statistics({
       </CardHeader>
       <CardContent className="flex items-center">
         <ChartContainer config={chartConfig} className="max-h-[350px] w-full">
-          <BarChart accessibilityLayer data={chartData}>
+          <BarChart data={chartData} width={600} height={300}>
             <CartesianGrid vertical={false} />
             <XAxis
-              dataKey="browser"
+              dataKey="month" // Updated to match `chartData` key
               tickLine={false}
               tickMargin={10}
               axisLine={false}
-              tickFormatter={(value) =>
-                chartConfig[value as keyof typeof chartConfig]?.label
-              }
             />
             <ChartTooltip
               cursor={false}
               content={<ChartTooltipContent hideLabel />}
             />
-            <Bar
-              dataKey="visitors"
-              strokeWidth={2}
-              radius={8}
-              activeIndex={2}
-              activeBar={({ ...props }) => {
-                return (
-                  <Rectangle
-                    {...props}
-                    fillOpacity={0.8}
-                    stroke={props.payload.fill}
-                    strokeDasharray={4}
-                    strokeDashoffset={4}
-                  />
-                );
-              }}
-            />
+            <Bar dataKey="visitors" fill="#8884d8" strokeWidth={2} radius={8} />
           </BarChart>
         </ChartContainer>
       </CardContent>

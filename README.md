@@ -1,36 +1,73 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Ladies Sign Admin
 
-## Getting Started
+Build With Nextjs and MongoDB
 
-First, run the development server:
+<img width="50%"  src="./screenshot/dashboard.png">
+
+### Technologies
+
+> Frontend
+
+1. `NextJs 14.2.2` as frontend framework
+1. `Typescript` for better debugging and DX
+1. `Zod` for input validation
+1. `TailwindCss` for styling
+1. `Flowbite UI` for ui design
+1. `ChartJS` for chart purpose
+1. `React form hook` for input handling
+
+> Backend
+
+1. `Nextjs Api` for backend
+1. `Mongodb` as database
+1. `server actions` for mutations
+
+> Others
+
+1. `nodemailer` for email sending
+1. `Upload thing` for image upload service
+
+> Security
+
+1. `JWT` for authentication and authorization
+2. `middleware` for route protection
+
+### Installation Instructions
+
+> First, NodeJs and pnpm are requried
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install -g pnpm
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+> Install the the pacakges
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+pnpm install
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+> There is a .env.example file. Copy the content and create new .env file and
+> Finally run the project with
 
-## Learn More
+```bash
+pnpm run dev
+```
 
-To learn more about Next.js, take a look at the following resources:
+### Project Preview
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+#### Products Page
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+<img width="40%"  src="./screenshot/products.png">
 
-## Deploy on Vercel
+### Orders Page
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+<img width="40%"  src="./screenshot/orders.png">
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+### Profile Page
+
+<img width="40%"  src="./screenshot/profile.png">
+
+<br/>
+<br/>
+
+**_NOTE :_** This repository maintain best practices and Nextjs latest features

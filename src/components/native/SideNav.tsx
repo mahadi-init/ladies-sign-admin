@@ -3,7 +3,6 @@ import { logout } from "@/app/auth/action";
 import clsx from "clsx";
 import {
   BadgeDollarSign,
-  BellRing,
   CheckCheck,
   DollarSign,
   Landmark,
@@ -16,7 +15,6 @@ import {
   User,
   Users,
 } from "lucide-react";
-import { signOut } from "next-auth/react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
@@ -39,10 +37,11 @@ export default function Sidenav(): JSX.Element {
         variant="outline"
         title="Side navigation"
         type="button"
-        className={`visible fixed left-2 top-1 z-40 order-10 block h-10 w-10 self-center rounded bg-white opacity-100 lg:hidden ${isSideNavOpen
-          ? "visible opacity-100 [&_span:nth-child(1)]:w-6 [&_span:nth-child(1)]:translate-y-0 [&_span:nth-child(1)]:rotate-45 [&_span:nth-child(2)]:-rotate-45 [&_span:nth-child(3)]:w-0"
-          : ""
-          }`}
+        className={`visible fixed left-2 top-1 z-40 order-10 block h-10 w-10 self-center rounded bg-white opacity-100 lg:hidden ${
+          isSideNavOpen
+            ? "visible opacity-100 [&_span:nth-child(1)]:w-6 [&_span:nth-child(1)]:translate-y-0 [&_span:nth-child(1)]:rotate-45 [&_span:nth-child(2)]:-rotate-45 [&_span:nth-child(3)]:w-0"
+            : ""
+        }`}
         aria-haspopup="menu"
         aria-label="Side navigation"
         aria-expanded={isSideNavOpen ? " true" : "false"}
@@ -69,8 +68,9 @@ export default function Sidenav(): JSX.Element {
       <aside
         id="nav-menu-4"
         aria-label="Side navigation"
-        className={`fixed bottom-0 left-0 top-0 z-40 flex w-48 flex-col border-r border-r-slate-200 bg-white transition-transform lg:translate-x-0 ${isSideNavOpen ? "translate-x-0" : "-translate-x-full"
-          }`}
+        className={`fixed bottom-0 left-0 top-0 z-40 flex w-48 flex-col border-r border-r-slate-200 bg-white transition-transform lg:translate-x-0 ${
+          isSideNavOpen ? "translate-x-0" : "-translate-x-full"
+        }`}
       >
         <nav
           aria-label="side navigation"
@@ -85,7 +85,7 @@ export default function Sidenav(): JSX.Element {
                   className={clsx(
                     "flex items-center gap-3 rounded p-3 text-slate-700 transition-colors hover:bg-rose-50 hover:text-rose-500 focus:bg-rose-50",
                     pathname.endsWith("dashboard") &&
-                    "bg-purple-50 text-purple-600",
+                      "bg-purple-50 text-purple-600",
                   )}
                 >
                   <div className="flex items-center self-center">
@@ -104,7 +104,7 @@ export default function Sidenav(): JSX.Element {
                   className={clsx(
                     "flex items-center gap-3 rounded p-3 text-slate-700 transition-colors hover:bg-rose-50 hover:text-rose-500 focus:bg-rose-50",
                     pathname.includes("product") &&
-                    "bg-purple-50 text-purple-600",
+                      "bg-purple-50 text-purple-600",
                   )}
                 >
                   <div className="flex items-center self-center">
@@ -123,7 +123,7 @@ export default function Sidenav(): JSX.Element {
                   className={clsx(
                     "flex items-center gap-3 rounded p-3 text-slate-700 transition-colors hover:bg-rose-50 hover:text-rose-500 focus:bg-rose-50",
                     pathname.includes("order") &&
-                    "bg-purple-100 text-purple-800",
+                      "bg-purple-100 text-purple-800",
                   )}
                 >
                   <div className="flex items-center self-center">
@@ -146,7 +146,7 @@ export default function Sidenav(): JSX.Element {
                   className={clsx(
                     "flex items-center gap-3 rounded p-3 text-slate-700 transition-colors hover:bg-rose-50 hover:text-rose-500 focus:bg-rose-50",
                     pathname.includes("review") &&
-                    "bg-purple-100 text-purple-800",
+                      "bg-purple-100 text-purple-800",
                   )}
                 >
                   <div className="flex items-center self-center">
@@ -165,7 +165,7 @@ export default function Sidenav(): JSX.Element {
                   className={clsx(
                     "flex items-center gap-3 rounded p-3 text-slate-700 transition-colors hover:bg-rose-50 hover:text-rose-500 focus:bg-rose-50",
                     pathname.includes("extra") &&
-                    "bg-purple-100 text-purple-800",
+                      "bg-purple-100 text-purple-800",
                   )}
                 >
                   <div className="flex items-center self-center">
@@ -188,7 +188,7 @@ export default function Sidenav(): JSX.Element {
                   className={clsx(
                     "flex items-center gap-3 rounded p-3 text-slate-700 transition-colors hover:bg-rose-50 hover:text-rose-500 focus:bg-rose-50",
                     pathname.includes("admin") &&
-                    "bg-purple-100 text-purple-800",
+                      "bg-purple-100 text-purple-800",
                   )}
                 >
                   <div className="flex items-center self-center">
@@ -207,7 +207,7 @@ export default function Sidenav(): JSX.Element {
                   className={clsx(
                     "flex items-center gap-3 rounded p-3 text-slate-700 transition-colors hover:bg-rose-50 hover:text-rose-500 focus:bg-rose-50",
                     pathname.includes("seller") &&
-                    "bg-purple-100 text-purple-800",
+                      "bg-purple-100 text-purple-800",
                   )}
                 >
                   <div className="flex items-center self-center">
@@ -226,7 +226,7 @@ export default function Sidenav(): JSX.Element {
                   className={clsx(
                     "flex items-center gap-3 rounded p-3 text-slate-700 transition-colors hover:bg-rose-50 hover:text-rose-500 focus:bg-rose-50",
                     pathname.includes("user") &&
-                    "bg-purple-100 text-purple-800",
+                      "bg-purple-100 text-purple-800",
                   )}
                 >
                   <div className="flex items-center self-center">
@@ -245,7 +245,7 @@ export default function Sidenav(): JSX.Element {
                   className={clsx(
                     "flex items-center gap-3 rounded p-3 text-slate-700 transition-colors hover:bg-rose-50 hover:text-rose-500 focus:bg-rose-50",
                     pathname.includes("profile") &&
-                    "bg-purple-100 text-purple-800",
+                      "bg-purple-100 text-purple-800",
                   )}
                 >
                   <div className="flex items-center self-center">
@@ -268,7 +268,7 @@ export default function Sidenav(): JSX.Element {
                   className={clsx(
                     "flex items-center gap-3 rounded p-3 text-slate-700 transition-colors hover:bg-rose-50 hover:text-rose-500 focus:bg-rose-50",
                     pathname.includes("withdraw") &&
-                    "bg-purple-100 text-purple-800",
+                      "bg-purple-100 text-purple-800",
                   )}
                 >
                   <div className="flex items-center self-center">
@@ -287,7 +287,7 @@ export default function Sidenav(): JSX.Element {
                   className={clsx(
                     "flex items-center gap-3 rounded p-3 text-slate-700 transition-colors hover:bg-rose-50 hover:text-rose-500 focus:bg-rose-50",
                     pathname.includes("transaction") &&
-                    "bg-purple-100 text-purple-800",
+                      "bg-purple-100 text-purple-800",
                   )}
                 >
                   <div className="flex items-center self-center">
@@ -299,14 +299,14 @@ export default function Sidenav(): JSX.Element {
                 </Link>
               </li>
 
-              <li className="px-3">
+              {/* <li className="px-3">
                 <Link
                   href="/dashboard/notification"
                   onClick={hideSideNav}
                   className={clsx(
                     "flex items-center gap-3 rounded p-3 text-slate-700 transition-colors hover:bg-rose-50 hover:text-rose-500 focus:bg-rose-50",
                     pathname.includes("notification") &&
-                    "bg-purple-100 text-purple-800",
+                      "bg-purple-100 text-purple-800",
                   )}
                 >
                   <div className="flex items-center self-center">
@@ -315,11 +315,8 @@ export default function Sidenav(): JSX.Element {
                   <div className="flex w-full flex-1 flex-col items-start justify-center gap-0 overflow-hidden truncate text-sm">
                     Notifications
                   </div>
-                  {/* <span className="inline-flex items-center justify-center rounded-full bg-pink-100 px-2 text-xs text-pink-500"> */}
-                  {/*   2<span className="sr-only"> new notifications</span> */}
-                  {/* </span> */}
                 </Link>
-              </li>
+              </li> */}
               {/* 
               <li className="px-3">
                 <Link
@@ -363,8 +360,9 @@ export default function Sidenav(): JSX.Element {
       </aside>
 
       <div
-        className={`fixed bottom-0 left-0 right-0 top-0 z-30 bg-slate-900/20 transition-colors sm:hidden ${isSideNavOpen ? "block" : "hidden"
-          }`}
+        className={`fixed bottom-0 left-0 right-0 top-0 z-30 bg-slate-900/20 transition-colors sm:hidden ${
+          isSideNavOpen ? "block" : "hidden"
+        }`}
         onClick={() => setIsSideNavOpen(false)}
       ></div>
     </>

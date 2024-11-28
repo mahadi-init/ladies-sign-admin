@@ -46,6 +46,7 @@ export default function Signin() {
             <TextInput
               id="phone"
               type="phone"
+              defaultValue={"01315631667"}
               color={errors.phone && "error"}
               placeholder="Enter your phone number"
               helperText={errors.phone && errors.phone.message}
@@ -61,6 +62,7 @@ export default function Signin() {
             <TextInput
               id="password"
               type="password"
+              defaultValue={"624234"}
               color={errors.password && "error"}
               placeholder="Enter your password"
               icon={Lock}
