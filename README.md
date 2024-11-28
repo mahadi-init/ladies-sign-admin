@@ -2,7 +2,7 @@
 
 Build With Nextjs and MongoDB
 
-<img width="50%"  src="./screenshot/dashboard.png">
+<img width="70%"  src="./screenshot/dashboard.png">
 
 ### Technologies
 
@@ -57,15 +57,15 @@ pnpm run dev
 
 #### Products Page
 
-<img width="40%"  src="./screenshot/products.png">
+<img width="60%"  src="./screenshot/products.png">
 
 ### Orders Page
 
-<img width="40%"  src="./screenshot/orders.png">
+<img width="60%"  src="./screenshot/orders.png">
 
 ### Profile Page
 
-<img width="40%"  src="./screenshot/profile.png">
+<img width="60%"  src="./screenshot/profile.png">
 
 <br/>
 <br/>
